@@ -1,0 +1,39 @@
+{
+  "name": "empirical-study",
+  "version": "1.0.0",
+  "description": "Empirical validation of N+1 Query detection and solutions",
+  "keywords": [
+    "n-plus-1"
+  ],
+  "homepage": "https://github.com/liangk/empirical-study#readme",
+  "bugs": {
+    "url": "https://github.com/liangk/empirical-study/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liangk/empirical-study.git"
+  },
+  "license": "MIT",
+  "author": "Ko-Hsin Liang",
+  "type": "commonjs",
+  "main": "index.ts",
+  "scripts": {
+    "seed": "ts-node src/seed.ts",
+    "bench:bad": "ts-node src/benchmarks/run-bad.ts",
+    "bench:good": "ts-node src/benchmarks/run-good.ts",
+    "bench:all": "ts-node src/benchmarks/run-all.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "@faker-js/faker": "^9.5.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.3.1",
+    "typescript": "^5.7.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^22.13.1"
+  }
+}

@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// TC1 & TC2: Users -> Posts -> Comments (one-to-many, nested)
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  posts     Post[]
+  orders    Order[]
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  published Boolean   @default(false)
+  userId    Int
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  comments  Comment[]
+
+  @@index([userId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  postId    Int
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+
+  @@index([postId])
+}
+
+// TC3 & TC4: Orders -> Users (many-to-one, conditional)
+model Order {
+  id               Int      @id @default(autoincrement())
+  total            Float
+  status           String   @default("active")
+  requiresUserData Boolean  @default(true)
+  userId           Int
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
