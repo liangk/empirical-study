@@ -1,22 +1,8 @@
 {
-  "name": "empirical-study",
+  "name": "@empirical-study/01-n-plus-1-query",
   "version": "1.0.0",
-  "description": "Empirical validation of N+1 Query detection and solutions",
-  "keywords": [
-    "n-plus-1"
-  ],
-  "homepage": "https://github.com/liangk/empirical-study#readme",
-  "bugs": {
-    "url": "https://github.com/liangk/empirical-study/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/liangk/empirical-study.git"
-  },
-  "license": "MIT",
-  "author": "Ko-Hsin Liang",
-  "type": "commonjs",
-  "main": "index.ts",
+  "description": "Study 01: N+1 Query Problem — Empirical Analysis with Prisma/Node.js/PostgreSQL",
+  "private": true,
   "scripts": {
     "seed": "ts-node src/seed.ts",
     "bench:bad": "ts-node src/benchmarks/run-bad.ts",

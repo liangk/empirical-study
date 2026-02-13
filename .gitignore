@@ -1,6 +1,12 @@
 node_modules/
 dist/
 .env
-results/
+.repos/
+.fixtures/
+
+# Per-study outputs (gitignored by default; commit selectively)
+**/results/
+**/content/
+
+# Planning docs (keep temp/ for backward compat)
 temp/
-content/
