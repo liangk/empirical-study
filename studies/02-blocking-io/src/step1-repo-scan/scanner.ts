@@ -36,19 +36,21 @@ const MAX_FILE_SIZE = 500_000; // 500KB — skip very large generated/bundled fi
 // ---------------------------------------------------------------------------
 
 function parseRepoList(filePath: string): Array<{ url: string; name: string; category: string }> {
+  // The repo list is Markdown; we intentionally parse with lightweight regex
+  // instead of adding a full Markdown table parser dependency.
   const content = readFileSync(filePath, 'utf-8');
   const repos: Array<{ url: string; name: string; category: string }> = [];
   let currentCategory = '';
 
   for (const line of content.split('\n')) {
-    // Detect category headers (## Category N: ...)
+    // Category is useful metadata in reports and downstream sampling.
     const catMatch = line.match(/^## Category \d+:\s*(.+)/);
     if (catMatch) {
       currentCategory = catMatch[1].trim();
       continue;
     }
 
-    // Detect table rows with GitHub URLs
+    // Extract canonical repo URL and owner/name identifier.
     const urlMatch = line.match(/https:\/\/github\.com\/([^\s|]+)/);
     if (urlMatch) {
       const fullUrl = `https://github.com/${urlMatch[1].replace(/\s+$/, '')}`;
@@ -61,6 +63,8 @@ function parseRepoList(filePath: string): Array<{ url: string; name: string; cat
 }
 
 function collectFiles(dir: string, files: string[] = []): string[] {
+  // Recursive DFS over repository tree.
+  // Errors are swallowed to keep large scans resilient to permission/symlink issues.
   let entries: string[];
   try {
     entries = readdirSync(dir);
@@ -69,6 +73,7 @@ function collectFiles(dir: string, files: string[] = []): string[] {
   }
 
   for (const entry of entries) {
+    // Skip known heavy/noisy directories to improve scan speed and signal quality.
     if (SKIP_DIRS.has(entry)) continue;
     const fullPath = join(dir, entry);
     let stat;
@@ -81,6 +86,7 @@ function collectFiles(dir: string, files: string[] = []): string[] {
     if (stat.isDirectory()) {
       collectFiles(fullPath, files);
     } else if (stat.isFile() && SCAN_EXTENSIONS.has(extname(entry)) && stat.size < MAX_FILE_SIZE) {
+      // Only include source-like files and ignore oversized artifacts.
       files.push(fullPath);
     }
   }
@@ -89,7 +95,7 @@ function collectFiles(dir: string, files: string[] = []): string[] {
 }
 
 async function cloneRepo(url: string, dest: string): Promise<boolean> {
-  // Use simple-git for shallow clone (depth 1, single branch)
+  // Use simple-git for shallow clone (depth 1) to reduce I/O and runtime.
   const simpleGit = (await import('simple-git')).default;
   const git = simpleGit();
 
@@ -103,6 +109,7 @@ async function cloneRepo(url: string, dest: string): Promise<boolean> {
 }
 
 function scanRepo(repoDir: string, repoName: string): { issues: ScanIssue[]; filesScanned: number } {
+  // File-level scan loop: parse -> detect -> append issues.
   const files = collectFiles(repoDir);
   const allIssues: ScanIssue[] = [];
 
@@ -110,6 +117,7 @@ function scanRepo(repoDir: string, repoName: string): { issues: ScanIssue[]; fil
     try {
       const sourceCode = readFileSync(filePath, 'utf-8');
       const ast = parseCode(sourceCode);
+      // Store paths as repo-relative + forward slashes so output is cross-platform stable.
       const relPath = `${repoName}/${relative(repoDir, filePath).replace(/\\/g, '/')}`;
       const issues = detectBlockingIO(ast, { sourceCode, filePath: relPath, ast });
       allIssues.push(...issues);
@@ -127,6 +135,7 @@ function scanRepo(repoDir: string, repoName: string): { issues: ScanIssue[]; fil
 
 async function main() {
   const args = process.argv.slice(2);
+  // Optional arguments allow quick local iteration without editing source.
   const limitIdx = args.indexOf('--limit');
   const limit = limitIdx >= 0 ? parseInt(args[limitIdx + 1], 10) : Infinity;
   const outputIdx = args.indexOf('--output');
@@ -136,7 +145,7 @@ async function main() {
   if (!existsSync(CLONE_DIR)) mkdirSync(CLONE_DIR, { recursive: true });
   if (!existsSync(RESULTS_DIR)) mkdirSync(RESULTS_DIR, { recursive: true });
 
-  // Parse repo list
+  // Parse curated sample list and optionally truncate by --limit.
   const repos = parseRepoList(REPO_LIST_PATH);
   const toScan = repos.slice(0, limit);
 
@@ -151,11 +160,12 @@ async function main() {
 
     console.log(`${progress} ${repo.name}`);
 
+    // Per-repo stopwatch lets us surface outliers and clone/scan bottlenecks.
     const start = performance.now();
     let result: ScanResult;
 
     try {
-      // Clone
+      // Clone once; reuse local checkout when rerunning scans.
       if (existsSync(repoDir)) {
         console.log(`  ↪ Already cloned, reusing`);
       } else {
@@ -167,12 +177,13 @@ async function main() {
         }
       }
 
-      // Scan
+      // Run AST detection across all eligible files in this repository.
       const { issues, filesScanned } = scanRepo(repoDir, repo.name);
       const duration = Math.round(performance.now() - start);
 
       result = { repoUrl: repo.url, repoName: repo.name, filesScanned, issues, scanDurationMs: duration };
 
+      // Lightweight context distribution preview for quick CLI diagnostics.
       const issuesByCtx = issues.reduce((acc, iss) => {
         acc[iss.context] = (acc[iss.context] || 0) + 1;
         return acc;
@@ -186,17 +197,18 @@ async function main() {
 
     results.push(result);
 
-    // Clean up clone to save disk space (optional: comment out to keep clones)
+    // Optional cleanup for low-disk environments.
+    // Left commented because keeping clones speeds up iterative scanner tuning.
     // try { rmSync(repoDir, { recursive: true, force: true }); } catch {}
   }
 
-  // Save results
+  // Persist raw per-repo scan results for later aggregation and audit.
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const outPath = outputPath || join(RESULTS_DIR, `scan-${timestamp}.json`);
   writeFileSync(outPath, JSON.stringify(results, null, 2));
   console.log(`\n💾 Results saved to ${outPath}`);
 
-  // Quick summary
+  // CLI summary is intentionally brief; full analytics happen in aggregate-results.ts.
   const totalIssues = results.reduce((s, r) => s + r.issues.length, 0);
   const reposWithIssues = results.filter(r => r.issues.length > 0).length;
   console.log(`\n📊 Summary: ${totalIssues} issues across ${reposWithIssues}/${results.length} repos (${((reposWithIssues / results.length) * 100).toFixed(1)}% prevalence)`);

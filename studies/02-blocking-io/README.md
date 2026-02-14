@@ -27,11 +27,20 @@ scans public repositories for blocking patterns:
 | Sync crypto | `crypto` | `pbkdf2Sync`, `scryptSync` |
 | Sync compression | `zlib` | `gzipSync`, `deflateSync` |
 
-Each finding is categorized by context:
-- **Request handler** — blocks concurrent requests (critical)
-- **Loop body** — compounds blocking duration (critical)
-- **Module init / top-level** — blocks startup only (acceptable)
-- **Other** — requires manual review
+Each finding is categorized with a **two-layer context model**:
+
+1. **High-level context (`context`)**
+   - `request_path` — user-facing request execution path
+   - `background_path` — timers/listeners/promise callbacks/job-like flows
+   - `startup_path` — module bootstrap/top-level/constructor initialization
+   - `tooling_path` — tests/scripts/migrations/seed/build tooling
+   - `unknown_path` — unmatched ancestry (review queue)
+
+2. **Detailed reason (`contextDetail`)**
+   - Examples: `handler_inside_loop`, `timer_callback`, `event_listener_callback`,
+     `module_or_constructor_init`, `tooling_or_test_file`, `unknown_ancestry`
+
+Each issue also includes **evidence fields** (`matchedBy`, `enclosingFunction`, `ancestorKinds`) so classifications are auditable and reproducible when re-running the study years later.
 
 ### Step 2 — Performance Benchmarks (`src/step2-benchmarks/`)
 

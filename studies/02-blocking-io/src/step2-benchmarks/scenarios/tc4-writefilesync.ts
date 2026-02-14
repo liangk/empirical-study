@@ -19,7 +19,7 @@ const LOG_FILE_GOOD = join(FIXTURE_DIR, 'audit-good.log');
 
 function ensureFixture() {
   if (!existsSync(FIXTURE_DIR)) mkdirSync(FIXTURE_DIR, { recursive: true });
-  // Reset log files
+  // Reset logs on each server creation so repeated runs are comparable.
   writeFileSync(LOG_FILE_BAD, '');
   writeFileSync(LOG_FILE_GOOD, '');
 }
@@ -31,7 +31,8 @@ export function createBadServer(): express.Express {
   app.get('/api/action', (req, res) => {
     const entry = `[${new Date().toISOString()}] action from ${req.ip}\n`;
 
-    // BAD: Synchronous append on every request
+    // BAD: synchronous append blocks the event loop for each request.
+    // Disk flush pressure can amplify latency when concurrency rises.
     appendFileSync(LOG_FILE_BAD, entry);
     res.json({ status: 'logged' });
   });
@@ -43,16 +44,18 @@ export function createGoodServer(): express.Express {
   ensureFixture();
   const app = express();
 
-  // Buffered write approach
+  // Buffered write approach: batch many request log entries into fewer disk writes.
   let buffer: string[] = [];
   let flushTimer: NodeJS.Timeout | null = null;
   const FLUSH_INTERVAL = 100; // flush every 100ms
 
   function scheduleFlush() {
+    // At most one timer at a time; prevents redundant flush work.
     if (flushTimer) return;
     flushTimer = setTimeout(async () => {
       flushTimer = null;
       if (buffer.length === 0) return;
+      // Drain current buffer snapshot, then write asynchronously.
       const batch = buffer.join('');
       buffer = [];
       await appendFileAsync(LOG_FILE_GOOD, batch);
@@ -62,7 +65,7 @@ export function createGoodServer(): express.Express {
   app.get('/api/action', (req, res) => {
     const entry = `[${new Date().toISOString()}] action from ${req.ip}\n`;
 
-    // GOOD: Buffer writes and flush asynchronously
+    // GOOD: request handler only enqueues log text and returns quickly.
     buffer.push(entry);
     scheduleFlush();
     res.json({ status: 'logged' });

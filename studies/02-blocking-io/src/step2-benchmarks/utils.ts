@@ -6,6 +6,7 @@
 
 import { createServer, Server } from 'http';
 
+// Canonical result shape shared by load runner, CLI output, and JSON persistence.
 export interface BenchmarkResult {
   testCase: string;
   variant: 'bad' | 'good';
@@ -33,6 +34,7 @@ export interface ScenarioConfig {
 }
 
 export function startServer(app: any, port: number): Promise<Server> {
+  // Wrap callback-style listen() in a Promise for clean async orchestration.
   return new Promise((resolve, reject) => {
     const server = app.listen(port, () => resolve(server));
     server.on('error', reject);
@@ -40,6 +42,7 @@ export function startServer(app: any, port: number): Promise<Server> {
 }
 
 export function stopServer(server: Server): Promise<void> {
+  // Ensure graceful shutdown between bad/good runs to avoid port conflicts.
   return new Promise((resolve, reject) => {
     server.close((err) => {
       if (err) reject(err);
@@ -49,6 +52,7 @@ export function stopServer(server: Server): Promise<void> {
 }
 
 export function printResult(r: BenchmarkResult) {
+  // Print all raw metrics for post-run debugging and transparency.
   console.log(`\n--- ${r.testCase} [${r.variant.toUpperCase()}] ---`);
   console.log(`  Concurrency:     ${r.concurrency}`);
   console.log(`  Duration:        ${r.duration}s`);
@@ -66,8 +70,10 @@ export function printResult(r: BenchmarkResult) {
 }
 
 export function printComparison(bad: BenchmarkResult, good: BenchmarkResult) {
+  // Derived comparison metrics used in console and article summaries.
   const speedupThroughput = good.throughput / bad.throughput;
-  const latencyReduction = bad.latencyP95 / good.latencyP95;
+  // Clamp denominator so we never print Infinity/NaN on near-zero percentile values.
+  const latencyReduction = bad.latencyP95 / Math.max(good.latencyP95, 0.01);
   const elDelayReduction = bad.eventLoopDelayMax / Math.max(good.eventLoopDelayMax, 0.01);
 
   console.log(`\n=== ${bad.testCase} COMPARISON (concurrency=${bad.concurrency}) ===`);

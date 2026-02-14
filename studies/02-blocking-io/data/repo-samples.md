@@ -103,7 +103,7 @@ Active, production-grade applications where blocking I/O has direct user impact.
 | 42 | n8n-io/n8n | https://github.com/n8n-io/n8n | 51k+ | Workflow automation |
 | 43 | appwrite/appwrite | https://github.com/appwrite/appwrite | 46k+ | Backend server platform |
 | 44 | verdaccio/verdaccio | https://github.com/verdaccio/verdaccio | 16k+ | Private npm registry |
-| 45 | etherpad/etherpad-lite | https://github.com/etherpad/etherpad-lite | 17k+ | Real-time collaborative editor |
+| 45 | ether/etherpad-lite | https://github.com/ether/etherpad-lite | 18k+ | Real-time collaborative editor |
 | 46 | NodeBB/NodeBB | https://github.com/NodeBB/NodeBB | 14k+ | Forum platform |
 | 47 | parse-community/parse-server | https://github.com/parse-community/parse-server | 21k+ | Parse backend |
 | 48 | Countly/countly-server | https://github.com/Countly/countly-server | 5k+ | Analytics platform |
@@ -408,9 +408,9 @@ These represent what developers actually copy into production.
 | 233 | john-smilga/node-express-course | https://github.com/john-smilga/node-express-course | 4k+ | Express course projects |
 | 234 | WebDevSimplified/Nodejs-Passport-Login | https://github.com/WebDevSimplified/Nodejs-Passport-Login | 500+ | Passport tutorial |
 | 235 | Apress/pro-express.js | https://github.com/azat-co/proexpressjs | 1k+ | Pro Express.js book code |
-| 236 | jamesqquick/node-auth | https://github.com/jamesqquick/node-auth | 300+ | Node auth tutorial |
+| 236 | bezkoder/node-js-jwt-auth | https://github.com/bezkoder/node-js-jwt-auth | 1k+ | Node.js JWT auth tutorial |
 | 237 | trulymittal/Nodejs-REST-API | https://github.com/trulymittal/Nodejs-REST-API | 400+ | REST API example |
-| 238 | ipenywis/react-node-fullstack | https://github.com/ipenywis/react-node-fullstack | 300+ | Full-stack example |
+| 238 | hoangvvo/nextjs-mongodb-app | https://github.com/hoangvvo/nextjs-mongodb-app | 1.5k+ | Full-stack Next.js + MongoDB example |
 
 ## Category 23: HTTPS / TLS / SSL Examples
 
@@ -420,7 +420,7 @@ Nearly all HTTPS server setup tutorials use `readFileSync` for certificate loadi
 |---|-----------|-----|----------------|-------------|
 | 239 | FiloSottile/mkcert | https://github.com/FiloSottile/mkcert | 51k+ | Local CA for dev certs |
 | 240 | devcert-cli/devcert | https://github.com/davewasmer/devcert | 1k+ | Dev certificates |
-| 241 | greenlock/greenlock-express | https://github.com/Daplie/greenlock-express | 200+ | Auto Let's Encrypt for Express |
+| 241 | therootcompany/greenlock-express.js | https://github.com/therootcompany/greenlock-express.js | 1k+ | Auto Let's Encrypt for Express |
 
 ## Category 24: Additional Production Apps & Services
 

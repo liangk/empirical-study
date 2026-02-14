@@ -11,7 +11,7 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { BenchmarkResult, printResult, printComparison, startServer, stopServer } from './utils';
-import { runLoadTest } from './load-test/run-load-test';
+import { runLoadTest, LoadTestConfig } from './load-test/run-load-test';
 
 import * as tc1 from './scenarios/tc1-readfilesync';
 import * as tc2 from './scenarios/tc2-execsync';
@@ -25,13 +25,15 @@ const BASE_PORT = 4000;
 interface ScenarioDef {
   name: string;
   endpoint: string;
-  method?: string;
+  // Optional request details for non-GET test cases.
+  method?: LoadTestConfig['method'];
   body?: string;
   headers?: Record<string, string>;
   createBad: () => any;
   createGood: () => any;
 }
 
+// Scenario registry keeps benchmark order deterministic for repeatable reports.
 const scenarios: ScenarioDef[] = [
   { name: tc1.scenario.name, endpoint: tc1.scenario.endpoint, createBad: tc1.createBadServer, createGood: tc1.createGoodServer },
   { name: tc2.scenario.name, endpoint: tc2.scenario.endpoint, createBad: tc2.createBadServer, createGood: tc2.createGoodServer },
@@ -42,6 +44,7 @@ const scenarios: ScenarioDef[] = [
 
 async function main() {
   const args = process.argv.slice(2);
+  // CLI knobs for load intensity.
   const durationIdx = args.indexOf('--duration');
   const duration = durationIdx >= 0 ? parseInt(args[durationIdx + 1], 10) : 10;
   const concurrencyIdx = args.indexOf('--concurrency');
@@ -54,16 +57,19 @@ async function main() {
 
   if (!existsSync(RESULTS_DIR)) mkdirSync(RESULTS_DIR, { recursive: true });
 
+  // Store per-scenario bad/good pair for final summary + JSON export.
   const allResults: { bad: BenchmarkResult; good: BenchmarkResult }[] = [];
 
   for (let i = 0; i < scenarios.length; i++) {
     const sc = scenarios[i];
+    // Use separate ports for bad/good to avoid state leakage.
     const badPort = BASE_PORT + i * 2;
     const goodPort = BASE_PORT + i * 2 + 1;
 
     console.log(`\n\n━━━ ${sc.name} ━━━`);
 
     // --- Bad server ---
+    // Start only one variant at a time so measured load is isolated.
     const badApp = sc.createBad();
     const badServer = await startServer(badApp, badPort);
     console.log(`  Bad server on :${badPort}`);
@@ -72,13 +78,16 @@ async function main() {
       url: `http://127.0.0.1:${badPort}${sc.endpoint}`,
       testCase: sc.name,
       variant: 'bad',
+      method: sc.method,
+      body: sc.body,
+      headers: sc.headers,
       duration,
       concurrency,
     });
     printResult(badResult);
     await stopServer(badServer);
 
-    // Small delay between servers
+    // Small delay between servers helps avoid transient socket reuse noise.
     await new Promise(r => setTimeout(r, 500));
 
     // --- Good server ---
@@ -90,6 +99,9 @@ async function main() {
       url: `http://127.0.0.1:${goodPort}${sc.endpoint}`,
       testCase: sc.name,
       variant: 'good',
+      method: sc.method,
+      body: sc.body,
+      headers: sc.headers,
       duration,
       concurrency,
     });
@@ -97,11 +109,13 @@ async function main() {
     await stopServer(goodServer);
 
     // --- Comparison ---
+    // Console comparison gives immediate read before JSON post-processing.
     printComparison(badResult, goodResult);
     allResults.push({ bad: badResult, good: goodResult });
   }
 
   // Summary table
+  // A compact high-level view suitable for README/article copy-paste.
   console.log('\n\n═══════════════════════════════════════════════════════');
   console.log('  SUMMARY');
   console.log('═══════════════════════════════════════════════════════\n');
@@ -109,14 +123,15 @@ async function main() {
   console.log('|-----------|---------|----------|-----------------|----------------|-----------------|-----------------|');
 
   for (const { bad, good } of allResults) {
-    const p95Imp = (bad.latencyP95 / good.latencyP95).toFixed(1);
+    // Guard against near-zero denominators to keep output finite.
+    const p95Imp = (bad.latencyP95 / Math.max(good.latencyP95, 0.01)).toFixed(1);
     const tpGain = (good.throughput / bad.throughput).toFixed(1);
     console.log(
       `| ${bad.testCase} | ${bad.latencyP95.toFixed(1)}ms | ${good.latencyP95.toFixed(1)}ms | **${p95Imp}x** | ${bad.throughput.toFixed(0)} req/s | ${good.throughput.toFixed(0)} req/s | **${tpGain}x** |`
     );
   }
 
-  // Save results
+  // Save full-fidelity results for reproducibility and article generation.
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const outPath = join(RESULTS_DIR, `bench-${timestamp}.json`);
   const output = {

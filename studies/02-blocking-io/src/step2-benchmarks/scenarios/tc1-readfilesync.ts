@@ -18,9 +18,11 @@ const FIXTURE_DIR = join(__dirname, '..', '..', '..', '.fixtures');
 const FIXTURE_FILE = join(FIXTURE_DIR, 'config.json');
 
 function ensureFixture() {
+  // Fixture generation is done once per process to keep benchmark setup deterministic.
   if (!existsSync(FIXTURE_DIR)) mkdirSync(FIXTURE_DIR, { recursive: true });
   if (!existsSync(FIXTURE_FILE)) {
     const data: Record<string, string> = {};
+    // Build a moderately sized JSON payload to model common config/template reads.
     for (let i = 0; i < 500; i++) {
       data[`key_${i}`] = `value_${i}_${'x'.repeat(80)}`;
     }
@@ -33,7 +35,8 @@ export function createBadServer(): express.Express {
   const app = express();
 
   app.get('/api/config', (req, res) => {
-    // BAD: Synchronous file read on every request
+    // BAD: Synchronous read + parse on every request.
+    // Under concurrency, each request waits while the event loop is blocked.
     const config = JSON.parse(readFileSync(FIXTURE_FILE, 'utf-8'));
     res.json({ status: 'ok', keys: Object.keys(config).length });
   });
@@ -45,13 +48,14 @@ export function createGoodServer(): express.Express {
   ensureFixture();
   const app = express();
 
-  // Cache for the config file
+  // Simple in-memory TTL cache to avoid unnecessary disk reads in hot path.
   let cachedConfig: any = null;
   let cacheExpiry = 0;
   const CACHE_TTL = 5000; // 5 seconds
 
   app.get('/api/config', async (req, res) => {
-    // GOOD: Async file read with caching
+    // GOOD: asynchronous read avoids event-loop blocking.
+    // Cache keeps response behavior realistic for production usage patterns.
     const now = Date.now();
     if (!cachedConfig || now > cacheExpiry) {
       const raw = await readFileAsync(FIXTURE_FILE, 'utf-8');

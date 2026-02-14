@@ -16,7 +16,8 @@ export function createBadServer(): express.Express {
   const app = express();
 
   app.get('/api/system-info', (req, res) => {
-    // BAD: Synchronous shell exec on every request
+    // BAD: synchronous shell commands block Node's main thread until completion.
+    // This is one of the most severe anti-patterns under concurrent load.
     try {
       const hostname = execSync('hostname', { encoding: 'utf-8' }).trim();
       const uptime = execSync('node -e "console.log(process.uptime())"', { encoding: 'utf-8' }).trim();
@@ -32,13 +33,14 @@ export function createBadServer(): express.Express {
 export function createGoodServer(): express.Express {
   const app = express();
 
-  // Cache system info — it doesn't change between requests
+  // Cache system info — values change slowly relative to request frequency.
   let cachedInfo: any = null;
   let cacheExpiry = 0;
   const CACHE_TTL = 10000; // 10 seconds
 
   app.get('/api/system-info', async (req, res) => {
-    // GOOD: Async exec with caching
+    // GOOD: async exec delegates work without freezing event loop.
+    // Parallel execution + caching keeps handler latency stable.
     try {
       const now = Date.now();
       if (!cachedInfo || now > cacheExpiry) {
