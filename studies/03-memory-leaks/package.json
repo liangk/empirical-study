@@ -1,0 +1,27 @@
+{
+  "name": "@empirical-study/03-memory-leaks",
+  "version": "1.0.0",
+  "description": "Study 03: Memory Leak Epidemic in React/Vue/Angular Apps — Empirical Analysis",
+  "private": true,
+  "scripts": {
+    "scan": "ts-node src/step1-repo-scan/scanner.ts",
+    "scan:aggregate": "ts-node src/step1-repo-scan/aggregate-results.ts",
+    "bench:react": "ts-node src/step2-benchmarks/run-react.ts",
+    "bench:vue": "ts-node src/step2-benchmarks/run-vue.ts",
+    "bench:angular": "ts-node src/step2-benchmarks/run-angular.ts",
+    "bench:all": "ts-node src/step2-benchmarks/run-all.ts"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "@babel/types": "^7.28.5",
+    "glob": "^10.3.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
