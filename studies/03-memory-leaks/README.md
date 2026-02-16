@@ -43,6 +43,12 @@ Synthetic mini-apps per framework that deliberately leak (bad) vs properly clean
 - Detached event listener count
 - GC reclaim efficiency
 
+#### Interpreting results in a garbage-collected runtime
+
+React/Vue/Angular apps run in garbage-collected runtimes (V8/JSCore/etc.). This does not make memory leak analysis redundant: GC only reclaims objects that are **unreachable**. Most frontend "memory leaks" are actually **unintended retention** where application/framework objects remain reachable via long-lived references (e.g., subscriptions, event listeners, timers, watchers, caches, singleton services). In these cases, GC is behaving correctly; the bug is that a reference chain still exists.
+
+To make this distinction measurable and reduce variance from nondeterministic GC scheduling, the benchmark harness forces a GC before recording each snapshot (when running with `--expose-gc`). The expected signal is **retained heap growth after GC** in the BAD variant, while the GOOD variant remains comparatively stable.
+
 ---
 
 ## Project Structure

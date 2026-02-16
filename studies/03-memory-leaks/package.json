@@ -6,10 +6,11 @@
   "scripts": {
     "scan": "ts-node src/step1-repo-scan/scanner.ts",
     "scan:aggregate": "ts-node src/step1-repo-scan/aggregate-results.ts",
-    "bench:react": "ts-node src/step2-benchmarks/run-react.ts",
-    "bench:vue": "ts-node src/step2-benchmarks/run-vue.ts",
-    "bench:angular": "ts-node src/step2-benchmarks/run-angular.ts",
-    "bench:all": "ts-node src/step2-benchmarks/run-all.ts"
+    "bench:react": "node --expose-gc -r ts-node/register src/step2-benchmarks/run-react.ts",
+    "bench:vue": "node --expose-gc -r ts-node/register src/step2-benchmarks/run-vue.ts",
+    "bench:angular": "node --expose-gc -r ts-node/register src/step2-benchmarks/run-angular.ts",
+    "bench:all": "node --expose-gc -r ts-node/register src/step2-benchmarks/run-all.ts",
+    "bench:calibrate": "node --expose-gc -r ts-node/register src/step2-benchmarks/calibrate-sizes.ts"
   },
   "dependencies": {
     "@babel/parser": "^7.28.5",

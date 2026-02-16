@@ -8,7 +8,7 @@
  * memory growth from missing cleanup patterns.
  *
  * Usage:
- *   ts-node src/step2-benchmarks/run-all.ts [--cycles N] [--framework react|vue|angular]
+ *   ts-node src/step2-benchmarks/run-all.ts [--cycles N] [--repeats K] [--framework react|vue|angular]
  *
  * This file is a scaffold — scenario implementations will be added as the
  * benchmark suite is developed.
@@ -71,6 +71,7 @@ export interface ScenarioDefinition {
 
 const RESULTS_DIR = join(__dirname, '..', '..', 'results');
 const DEFAULT_CYCLES = 100;
+const DEFAULT_REPEATS = 3;
 
 // ---------------------------------------------------------------------------
 // Scenario registry — import scenarios here as they are built
@@ -79,11 +80,18 @@ const DEFAULT_CYCLES = 100;
 import { reactUseEffectScenario } from './scenarios/react-useeffect-leak';
 import { vueOnMountedScenario } from './scenarios/vue-onmounted-leak';
 import { angularSubscribeScenario } from './scenarios/angular-subscribe-leak';
+import { vueWatchStopScenario } from './scenarios/vue-watch-stop-leak';
+import { rafCancelScenario } from './scenarios/raf-cancel-leak';
+// Note: observer-disconnect-leak requires DOM environment (browser/jsdom)
+// import { observerDisconnectScenario } from './scenarios/observer-disconnect-leak';
 
 const SCENARIOS: ScenarioDefinition[] = [
   reactUseEffectScenario,
   vueOnMountedScenario,
   angularSubscribeScenario,
+  vueWatchStopScenario,
+  rafCancelScenario,
+  // observerDisconnectScenario, // Enable when running with jsdom/browser environment
 ];
 
 // ---------------------------------------------------------------------------
@@ -129,35 +137,89 @@ function computeResult(
   };
 }
 
-async function runScenario(def: ScenarioDefinition, cycles: number): Promise<{ bad: BenchmarkResult; good: BenchmarkResult }> {
-  console.log(`\n--- ${def.name} (${def.framework}) ---`);
+interface ScenarioStats {
+  scenario: string;
+  framework: 'react' | 'vue' | 'angular';
+  cycles: number;
+  repeats: number;
+  bad: { meanGrowthKB: number; stdGrowthKB: number; rateKBPerCycle: number };
+  good: { meanGrowthKB: number; stdGrowthKB: number; rateKBPerCycle: number };
+  delta: { meanKB: number; stdKB: number; rateKBPerCycle: number };
+  allRuns: Array<{ bad: BenchmarkResult; good: BenchmarkResult }>;
+}
+
+function mean(arr: number[]): number {
+  return arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+}
+
+function std(arr: number[]): number {
+  if (arr.length < 2) return 0;
+  const m = mean(arr);
+  const variance = arr.reduce((sum, v) => sum + (v - m) ** 2, 0) / (arr.length - 1);
+  return Math.sqrt(variance);
+}
+
+async function runScenarioWithRepeats(
+  def: ScenarioDefinition,
+  cycles: number,
+  repeats: number,
+  scenarioIndex: number,
+  scenarioTotal: number,
+): Promise<ScenarioStats> {
+  console.log(`\n--- [${scenarioIndex}/${scenarioTotal}] ${def.name} (${def.framework}) ---`);
   console.log(`  ${def.description}`);
+  console.log(`  Cycles: ${cycles}, Repeats: ${repeats}`);
 
-  // Run bad variant
-  console.log(`  Running BAD (leaking) variant... ${cycles} cycles`);
-  const badStart = Date.now();
-  const badSnapshots = await def.runBad(cycles);
-  const badDuration = Date.now() - badStart;
-  const bad = computeResult(def.name, def.framework, 'bad', cycles, badSnapshots, badDuration);
+  const allRuns: Array<{ bad: BenchmarkResult; good: BenchmarkResult }> = [];
+  const badGrowths: number[] = [];
+  const goodGrowths: number[] = [];
 
-  // Run good variant
-  console.log(`  Running GOOD (cleanup) variant... ${cycles} cycles`);
-  const goodStart = Date.now();
-  const goodSnapshots = await def.runGood(cycles);
-  const goodDuration = Date.now() - goodStart;
-  const good = computeResult(def.name, def.framework, 'good', cycles, goodSnapshots, goodDuration);
+  for (let r = 1; r <= repeats; r++) {
+    console.log(`  [Run ${r}/${repeats}] BAD...`);
+    const badStart = Date.now();
+    const badSnapshots = await def.runBad(cycles);
+    const badDuration = Date.now() - badStart;
+    const bad = computeResult(def.name, def.framework, 'bad', cycles, badSnapshots, badDuration);
 
-  // Print comparison
-  const formatBytes = (b: number) => `${(b / 1024).toFixed(1)} KB`;
-  console.log(`\n  Results:`);
-  console.log(`    BAD:  heap growth = ${formatBytes(bad.totalHeapGrowth)}, peak = ${formatBytes(bad.peakHeapUsed)}, ${badDuration}ms`);
-  console.log(`    GOOD: heap growth = ${formatBytes(good.totalHeapGrowth)}, peak = ${formatBytes(good.peakHeapUsed)}, ${goodDuration}ms`);
-  const ratio = good.totalHeapGrowth > 0
-    ? (bad.totalHeapGrowth / good.totalHeapGrowth).toFixed(1)
-    : '∞';
-  console.log(`    Leak ratio: ${ratio}x`);
+    console.log(`  [Run ${r}/${repeats}] GOOD...`);
+    const goodStart = Date.now();
+    const goodSnapshots = await def.runGood(cycles);
+    const goodDuration = Date.now() - goodStart;
+    const good = computeResult(def.name, def.framework, 'good', cycles, goodSnapshots, goodDuration);
 
-  return { bad, good };
+    allRuns.push({ bad, good });
+    badGrowths.push(bad.totalHeapGrowth);
+    goodGrowths.push(good.totalHeapGrowth);
+  }
+
+  const badMean = mean(badGrowths);
+  const badStd = std(badGrowths);
+  const goodMean = mean(goodGrowths);
+  const goodStd = std(goodGrowths);
+  const deltas = badGrowths.map((b, i) => b - goodGrowths[i]);
+  const deltaMean = mean(deltas);
+  const deltaStd = std(deltas);
+
+  const toKB = (b: number) => b / 1024;
+  const stats: ScenarioStats = {
+    scenario: def.name,
+    framework: def.framework,
+    cycles,
+    repeats,
+    bad: { meanGrowthKB: toKB(badMean), stdGrowthKB: toKB(badStd), rateKBPerCycle: toKB(badMean) / cycles },
+    good: { meanGrowthKB: toKB(goodMean), stdGrowthKB: toKB(goodStd), rateKBPerCycle: toKB(goodMean) / cycles },
+    delta: { meanKB: toKB(deltaMean), stdKB: toKB(deltaStd), rateKBPerCycle: toKB(deltaMean) / cycles },
+    allRuns,
+  };
+
+  // Print summary
+  const fmt = (n: number) => n.toFixed(1);
+  console.log(`\n  Summary (${repeats} runs):`);
+  console.log(`    BAD:   mean = ${fmt(stats.bad.meanGrowthKB)} KB, std = ${fmt(stats.bad.stdGrowthKB)} KB, rate = ${fmt(stats.bad.rateKBPerCycle)} KB/cycle`);
+  console.log(`    GOOD:  mean = ${fmt(stats.good.meanGrowthKB)} KB, std = ${fmt(stats.good.stdGrowthKB)} KB, rate = ${fmt(stats.good.rateKBPerCycle)} KB/cycle`);
+  console.log(`    DELTA: mean = ${fmt(stats.delta.meanKB)} KB, std = ${fmt(stats.delta.stdKB)} KB, rate = ${fmt(stats.delta.rateKBPerCycle)} KB/cycle`);
+
+  return stats;
 }
 
 // ---------------------------------------------------------------------------
@@ -168,6 +230,8 @@ async function main() {
   const args = process.argv.slice(2);
   const cyclesIdx = args.indexOf('--cycles');
   const cycles = cyclesIdx >= 0 ? parseInt(args[cyclesIdx + 1], 10) : DEFAULT_CYCLES;
+  const repeatsIdx = args.indexOf('--repeats');
+  const repeats = repeatsIdx >= 0 ? parseInt(args[repeatsIdx + 1], 10) : DEFAULT_REPEATS;
   const frameworkIdx = args.indexOf('--framework');
   const frameworkFilter = frameworkIdx >= 0 ? args[frameworkIdx + 1] : undefined;
 
@@ -185,15 +249,32 @@ async function main() {
   }
 
   console.log(`\n=== Study 03: Memory Leak Benchmarks ===`);
-  console.log(`Cycles: ${cycles}`);
+  console.log(`Cycles: ${cycles}, Repeats: ${repeats}`);
   console.log(`Scenarios: ${scenarios.length}`);
 
-  const allResults: Array<{ bad: BenchmarkResult; good: BenchmarkResult }> = [];
+  const allStats: ScenarioStats[] = [];
 
-  for (const scenario of scenarios) {
-    const result = await runScenario(scenario, cycles);
-    allResults.push(result);
+  for (let i = 0; i < scenarios.length; i++) {
+    const scenario = scenarios[i];
+    const stats = await runScenarioWithRepeats(scenario, cycles, repeats, i + 1, scenarios.length);
+    allStats.push(stats);
   }
+
+  // Print final summary table
+  console.log(`\n${'='.repeat(80)}`);
+  console.log(`FINAL SUMMARY (mean ± std, KB)`);
+  console.log(`${'='.repeat(80)}`);
+  console.log(`${'Scenario'.padEnd(30)} ${'BAD'.padStart(18)} ${'GOOD'.padStart(18)} ${'DELTA'.padStart(18)}`);
+  console.log(`${'-'.repeat(30)} ${'-'.repeat(18)} ${'-'.repeat(18)} ${'-'.repeat(18)}`);
+  for (const s of allStats) {
+    const fmt = (m: number, d: number) => `${m.toFixed(1)} ± ${d.toFixed(1)}`;
+    console.log(
+      `${s.scenario.padEnd(30)} ${fmt(s.bad.meanGrowthKB, s.bad.stdGrowthKB).padStart(18)} ` +
+      `${fmt(s.good.meanGrowthKB, s.good.stdGrowthKB).padStart(18)} ` +
+      `${fmt(s.delta.meanKB, s.delta.stdKB).padStart(18)}`
+    );
+  }
+  console.log(`${'='.repeat(80)}`);
 
   // Save results
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -202,13 +283,23 @@ async function main() {
     metadata: {
       timestamp: new Date().toISOString(),
       cycles,
+      repeats,
       scenarioCount: scenarios.length,
       frameworkFilter: frameworkFilter || 'all',
       nodeVersion: process.version,
       platform: process.platform,
       arch: process.arch,
     },
-    results: allResults,
+    stats: allStats.map(s => ({
+      scenario: s.scenario,
+      framework: s.framework,
+      cycles: s.cycles,
+      repeats: s.repeats,
+      bad: s.bad,
+      good: s.good,
+      delta: s.delta,
+    })),
+    rawRuns: allStats.map(s => ({ scenario: s.scenario, runs: s.allRuns })),
   };
 
   writeFileSync(outputPath, JSON.stringify(output, null, 2));

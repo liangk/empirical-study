@@ -1,76 +1,55 @@
 /**
  * Study 03 — Vue onMounted Memory Leak Scenario
  *
- * Simulates a Vue component that sets up a timer in onMounted without cleanup in onUnmounted.
- * The "bad" version leaks because the timer continues running after unmount.
- * The "good" version clears the timer in onUnmounted.
+ * Simulates a Vue component that sets up a timer in onMounted without cleanup
+ * in onUnmounted. Uses long-delay timers that hold references without firing,
+ * so measurements are not polluted by timer callback churn.
+ *
+ * BAD:  Timer closure keeps component + data alive (cannot be GC'd).
+ * GOOD: Timer cleared on unmount, data released (GC reclaims component).
  */
 
 import type { ScenarioDefinition, MemorySnapshot } from '../run-all';
 
-const activeTimers = new Set<NodeJS.Timeout>();
+// Track leaked timers for post-measurement cleanup only
+const leakedTimers = new Set<NodeJS.Timeout>();
 
-function trackTimer(timer: NodeJS.Timeout) {
-  activeTimers.add(timer);
-}
-
-function untrackTimer(timer: NodeJS.Timeout | null) {
-  if (!timer) return;
-  if (activeTimers.has(timer)) {
-    activeTimers.delete(timer);
-  }
-}
-
-function cleanupLeakedTimers() {
-  for (const timer of activeTimers) {
-    clearInterval(timer);
-  }
-  activeTimers.clear();
-}
-
-// Simulate a Vue component with a timer subscription
 class VueComponentSimulator {
   private timerId: NodeJS.Timeout | null = null;
-  // Larger data structure to make leaks measurable
-  private data: number[] = new Array(2500).fill(0).map(() => Math.random());
+  private data: number[] = new Array(1000).fill(0).map(() => Math.random());
 
   mountBad() {
-    // BAD: setInterval without cleanup
+    // BAD: setInterval without cleanup — long delay prevents firing during bench
     this.timerId = setInterval(() => {
-      // Simulate work that captures component data in closure
       this.data.forEach((v, i) => this.data[i] = v * 1.001);
-    }, 10);
-    trackTimer(this.timerId);
+    }, 86_400_000); // 24h — never fires, just holds reference chain
+    leakedTimers.add(this.timerId);
   }
 
   unmountBad() {
     // BAD: Does NOT clear the interval
-    // The timer continues firing, holding references to the component
+    // Timer -> callback closure -> this -> data stays alive
     this.timerId = null;
   }
 
   mountGood() {
-    // GOOD: setInterval with cleanup tracking
     this.timerId = setInterval(() => {
       this.data.forEach((v, i) => this.data[i] = v * 1.001);
-    }, 10);
-    trackTimer(this.timerId);
+    }, 86_400_000);
   }
 
   unmountGood() {
     // GOOD: Clears the interval on unmount
     if (this.timerId) {
       clearInterval(this.timerId);
-      untrackTimer(this.timerId);
       this.timerId = null;
     }
     this.data = [];
   }
 }
 
-function takeSnapshot(cycle: number, forceGC: boolean = false): MemorySnapshot {
-  // Only force GC at baseline
-  if (forceGC && global.gc) global.gc();
+function takeSnapshot(cycle: number): MemorySnapshot {
+  if (global.gc) global.gc();
   const mem = process.memoryUsage();
   return {
     cycle,
@@ -83,53 +62,40 @@ function takeSnapshot(cycle: number, forceGC: boolean = false): MemorySnapshot {
 
 async function runBadPattern(cycles: number): Promise<MemorySnapshot[]> {
   const snapshots: MemorySnapshot[] = [];
-  // Keep components alive to accumulate leaked timers
-  const components: VueComponentSimulator[] = [];
-  
-  snapshots.push(takeSnapshot(0, true));
+  snapshots.push(takeSnapshot(0));
 
   for (let i = 1; i <= cycles; i++) {
     const component = new VueComponentSimulator();
     component.mountBad();
-    // Let the timer fire a few times
-    await new Promise(resolve => setTimeout(resolve, 50));
-    component.unmountBad(); // Does NOT clear timer
-    
-    // Keep component alive so timer+closure persist
-    components.push(component);
-
-    if (i % 10 === 0) {
-      snapshots.push(takeSnapshot(i)); // No GC during measurement
-    }
-  }
-
-  // Clean up only after final snapshot
-  cleanupLeakedTimers();
-  components.length = 0;
-  return snapshots;
-}
-
-async function runGoodPattern(cycles: number): Promise<MemorySnapshot[]> {
-  const snapshots: MemorySnapshot[] = [];
-  const components: VueComponentSimulator[] = [];
-  
-  snapshots.push(takeSnapshot(0, true));
-
-  for (let i = 1; i <= cycles; i++) {
-    const component = new VueComponentSimulator();
-    component.mountGood();
-    await new Promise(resolve => setTimeout(resolve, 50));
-    component.unmountGood(); // DOES clear timer properly
-    
-    // Keep component alive to match memory profile
-    components.push(component);
+    component.unmountBad();
+    // component goes out of scope but timer keeps it alive
 
     if (i % 10 === 0) {
       snapshots.push(takeSnapshot(i));
     }
   }
 
-  components.length = 0;
+  // Cleanup after measurement
+  for (const timer of leakedTimers) { clearInterval(timer); }
+  leakedTimers.clear();
+  return snapshots;
+}
+
+async function runGoodPattern(cycles: number): Promise<MemorySnapshot[]> {
+  const snapshots: MemorySnapshot[] = [];
+  snapshots.push(takeSnapshot(0));
+
+  for (let i = 1; i <= cycles; i++) {
+    const component = new VueComponentSimulator();
+    component.mountGood();
+    component.unmountGood();
+    // Timer cleared + data released -> GC reclaims component
+
+    if (i % 10 === 0) {
+      snapshots.push(takeSnapshot(i));
+    }
+  }
+
   return snapshots;
 }
 
