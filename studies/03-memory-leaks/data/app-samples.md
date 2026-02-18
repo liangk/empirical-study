@@ -832,6 +832,6 @@ Animation frame and observer pattern heavy.
 
 ---
 
-> **Total: 500+ repositories** (300 React, 150 Vue, 100 Angular)
+> **Total: 500 repositories** (210 React, 150 Vue, 140 Angular)
 > All repos are public GitHub repositories suitable for scanning memory leak patterns.
 > The scanner automatically deduplicates by URL and detects framework from file content.

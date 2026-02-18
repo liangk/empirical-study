@@ -1,0 +1,32 @@
+{
+  "name": "@empirical-study/04-loop-performance",
+  "version": "1.0.0",
+  "description": "Study 04: Loop Performance — Empirical Analysis of Loop Inefficiencies and Optimization Strategies",
+  "private": true,
+  "scripts": {
+    "bench:all": "node -r ts-node/register src/step1-benchmarks/run-all.ts",
+    "bench:bm01": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-01",
+    "bench:bm02": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-02",
+    "bench:bm03": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-03",
+    "bench:bm04": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-04",
+    "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
+    "bench:bm06": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-06",
+    "bench:verify": "node -r ts-node/register src/step1-benchmarks/correctness/verify-all.ts",
+    "scaling": "node -r ts-node/register src/step2-scaling/fit-curves.ts",
+    "realworld:scan": "node -r ts-node/register src/step3-realworld/profiler.ts",
+    "detect": "node -r ts-node/register src/step4-static-analysis/evaluate-tools.ts"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "@babel/types": "^7.28.5",
+    "glob": "^10.3.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
