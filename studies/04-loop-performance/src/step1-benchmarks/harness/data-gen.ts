@@ -70,10 +70,10 @@ export function generateBm04Data(n: number): { users: User[]; orders: Order[] } 
   return { users, orders };
 }
 
-/** BM-05: 2D array — n rows, each row has min(n,100) integers. */
+/** BM-05: 2D array — n rows × n cols (true O(n²) cross-product). Capped at n=1000 max cols to avoid OOM at n=100000. */
 export function generateBm05Data(n: number): number[][] {
   const rand = mulberry32(0xbeef05);
-  const cols = Math.min(n, 100);
+  const cols = Math.min(n, 1000);
   return Array.from({ length: n }, () =>
     Array.from({ length: cols }, () => Math.floor(rand() * 256)),
   );

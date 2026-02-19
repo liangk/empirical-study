@@ -1,0 +1,1390 @@
+{
+  "timestamp": "2026-02-19T17:36:52.977478",
+  "summary": {
+    "total": 40,
+    "verified": 40,
+    "missing": 0,
+    "active": 40,
+    "inactive": 0,
+    "with_test_suite": 40,
+    "without_test_suite": 0,
+    "correct_language": 40,
+    "language_mismatch": 0,
+    "all_domains_have_8": true
+  },
+  "domain_stratification": {
+    "Data Transformation": 8,
+    "Web Serving": 8,
+    "Build Tooling": 8,
+    "UI / Rendering": 8,
+    "Developer Utilities": 8
+  },
+  "results": [
+    {
+      "index": 1,
+      "name": "lodash/lodash",
+      "url": "https://github.com/lodash/lodash",
+      "stars": "58k",
+      "domain": "Data Transformation",
+      "expected_lang": "JS",
+      "expected_patterns": "Chained array methods, nested array methods",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-06T15:13:35",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run test:main && npm run test:fp"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 55,
+        "total_files": 55,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 55
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 2,
+      "name": "ramda/ramda",
+      "url": "https://github.com/ramda/ramda",
+      "stars": "23k",
+      "domain": "Data Transformation",
+      "expected_lang": "JS",
+      "expected_patterns": "Chained transforms, nested map/filter",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-01-21T23:16:29",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm-run-all --parallel spec lint"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 684,
+        "total_files": 685,
+        "percentage": 99.9,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 684,
+          "TS": 1
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 3,
+      "name": "ajv-validator/ajv",
+      "url": "https://github.com/ajv-validator/ajv",
+      "stars": "12k",
+      "domain": "Data Transformation",
+      "expected_lang": "JS",
+      "expected_patterns": "Schema validation loops, nested object iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-14T15:24:00",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "spec/",
+          "package.json#test: npm run json-tests && npm run prettier:check && npm run eslint && npm link && npm link --legacy-peer-deps ajv && npm run test-cov"
+        ]
+      },
+      "language": {
+        "primary_lang": "TS",
+        "primary_count": 191,
+        "total_files": 204,
+        "percentage": 93.6,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 13,
+          "TS": 191
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 4,
+      "name": "d3/d3",
+      "url": "https://github.com/d3/d3",
+      "stars": "108k",
+      "domain": "Data Transformation",
+      "expected_lang": "JS",
+      "expected_patterns": "Nested loops, chained data transforms",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2025-12-02T09:48:11",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: mocha 'test/**/*-test.js' && eslint src test"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 12,
+        "total_files": 15,
+        "percentage": 80.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 12,
+          "TS": 3
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 5,
+      "name": "pandas-dev/pandas",
+      "url": "https://github.com/pandas-dev/pandas",
+      "stars": "43k",
+      "domain": "Data Transformation",
+      "expected_lang": "Py",
+      "expected_patterns": "iterrows (Python-level loop over DataFrame)",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T11:05:42",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 1507,
+        "total_files": 1531,
+        "percentage": 98.4,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 1507,
+          "C": 24
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 6,
+      "name": "numpy/numpy",
+      "url": "https://github.com/numpy/numpy",
+      "stars": "27k",
+      "domain": "Data Transformation",
+      "expected_lang": "Py",
+      "expected_patterns": "Nested Python loops before vectorization",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T20:55:29",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "pytest.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 493,
+        "total_files": 939,
+        "percentage": 52.5,
+        "is_mixed": true,
+        "all_counts": {
+          "Py": 493,
+          "C++": 39,
+          "C": 407
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 7,
+      "name": "marshmallow-code/marshmallow",
+      "url": "https://github.com/marshmallow-code/marshmallow",
+      "stars": "7k",
+      "domain": "Data Transformation",
+      "expected_lang": "Py",
+      "expected_patterns": "Schema validation loops, nested field iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-04T10:45:52",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 38,
+        "total_files": 38,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 38
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 8,
+      "name": "jmespath/jmespath.py",
+      "url": "https://github.com/jmespath/jmespath.py",
+      "stars": "2k",
+      "domain": "Data Transformation",
+      "expected_lang": "Py",
+      "expected_patterns": "Recursive tree traversal, JSON path loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-01-22T11:29:18",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "setup.cfg"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 19,
+        "total_files": 19,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 19
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 9,
+      "name": "expressjs/express",
+      "url": "https://github.com/expressjs/express",
+      "stars": "64k",
+      "domain": "Web Serving",
+      "expected_lang": "JS",
+      "expected_patterns": "Sequential middleware chain loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-14T12:25:36",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: mocha --require test/support/env --reporter spec --check-leaks test/ test/acceptance/"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 141,
+        "total_files": 141,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 141
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 10,
+      "name": "fastify/fastify",
+      "url": "https://github.com/fastify/fastify",
+      "stars": "31k",
+      "domain": "Web Serving",
+      "expected_lang": "JS",
+      "expected_patterns": "Route matching loops, plugin iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-15T11:15:44",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run lint && npm run unit && npm run test:typescript"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 252,
+        "total_files": 287,
+        "percentage": 87.8,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 252,
+          "TS": 35
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 11,
+      "name": "sindresorhus/got",
+      "url": "https://github.com/sindresorhus/got",
+      "stars": "14k",
+      "domain": "Web Serving",
+      "expected_lang": "JS",
+      "expected_patterns": "Sequential async I/O, retry loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-16T15:25:38",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: xo && tsc --noEmit && NODE_OPTIONS='--import=tsx/esm' ava"
+        ]
+      },
+      "language": {
+        "primary_lang": "TS",
+        "primary_count": 73,
+        "total_files": 79,
+        "percentage": 92.4,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 6,
+          "TS": 73
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 12,
+      "name": "axios/axios",
+      "url": "https://github.com/axios/axios",
+      "stars": "104k",
+      "domain": "Web Serving",
+      "expected_lang": "JS",
+      "expected_patterns": "Interceptor chain loops, sequential requests",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T19:33:28",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run test:node && npm run test:browser && npm run test:package"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 165,
+        "total_files": 171,
+        "percentage": 96.5,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 165,
+          "TS": 6
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 13,
+      "name": "pallets/flask",
+      "url": "https://github.com/pallets/flask",
+      "stars": "67k",
+      "domain": "Web Serving",
+      "expected_lang": "Py",
+      "expected_patterns": "Sequential I/O in request hooks",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-12T13:11:01",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 83,
+        "total_files": 83,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 83
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 14,
+      "name": "django/django",
+      "url": "https://github.com/django/django",
+      "stars": "79k",
+      "domain": "Web Serving",
+      "expected_lang": "Py",
+      "expected_patterns": "ORM N+1 adjacent patterns, queryset loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T15:15:31",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 2888,
+        "total_files": 3001,
+        "percentage": 96.2,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 113,
+          "Py": 2888
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 15,
+      "name": "tiangolo/fastapi",
+      "url": "https://github.com/tiangolo/fastapi",
+      "stars": "75k",
+      "domain": "Web Serving",
+      "expected_lang": "Py",
+      "expected_patterns": "Dependency injection loops, validation iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T21:31:13",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 1076,
+        "total_files": 1080,
+        "percentage": 99.6,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 4,
+          "Py": 1076
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 16,
+      "name": "psf/requests",
+      "url": "https://github.com/psf/requests",
+      "stars": "51k",
+      "domain": "Web Serving",
+      "expected_lang": "Py",
+      "expected_patterns": "Sequential retry loops, redirect chain",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-13T18:06:57",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 36,
+        "total_files": 36,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 36
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 17,
+      "name": "webpack/webpack",
+      "url": "https://github.com/webpack/webpack",
+      "stars": "64k",
+      "domain": "Build Tooling",
+      "expected_lang": "JS",
+      "expected_patterns": "Nested graph traversal, module dependency loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T14:31:32",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "jest.config.js",
+          "package.json#test: yarn test:base"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 7987,
+        "total_files": 8075,
+        "percentage": 98.9,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 7987,
+          "TS": 87,
+          "C++": 1
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 18,
+      "name": "parcel-bundler/parcel",
+      "url": "https://github.com/parcel-bundler/parcel",
+      "stars": "43k",
+      "domain": "Build Tooling",
+      "expected_lang": "JS",
+      "expected_patterns": "Async I/O in loops, nested asset traversal",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-01T19:20:22",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "package.json#test: yarn test:unit && yarn test:integration"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 2737,
+        "total_files": 2948,
+        "percentage": 92.8,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 2737,
+          "TS": 150,
+          "Rust": 61
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 19,
+      "name": "rollup/rollup",
+      "url": "https://github.com/rollup/rollup",
+      "stars": "25k",
+      "domain": "Build Tooling",
+      "expected_lang": "JS",
+      "expected_patterns": "Module resolution loops, tree-shaking iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-14T13:14:49",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run build && npm run test:all"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 11992,
+        "total_files": 12461,
+        "percentage": 96.2,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 11992,
+          "TS": 356,
+          "Rust": 113
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 20,
+      "name": "vitejs/vite",
+      "url": "https://github.com/vitejs/vite",
+      "stars": "68k",
+      "domain": "Build Tooling",
+      "expected_lang": "JS",
+      "expected_patterns": "Plugin hook iteration loops, module graph traversal",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-19T12:10:40",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "vitest.config.ts",
+          "package.json#test: pnpm test-unit && pnpm test-serve && pnpm test-build"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 833,
+        "total_files": 1369,
+        "percentage": 60.8,
+        "is_mixed": true,
+        "all_counts": {
+          "JS": 833,
+          "TS": 536
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 21,
+      "name": "pylint-dev/pylint",
+      "url": "https://github.com/pylint-dev/pylint",
+      "stars": "5k",
+      "domain": "Build Tooling",
+      "expected_lang": "Py",
+      "expected_patterns": "AST traversal loops, checker iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-16T23:11:23",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 2358,
+        "total_files": 2358,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 2358
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 22,
+      "name": "PyCQA/flake8",
+      "url": "https://github.com/PyCQA/flake8",
+      "stars": "3k",
+      "domain": "Build Tooling",
+      "expected_lang": "Py",
+      "expected_patterns": "Sequential file checking, regex in loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2025-12-22T16:54:35",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pytest.ini",
+          "tox.ini",
+          "setup.cfg"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 77,
+        "total_files": 77,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 77
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 23,
+      "name": "psf/black",
+      "url": "https://github.com/psf/black",
+      "stars": "38k",
+      "domain": "Build Tooling",
+      "expected_lang": "Py",
+      "expected_patterns": "AST transformation loops, chained formatting",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-15T15:08:13",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 316,
+        "total_files": 316,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 316
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 24,
+      "name": "pypa/pip",
+      "url": "https://github.com/pypa/pip",
+      "stars": "9k",
+      "domain": "Build Tooling",
+      "expected_lang": "Py",
+      "expected_patterns": "Dependency resolution nested loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-13T08:05:53",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 637,
+        "total_files": 638,
+        "percentage": 99.8,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 637,
+          "C": 1
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 25,
+      "name": "chartjs/Chart.js",
+      "url": "https://github.com/chartjs/Chart.js",
+      "stars": "64k",
+      "domain": "UI / Rendering",
+      "expected_lang": "JS",
+      "expected_patterns": "Nested loops over datasets/points",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2025-11-24T08:14:56",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: pnpm lint && pnpm test-ci"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 649,
+        "total_files": 734,
+        "percentage": 88.4,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 649,
+          "TS": 85
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 26,
+      "name": "processing/p5.js",
+      "url": "https://github.com/processing/p5.js",
+      "stars": "21k",
+      "domain": "UI / Rendering",
+      "expected_lang": "JS",
+      "expected_patterns": "requestAnimationFrame loops, DOM manipulation",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T13:46:21",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: grunt"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 476,
+        "total_files": 476,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 476
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 27,
+      "name": "mrdoob/three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "stars": "100k",
+      "domain": "UI / Rendering",
+      "expected_lang": "JS",
+      "expected_patterns": "Render loop, geometry iteration, nested transforms",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T11:12:48",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run lint && npm run test-unit && npm run test-unit-addons"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 1552,
+        "total_files": 1552,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 1552
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 28,
+      "name": "recharts/recharts",
+      "url": "https://github.com/recharts/recharts",
+      "stars": "21k",
+      "domain": "UI / Rendering",
+      "expected_lang": "JS",
+      "expected_patterns": "Chart rendering loops, nested transforms",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-17T10:27:42",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: vitest run --config vitest.config.mts --project unit:*"
+        ]
+      },
+      "language": {
+        "primary_lang": "TS",
+        "primary_count": 1111,
+        "total_files": 1115,
+        "percentage": 99.6,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 4,
+          "TS": 1111
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 29,
+      "name": "Jinja2/jinja",
+      "url": "https://github.com/pallets/jinja",
+      "stars": "10k",
+      "domain": "UI / Rendering",
+      "expected_lang": "Py",
+      "expected_patterns": "Template rendering loops, nested block iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2025-06-14T13:34:58",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 60,
+        "total_files": 60,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 60
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 30,
+      "name": "matplotlib/matplotlib",
+      "url": "https://github.com/matplotlib/matplotlib",
+      "stars": "20k",
+      "domain": "UI / Rendering",
+      "expected_lang": "Py",
+      "expected_patterns": "Dataset rendering loops, nested polygon iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T09:43:13",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 913,
+        "total_files": 1131,
+        "percentage": 80.7,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 4,
+          "Py": 913,
+          "C++": 55,
+          "C": 159
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 31,
+      "name": "bokeh/bokeh",
+      "url": "https://github.com/bokeh/bokeh",
+      "stars": "19k",
+      "domain": "UI / Rendering",
+      "expected_lang": "Py",
+      "expected_patterns": "Glyph rendering loops, data transform iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T02:13:36",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 1196,
+        "total_files": 2185,
+        "percentage": 54.7,
+        "is_mixed": true,
+        "all_counts": {
+          "JS": 8,
+          "TS": 981,
+          "Py": 1196
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 32,
+      "name": "plotly/plotly.py",
+      "url": "https://github.com/plotly/plotly.py",
+      "stars": "16k",
+      "domain": "UI / Rendering",
+      "expected_lang": "Py",
+      "expected_patterns": "Figure update loops, trace iteration",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-17T09:58:41",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 1776,
+        "total_files": 1784,
+        "percentage": 99.6,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 6,
+          "TS": 2,
+          "Py": 1776
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 33,
+      "name": "sindresorhus/execa",
+      "url": "https://github.com/sindresorhus/execa",
+      "stars": "6k",
+      "domain": "Developer Utilities",
+      "expected_lang": "JS",
+      "expected_patterns": "Sequential async subprocess loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-01-29T10:54:56",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: npm run lint && npm run unit && npm run type"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 435,
+        "total_files": 581,
+        "percentage": 74.9,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 435,
+          "TS": 146
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 34,
+      "name": "isaacs/node-glob",
+      "url": "https://github.com/isaacs/node-glob",
+      "stars": "8k",
+      "domain": "Developer Utilities",
+      "expected_lang": "JS",
+      "expected_patterns": "Nested file system traversal loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T14:12:30",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "test/",
+          "package.json#test: tap"
+        ]
+      },
+      "language": {
+        "primary_lang": "TS",
+        "primary_count": 46,
+        "total_files": 49,
+        "percentage": 93.9,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 3,
+          "TS": 46
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 35,
+      "name": "jestjs/jest",
+      "url": "https://github.com/jestjs/jest",
+      "stars": "43k",
+      "domain": "Developer Utilities",
+      "expected_lang": "JS",
+      "expected_patterns": "Test runner loops, async test serialization",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-06T08:55:43",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "package.json#test: yarn lint && yarn jest"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 961,
+        "total_files": 1805,
+        "percentage": 53.2,
+        "is_mixed": true,
+        "all_counts": {
+          "JS": 961,
+          "TS": 844
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 36,
+      "name": "prettier/prettier",
+      "url": "https://github.com/prettier/prettier",
+      "stars": "49k",
+      "domain": "Developer Utilities",
+      "expected_lang": "JS",
+      "expected_patterns": "AST traversal loops, chained format transforms",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-15T20:00:39",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "jest.config.js",
+          "package.json#test: jest"
+        ]
+      },
+      "language": {
+        "primary_lang": "JS",
+        "primary_count": 4933,
+        "total_files": 5603,
+        "percentage": 88.0,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 4933,
+          "TS": 670
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 37,
+      "name": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest",
+      "stars": "12k",
+      "domain": "Developer Utilities",
+      "expected_lang": "Py",
+      "expected_patterns": "Test collection loops, fixture resolution",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T15:17:31",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tox.ini",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 263,
+        "total_files": 263,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 263
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 38,
+      "name": "scrapy/scrapy",
+      "url": "https://github.com/scrapy/scrapy",
+      "stars": "52k",
+      "domain": "Developer Utilities",
+      "expected_lang": "Py",
+      "expected_patterns": "Item pipeline sequential processing, crawl loops",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-13T19:08:06",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tests/",
+          "tox.ini",
+          "conftest.py",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 428,
+        "total_files": 428,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 428
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 39,
+      "name": "celery/celery",
+      "url": "https://github.com/celery/celery",
+      "stars": "24k",
+      "domain": "Developer Utilities",
+      "expected_lang": "Py",
+      "expected_patterns": "Task queue worker loops, sequential dispatch",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T11:55:56",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "tox.ini",
+          "setup.cfg",
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 413,
+        "total_files": 413,
+        "percentage": 100.0,
+        "is_mixed": false,
+        "all_counts": {
+          "Py": 413
+        }
+      },
+      "expected_matches": true
+    },
+    {
+      "index": 40,
+      "name": "apache/airflow",
+      "url": "https://github.com/apache/airflow",
+      "stars": "37k",
+      "domain": "Developer Utilities",
+      "expected_lang": "Py",
+      "expected_patterns": "DAG traversal nested loops, task dependency",
+      "status": "verified",
+      "maintenance": {
+        "is_active": true,
+        "last_commit": "2026-02-18T17:14:05",
+        "days_since_cutoff": 0
+      },
+      "test_suite": {
+        "has_test_suite": true,
+        "found_indicators": [
+          "pyproject.toml"
+        ]
+      },
+      "language": {
+        "primary_lang": "Py",
+        "primary_count": 6656,
+        "total_files": 7459,
+        "percentage": 89.2,
+        "is_mixed": false,
+        "all_counts": {
+          "JS": 35,
+          "TS": 711,
+          "Py": 6656,
+          "Go": 56,
+          "Java": 1
+        }
+      },
+      "expected_matches": true
+    }
+  ],
+  "issues": []
+}

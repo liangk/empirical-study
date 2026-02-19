@@ -12,7 +12,9 @@
     "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
     "bench:bm06": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-06",
     "bench:verify": "node -r ts-node/register src/step1-benchmarks/correctness/verify-all.ts",
+    "bench:bm03-async": "node -r ts-node/register src/step1-benchmarks/modules/bm03-async-io/bench-async.ts",
     "scaling": "node -r ts-node/register src/step2-scaling/fit-curves.ts",
+    "stats:supplemental": "node -r ts-node/register src/step2-scaling/supplemental-stats.ts",
     "realworld:scan": "node -r ts-node/register src/step3-realworld/profiler.ts",
     "detect": "node -r ts-node/register src/step4-static-analysis/evaluate-tools.ts"
   },

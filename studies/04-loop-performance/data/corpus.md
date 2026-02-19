@@ -64,7 +64,7 @@
 | 17 | webpack/webpack | JS | https://github.com/webpack/webpack | 64k | Nested graph traversal, module dependency loops |
 | 18 | parcel-bundler/parcel | JS | https://github.com/parcel-bundler/parcel | 43k | Async I/O in loops, nested asset traversal |
 | 19 | rollup/rollup | JS | https://github.com/rollup/rollup | 25k | Module resolution loops, tree-shaking iteration |
-| 20 | evanw/esbuild | JS | https://github.com/evanw/esbuild | 38k | Regex in loops (parser), nested symbol resolution |
+| 20 | vitejs/vite | JS | https://github.com/vitejs/vite | 68k | Plugin hook iteration loops, module graph traversal |
 | 21 | pylint-dev/pylint | Py | https://github.com/pylint-dev/pylint | 5k | AST traversal loops, checker iteration |
 | 22 | PyCQA/flake8 | Py | https://github.com/PyCQA/flake8 | 3k | Sequential file checking, regex in loops |
 | 23 | psf/black | Py | https://github.com/psf/black | 38k | AST transformation loops, chained formatting |
@@ -94,7 +94,7 @@
 | 33 | sindresorhus/execa | JS | https://github.com/sindresorhus/execa | 6k | Sequential async subprocess loops |
 | 34 | isaacs/node-glob | JS | https://github.com/isaacs/node-glob | 8k | Nested file system traversal loops |
 | 35 | jestjs/jest | JS | https://github.com/jestjs/jest | 43k | Test runner loops, async test serialization |
-| 36 | nicolo-ribaudo/fast-glob | JS | https://github.com/mrmlnc/fast-glob | 4k | Glob pattern matching loops, regex in loops |
+| 36 | prettier/prettier | JS | https://github.com/prettier/prettier | 49k | AST traversal loops, chained format transforms |
 | 37 | pytest-dev/pytest | Py | https://github.com/pytest-dev/pytest | 12k | Test collection loops, fixture resolution |
 | 38 | scrapy/scrapy | Py | https://github.com/scrapy/scrapy | 52k | Item pipeline sequential processing, crawl loops |
 | 39 | celery/celery | Py | https://github.com/celery/celery | 24k | Task queue worker loops, sequential dispatch |

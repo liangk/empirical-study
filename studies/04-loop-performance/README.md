@@ -54,7 +54,7 @@ studies/04-loop-performance/
     │   ├── modules/
     │   │   ├── bm01-regex/          # baseline.ts, optimized.ts
     │   │   ├── bm02-json/           # baseline.ts, optimized.ts
-    │   │   ├── bm03-async-io/       # baseline.ts, optimized.ts
+    │   │   ├── bm03-async-io/       # baseline.ts, optimized.ts, bench-async.ts
     │   │   ├── bm04-nested-loops/   # baseline.ts, optimized.ts
     │   │   ├── bm05-nested-array/   # baseline.ts, optimized.ts
     │   │   ├── bm06-chained-array/  # baseline.ts, optimized.ts
@@ -63,13 +63,16 @@ studies/04-loop-performance/
     │   │   └── verify-all.ts        # Correctness gate: outputs must match for all modules
     │   └── run-all.ts               # Main entry: orchestrates all modules, saves results
     ├── step2-scaling/
-    │   └── fit-curves.ts            # Power-law regression, empirical complexity estimation
+    │   ├── fit-curves.ts            # Power-law regression, empirical complexity estimation
+    │   └── supplemental-stats.ts    # Cohen's d, bootstrap CI, per-repo breakdown
     ├── step3-realworld/
     │   ├── corpus.ts                # Load and parse data/corpus.md
     │   └── profiler.ts              # Clone repos, detect hot loops, profile with optimization
     └── step4-static-analysis/
         ├── detector/
-        │   └── js-loop-detector.ts  # Custom AST-based loop anti-pattern detector
+        │   ├── js-loop-detector.ts  # Custom AST-based loop anti-pattern detector
+        │   ├── py-loop-detector.py  # Python AST detector
+        │   └── py-bench.py          # Python benchmarks (BM-01, BM-04)
         └── evaluate-tools.ts        # Run detectors, label TP/FP/FN, compute precision/recall/F1
 ```
 
@@ -111,11 +114,14 @@ npm run bench:bm06   # Chained array methods vs reduce
 > **BM-07 (DOM manipulation)** runs in-browser. Open `src/step1-benchmarks/modules/bm07-dom/baseline.html`
 > and `optimized.html` in Chrome DevTools with Performance tab recording active.
 
-### Phase 3 — Scaling Analysis
+### Phase 3 — Scaling & Statistical Analysis
 
 ```bash
 # Fit empirical complexity curves from collected results
 npm run scaling -- --input results/bench-latest.json
+
+# Run supplemental statistical analysis (Cohen's d, Bootstrap CI, per-repo breakdown)
+npm run stats:supplemental
 ```
 
 ### Phase 4 — Real-World Corpus Profiling
@@ -130,6 +136,14 @@ npm run realworld:scan
 npm run detect -- --path <target-directory>
 ```
 
+### Python Benchmarks (Manual)
+
+To compare CPython performance against V8 results:
+
+```bash
+python src/step4-static-analysis/detector/py-bench.py
+```
+
 ---
 
 ## Scripts Reference
@@ -139,7 +153,9 @@ npm run detect -- --path <target-directory>
 | `npm run bench:all` | Run all 7 benchmark modules (baseline + optimized) |
 | `npm run bench:bm<N>` | Run a single module (01–06); pass `--n <value>` to test one size |
 | `npm run bench:verify` | Correctness gate — must pass before any benchmarking |
+| `npm run bench:bm03-async` | Run standalone BM-03 benchmark with mock server |
 | `npm run scaling` | Fit power-law curves to results JSON |
+| `npm run stats:supplemental` | Compute Cohen's d, bootstrap CIs, and per-repo tables |
 | `npm run realworld:scan` | Clone corpus repos, profile hot loops |
 | `npm run detect` | Run static analysis detectors on a target directory |
 
@@ -161,7 +177,11 @@ npm run detect -- --path <target-directory>
 | `results/summary-<timestamp>.json` | Summary statistics per configuration |
 | `results/comparison-<timestamp>.json` | Speedup ratios, t-test, Cohen's d per configuration |
 | `results/scaling-<timestamp>.json` | Empirical complexity exponents per module |
-| `results/realworld-<timestamp>.json` | Real-world corpus profiling results |
+| `results/supplemental-stats-<timestamp>.json` | Cohen's d (BM-01), bootstrap CIs, per-repo breakdown |
+| `results/realworld-<timestamp>.json` | Real-world profiling data (speedups on extracted code) |
+| `results/prevalence-<timestamp>.json` | Aggregated anti-pattern counts and density stats |
+| `results/findings-<timestamp>.json` | Raw list of detected anti-pattern locations |
+| `results/py-findings.json` | Python anti-pattern detection results |
 | `results/static-analysis-<timestamp>.json` | Precision/recall/F1 per tool |
 
 ## Articles
