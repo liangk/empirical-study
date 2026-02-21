@@ -1,0 +1,34 @@
+{
+  "name": "@empirical-study/05-missing-index",
+  "version": "1.0.0",
+  "description": "Study 05: Missing Index Crisis — Empirical Analysis of Index Absence on PostgreSQL Query Performance",
+  "private": true,
+  "scripts": {
+    "seed": "node -r ts-node/register src/seed.ts",
+    "seed:n": "node -r ts-node/register src/seed.ts --n",
+    "bench:all": "node -r ts-node/register src/step1-benchmarks/run-all.ts",
+    "bench:bm01": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-01",
+    "bench:bm02": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-02",
+    "bench:bm03": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-03",
+    "bench:bm04": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-04",
+    "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
+    "bench:verify": "node -r ts-node/register src/step1-benchmarks/correctness/verify-all.ts",
+    "scaling": "node -r ts-node/register src/step2-scaling/fit-curves.ts",
+    "realworld:scan": "node -r ts-node/register src/step3-realworld/scanner.ts",
+    "detect": "node -r ts-node/register src/step4-static-analysis/detector/prisma-index-detector.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push --force-reset",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.5.0",
+    "@prisma/client": "^6.3.1",
+    "glob": "^10.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "prisma": "^6.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

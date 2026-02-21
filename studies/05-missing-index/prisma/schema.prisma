@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// BM-01: Point lookup by non-PK column (email)
+// BM-05: Covering index — SELECT id, email WHERE status = ?
+model BenchUser {
+  id        Int          @id @default(autoincrement())
+  email     String
+  name      String
+  status    String       // 'active' | 'inactive' | 'suspended'
+  createdAt DateTime
+  orders    BenchOrder[]
+
+  // No @@index declarations — all indexes are managed programmatically
+  // to allow baseline (no index) vs optimized (with index) measurements
+  @@map("bench_users")
+}
+
+// BM-02: Range + sort (ORDER BY createdAt DESC LIMIT 20)
+// BM-03: FK scan (WHERE userId = ?) — Prisma does NOT auto-index FKs
+// BM-04: Composite filter (WHERE status = ? AND createdAt > ?)
+model BenchOrder {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  amount    Float
+  status    String    // 'pending' | 'active' | 'completed' | 'cancelled'
+  category  String
+  createdAt DateTime
+  user      BenchUser @relation(fields: [userId], references: [id])
+
+  // No @@index — managed programmatically
+  @@map("bench_orders")
+}
