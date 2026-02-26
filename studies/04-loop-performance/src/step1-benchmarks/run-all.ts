@@ -9,7 +9,7 @@ import { runBaseline as bm02Base } from './modules/bm02-json/baseline';
 import { runOptimized as bm02Opt } from './modules/bm02-json/optimized';
 import { runBaseline as bm04Base } from './modules/bm04-nested-loops/baseline';
 import { runOptimized as bm04Opt } from './modules/bm04-nested-loops/optimized';
-import { runBaseline as bm05Base } from './modules/bm05-nested-array/baseline';
+import { runBaseline as bm05Base, runBaselineA as bm05BaseA } from './modules/bm05-nested-array/baseline';
 import { runOptimized as bm05Opt } from './modules/bm05-nested-array/optimized';
 import { runBaseline as bm06Base } from './modules/bm06-chained-array/baseline';
 import { runOptimized as bm06Opt } from './modules/bm06-chained-array/optimized';
@@ -50,9 +50,10 @@ const MODULES: BenchmarkModule[] = [
   },
   {
     id: 'BM-05', name: 'Nested Array Methods (forEach-in-forEach)',
-    description: 'Nested forEach callback overhead vs. direct for-loop.',
+    description: 'Nested forEach callback overhead vs. for...of vs. direct for-loop.',
     hypothesis: null, nValues: N_VALUES, isAsync: false,
     runBaseline: (n) => bm05Base(n),
+    runBaselineA: (n) => bm05BaseA(n),
     runOptimized: (n) => bm05Opt(n),
   },
   {
@@ -135,6 +136,26 @@ async function main(): Promise<void> {
       console.log(
         `  n=${n}: speedup=${comparison.speedupRatio.toFixed(2)}×  p=${comparison.pValue.toFixed(4)}  d=${comparison.cohensD.toFixed(2)} (${comparison.effectSize})  ${flag}`,
       );
+
+      // Run baseline-a variant if the module defines it
+      if (mod.runBaselineA) {
+        const baseATrials = await runTrials(mod, 'baseline-a', n, config);
+        allTrials.push(...baseATrials);
+
+        const baseASummary = summarize(baseATrials, mod.id, 'baseline-a', n, env);
+        allSummaries.push(baseASummary);
+
+        const compAvsBase = compare(baseSummary, baseASummary, baseTrials, baseATrials, undefined);
+        const compAvsOpt = compare(baseASummary, optSummary, baseATrials, optTrials, undefined);
+        allComparisons.push(compAvsBase, compAvsOpt);
+
+        console.log(
+          `  n=${n} [for..of vs forEach]:  speedup=${compAvsBase.speedupRatio.toFixed(2)}×  p=${compAvsBase.pValue.toFixed(4)}  d=${compAvsBase.cohensD.toFixed(2)} (${compAvsBase.effectSize})`,
+        );
+        console.log(
+          `  n=${n} [for-loop vs for..of]: speedup=${compAvsOpt.speedupRatio.toFixed(2)}×  p=${compAvsOpt.pValue.toFixed(4)}  d=${compAvsOpt.cohensD.toFixed(2)} (${compAvsOpt.effectSize})`,
+        );
+      }
     }
   }
 

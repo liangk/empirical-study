@@ -9,7 +9,7 @@ import { runModule, vacuumAnalyze } from './harness/runner';
 import { disconnect } from './harness/db';
 import { BenchmarkModule, DbTrialRecord, BenchmarkSummary, ComparisonResult } from './harness/types';
 
-const RESULTS_DIR = path.join(__dirname, '..', '..', '..', 'results');
+const RESULTS_DIR = path.join(__dirname, '..', '..', 'results');
 const ALL_MODULES: BenchmarkModule[] = [bm01, bm02, bm03, bm04, bm05];
 
 // Parse CLI flags

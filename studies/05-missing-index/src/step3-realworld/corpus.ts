@@ -31,21 +31,19 @@ export function loadCorpus(): CorpusRepo[] {
     if (!inTable || !line.startsWith('|')) continue;
 
     const cols = line.split('|').map(c => c.trim()).filter(Boolean);
-    if (cols.length < 6) continue;
+    if (cols.length < 5) continue;
 
-    const [idxStr, repoRaw, orm, urlRaw, stars, patternsRaw] = cols;
+    const [idxStr, repoRaw, urlRaw, stars, patternsRaw] = cols;
     const index = parseInt(idxStr, 10);
     if (isNaN(index)) continue;
 
-    const repoMatch = repoRaw.match(/\[([^\]]+)\]/);
-    const repo = repoMatch ? repoMatch[1] : repoRaw;
-
+    const repo = repoRaw.trim();
     const urlMatch = urlRaw.match(/https?:\/\/[^\s)]+/);
     const url = urlMatch ? urlMatch[0] : urlRaw;
 
     const patterns = patternsRaw.split(',').map(p => p.trim()).filter(Boolean);
 
-    repos.push({ index, repo, orm, url, stars, patterns, domain: currentDomain });
+    repos.push({ index, repo, orm: 'Prisma', url, stars, patterns, domain: currentDomain });
   }
 
   return repos;

@@ -47,11 +47,13 @@ async function runOnce(fn: () => Promise<unknown> | unknown): Promise<{
 
 export async function runTrials(
   mod: BenchmarkModule,
-  pattern: 'baseline' | 'optimized',
+  pattern: 'baseline' | 'baseline-a' | 'optimized',
   n: number,
   config: RunConfig,
 ): Promise<TrialRecord[]> {
-  const fn = pattern === 'baseline' ? mod.runBaseline : mod.runOptimized;
+  const fn = pattern === 'baseline' ? mod.runBaseline
+    : pattern === 'baseline-a' ? mod.runBaselineA!
+    : mod.runOptimized;
   const env = `node_${process.version}`;
 
   console.log(`  [${mod.id}/${pattern}] n=${n}: warming up (${config.warmupIterations} iters)...`);

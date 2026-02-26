@@ -7,18 +7,18 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 
 | # | Topic | Status | Article |
 |---|-------|--------|---------|
-| 01 | [N+1 Query Problem](studies/01-n-plus-1-query/) | ✅ Complete | [stackinsight.dev](https://stackinsight.dev) |
-| 02 | [Blocking I/O](studies/02-blocking-io/) | 🚧 In Progress | — |
-| 03 | [Memory Leaks](studies/03-memory-leaks/) | � In Progress | — |
-| 04 | [Loop Performance](studies/04-loop-performance/) | ✅ Complete | [stackinsight.dev](https://stackinsight.dev) |
-| 05 | [Missing Index Crisis](studies/05-missing-index/) | � In Progress | — |
-| 06 | Bundle Bloat | 📋 Planned | — |
-| 07 | DOM Manipulation | 📋 Planned | — |
-| 08 | Large Payloads | 📋 Planned | — |
-| 09 | ReDoS Vulnerabilities | 📋 Planned | — |
-| 10 | Missing Caching | 📋 Planned | — |
-| 11 | Resource Leaks | 📋 Planned | — |
-| 12 | Inefficient Loops | 📋 Planned | — |
+| 01 | [N+1 Query Problem](studies/01-n-plus-1-query/) | Complete | [stackinsight.dev/blog/n-plus-1-query-empirical-study](https://stackinsight.dev/blog/n-plus-1-query-empirical-study) |
+| 02 | [Blocking I/O](studies/02-blocking-io/) | Complete | [stackinsight.dev/blog/blocking-io-empirical-study](https://stackinsight.dev/blog/blocking-io-empirical-study) |
+| 03 | [Memory Leaks](studies/03-memory-leaks/) | Complete | [stackinsight.dev/blog/memory-leak-empirical-study](https://stackinsight.dev/blog/memory-leak-empirical-study) |
+| 04 | [Loop Performance](studies/04-loop-performance/) | Complete | [stackinsight.dev/blog/loop-performance-empirical-study](https://stackinsight.dev/blog/loop-performance-empirical-study) |
+| 05 | [Missing Index Crisis](studies/05-missing-index/) | Complete | [stackinsight.dev/blog/missing-index-empirical-study](https://stackinsight.dev/blog/missing-index-empirical-study) |
+| 06 | Bundle Bloat | Planned | — |
+| 07 | DOM Manipulation | Planned | — |
+| 08 | Large Payloads | Planned | — |
+| 09 | ReDoS Vulnerabilities | Planned | — |
+| 10 | Missing Caching | Planned | — |
+| 11 | Resource Leaks | Planned | — |
+| 12 | Inefficient Loops | Planned | — |
 
 ## Repository Structure
 

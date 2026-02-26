@@ -6,7 +6,7 @@ import { runBaseline as bm03Base, startMockServer, stopMockServer } from '../mod
 import { runOptimized as bm03Opt } from '../modules/bm03-async-io/optimized';
 import { runBaseline as bm04Base } from '../modules/bm04-nested-loops/baseline';
 import { runOptimized as bm04Opt } from '../modules/bm04-nested-loops/optimized';
-import { runBaseline as bm05Base } from '../modules/bm05-nested-array/baseline';
+import { runBaseline as bm05Base, runBaselineA as bm05BaseA } from '../modules/bm05-nested-array/baseline';
 import { runOptimized as bm05Opt } from '../modules/bm05-nested-array/optimized';
 import { runBaseline as bm06Base } from '../modules/bm06-chained-array/baseline';
 import { runOptimized as bm06Opt } from '../modules/bm06-chained-array/optimized';
@@ -110,9 +110,12 @@ async function verifyBm05(): Promise<TestResult[]> {
   const ns = [...TEST_N_VALUES, EDGE_LARGE_N];
   for (const n of ns) {
     const base = bm05Base(n);
+    const baseA = bm05BaseA(n);
     const opt = bm05Opt(n);
-    const passed = base === opt;
-    results.push({ module: 'BM-05', n, passed, detail: passed ? 'ok' : `base=${base} opt=${opt}` });
+    const passedA = baseA === base;
+    const passedOpt = opt === base;
+    results.push({ module: 'BM-05', n, passed: passedA, detail: passedA ? 'baseline-a ok' : `baseA=${baseA} base=${base}` });
+    results.push({ module: 'BM-05', n, passed: passedOpt, detail: passedOpt ? 'optimized ok' : `opt=${opt} base=${base}` });
   }
   return results;
 }

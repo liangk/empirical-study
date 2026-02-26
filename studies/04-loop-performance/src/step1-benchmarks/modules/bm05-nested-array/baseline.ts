@@ -21,3 +21,18 @@ export function runBaseline(n: number): number {
   });
   return sum;
 }
+
+/**
+ * BM-05 BASELINE-A: Nested for...of loops — iterator protocol overhead vs. index-based for loop.
+ * Eliminates forEach callback dispatch but still pays iterator allocation per row.
+ */
+export function runBaselineA(n: number): number {
+  const matrix = getData(n);
+  let sum = 0;
+  for (const row of matrix) {
+    for (const val of row) {
+      sum += val;
+    }
+  }
+  return sum;
+}

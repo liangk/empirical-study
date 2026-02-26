@@ -1,4 +1,4 @@
-export type Pattern = 'baseline' | 'optimized';
+export type Pattern = 'baseline' | 'baseline-a' | 'optimized';
 
 export type EffectSize = 'negligible' | 'small' | 'medium' | 'large';
 
@@ -65,6 +65,7 @@ export interface BenchmarkModule {
   nValues: number[];
   isAsync: boolean;
   runBaseline: (n: number) => Promise<unknown> | unknown;
+  runBaselineA?: (n: number) => Promise<unknown> | unknown;
   runOptimized: (n: number) => Promise<unknown> | unknown;
 }
 

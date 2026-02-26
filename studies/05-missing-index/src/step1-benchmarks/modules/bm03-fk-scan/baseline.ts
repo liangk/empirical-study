@@ -14,7 +14,7 @@ export const bm03: BenchmarkModule = {
     const db = getClient();
     const userId = pickTargetUserId(Math.ceil(n / 10));
     return timeQuery(() =>
-      db.$queryRaw`SELECT * FROM bench_orders WHERE user_id = ${userId}`
+      db.$queryRaw`SELECT * FROM bench_orders WHERE "userId" = ${userId}`
     );
   },
 
@@ -22,13 +22,13 @@ export const bm03: BenchmarkModule = {
     const db = getClient();
     const userId = pickTargetUserId(Math.ceil(n / 10));
     return timeQuery(() =>
-      db.$queryRaw`SELECT * FROM bench_orders WHERE user_id = ${userId}`
+      db.$queryRaw`SELECT * FROM bench_orders WHERE "userId" = ${userId}`
     );
   },
 
   async createIndex(): Promise<void> {
     const db = getClient();
-    await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ${INDEX_NAME} ON bench_orders(user_id)`);
+    await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ${INDEX_NAME} ON bench_orders("userId")`);
   },
 
   async dropIndex(): Promise<void> {
@@ -39,9 +39,9 @@ export const bm03: BenchmarkModule = {
   async verify(n: number): Promise<boolean> {
     const db = getClient();
     const userId = pickTargetUserId(Math.ceil(n / 10));
-    const base = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE user_id = ${userId} ORDER BY id`;
+    const base = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE "userId" = ${userId} ORDER BY id`;
     await this.createIndex();
-    const opt = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE user_id = ${userId} ORDER BY id`;
+    const opt = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE "userId" = ${userId} ORDER BY id`;
     await this.dropIndex();
     return JSON.stringify(base) === JSON.stringify(opt);
   },
@@ -50,7 +50,7 @@ export const bm03: BenchmarkModule = {
     const db = getClient();
     const userId = pickTargetUserId(Math.ceil(n / 10));
     const result = await db.$queryRaw<any[]>`
-      EXPLAIN (ANALYZE, FORMAT JSON) SELECT * FROM bench_orders WHERE user_id = ${userId}
+      EXPLAIN (ANALYZE, FORMAT JSON) SELECT * FROM bench_orders WHERE "userId" = ${userId}
     `;
     const plan = result[0]['QUERY PLAN'][0];
     return plan?.Plan?.['Node Type'] ?? 'Unknown';

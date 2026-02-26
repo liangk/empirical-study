@@ -16,7 +16,7 @@ export const bm04: BenchmarkModule = {
     const db = getClient();
     const cutoff = rangeQueryCutoff();
     return timeQuery(() =>
-      db.$queryRaw`SELECT * FROM bench_orders WHERE status = ${STATUS} AND created_at > ${cutoff}`
+      db.$queryRaw`SELECT * FROM bench_orders WHERE status = ${STATUS} AND "createdAt" > ${cutoff}`
     );
   },
 
@@ -24,15 +24,15 @@ export const bm04: BenchmarkModule = {
     const db = getClient();
     const cutoff = rangeQueryCutoff();
     return timeQuery(() =>
-      db.$queryRaw`SELECT * FROM bench_orders WHERE status = ${STATUS} AND created_at > ${cutoff}`
+      db.$queryRaw`SELECT * FROM bench_orders WHERE status = ${STATUS} AND "createdAt" > ${cutoff}`
     );
   },
 
   async createIndex(): Promise<void> {
-    // "Optimized" = composite index on (status, created_at)
+    // "Optimized" = composite index on (status, "createdAt")
     const db = getClient();
     await db.$executeRawUnsafe(`DROP INDEX IF EXISTS ${INDEX_BASELINE}`);
-    await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ${INDEX_OPTIMIZED} ON bench_orders(status, created_at)`);
+    await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS ${INDEX_OPTIMIZED} ON bench_orders(status, "createdAt")`);
   },
 
   async dropIndex(): Promise<void> {
@@ -55,9 +55,9 @@ export const bm04: BenchmarkModule = {
   async verify(_n: number): Promise<boolean> {
     const db = getClient();
     const cutoff = rangeQueryCutoff();
-    const base = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE status = ${STATUS} AND created_at > ${cutoff} ORDER BY id`;
+    const base = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE status = ${STATUS} AND "createdAt" > ${cutoff} ORDER BY id`;
     await this.createIndex();
-    const opt = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE status = ${STATUS} AND created_at > ${cutoff} ORDER BY id`;
+    const opt = await db.$queryRaw<{ id: number }[]>`SELECT id FROM bench_orders WHERE status = ${STATUS} AND "createdAt" > ${cutoff} ORDER BY id`;
     await this.dropIndex();
     return JSON.stringify(base) === JSON.stringify(opt);
   },
@@ -66,7 +66,7 @@ export const bm04: BenchmarkModule = {
     const db = getClient();
     const cutoff = rangeQueryCutoff();
     const result = await db.$queryRaw<any[]>`
-      EXPLAIN (ANALYZE, FORMAT JSON) SELECT * FROM bench_orders WHERE status = ${STATUS} AND created_at > ${cutoff}
+      EXPLAIN (ANALYZE, FORMAT JSON) SELECT * FROM bench_orders WHERE status = ${STATUS} AND "createdAt" > ${cutoff}
     `;
     const plan = result[0]['QUERY PLAN'][0];
     return plan?.Plan?.['Node Type'] ?? 'Unknown';
