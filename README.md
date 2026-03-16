@@ -12,13 +12,13 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 03 | [Memory Leaks](studies/03-memory-leaks/) | Complete | [stackinsight.dev/blog/memory-leak-empirical-study](https://stackinsight.dev/blog/memory-leak-empirical-study) |
 | 04 | [Loop Performance](studies/04-loop-performance/) | Complete | [stackinsight.dev/blog/loop-performance-empirical-study](https://stackinsight.dev/blog/loop-performance-empirical-study) |
 | 05 | [Missing Index Crisis](studies/05-missing-index/) | Complete | [stackinsight.dev/blog/missing-index-empirical-study](https://stackinsight.dev/blog/missing-index-empirical-study) |
-| 06 | Bundle Bloat | Planned | — |
-| 07 | DOM Manipulation | Planned | — |
-| 08 | Large Payloads | Planned | — |
-| 09 | ReDoS Vulnerabilities | Planned | — |
-| 10 | Missing Caching | Planned | — |
-| 11 | Resource Leaks | Planned | — |
-| 12 | Inefficient Loops | Planned | — |
+| 06 | [Resource Leaks](studies/06-resource-leaks/) | 🚧 In Progress | — |
+| 07 | Bundle Bloat | 📋 Planned | — |
+| 08 | DOM Manipulation | 📋 Planned | — |
+| 09 | Large Payloads | 📋 Planned | — |
+| 10 | ReDoS Vulnerabilities | 📋 Planned | — |
+| 11 | Missing Caching | 📋 Planned | — |
+| 12 | Inefficient Loops | 📋 Planned | — |
 
 ## Repository Structure
 

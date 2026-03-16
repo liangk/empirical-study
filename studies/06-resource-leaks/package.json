@@ -1,0 +1,38 @@
+{
+  "name": "@empirical-study/06-resource-leaks",
+  "version": "1.0.0",
+  "description": "Study 06: Resource Leak Patterns in Production — Empirical Analysis of Connection, Stream, and Handle Leaks in Node.js",
+  "private": true,
+  "scripts": {
+    "bench:all": "node -r ts-node/register src/step1-benchmarks/run-all.ts",
+    "bench:bm01": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-01",
+    "bench:bm02": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-02",
+    "bench:bm03": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-03",
+    "bench:bm04": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-04",
+    "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
+    "bench:bm06": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-06",
+    "bench:verify": "node -r ts-node/register src/step1-benchmarks/correctness/verify-all.ts",
+    "scaling": "node -r ts-node/register src/step2-scaling/fit-curves.ts",
+    "realworld:scan": "node -r ts-node/register src/step3-realworld/scanner.ts",
+    "detect": "node -r ts-node/register src/step4-static-analysis/detector/resource-leak-detector.ts",
+    "experiments": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts",
+    "experiments:case1": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts --case 1",
+    "experiments:case2": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts --case 2",
+    "experiments:case3": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts --case 3",
+    "experiments:case4": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts --case 4",
+    "experiments:case5": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments.ts --case 5"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "@babel/types": "^7.28.5",
+    "glob": "^10.3.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
