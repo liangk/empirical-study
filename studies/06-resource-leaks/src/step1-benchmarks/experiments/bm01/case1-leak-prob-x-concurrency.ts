@@ -6,8 +6,8 @@
  * Y-axis: concurrency level (1 to 100 concurrent requests)
  * Metric: failure rate, time-to-exhaustion, throughput
  */
-import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from './types';
-import { runSimulation } from './pool-simulator';
+import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from '../types';
+import { runSimulation } from '../pool-simulator';
 
 const CASE_ID = 'case1';
 const CASE_NAME = 'Leak Probability × Concurrency';

@@ -6,7 +6,7 @@ This study uses a four-phase methodology: controlled failure simulation, scaling
 
 ---
 
-## Phase 1: Controlled Failure Simulation
+## Phase 1: Controlled Failure Simulation (Baseline)
 
 ### Environment
 
@@ -56,6 +56,105 @@ For each benchmark module:
 ### CV Threshold
 
 CV < 15% across 30 trials. Resource exhaustion timings have inherent OS-level variance (FD limits, TCP socket recycling).
+
+---
+
+## Phase 1b: Two-Dimensional Impact Experiments
+
+While Phase 1 establishes baseline leak rates under controlled conditions, real-world scenarios involve interactions between multiple parameters. Phase 1b explores these interactions via a **discrete-event pool simulator** that runs 2D parameter grids to show how leak impact varies across realistic workload conditions.
+
+### Simulator Design
+
+- **Discrete-event simulation:** No real async delays; fast execution (~seconds per grid)
+- **Seeded PRNG (mulberry32):** Fully reproducible results across runs
+- **Configurable pool:** Max connections, acquire timeout, query time, query jitter
+- **Configurable workload:** Duration, concurrency, arrival pattern, burst size, leak probability, error rate, leak-on-error behavior
+- **Metrics:** Time-to-exhaustion, failure rate, throughput, p95 latency, leaked connections, peak active connections
+
+### Five Experiment Cases
+
+Each case explores a 2D parameter grid (4–10 values per axis) to show when and how leaks become operationally critical.
+
+#### Case 1: Leak Probability × Concurrency
+**Research question:** How do small leak rates become catastrophic at high parallelism?
+
+| Parameter | Values |
+|-----------|--------|
+| Leak probability (X) | 0%, 1%, 2%, 5%, 10%, 20% |
+| Concurrency (Y) | 1, 5, 10, 20, 50, 100 |
+
+**Fixed:** Pool size 20, query time 50ms, steady arrivals  
+**Metrics:** Failure rate, time-to-exhaustion, throughput, leaked connections  
+**Expected:** At low concurrency, 1% leak is invisible; at concurrency 100, it causes exhaustion within seconds.
+
+#### Case 2: Query Time × Pool Size
+**Research question:** When do long-held connections saturate the pool even with moderate leak rates?
+
+| Parameter | Values |
+|-----------|--------|
+| Query time (X) | 5ms, 20ms, 50ms, 100ms, 200ms, 500ms, 1000ms |
+| Pool size (Y) | 5, 10, 20, 50, 100 |
+
+**Fixed:** 5% leak probability, concurrency 20  
+**Metrics:** Throughput, failure rate, leaked connections, mean latency  
+**Expected:** Small pool + long query = saturation even without leaks; leaks amplify the problem.
+
+#### Case 3: Burst Size × Acquire Timeout
+**Research question:** Do traffic spikes cause latency degradation or hard failures?
+
+| Parameter | Values |
+|-----------|--------|
+| Burst size (X) | 1, 5, 10, 20, 30, 50 |
+| Acquire timeout (Y) | 50ms, 100ms, 500ms, 1000ms, 2000ms, 5000ms |
+
+**Fixed:** Pool size 20, 5% leak probability, bursts every 200ms  
+**Metrics:** p95 latency, failure rate, throughput, peak active connections  
+**Expected:** Large bursts + short timeout = hard failures; long timeout = latency spikes.
+
+#### Case 4: Error Rate × Leak-on-Error Behavior
+**Research question:** How does error frequency interact with cleanup-on-error patterns?
+
+| Parameter | Values |
+|-----------|--------|
+| Error rate (X) | 0%, 1%, 5%, 10%, 15%, 20%, 30% |
+| Leak-on-error + base leak (Y) | 8 combinations: cleanup vs no-cleanup × {0%, 2%, 5%, 10%} base leak |
+
+**Fixed:** Pool size 20, concurrency 20  
+**Metrics:** Leaked connections, failure rate, time-to-exhaustion, throughput  
+**Expected:** Missing cleanup in error path amplifies leak rate dramatically when errors are frequent.
+
+#### Case 5: Leak Probability × DB Max Connections
+**Research question:** Cross-service blast radius — how does one leaking service exhaust shared DB budget?
+
+| Parameter | Values |
+|-----------|--------|
+| Leak probability (X) | 0%, 1%, 2%, 5%, 10%, 20% |
+| DB max connections (Y) | 5, 10, 20, 50, 100, 200 |
+
+**Fixed:** Concurrency 20, query time 50ms  
+**Metrics:** Time-to-exhaustion, failure rate, leaked connections, throughput  
+**Expected:** Large DB pool hides leaks temporarily; small pool fails fast, limiting blast radius.
+
+### Output Format
+
+Each case produces:
+- **Console tables:** 2D grids for each metric (failure rate, throughput, etc.)
+- **JSON export:** `results/experiments-<timestamp>.json` with full grid data for visualization
+
+### Parameter Configuration
+
+All experiment parameters are hardcoded in the case files for reproducibility. To modify parameters: edit the `const` declarations at the top of each case file.
+
+### BM-02 through BM-06: Extended Experiments
+
+While BM-01 focuses on connection pool exhaustion, BM-02 through BM-06 cover file descriptors, streams, HTTP sockets, timers, and event listeners. Each module has **3 focused experiment cases** following the same 2D grid methodology.
+
+**Common patterns across all modules:**
+- **Case 1:** Leak Probability × Concurrency — fundamental scaling relationship
+- **Case 2:** Module-specific resource parameter (file size, closure size, timeout, etc.)
+- **Case 3:** Error Rate × Leak-on-Error OR performance-specific interaction
+
+See `docs/experiment-design-bm02-06.md` for detailed case definitions, parameter ranges, and expected findings for each module.
 
 ---
 
@@ -145,6 +244,7 @@ Ground truth constructed by:
 | Optimized state | With index | With proper cleanup |
 | Failure mode | Slow query | System error (EMFILE, OOM, pool timeout) |
 | CV threshold | 15% | 15% |
-| n values | 1K–1M rows | 10–1000 iterations |
+| n values | 1K–1M rows | 10–1000 iterations (Phase 1) + 2D grids (Phase 1b) |
 | Corpus size | 40 repos | 400 repos |
 | Detection tool | Prisma schema parser | Babel AST traversal |
+| Multi-parameter analysis | Single n sweep | 5 two-dimensional experiment cases |

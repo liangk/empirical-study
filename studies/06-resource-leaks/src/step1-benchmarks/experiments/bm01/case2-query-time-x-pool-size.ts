@@ -7,8 +7,8 @@
  * Fixed: 5% leak probability, concurrency 20
  * Metric: throughput, failure rate
  */
-import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from './types';
-import { runSimulation } from './pool-simulator';
+import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from '../types';
+import { runSimulation } from '../pool-simulator';
 
 const CASE_ID = 'case2';
 const CASE_NAME = 'Query Time × Pool Size';

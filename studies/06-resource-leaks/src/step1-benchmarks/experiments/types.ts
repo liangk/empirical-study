@@ -2,26 +2,40 @@
 
 /** A single data point from one simulation run. */
 export interface SimulationResult {
-  /** Time (ms) until pool exhaustion. Infinity if no exhaustion within duration. */
+  /** Time (ms) until resource limit hit (EMFILE, pool/socket exhaustion, OOM). Infinity if never. */
   timeToExhaustion: number;
   /** Total requests that completed successfully. */
   successfulRequests: number;
-  /** Total requests that timed out or failed due to pool exhaustion. */
+  /** Total requests that failed (timeout, resource exhaustion, EMFILE, etc.). */
   failedRequests: number;
-  /** Failure rate = failed / (successful + failed). */
+  /** Failure rate = failed / total. */
   failureRate: number;
-  /** Mean latency (ms) of successful requests. */
+  /** Mean latency (ms) of successful operations. */
   meanLatencyMs: number;
-  /** p95 latency (ms) of successful requests. */
+  /** p95 latency (ms) of successful operations. */
   p95LatencyMs: number;
-  /** Peak active connections during the simulation. */
+  /** Peak concurrent resources (connections, FDs, sockets, timers, listeners). */
   peakActiveConnections: number;
-  /** Connections leaked (acquired but never released). */
+  /** Resources permanently leaked (never released/closed/cleared/removed). */
   leakedConnections: number;
-  /** Total requests attempted. */
+  /** Total operations attempted. */
   totalRequests: number;
-  /** Effective throughput: successful requests / duration seconds. */
+  /** Effective throughput: successful operations / duration seconds. */
   throughput: number;
+
+  // --- Extended metrics for BM-03, BM-05, BM-06 ---
+  /** Simulated heap growth from leaked resource closures/buffers (bytes). */
+  heapGrowthBytes?: number;
+  /** Memory footprint per leaked resource (bytes). */
+  memoryPerLeakedResource?: number;
+
+  // --- BM-05, BM-06: callback fire count ---
+  /** Total callback invocations from leaked timers/listeners over simulation duration. */
+  totalCallbackInvocations?: number;
+
+  // --- BM-06: emit latency ---
+  /** Mean latency (ms) to notify all listeners per event emit. */
+  meanEmitLatencyMs?: number;
 }
 
 /** A cell in the 2D parameter grid. */

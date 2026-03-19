@@ -8,8 +8,8 @@
  * Combined Y: (leakOnError, baseLeakProb) — 8 combinations
  * Metric: leaked connections, failure rate, time-to-exhaustion
  */
-import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from './types';
-import { runSimulation } from './pool-simulator';
+import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from '../types';
+import { runSimulation } from '../pool-simulator';
 
 const CASE_ID = 'case4';
 const CASE_NAME = 'Error Rate × Leak-on-Error Behavior';

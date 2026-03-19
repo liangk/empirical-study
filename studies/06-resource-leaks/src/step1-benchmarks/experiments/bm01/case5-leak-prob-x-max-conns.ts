@@ -7,8 +7,8 @@
  * Fixed: concurrency 20, query time 50ms
  * Metric: time-to-exhaustion, failure rate, leaked connections
  */
-import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from './types';
-import { runSimulation } from './pool-simulator';
+import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from '../types';
+import { runSimulation } from '../pool-simulator';
 
 const CASE_ID = 'case5';
 const CASE_NAME = 'Leak Probability × DB Max Connections';

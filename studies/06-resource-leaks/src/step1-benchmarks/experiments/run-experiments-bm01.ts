@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ExperimentResult, GridCell, SimulationResult } from './types';
-import { runCase1 } from './case1-leak-prob-x-concurrency';
-import { runCase2 } from './case2-query-time-x-pool-size';
-import { runCase3 } from './case3-burst-x-timeout';
-import { runCase4 } from './case4-error-rate-x-leak-on-error';
-import { runCase5 } from './case5-leak-prob-x-max-conns';
+import { runCase1 } from './bm01/case1-leak-prob-x-concurrency';
+import { runCase2 } from './bm01/case2-query-time-x-pool-size';
+import { runCase3 } from './bm01/case3-burst-x-timeout';
+import { runCase4 } from './bm01/case4-error-rate-x-leak-on-error';
+import { runCase5 } from './bm01/case5-leak-prob-x-max-conns';
 
-const RESULTS_DIR = path.join(__dirname, '..', '..', '..', 'results');
+const RESULTS_DIR = path.join(__dirname, 'bm01');
 
 type MetricKey = keyof SimulationResult;
 

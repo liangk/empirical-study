@@ -7,8 +7,8 @@
  * Fixed: pool size 20, 5% leak probability, bursts every 200ms
  * Metric: p95 latency, failure rate
  */
-import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from './types';
-import { runSimulation } from './pool-simulator';
+import { ExperimentResult, GridCell, PoolConfig, WorkloadConfig } from '../types';
+import { runSimulation } from '../pool-simulator';
 
 const CASE_ID = 'case3';
 const CASE_NAME = 'Burst Size × Acquire Timeout';
