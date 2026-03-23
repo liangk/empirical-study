@@ -13,6 +13,7 @@
     "bench:bm06": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-06",
     "bench:verify": "node -r ts-node/register src/step1-benchmarks/correctness/verify-all.ts",
     "scaling": "node -r ts-node/register src/step2-scaling/fit-curves.ts",
+    "scaling:redesign": "node -r ts-node/register src/step2-scaling/fit-curves.ts --source redesign",
     "realworld:scan": "node -r ts-node/register src/step3-realworld/scanner.ts",
     "detect": "node -r ts-node/register src/step4-static-analysis/detector/resource-leak-detector.ts",
     "experiments:bm01": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm01.ts",
@@ -47,7 +48,13 @@
     "experiments:bm06:case2": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm06.ts --case 2",
     "experiments:bm06:case3": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm06.ts --case 3",
     "experiments:bm06:case4": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm06.ts --case 4",
-    "experiments:bm06:case5": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm06.ts --case 5"
+    "experiments:bm06:case5": "node -r ts-node/register src/step1-benchmarks/experiments/run-experiments-bm06.ts --case 5",
+    "experiments:redesign:bm01": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm01.ts",
+    "experiments:redesign:bm02": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm02.ts",
+    "experiments:redesign:bm03": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm03.ts",
+    "experiments:redesign:bm04": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm04.ts",
+    "experiments:redesign:bm05": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm05.ts",
+    "experiments:redesign:bm06": "node -r ts-node/register src/step1-benchmarks/experiments-redisign/run-experiments-bm06.ts"
   },
   "dependencies": {
     "@babel/parser": "^7.28.5",

@@ -1,0 +1,971 @@
+[
+  {
+    "caseId": "bm05-case1",
+    "caseName": "Leak Probability × Timer Creation Rate",
+    "module": "BM-05",
+    "xAxisName": "Leak Probability",
+    "yAxisName": "Creation Rate (timers/sec)",
+    "tables": {
+      "leakedConnections": {
+        "unit": "timers",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "0%": 0,
+            "1%": 1,
+            "2%": 1,
+            "5%": 3,
+            "10%": 5,
+            "20%": 8
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "0%": 0,
+            "1%": 2,
+            "2%": 3,
+            "5%": 8,
+            "10%": 15,
+            "20%": 31
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "0%": 0,
+            "1%": 3,
+            "2%": 5,
+            "5%": 13,
+            "10%": 30,
+            "20%": 59
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "0%": 0,
+            "1%": 8,
+            "2%": 12,
+            "5%": 32,
+            "10%": 65,
+            "20%": 117
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "0%": 0,
+            "1%": 13,
+            "2%": 23,
+            "5%": 71,
+            "10%": 150,
+            "20%": 256
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "0%": 0,
+            "1%": 26,
+            "2%": 46,
+            "5%": 143,
+            "10%": 256,
+            "20%": 256
+          }
+        ]
+      },
+      "heapGrowthBytes": {
+        "unit": "bytes",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "0%": 0,
+            "1%": 4096,
+            "2%": 4096,
+            "5%": 12288,
+            "10%": 20480,
+            "20%": 32768
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "0%": 0,
+            "1%": 8192,
+            "2%": 12288,
+            "5%": 32768,
+            "10%": 61440,
+            "20%": 126976
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "0%": 0,
+            "1%": 12288,
+            "2%": 20480,
+            "5%": 53248,
+            "10%": 122880,
+            "20%": 241664
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "0%": 0,
+            "1%": 32768,
+            "2%": 49152,
+            "5%": 131072,
+            "10%": 266240,
+            "20%": 479232
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "0%": 0,
+            "1%": 53248,
+            "2%": 94208,
+            "5%": 290816,
+            "10%": 614400,
+            "20%": 1048576
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "0%": 0,
+            "1%": 106496,
+            "2%": 188416,
+            "5%": 585728,
+            "10%": 1048576,
+            "20%": 1048576
+          }
+        ]
+      },
+      "totalCallbackInvocations": {
+        "unit": "calls",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "0%": 140,
+            "1%": 147,
+            "2%": 147,
+            "5%": 149,
+            "10%": 153,
+            "20%": 185
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "0%": 680,
+            "1%": 702,
+            "2%": 714,
+            "5%": 770,
+            "10%": 872,
+            "20%": 1020
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "0%": 1355,
+            "1%": 1391,
+            "2%": 1412,
+            "5%": 1510,
+            "10%": 1660,
+            "20%": 1968
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "0%": 2705,
+            "1%": 2761,
+            "2%": 2797,
+            "5%": 2976,
+            "10%": 3298,
+            "20%": 3876
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "0%": 6755,
+            "1%": 6913,
+            "2%": 7028,
+            "5%": 7511,
+            "10%": 8270,
+            "20%": 9428
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "0%": 13505,
+            "1%": 13768,
+            "2%": 13980,
+            "5%": 14999,
+            "10%": 15400,
+            "20%": 11280
+          }
+        ]
+      },
+      "timeToExhaustion": {
+        "unit": "ms",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": 27000
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": 24730,
+            "20%": 13500
+          }
+        ]
+      }
+    },
+    "timestamp": "2026-03-21T06:57:38.058Z"
+  },
+  {
+    "caseId": "bm05-case2",
+    "caseName": "Closure Size × Leak Probability",
+    "module": "BM-05",
+    "xAxisName": "Closure Size",
+    "yAxisName": "Leak Probability",
+    "tables": {
+      "heapGrowthBytes": {
+        "unit": "bytes",
+        "data": [
+          {
+            "Leak Probability": "0%",
+            "0B": 0,
+            "1KB": 0,
+            "4KB": 0,
+            "16KB": 0,
+            "64KB": 0,
+            "256KB": 0,
+            "1MB": 0
+          },
+          {
+            "Leak Probability": "1%",
+            "0B": 0,
+            "1KB": 8192,
+            "4KB": 32768,
+            "16KB": 131072,
+            "64KB": 524288,
+            "256KB": 2097152,
+            "1MB": 5242880
+          },
+          {
+            "Leak Probability": "2%",
+            "0B": 0,
+            "1KB": 12288,
+            "4KB": 49152,
+            "16KB": 196608,
+            "64KB": 786432,
+            "256KB": 3145728,
+            "1MB": 5242880
+          },
+          {
+            "Leak Probability": "5%",
+            "0B": 0,
+            "1KB": 32768,
+            "4KB": 131072,
+            "16KB": 524288,
+            "64KB": 2097152,
+            "256KB": 5242880,
+            "1MB": 5242880
+          },
+          {
+            "Leak Probability": "10%",
+            "0B": 0,
+            "1KB": 66560,
+            "4KB": 266240,
+            "16KB": 1064960,
+            "64KB": 4259840,
+            "256KB": 5242880,
+            "1MB": 5242880
+          },
+          {
+            "Leak Probability": "20%",
+            "0B": 0,
+            "1KB": 119808,
+            "4KB": 479232,
+            "16KB": 1916928,
+            "64KB": 5242880,
+            "256KB": 5242880,
+            "1MB": 5242880
+          }
+        ]
+      },
+      "leakedConnections": {
+        "unit": "timers",
+        "data": [
+          {
+            "Leak Probability": "0%",
+            "0B": 0,
+            "1KB": 0,
+            "4KB": 0,
+            "16KB": 0,
+            "64KB": 0,
+            "256KB": 0,
+            "1MB": 0
+          },
+          {
+            "Leak Probability": "1%",
+            "0B": 8,
+            "1KB": 8,
+            "4KB": 8,
+            "16KB": 8,
+            "64KB": 8,
+            "256KB": 8,
+            "1MB": 5
+          },
+          {
+            "Leak Probability": "2%",
+            "0B": 12,
+            "1KB": 12,
+            "4KB": 12,
+            "16KB": 12,
+            "64KB": 12,
+            "256KB": 12,
+            "1MB": 5
+          },
+          {
+            "Leak Probability": "5%",
+            "0B": 32,
+            "1KB": 32,
+            "4KB": 32,
+            "16KB": 32,
+            "64KB": 32,
+            "256KB": 20,
+            "1MB": 5
+          },
+          {
+            "Leak Probability": "10%",
+            "0B": 65,
+            "1KB": 65,
+            "4KB": 65,
+            "16KB": 65,
+            "64KB": 65,
+            "256KB": 20,
+            "1MB": 5
+          },
+          {
+            "Leak Probability": "20%",
+            "0B": 117,
+            "1KB": 117,
+            "4KB": 117,
+            "16KB": 117,
+            "64KB": 80,
+            "256KB": 20,
+            "1MB": 5
+          }
+        ]
+      },
+      "timeToExhaustion": {
+        "unit": "ms",
+        "data": [
+          {
+            "Leak Probability": "0%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": null,
+            "256KB": null,
+            "1MB": null
+          },
+          {
+            "Leak Probability": "1%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": null,
+            "256KB": null,
+            "1MB": 25050
+          },
+          {
+            "Leak Probability": "2%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": null,
+            "256KB": null,
+            "1MB": 12600
+          },
+          {
+            "Leak Probability": "5%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": null,
+            "256KB": 22800,
+            "1MB": 3100
+          },
+          {
+            "Leak Probability": "10%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": null,
+            "256KB": 10900,
+            "1MB": 1500
+          },
+          {
+            "Leak Probability": "20%",
+            "0B": null,
+            "1KB": null,
+            "4KB": null,
+            "16KB": null,
+            "64KB": 21000,
+            "256KB": 4700,
+            "1MB": 1200
+          }
+        ]
+      },
+      "throughput": {
+        "unit": "ops/s",
+        "data": [
+          {
+            "Leak Probability": "0%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 20,
+            "256KB": 20,
+            "1MB": 20
+          },
+          {
+            "Leak Probability": "1%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 20,
+            "256KB": 20,
+            "1MB": 13.4
+          },
+          {
+            "Leak Probability": "2%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 20,
+            "256KB": 20,
+            "1MB": -3.2
+          },
+          {
+            "Leak Probability": "5%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 20,
+            "256KB": 10.4,
+            "1MB": -15.866666666666667
+          },
+          {
+            "Leak Probability": "10%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 20,
+            "256KB": -5.466666666666667,
+            "1MB": -18
+          },
+          {
+            "Leak Probability": "20%",
+            "0B": 20,
+            "1KB": 20,
+            "4KB": 20,
+            "16KB": 20,
+            "64KB": 8,
+            "256KB": -13.733333333333333,
+            "1MB": -18.4
+          }
+        ]
+      }
+    },
+    "timestamp": "2026-03-21T06:57:38.078Z"
+  },
+  {
+    "caseId": "bm05-case3",
+    "caseName": "Timer Interval × Creation Rate",
+    "module": "BM-05",
+    "xAxisName": "Timer Interval (ms)",
+    "yAxisName": "Creation Rate (timers/sec)",
+    "tables": {
+      "totalCallbackInvocations": {
+        "unit": "calls",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "1ms": 30000,
+            "10ms": 8700,
+            "50ms": 6900,
+            "100ms": 4650,
+            "500ms": 930,
+            "1000ms": 465,
+            "5000ms": 81
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "1ms": 30000,
+            "10ms": 8940,
+            "50ms": 8580,
+            "100ms": 8130,
+            "500ms": 4470,
+            "1000ms": 2205,
+            "5000ms": 381
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "1ms": 30000,
+            "10ms": 8970,
+            "50ms": 8790,
+            "100ms": 8565,
+            "500ms": 6705,
+            "1000ms": 4380,
+            "5000ms": 756
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "1ms": 30000,
+            "10ms": 8985,
+            "50ms": 8895,
+            "100ms": 8775,
+            "500ms": 7815,
+            "1000ms": 6615,
+            "5000ms": 1506
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "1ms": 30000,
+            "10ms": 8994,
+            "50ms": 8952,
+            "100ms": 8901,
+            "500ms": 8481,
+            "1000ms": 7956,
+            "5000ms": 3529
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "1ms": 30000,
+            "10ms": 8997,
+            "50ms": 8973,
+            "100ms": 8943,
+            "500ms": 8703,
+            "1000ms": 8403,
+            "5000ms": 4575
+          }
+        ]
+      },
+      "leakedConnections": {
+        "unit": "timers",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 30,
+            "1000ms": 30,
+            "5000ms": 30
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 150,
+            "1000ms": 150,
+            "5000ms": 150
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 150,
+            "1000ms": 300,
+            "5000ms": 300
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 150,
+            "1000ms": 300,
+            "5000ms": 600
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 150,
+            "1000ms": 300,
+            "5000ms": 1024
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "1ms": 1,
+            "10ms": 3,
+            "50ms": 15,
+            "100ms": 30,
+            "500ms": 150,
+            "1000ms": 300,
+            "5000ms": 1024
+          }
+        ]
+      },
+      "heapGrowthBytes": {
+        "unit": "bytes",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 30720,
+            "1000ms": 30720,
+            "5000ms": 30720
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 153600,
+            "1000ms": 153600,
+            "5000ms": 153600
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 153600,
+            "1000ms": 307200,
+            "5000ms": 307200
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 153600,
+            "1000ms": 307200,
+            "5000ms": 614400
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 153600,
+            "1000ms": 307200,
+            "5000ms": 1048576
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "1ms": 1024,
+            "10ms": 3072,
+            "50ms": 15360,
+            "100ms": 30720,
+            "500ms": 153600,
+            "1000ms": 307200,
+            "5000ms": 1048576
+          }
+        ]
+      },
+      "meanLatencyMs": {
+        "unit": "ms",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 2.9,
+            "500ms": 0.58,
+            "1000ms": 0.29,
+            "5000ms": 0.05800000000000001
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 3,
+            "500ms": 2.98,
+            "1000ms": 1.49,
+            "5000ms": 0.298
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 3,
+            "500ms": 3,
+            "1000ms": 2.99,
+            "5000ms": 0.5980000000000001
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 3,
+            "500ms": 3,
+            "1000ms": 3,
+            "5000ms": 1.1980000000000002
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 3,
+            "500ms": 3,
+            "1000ms": 3,
+            "5000ms": 2.048
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "1ms": 10,
+            "10ms": 3,
+            "50ms": 3,
+            "100ms": 3,
+            "500ms": 3,
+            "1000ms": 3,
+            "5000ms": 2.048
+          }
+        ]
+      },
+      "timeToExhaustion": {
+        "unit": "ms",
+        "data": [
+          {
+            "Creation Rate (timers/sec)": "1/s",
+            "1ms": 1000,
+            "10ms": 3000,
+            "50ms": 15000,
+            "100ms": null,
+            "500ms": null,
+            "1000ms": null,
+            "5000ms": null
+          },
+          {
+            "Creation Rate (timers/sec)": "5/s",
+            "1ms": 200,
+            "10ms": 600,
+            "50ms": 3000,
+            "100ms": 6000,
+            "500ms": null,
+            "1000ms": null,
+            "5000ms": null
+          },
+          {
+            "Creation Rate (timers/sec)": "10/s",
+            "1ms": 100,
+            "10ms": 300,
+            "50ms": 1500,
+            "100ms": 3000,
+            "500ms": 15000,
+            "1000ms": null,
+            "5000ms": null
+          },
+          {
+            "Creation Rate (timers/sec)": "20/s",
+            "1ms": 50,
+            "10ms": 150,
+            "50ms": 750,
+            "100ms": 1500,
+            "500ms": 7500,
+            "1000ms": 15000,
+            "5000ms": null
+          },
+          {
+            "Creation Rate (timers/sec)": "50/s",
+            "1ms": 20,
+            "10ms": 60,
+            "50ms": 300,
+            "100ms": 600,
+            "500ms": 3000,
+            "1000ms": 6000,
+            "5000ms": 20480
+          },
+          {
+            "Creation Rate (timers/sec)": "100/s",
+            "1ms": 10,
+            "10ms": 30,
+            "50ms": 150,
+            "100ms": 300,
+            "500ms": 1500,
+            "1000ms": 3000,
+            "5000ms": 10240
+          }
+        ]
+      }
+    },
+    "timestamp": "2026-03-21T06:57:38.113Z"
+  },
+  {
+    "caseId": "bm05-case4",
+    "caseName": "Timer Type × Leak Probability",
+    "module": "BM-05",
+    "xAxisName": "Leak Probability",
+    "yAxisName": "Timer Type",
+    "tables": {
+      "leakedConnections": {
+        "unit": "timers",
+        "data": [
+          {
+            "Timer Type": "timeout",
+            "0%": 0,
+            "1%": 8,
+            "2%": 12,
+            "5%": 32,
+            "10%": 65,
+            "20%": 117,
+            "50%": 287,
+            "100%": 512
+          },
+          {
+            "Timer Type": "interval",
+            "0%": 0,
+            "1%": 8,
+            "2%": 12,
+            "5%": 32,
+            "10%": 65,
+            "20%": 117,
+            "50%": 287,
+            "100%": 512
+          }
+        ]
+      },
+      "heapGrowthBytes": {
+        "unit": "bytes",
+        "data": [
+          {
+            "Timer Type": "timeout",
+            "0%": 0,
+            "1%": 32768,
+            "2%": 49152,
+            "5%": 131072,
+            "10%": 266240,
+            "20%": 479232,
+            "50%": 1175552,
+            "100%": 2097152
+          },
+          {
+            "Timer Type": "interval",
+            "0%": 0,
+            "1%": 32768,
+            "2%": 49152,
+            "5%": 131072,
+            "10%": 266240,
+            "20%": 479232,
+            "50%": 1175552,
+            "100%": 2097152
+          }
+        ]
+      },
+      "totalCallbackInvocations": {
+        "unit": "calls",
+        "data": [
+          {
+            "Timer Type": "timeout",
+            "0%": 581,
+            "1%": 581,
+            "2%": 581,
+            "5%": 581,
+            "10%": 581,
+            "20%": 581,
+            "50%": 581,
+            "100%": 512
+          },
+          {
+            "Timer Type": "interval",
+            "0%": 2705,
+            "1%": 2761,
+            "2%": 2797,
+            "5%": 2976,
+            "10%": 3298,
+            "20%": 3876,
+            "50%": 5714,
+            "100%": 8574
+          }
+        ]
+      },
+      "timeToExhaustion": {
+        "unit": "ms",
+        "data": [
+          {
+            "Timer Type": "timeout",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null,
+            "50%": null,
+            "100%": 25600
+          },
+          {
+            "Timer Type": "interval",
+            "0%": null,
+            "1%": null,
+            "2%": null,
+            "5%": null,
+            "10%": null,
+            "20%": null,
+            "50%": null,
+            "100%": 25600
+          }
+        ]
+      }
+    },
+    "timestamp": "2026-03-21T06:57:38.131Z"
+  }
+]
