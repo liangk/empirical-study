@@ -207,19 +207,23 @@ Report `b` as the **leak budget** — bytes leaked per operation. At production 
 
 ### Detection Categories
 
-| Category | AST Pattern | Severity |
-|----------|-------------|----------|
-| `unclosed_connection` | `createConnection`/`connect`/`getConnection`/`createPool` without `close`/`end`/`release` in same function scope | High |
-| `unclosed_stream` | `createReadStream`/`createWriteStream`/`pipe` without `close`/`destroy` | High |
-| `unclosed_file_handle` | `fs.open`/`openSync`/`fs.promises.open` without `close` | High |
-| `resource_without_cleanup` | `new WebSocket`/`Worker`/`EventSource`/`BroadcastChannel` without cleanup method | Medium |
+All 6 detection patterns align with benchmark modules BM-01 through BM-06:
+
+| Category | AST Pattern | Severity | Benchmark |
+|----------|-------------|----------|-----------|
+| `unclosed_connection` | `createConnection`/`connect`/`getConnection`/`createPool` without `close`/`end`/`release` in same function scope | High | BM-01 |
+| `unclosed_file_handle` | `fs.open`/`openSync`/`fs.promises.open` without `close` | High | BM-02 |
+| `unclosed_stream` | `createReadStream`/`createWriteStream`/`pipe` without `close`/`destroy` | High | BM-03 |
+| `resource_without_cleanup` | `new WebSocket`/`Worker`/`EventSource`/`BroadcastChannel` without cleanup method | Medium | BM-04 |
+| `unclosed_timer` | `setInterval`/`setTimeout` without `clearInterval`/`clearTimeout` | Medium | BM-05 |
+| `unclosed_event_listener` | `on`/`addListener`/`addEventListener` without `off`/`removeListener` | Medium | BM-06 |
 
 ### Scanner Protocol
 
 1. Clone each repo (shallow, depth=1).
 2. Find all `.ts` and `.js` files (excluding `node_modules`, `dist`, `build`, `.git`, test fixtures).
 3. Parse each file with `@babel/parser` (JSX + TypeScript plugins).
-4. Run all 4 detection rules via AST traversal.
+4. Run all 6 detection rules via AST traversal.
 5. Record: repo, file, line, pattern type, severity, description.
 6. Aggregate: findings per repo, prevalence rate, pattern distribution.
 
