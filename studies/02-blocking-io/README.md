@@ -211,7 +211,9 @@ When reading benchmark output:
 
 ## Articles
 
-Published versions in `content/`.
+- **Published:** [stackinsight.dev/blog/blocking-io-empirical-study](https://stackinsight.dev/blog/blocking-io-empirical-study)
+
+Draft versions in `content/`.
 
 ## Troubleshooting
 

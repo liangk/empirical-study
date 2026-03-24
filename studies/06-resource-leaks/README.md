@@ -29,6 +29,8 @@ Empirical analysis of resource leak patterns in Node.js applications — connect
 | `unclosed_stream` | High | createReadStream/createWriteStream without destroy |
 | `unclosed_file_handle` | High | fs.open without close |
 | `resource_without_cleanup` | Medium | new WebSocket/Worker without cleanup |
+| `unclosed_timer` | Medium | setInterval/setTimeout without clearInterval/clearTimeout |
+| `unclosed_event_listener` | Medium | .on/.addListener without .off/.removeListener |
 
 ## Quick Start
 
@@ -159,6 +161,11 @@ studies/06-resource-leaks/
   results/                                # Output (gitignored)
   CHECKLIST.md                            # Implementation progress
 ```
+
+## Articles
+
+- **Part 1 — Scaling & Exhaustion Analysis:** [stackinsight.dev/blog/resource-leak-scaling-empirical-study](https://stackinsight.dev/blog/resource-leak-scaling-empirical-study)
+- **Part 2 — Real-World Corpus & Detector:** [stackinsight.dev/blog/resource-leak-corpus-empirical-study](https://stackinsight.dev/blog/resource-leak-corpus-empirical-study)
 
 ## Related
 

@@ -186,4 +186,6 @@ python src/step4-static-analysis/detector/py-bench.py
 
 ## Articles
 
-Published versions in `content/`.
+- **Published:** [stackinsight.dev/blog/loop-performance-empirical-study](https://stackinsight.dev/blog/loop-performance-empirical-study)
+
+Draft versions in `content/`.

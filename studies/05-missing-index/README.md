@@ -170,4 +170,6 @@ npm run detect -- --path <path-to-prisma-schema-or-repo>
 
 ## Articles
 
-Published versions in `content/`.
+- **Published:** [stackinsight.dev/blog/missing-index-empirical-study](https://stackinsight.dev/blog/missing-index-empirical-study)
+
+Draft versions in `content/`.

@@ -166,4 +166,6 @@ npm run bench:angular
 
 ## Articles
 
-Published versions in `content/`.
+- **Published:** [stackinsight.dev/blog/memory-leak-empirical-study](https://stackinsight.dev/blog/memory-leak-empirical-study)
+
+Draft versions in `content/`.

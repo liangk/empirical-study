@@ -148,11 +148,9 @@ If execution time improves but query count does not, verify implementation parit
 
 ## Articles
 
-Published versions are in `content/`:
+- **Published:** [stackinsight.dev/blog/n-plus-1-query-empirical-study](https://stackinsight.dev/blog/n-plus-1-query-empirical-study)
 
-- `v1` — Tech tutorial style
-- `v2` — Academic tone
-- `v3` — Human conversational tone
+Draft versions in `content/` (v1 tutorial, v2 academic, v3 conversational).
 
 ## Troubleshooting
 
