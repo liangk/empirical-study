@@ -13,12 +13,12 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 04 | [Loop Performance](studies/04-loop-performance/) | Complete | [stackinsight.dev/blog/loop-performance-empirical-study](https://stackinsight.dev/blog/loop-performance-empirical-study) |
 | 05 | [Missing Index Crisis](studies/05-missing-index/) | Complete | [stackinsight.dev/blog/missing-index-empirical-study](https://stackinsight.dev/blog/missing-index-empirical-study) |
 | 06 | [Resource Leaks](studies/06-resource-leaks/) | Complete | [Part 1: Scaling](https://stackinsight.dev/blog/resource-leak-scaling-empirical-study) · [Part 2: Corpus](https://stackinsight.dev/blog/resource-leak-corpus-empirical-study) |
-| 07 | Bundle Bloat | 📋 Planned | — |
-| 08 | DOM Manipulation | 📋 Planned | — |
-| 09 | Large Payloads | 📋 Planned | — |
-| 10 | ReDoS Vulnerabilities | 📋 Planned | — |
-| 11 | Missing Caching | 📋 Planned | — |
-| 12 | Inefficient Loops | 📋 Planned | — |
+| 07 | [Bundle Bloat](studies/07-bundle-bloat/) | Complete | [stackinsight.dev/blog/bundle-bloat-empirical-study](https://stackinsight.dev/blog/bundle-bloat-empirical-study) |
+| 08 | [DOM Manipulation](studies/08-dom-manipulation/) | In Progress | — |
+| 09 | Large Payloads | Planned | — |
+| 10 | ReDoS Vulnerabilities | Planned | — |
+| 11 | Missing Caching | Planned | — |
+| 12 | Inefficient Loops | Planned | — |
 
 ## Repository Structure
 
@@ -31,6 +31,8 @@ empirical-study/
     04-loop-performance/    # Loop anti-pattern benchmarks + corpus study
     05-missing-index/       # Missing index benchmarks (PostgreSQL + Prisma)
     06-resource-leaks/      # Resource leak benchmarks + real-world corpus scan
+    07-bundle-bloat/        # Bundle size benchmarks + esbuild analysis
+    08-dom-manipulation/    # DOM performance benchmarks + Playwright
   docs/                     # Shared writing guides, research plan
   tsconfig.base.json        # Shared TypeScript config
   package.json              # npm workspaces root
@@ -64,6 +66,7 @@ cd studies/02-blocking-io && npm run bench:all
 - **Study 04:** Prisma-free, pure Node.js + Python, hrtime, Babel AST
 - **Study 05:** Prisma, PostgreSQL, EXPLAIN ANALYZE, performance.now()
 - **Study 06:** Babel AST analysis, simple-git, discrete-event simulation, perf_hooks
+- **Study 07:** esbuild, Babel AST analysis, simple-git, bundle size benchmarks
 
 ## Links
 

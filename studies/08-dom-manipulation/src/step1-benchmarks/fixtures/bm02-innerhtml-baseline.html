@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>BM-02 Baseline: innerHTML in Loop</title></head>
+<body>
+<div id="container"></div>
+<script>
+window.__runBenchmark = function(n) {
+  return new Promise(function(resolve) {
+    const container = document.getElementById('container');
+    const longTasks = [];
+    const observer = new PerformanceObserver(function(list) {
+      list.getEntries().forEach(function(e) { longTasks.push(e.duration); });
+    });
+    observer.observe({ entryTypes: ['longtask'] });
+
+    let frameCount = 0;
+    let rafStart = performance.now();
+    function countFrames() {
+      frameCount++;
+      if (performance.now() - rafStart < 500) requestAnimationFrame(countFrames);
+    }
+    requestAnimationFrame(countFrames);
+
+    container.innerHTML = '';
+    const start = performance.now();
+    // BASELINE: n parse-and-serialize cycles (O(n²) string growth)
+    for (let i = 0; i < n; i++) {
+      container.innerHTML += '<div class="item">' + i + '</div>';
+    }
+    const durationMs = performance.now() - start;
+    const nodeCount = container.children.length;
+
+    setTimeout(function() {
+      observer.disconnect();
+      const elapsed = performance.now() - rafStart;
+      const fps = (frameCount / elapsed) * 1000;
+      resolve({ durationMs: durationMs, fps: fps, longTaskCount: longTasks.length, nodeCount: nodeCount });
+    }, 600);
+  });
+};
+</script>
+</body>
+</html>

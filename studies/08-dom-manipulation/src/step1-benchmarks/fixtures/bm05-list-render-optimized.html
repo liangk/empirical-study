@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>BM-05 Optimized: DocumentFragment Batch Insert</title></head>
+<body>
+<ul id="list"></ul>
+<script>
+window.__runBenchmark = function(n) {
+  return new Promise(function(resolve) {
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    const longTasks = [];
+    const observer = new PerformanceObserver(function(list2) {
+      list2.getEntries().forEach(function(e) { longTasks.push(e.duration); });
+    });
+    observer.observe({ entryTypes: ['longtask'] });
+
+    let frameCount = 0;
+    let rafStart = performance.now();
+    function countFrames() {
+      frameCount++;
+      if (performance.now() - rafStart < 500) requestAnimationFrame(countFrames);
+    }
+    requestAnimationFrame(countFrames);
+
+    const start = performance.now();
+    // OPTIMIZED: build off-screen in DocumentFragment, single append → one reflow
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < n; i++) {
+      const li = document.createElement('li');
+      li.textContent = 'Item ' + i;
+      frag.appendChild(li);
+    }
+    list.appendChild(frag);
+    const durationMs = performance.now() - start;
+    const nodeCount = list.children.length;
+
+    setTimeout(function() {
+      observer.disconnect();
+      const elapsed = performance.now() - rafStart;
+      const fps = (frameCount / elapsed) * 1000;
+      resolve({ durationMs: durationMs, fps: fps, longTaskCount: longTasks.length, nodeCount: nodeCount });
+    }, 600);
+  });
+};
+</script>
+</body>
+</html>

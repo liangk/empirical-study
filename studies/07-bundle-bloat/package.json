@@ -1,0 +1,30 @@
+{
+  "name": "@empirical-study/07-bundle-bloat",
+  "version": "1.0.0",
+  "description": "Study 07: The True Cost of Bundle Bloat — Empirical Analysis of Non-Tree-Shakeable Import Patterns in Frontend Applications",
+  "private": true,
+  "scripts": {
+    "bench:all": "node -r ts-node/register src/step1-benchmarks/run-all.ts",
+    "bench:bm01": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-01",
+    "bench:bm02": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-02",
+    "bench:bm03": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-03",
+    "bench:bm04": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-04",
+    "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
+    "realworld:scan": "node -r ts-node/register src/step2-realworld/scanner.ts",
+    "detect": "node -r ts-node/register src/step3-static-analysis/detector/bundle-bloat-detector.ts"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "@babel/types": "^7.28.5",
+    "esbuild": "^0.25.0",
+    "glob": "^10.3.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

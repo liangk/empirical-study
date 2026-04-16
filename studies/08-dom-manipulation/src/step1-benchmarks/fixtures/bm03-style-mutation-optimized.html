@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"><title>BM-03 Optimized: CSS Class Toggle</title>
+<style>
+.item { display:inline-block; width:4px; height:4px; background:#ccc; margin:1px; }
+.highlighted { background-color:#e74c3c; color:#ffffff; padding:2px; border-radius:2px; transform:scale(1.1); }
+</style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+function setup(n) {
+  const c = document.getElementById('container');
+  c.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'item';
+    frag.appendChild(el);
+  }
+  c.appendChild(frag);
+  return Array.from(c.children);
+}
+
+window.__runBenchmark = function(n) {
+  return new Promise(function(resolve) {
+    const items = setup(n);
+    const longTasks = [];
+    const observer = new PerformanceObserver(function(list) {
+      list.getEntries().forEach(function(e) { longTasks.push(e.duration); });
+    });
+    observer.observe({ entryTypes: ['longtask'] });
+
+    let frameCount = 0;
+    let rafStart = performance.now();
+    function countFrames() {
+      frameCount++;
+      if (performance.now() - rafStart < 500) requestAnimationFrame(countFrames);
+    }
+    requestAnimationFrame(countFrames);
+
+    const start = performance.now();
+    // OPTIMIZED: single classList.add() applies all properties in one recalc
+    items.forEach(function(el) {
+      el.classList.add('highlighted');
+    });
+    const durationMs = performance.now() - start;
+
+    setTimeout(function() {
+      observer.disconnect();
+      const elapsed = performance.now() - rafStart;
+      const fps = (frameCount / elapsed) * 1000;
+      resolve({ durationMs: durationMs, fps: fps, longTaskCount: longTasks.length });
+    }, 600);
+  });
+};
+</script>
+</body>
+</html>

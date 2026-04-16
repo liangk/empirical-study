@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>BM-01 Optimized: Batch Read Then Write</title></head>
+<body>
+<div id="target" style="width:100px;height:100px;background:#eee;"></div>
+<script>
+window.__runBenchmark = function(n) {
+  return new Promise(function(resolve) {
+    const el = document.getElementById('target');
+    const longTasks = [];
+    const observer = new PerformanceObserver(function(list) {
+      list.getEntries().forEach(function(e) { longTasks.push(e.duration); });
+    });
+    observer.observe({ entryTypes: ['longtask'] });
+
+    let frameCount = 0;
+    let rafStart = performance.now();
+    function countFrames() {
+      frameCount++;
+      if (performance.now() - rafStart < 500) requestAnimationFrame(countFrames);
+    }
+    requestAnimationFrame(countFrames);
+
+    const start = performance.now();
+    // OPTIMIZED: single read outside the loop — zero forced layouts
+    const baseWidth = el.offsetWidth;
+    for (let i = 0; i < n; i++) {
+      el.style.width = (baseWidth + (i % 10) * 0.001) + 'px';
+    }
+    const durationMs = performance.now() - start;
+
+    setTimeout(function() {
+      observer.disconnect();
+      const elapsed = performance.now() - rafStart;
+      const fps = (frameCount / elapsed) * 1000;
+      resolve({ durationMs: durationMs, fps: fps, longTaskCount: longTasks.length });
+    }, 600);
+  });
+};
+</script>
+</body>
+</html>
