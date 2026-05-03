@@ -19,9 +19,9 @@ interface PrevalenceResult {
   scannedAt: string;
 }
 
-const REPOS_DIR = path.join(__dirname, '..', '..', '..', '.repos');
-const RESULTS_DIR = path.join(__dirname, '..', '..', '..', 'results');
-const CORPUS_PATH = path.join(__dirname, '..', '..', '..', 'data', 'corpus.md');
+const REPOS_DIR = path.join(__dirname, '..', '..', '.repos');
+const RESULTS_DIR = path.join(__dirname, '..', '..', 'results');
+const CORPUS_PATH = path.join(__dirname, '..', '..', 'data', 'corpus.md');
 
 async function cloneOrUpdate(repo: CorpusRepo): Promise<string> {
   const repoDir = path.join(REPOS_DIR, repo.owner, repo.name);
@@ -106,7 +106,7 @@ async function main() {
 
   findingsStream.write('\n]');
   findingsStream.end();
-  await new Promise<void>(resolve => findingsStream.on('finish', (_: any) => resolve()));
+  await new Promise<void>(resolve => findingsStream.on('finish', () => resolve()));
 
   prevalence.prevalenceRate = prevalence.totalRepos > 0
     ? Math.round((prevalence.reposWithFindings / prevalence.totalRepos) * 1000) / 10

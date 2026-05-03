@@ -14,7 +14,7 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 05 | [Missing Index Crisis](studies/05-missing-index/) | Complete | [stackinsight.dev/blog/missing-index-empirical-study](https://stackinsight.dev/blog/missing-index-empirical-study) |
 | 06 | [Resource Leaks](studies/06-resource-leaks/) | Complete | [Part 1: Scaling](https://stackinsight.dev/blog/resource-leak-scaling-empirical-study) · [Part 2: Corpus](https://stackinsight.dev/blog/resource-leak-corpus-empirical-study) |
 | 07 | [Bundle Bloat](studies/07-bundle-bloat/) | Complete | [stackinsight.dev/blog/bundle-bloat-empirical-study](https://stackinsight.dev/blog/bundle-bloat-empirical-study) |
-| 08 | [DOM Manipulation](studies/08-dom-manipulation/) | In Progress | — |
+| 08 | [DOM Manipulation](studies/08-dom-manipulation/) | Complete | [stackinsight.dev/blog/dom-manipulation-empirical-study](https://stackinsight.dev/blog/dom-manipulation-empirical-study) |
 | 09 | Large Payloads | Planned | — |
 | 10 | ReDoS Vulnerabilities | Planned | — |
 | 11 | Missing Caching | Planned | — |
@@ -67,6 +67,7 @@ cd studies/02-blocking-io && npm run bench:all
 - **Study 05:** Prisma, PostgreSQL, EXPLAIN ANALYZE, performance.now()
 - **Study 06:** Babel AST analysis, simple-git, discrete-event simulation, perf_hooks
 - **Study 07:** esbuild, Babel AST analysis, simple-git, bundle size benchmarks
+- **Study 08:** Playwright (Chromium), Babel AST analysis, simple-git, PerformanceObserver
 
 ## Links
 

@@ -97,7 +97,8 @@ async function runVariant(
   for (let trial = 0; trial < TRIALS; trial++) {
     await page.goto(url, { waitUntil: 'load' });
     const result = await page.evaluate(async (nodeCount: number) => {
-      return await (window as any).__runBenchmark(nodeCount);
+      // This code runs in the browser context where window exists
+      return await (globalThis as any).__runBenchmark(nodeCount);
     }, n);
     allTrials.push(result as BenchResult);
   }
@@ -152,15 +153,21 @@ const MODULES: Array<{
 ];
 
 async function main() {
+  const moduleArgIndex = process.argv.indexOf('--module');
   const moduleArg = process.argv.find(a => a.startsWith('--module'))?.split('=')[1]
-    ?? process.argv[process.argv.indexOf('--module') + 1];
+    ?? (moduleArgIndex >= 0 ? process.argv[moduleArgIndex + 1] : undefined);
   const modules = moduleArg ? MODULES.filter(m => m.id === moduleArg) : MODULES;
 
+  console.log(`Running ${modules.length} module(s): ${modules.map(m => m.id).join(', ')}`);
+
   const { server, baseUrl } = await serveFixtures();
+  console.log(`Fixture server running at ${baseUrl}`);
+  
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
   const page = await context.newPage();
-
+  const version = browser.version();
+  console.log(`Browser version: ${version}`);
   const allResults: ModuleResult[] = [];
 
   try {
