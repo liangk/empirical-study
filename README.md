@@ -15,7 +15,7 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 06 | [Resource Leaks](studies/06-resource-leaks/) | Complete | [Part 1: Scaling](https://stackinsight.dev/blog/resource-leak-scaling-empirical-study) · [Part 2: Corpus](https://stackinsight.dev/blog/resource-leak-corpus-empirical-study) |
 | 07 | [Bundle Bloat](studies/07-bundle-bloat/) | Complete | [stackinsight.dev/blog/bundle-bloat-empirical-study](https://stackinsight.dev/blog/bundle-bloat-empirical-study) |
 | 08 | [DOM Manipulation](studies/08-dom-manipulation/) | Complete | [stackinsight.dev/blog/dom-manipulation-empirical-study](https://stackinsight.dev/blog/dom-manipulation-empirical-study) |
-| 09 | Large Payloads | Planned | — |
+| 09 | [Large Payloads](studies/09-large-payloads/) | Complete | [stackinsight.dev/blog/large-payloads-empirical-study](https://stackinsight.dev/blog/large-payloads-empirical-study) |
 | 10 | ReDoS Vulnerabilities | Planned | — |
 | 11 | Missing Caching | Planned | — |
 | 12 | Inefficient Loops | Planned | — |
@@ -33,6 +33,7 @@ empirical-study/
     06-resource-leaks/      # Resource leak benchmarks + real-world corpus scan
     07-bundle-bloat/        # Bundle size benchmarks + esbuild analysis
     08-dom-manipulation/    # DOM performance benchmarks + Playwright
+    09-large-payloads/      # Large payload benchmarks + corpus scan
   docs/                     # Shared writing guides, research plan
   tsconfig.base.json        # Shared TypeScript config
   package.json              # npm workspaces root
@@ -68,6 +69,7 @@ cd studies/02-blocking-io && npm run bench:all
 - **Study 06:** Babel AST analysis, simple-git, discrete-event simulation, perf_hooks
 - **Study 07:** esbuild, Babel AST analysis, simple-git, bundle size benchmarks
 - **Study 08:** Playwright (Chromium), Babel AST analysis, simple-git, PerformanceObserver
+- **Study 09:** Node.js, V8, JSON.parse, REST, GraphQL, Prisma, Sequelize, TypeORM, Mongoose, SQL
 
 ## Links
 
