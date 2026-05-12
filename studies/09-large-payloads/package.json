@@ -11,7 +11,10 @@
     "bench:bm04": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-04",
     "bench:bm05": "node -r ts-node/register src/step1-benchmarks/run-all.ts --module BM-05",
     "realworld:scan": "node -r ts-node/register src/step2-realworld/scanner.ts",
-    "detect": "node -r ts-node/register src/step3-static-analysis/detector/payload-detector.ts"
+    "detect": "node -r ts-node/register src/step3-static-analysis/detector/payload-detector.ts",
+    "kibana:scan": "node -r ts-node/register src/kibana-case-study/scan-kibana.ts",
+    "kibana:analyze": "node -r ts-node/register src/kibana-case-study/analyze-findings.ts",
+    "kibana:temporal": "node -r ts-node/register src/kibana-case-study/git-temporal.ts"
   },
   "dependencies": {
     "@babel/parser": "^7.28.5",
