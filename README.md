@@ -16,7 +16,7 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 07 | [Bundle Bloat](studies/07-bundle-bloat/) | Complete | [stackinsight.dev/blog/bundle-bloat-empirical-study](https://stackinsight.dev/blog/bundle-bloat-empirical-study) |
 | 08 | [DOM Manipulation](studies/08-dom-manipulation/) | Complete | [stackinsight.dev/blog/dom-manipulation-empirical-study](https://stackinsight.dev/blog/dom-manipulation-empirical-study) |
 | 09 | [Large Payloads](studies/09-large-payloads/) | Complete | [stackinsight.dev/blog/large-payloads-empirical-study](https://stackinsight.dev/blog/large-payloads-empirical-study) |
-| 10 | ReDoS Vulnerabilities | Planned | — |
+| 10 | [ReDoS Vulnerabilities](studies/10-redos/) | Complete | [stackinsight.dev/blog/redos-empirical-study](https://stackinsight.dev/blog/redos-empirical-study) |
 | 11 | Missing Caching | Planned | — |
 | 12 | Inefficient Loops | Planned | — |
 
@@ -34,6 +34,7 @@ empirical-study/
     07-bundle-bloat/        # Bundle size benchmarks + esbuild analysis
     08-dom-manipulation/    # DOM performance benchmarks + Playwright
     09-large-payloads/      # Large payload benchmarks + corpus scan
+    10-redos/               # ReDoS vulnerability benchmarks + corpus scan
   docs/                     # Shared writing guides, research plan
   tsconfig.base.json        # Shared TypeScript config
   package.json              # npm workspaces root
@@ -70,6 +71,7 @@ cd studies/02-blocking-io && npm run bench:all
 - **Study 07:** esbuild, Babel AST analysis, simple-git, bundle size benchmarks
 - **Study 08:** Playwright (Chromium), Babel AST analysis, simple-git, PerformanceObserver
 - **Study 09:** Node.js, V8, JSON.parse, REST, GraphQL, Prisma, Sequelize, TypeORM, Mongoose, SQL
+- **Study 10:** Node.js, V8, regex engines, performance.now(), Babel AST analysis, simple-git
 
 ## Links
 
