@@ -17,7 +17,7 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 08 | [DOM Manipulation](studies/08-dom-manipulation/) | Complete | [stackinsight.dev/blog/dom-manipulation-empirical-study](https://stackinsight.dev/blog/dom-manipulation-empirical-study) |
 | 09 | [Large Payloads](studies/09-large-payloads/) | Complete | [stackinsight.dev/blog/large-payloads-empirical-study](https://stackinsight.dev/blog/large-payloads-empirical-study) |
 | 10 | [ReDoS Vulnerabilities](studies/10-redos/) | Complete | [stackinsight.dev/blog/redos-empirical-study](https://stackinsight.dev/blog/redos-empirical-study) |
-| 11 | Missing Caching | Planned | — |
+| 11 | Missing Caching | Complete |  [stackinsight.dev/blog/cache-opportunities-empirical-study](https://stackinsight.dev/blog/cache-opportunities-empirical-study) |
 | 12 | Inefficient Loops | Planned | — |
 
 ## Repository Structure
@@ -35,6 +35,7 @@ empirical-study/
     08-dom-manipulation/    # DOM performance benchmarks + Playwright
     09-large-payloads/      # Large payload benchmarks + corpus scan
     10-redos/               # ReDoS vulnerability benchmarks + corpus scan
+    11-caching/             # Cache opportunities benchmarks + corpus scan
   docs/                     # Shared writing guides, research plan
   tsconfig.base.json        # Shared TypeScript config
   package.json              # npm workspaces root

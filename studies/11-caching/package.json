@@ -1,0 +1,28 @@
+{
+  "name": "@empirical-study/11-caching",
+  "version": "1.0.0",
+  "description": "Study 11: Caching Opportunities in Production Code",
+  "private": true,
+  "scripts": {
+    "check": "tsc --noEmit",
+    "scan": "node -r ts-node/register src/scanner.ts",
+    "scan:corpus": "node -r ts-node/register src/scan-corpus.ts",
+    "analyze": "node -r ts-node/register src/analyze.ts",
+    "report": "node -r ts-node/register src/build-report.ts",
+    "all": "npm run scan -- --path . --output results/cache-opportunities.json && npm run analyze -- --input results/cache-opportunities.json --output results/summary.json && npm run report -- --analysis results/summary.json --output results/cache-opportunities-report.md"
+  },
+  "author": "Ko-Hsin Liang",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "glob": "^10.3.0"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.0",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^22.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
