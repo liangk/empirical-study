@@ -17,8 +17,7 @@ Each study is self-contained under `studies/` with its own dependencies, benchma
 | 08 | [DOM Manipulation](studies/08-dom-manipulation/) | Complete | [stackinsight.dev/blog/dom-manipulation-empirical-study](https://stackinsight.dev/blog/dom-manipulation-empirical-study) |
 | 09 | [Large Payloads](studies/09-large-payloads/) | Complete | [stackinsight.dev/blog/large-payloads-empirical-study](https://stackinsight.dev/blog/large-payloads-empirical-study) |
 | 10 | [ReDoS Vulnerabilities](studies/10-redos/) | Complete | [stackinsight.dev/blog/redos-empirical-study](https://stackinsight.dev/blog/redos-empirical-study) |
-| 11 | Missing Caching | Complete |  [stackinsight.dev/blog/cache-opportunities-empirical-study](https://stackinsight.dev/blog/cache-opportunities-empirical-study) |
-| 12 | Inefficient Loops | Planned | — |
+| 11 | [Cache Opportunities](studies/10-caching/) | Complete |  [stackinsight.dev/blog/cache-opportunities-empirical-study](https://stackinsight.dev/blog/cache-opportunities-empirical-study) |
 
 ## Repository Structure
 
