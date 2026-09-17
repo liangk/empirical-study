@@ -8,5 +8,11 @@ dist/
 **/results/
 **/content/
 
+# stories/ is the public half of this repo: the evidence has to ship with it,
+# otherwise the write-ups reference files a reader cannot see. Scan output there
+# is trimmed to the findings themselves rather than full CLI output.
+!stories/**/results/
+!stories/**/content/
+
 # Planning docs (keep temp/ for backward compat)
 temp/

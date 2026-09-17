@@ -1,0 +1,188 @@
+{
+ "repository": "amplication/amplication",
+ "filesScanned": 387,
+ "findings": [
+  {
+   "file": "packages/amplication-server/src/core/resource/resource.service.ts",
+   "line": 1745,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "resources.map((resource) =>\n      this.prisma.resource.update({\n        where: { id: resource.id },\n        data: {\n          name: prepareDeletedItemName(resource.name, resource.id),\n          archived: true,\n        },\n      })\n    )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: resource",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for resource and related data\n// Optimized: Single query with include\n\nconst resourceWithRelations = await prisma.resource.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nresources.map((resource) =>\n      this.prisma.resource.update({\n        where: { id: resource.id },\n        data: {\n          name: prepareDeletedItemName(resource.name, resource.id),\n          archived: true,\n        },\n      })\n    )\n*/\n\n// Access related data directly: resourceWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/amplication-server/src/core/entity/entity.service.ts",
+   "line": 758,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findFirst()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const field of currentEntity.fields) {\n        const {\n          relatedFieldName,\n          relatedFieldDisplayName,\n          relatedFieldAllowMultipleSelection,\n          permanentId,\n          ...rest\n        } = field;\n        try {\n          if (existingFields[field.name]) {\n            //check if field has changed, if so, delete and recreate the field\n            const existingField = await this.prisma.entityField.findFirst({\n              where: {\n                id: existingFields[field.name].id,\n                entityVersion: {\n                  versionNumber: CURRENT_VERSION_NUMBER,\n                },\n              },\n            });\n\n            const comparableExistingField = {\n              ...omit(existingField, NON_COMPARABLE_PROPERTIES),\n              properties: omit(existingField.properties as any, [\n                \"relatedFieldId\",\n              ]),\n            };\n\n            //if they are equal, skip the field\n            if (\n              isEqual(\n                comparableExistingField,\n                omit(rest, NON_COMPARABLE_PROPERTIES)\n              )\n            ) {\n              continue;\n            }\n\n            //delete the field\n            await this.deleteField(\n              {\n                where: { id: existingFields[field.name].id },\n              },\n              user,\n              EnumRelatedFieldStrategy.Delete\n            );\n          }\n\n          //create the field\n          await this.createField(\n            {\n              data: {\n                ...rest,\n                entity: {\n                  connect: {\n                    id: entity.id,\n                  },\n                },\n              },\n              relatedFieldName,\n              relatedFieldDisplayName,\n              relatedFieldAllowMultipleSelection,\n            },\n            user,\n            permanentId, // here we want to use the permanentId that was created in the prisma parser service\n            false\n          );\n        } catch (error) {\n          this.logger.error(error.message, error, {\n            field: field.name,\n            entity: entity.name,\n          });\n          void actionContext.onEmitUserActionLog(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\". ${error.message}`,\n            EnumActionLogLevel.Error,\n            EnumActionStepStatus.Failed,\n            true\n          );\n          throw new Error(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\" due to ${error.message}`\n          );\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 77,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: entityField",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for entityField and related data\n// Optimized: Single query with include\n\nconst entityFieldWithRelations = await prisma.entityField.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const field of currentEntity.fields) {\n        const {\n          relatedFieldName,\n          relatedFieldDisplayName,\n          relatedFieldAllowMultipleSelection,\n          permanentId,\n          ...rest\n        } = field;\n        try {\n          if (existingFields[field.name]) {\n            //check if field has changed, if so, delete and recreate the field\n            const existingField = await this.prisma.entityField.findFirst({\n              where: {\n                id: existingFields[field.name].id,\n                entityVersion: {\n                  versionNumber: CURRENT_VERSION_NUMBER,\n                },\n              },\n            });\n\n            const comparableExistingField = {\n              ...omit(existingField, NON_COMPARABLE_PROPERTIES),\n              properties: omit(existingField.properties as any, [\n                \"relatedFieldId\",\n              ]),\n            };\n\n            //if they are equal, skip the field\n            if (\n              isEqual(\n                comparableExistingField,\n                omit(rest, NON_COMPARABLE_PROPERTIES)\n              )\n            ) {\n              continue;\n            }\n\n            //delete the field\n            await this.deleteField(\n              {\n                where: { id: existingFields[field.name].id },\n              },\n              user,\n              EnumRelatedFieldStrategy.Delete\n            );\n          }\n\n          //create the field\n          await this.createField(\n            {\n              data: {\n                ...rest,\n                entity: {\n                  connect: {\n                    id: entity.id,\n                  },\n                },\n              },\n              relatedFieldName,\n              relatedFieldDisplayName,\n              relatedFieldAllowMultipleSelection,\n            },\n            user,\n            permanentId, // here we want to use the permanentId that was created in the prisma parser service\n            false\n          );\n        } catch (error) {\n          this.logger.error(error.message, error, {\n            field: field.name,\n            entity: entity.name,\n          });\n          void actionContext.onEmitUserActionLog(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\". ${error.message}`,\n            EnumActionLogLevel.Error,\n            EnumActionStepStatus.Failed,\n            true\n          );\n          throw new Error(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\" due to ${error.message}`\n          );\n        }\n      }\n*/\n\n// Access related data directly: entityFieldWithRelations[0].relation"
+    },
+    {
+     "type": "batch-query-before-loop",
+     "rank": 2,
+     "fitnessScore": 74.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: field, currentEntity.fields",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over currentEntity.fields\n// Problem: N+1 queries where N = currentEntity.fields.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = currentEntity.fields.map(field => field.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const field of currentEntity.fields) {\n        const {\n          relatedFieldName,\n          relatedFieldDisplayName,\n          relatedFieldAllowMultipleSelection,\n          permanentId,\n          ...rest\n        } = field;\n        try {\n          if (existingFields[field.name]) {\n            //check if field has changed, if so, delete and recreate the field\n            const existingField = await this.prisma.entityField.findFirst({\n              where: {\n                id: existingFields[field.name].id,\n                entityVersion: {\n                  versionNumber: CURRENT_VERSION_NUMBER,\n                },\n              },\n            });\n\n            const comparableExistingField = {\n              ...omit(existingField, NON_COMPARABLE_PROPERTIES),\n              properties: omit(existingField.properties as any, [\n                \"relatedFieldId\",\n              ]),\n            };\n\n            //if they are equal, skip the field\n            if (\n              isEqual(\n                comparableExistingField,\n                omit(rest, NON_COMPARABLE_PROPERTIES)\n              )\n            ) {\n              continue;\n            }\n\n            //delete the field\n            dataMap.get(field.id);\n          }\n\n          //create the field\n          dataMap.get(field.id);\n        } catch (error) {\n          this.logger.error(error.message, error, {\n            field: field.name,\n            entity: entity.name,\n          });\n          void actionContext.onEmitUserActionLog(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\". ${error.message}`,\n            EnumActionLogLevel.Error,\n            EnumActionStepStatus.Failed,\n            true\n          );\n          throw new Error(\n            `Failed to create entity field \"${field.name}\" on entity \"${entity.name}\" due to ${error.message}`\n          );\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/amplication-server/src/core/entity/entity.service.ts",
+   "line": 1773,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "sourceVersion.permissions.map((permission) => {\n        return this.prisma.entityPermission.update({\n          where: {\n            // eslint-disable-next-line @typescript-eslint/naming-convention\n            entityVersionId_action: {\n              action: permission.action,\n              entityVersionId: targetVersionId,\n            },\n          },\n          data: {\n            permissionFields: {\n              create: permission.permissionFields.map((permissionField) => {\n                return {\n                  field: {\n                    connect: {\n                      // eslint-disable-next-line @typescript-eslint/naming-convention\n                      entityVersionId_permanentId: {\n                        entityVersionId: targetVersionId,\n                        permanentId: permissionField.fieldPermanentId,\n                      },\n                    },\n                  },\n                  permissionRoles: {\n                    connect: permissionField.permissionRoles.map(\n                      (fieldRole) => {\n                        return {\n                          // eslint-disable-next-line @typescript-eslint/naming-convention\n                          entityVersionId_action_resourceRoleId: {\n                            action: fieldRole.action,\n                            entityVersionId: targetVersionId,\n                            resourceRoleId: fieldRole.resourceRoleId,\n                          },\n                        };\n                      }\n                    ),\n                  },\n                };\n              }),\n            },\n          },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 72.85,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: entityPermission",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for entityPermission and related data\n// Optimized: Single query with include\n\nconst entityPermissionWithRelations = await prisma.entityPermission.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nsourceVersion.permissions.map((permission) => {\n        return this.prisma.entityPermission.update({\n          where: {\n            // eslint-disable-next-line @typescript-eslint/naming-convention\n            entityVersionId_action: {\n              action: permission.action,\n              entityVersionId: targetVersionId,\n            },\n          },\n          data: {\n            permissionFields: {\n              create: permission.permissionFields.map((permissionField) => {\n                return {\n                  field: {\n                    connect: {\n                      // eslint-disable-next-line @typescript-eslint/naming-convention\n                      entityVersionId_permanentId: {\n                        entityVersionId: targetVersionId,\n                        permanentId: permissionField.fieldPermanentId,\n                      },\n                    },\n                  },\n                  permissionRoles: {\n                    connect: permissionField.permissionRoles.map(\n                      (fieldRole) => {\n                        return {\n                          // eslint-disable-next-line @typescript-eslint/naming-convention\n                          entityVersionId_action_resourceRoleId: {\n                            action: fieldRole.action,\n                            entityVersionId: targetVersionId,\n                            resourceRoleId: fieldRole.resourceRoleId,\n                          },\n                        };\n                      }\n                    ),\n                  },\n                };\n              }),\n            },\n          },\n        });\n      })\n*/\n\n// Access related data directly: entityPermissionWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/amplication-server/src/core/workspace/workspace.service.ts",
+   "line": 167,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.create(), Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [, defaultValue] of Object.entries(DEFAULT_TEAMS_AND_ROLES)) {\n      const newRole = await this.prisma.role.create({\n        data: {\n          ...defaultValue.role,\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n\n      await this.prisma.team.create({\n        data: {\n          ...defaultValue.team,\n          members: {\n            connect: {\n              id: owner.id,\n            },\n          },\n          roles: {\n            connect: {\n              id: newRole.id,\n            },\n          },\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n    }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 81.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , Object.entries(DEFAULT_TEAMS_AND_ROLES)",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over Object.entries(DEFAULT_TEAMS_AND_ROLES)\n// Problem: N+1 queries where N = Object.entries(DEFAULT_TEAMS_AND_ROLES).length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = Object.entries(DEFAULT_TEAMS_AND_ROLES).map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [, defaultValue] of Object.entries(DEFAULT_TEAMS_AND_ROLES)) {\n      const newRole = await this.prisma.role.create({\n        data: {\n          ...defaultValue.role,\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n\n      await this.prisma.team.create({\n        data: {\n          ...defaultValue.team,\n          members: {\n            connect: {\n              id: owner.id,\n            },\n          },\n          roles: {\n            connect: {\n              id: newRole.id,\n            },\n          },\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: role",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for role and related data\n// Optimized: Single query with include\n\nconst roleWithRelations = await prisma.role.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const [, defaultValue] of Object.entries(DEFAULT_TEAMS_AND_ROLES)) {\n      const newRole = await this.prisma.role.create({\n        data: {\n          ...defaultValue.role,\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n\n      await this.prisma.team.create({\n        data: {\n          ...defaultValue.team,\n          members: {\n            connect: {\n              id: owner.id,\n            },\n          },\n          roles: {\n            connect: {\n              id: newRole.id,\n            },\n          },\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n    }\n*/\n\n// Access related data directly: roleWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/amplication-server/src/core/workspace/workspace.service.ts",
+   "line": 203,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "DEFAULT_BLUEPRINTS.forEach(async (blueprint) => {\n      await this.prisma.blueprint.create({\n        data: {\n          ...blueprint,\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: blueprint",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for blueprint and related data\n// Optimized: Single query with include\n\nconst blueprintWithRelations = await prisma.blueprint.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nDEFAULT_BLUEPRINTS.forEach(async (blueprint) => {\n      await this.prisma.blueprint.create({\n        data: {\n          ...blueprint,\n          workspace: {\n            connect: {\n              id: workspace.id,\n            },\n          },\n        },\n      });\n    })\n*/\n\n// Access related data directly: blueprintWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/amplication-server/src/core/team/team.service.ts",
+   "line": 614,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "data.teamIds.map(async (team) => {\n      return this.prisma.teamAssignment.upsert({\n        where: {\n          // eslint-disable-next-line @typescript-eslint/naming-convention\n          teamId_resourceId: {\n            teamId: team,\n            resourceId: where.resourceId,\n          },\n        },\n        update: {},\n        create: {\n          teamId: team,\n          resourceId: where.resourceId,\n        },\n        include: {\n          team: true,\n        },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: teamAssignment",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for teamAssignment and related data\n// Optimized: Single query with include\n\nconst teamAssignmentWithRelations = await prisma.teamAssignment.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ndata.teamIds.map(async (team) => {\n      return this.prisma.teamAssignment.upsert({\n        where: {\n          // eslint-disable-next-line @typescript-eslint/naming-convention\n          teamId_resourceId: {\n            teamId: team,\n            resourceId: where.resourceId,\n          },\n        },\n        update: {},\n        create: {\n          teamId: team,\n          resourceId: where.resourceId,\n        },\n        include: {\n          team: true,\n        },\n      });\n    })\n*/\n\n// Access related data directly: teamAssignmentWithRelations[0].relation"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,319 @@
+### Cloning outline/outline (blobless, no checkout yet)
+### Narrowing checkout to: server/routes server/commands server/presenters server/queues server/policies server/services
+### Files in scope: 445
+### Scanning...
+Analyzed 4/334 files...Analyzed 8/334 files...Analyzed 12/334 files...Analyzed 16/334 files...Analyzed 20/334 files...Analyzed 24/334 files...Analyzed 28/334 files...Analyzed 32/334 files...Analyzed 36/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 40/334 files...Analyzed 44/334 files...Analyzed 48/334 files...Analyzed 52/334 files...Analyzed 56/334 files...Analyzed 60/334 files...Analyzed 64/334 files...Analyzed 68/334 files...Analyzed 72/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+Analyzed 76/334 files...Analyzed 80/334 files...Analyzed 84/334 files...Analyzed 88/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 92/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 96/334 files...[N+1 Query Solution Generator] Generating solutions from original code (1772 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: eg, updates, group
+[N+1 Query Solution Generator] Repeated calls: add(1x), findOrCreate(1x), findByPk(1x), update(1x), update(2x), createWithCtx(1x), findOrCreateWithCtx(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 100/334 files...[N+1 Query Solution Generator] Generating solutions from original code (1754 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: document, attachmentIdsInText, attachmentIdsForDocument, attachmentIds
+[N+1 Query Solution Generator] Repeated calls: parseAttachmentIds(1x), toProsemirror(1x), map(1x), findAll(1x), all(1x), map(1x), query(1x), info(1x), schedule(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 104/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 108/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 112/334 files...Analyzed 116/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 120/334 files...Analyzed 124/334 files...[N+1 Query Solution Generator] Generating solutions from original code (876 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: sequelize
+[N+1 Query Solution Generator] Variables: attachment, res
+[N+1 Query Solution Generator] Repeated calls: map(1x), acquire(1x), findByPk(1x), storeFromUrl(1x), update(1x), error(1x), release(1x)
+Analyzed 128/334 files...[N+1 Query Solution Generator] Generating solutions from original code (316 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: timestamp
+[N+1 Query Solution Generator] Repeated calls: slice(1x), info(1x), query(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 132/334 files...[N+1 Query Solution Generator] Generating solutions from original code (902 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: upserted
+[N+1 Query Solution Generator] Repeated calls: rollupPeriod(1x), query(1x), info(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (440 chars)
+[N+1 Query Solution Generator] Detected pattern: chained-methods, ORM: sequelize
+[N+1 Query Solution Generator] Variables: id, collection
+[N+1 Query Solution Generator] Repeated calls: findByPk(1x), push(1x), map(1x), filter(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 136/334 files...[N+1 Query Solution Generator] Generating solutions from original code (904 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: mention, recipient
+[N+1 Query Solution Generator] Repeated calls: has(1x), add(1x), findByPk(1x), push(1x), subscribedToEventType(1x), create(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (1430 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: group, groupModel, usersFromMentionedGroup, mentionedUser, user, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), findAll(1x), includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (860 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: user, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 140/334 files...[N+1 Query Solution Generator] Generating solutions from original code (997 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: userId, user, invitedBy
+[N+1 Query Solution Generator] Repeated calls: transaction(1x), findByPk(1x), scope(1x), findByPk(1x), getFlag(1x), schedule(1x), incrementFlag(1x), save(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 144/334 files...Analyzed 148/334 files...[N+1 Query Solution Generator] Generating solutions from original code (1893 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: node, result, document, attachmentIds, attachments
+[N+1 Query Solution Generator] Repeated calls: transaction(1x), findByPk(1x), parseAttachmentIds(1x), toProsemirror(2x), findAll(1x), toJSON(1x), toISOString(1x), toISOString(1x), toISOString(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+Analyzed 152/334 files...Analyzed 156/334 files...[N+1 Query Solution Generator] Generating solutions from original code (866 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: mention, recipient
+[N+1 Query Solution Generator] Repeated calls: has(1x), add(1x), findByPk(1x), push(1x), subscribedToEventType(1x), create(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (1391 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: group, groupModel, usersFromMentionedGroup, mentionedUser, user, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), findAll(1x), includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (821 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: user, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 160/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 164/334 files...[N+1 Query Solution Generator] Generating solutions from original code (799 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: mention, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (625 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: group, groupModel
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), schedule(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (686 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: userId, user
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (796 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: mention, recipient
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), subscribedToEventType(1x), create(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (625 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: group, groupModel
+[N+1 Query Solution Generator] Repeated calls: includes(1x), findByPk(1x), schedule(1x), push(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 168/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 172/334 files...Analyzed 176/334 files...Analyzed 180/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 184/334 files...[N+1 Query Solution Generator] Generating solutions from original code (585 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: groupUser
+[N+1 Query Solution Generator] Repeated calls: all(1x), findByPk(1x), findByPk(1x), socketsLeave(1x), in(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (791 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: groupMembership, collection
+[N+1 Query Solution Generator] Repeated calls: emit(1x), to(1x), findByPk(1x), socketsLeave(1x), in(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (729 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: groupUser, collection
+[N+1 Query Solution Generator] Repeated calls: emit(1x), to(1x), findByPk(1x), socketsLeave(1x), in(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 188/334 files...Analyzed 192/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 196/334 files...Analyzed 200/334 files...[N+1 Query Solution Generator] Generating solutions from original code (6813 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: sequelize
+[N+1 Query Solution Generator] Variables: input, externalId, internalId, parentExternalId, parentInternalId, collectionExternalId, collectionInternalId, output, collectionItem, attachments, transformedContent, resolvedCreatedById, description, sourceMetadata, urlId, collection, isRootDocument, defaults
+[N+1 Query Solution Generator] Repeated calls: getInternalId(3x), debug(1x), findAll(1x), rewriteReferences(1x), resolveExternalUserId(1x), toMarkdown(2x), build(1x), saveWithCtx(1x), push(1x), update(2x), findOrCreateWithCtx(1x), error(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 204/334 files...Analyzed 208/334 files...Analyzed 212/334 files...[N+1 Query Solution Generator] Generating solutions from original code (956 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: sequelize
+[N+1 Query Solution Generator] Variables: linkedDocument, existing
+[N+1 Query Solution Generator] Repeated calls: map(1x), findByPk(1x), findOne(1x), create(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (1011 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: sequelize
+[N+1 Query Solution Generator] Variables: linkedDocument, existing
+[N+1 Query Solution Generator] Repeated calls: map(1x), findByPk(1x), findOne(1x), create(1x), push(1x)
+Analyzed 216/334 files...Analyzed 220/334 files...Analyzed 224/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 228/334 files...Analyzed 232/334 files...Analyzed 236/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 240/334 files...Analyzed 244/334 files...Analyzed 248/334 files...Analyzed 252/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+Analyzed 256/334 files...Analyzed 260/334 files...Analyzed 264/334 files...Analyzed 268/334 files...Analyzed 272/334 files...Analyzed 276/334 files...Analyzed 280/334 files...Analyzed 284/334 files...[N+1 Query Solution Generator] Generating solutions from original code (276 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: sequelize
+[N+1 Query Solution Generator] Variables: 
+[N+1 Query Solution Generator] Repeated calls: map(1x), findAll(1x), scope(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 288/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 292/334 files...Analyzed 296/334 files...Analyzed 300/334 files...[N+1 Query Solution Generator] Generating solutions from original code (702 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: sequelize
+[N+1 Query Solution Generator] Variables: document
+[N+1 Query Solution Generator] Repeated calls: map(1x), findByPk(1x), set(2x), findAllChildDocumentIds(2x), findOne(1x), unscoped(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+Analyzed 304/334 files...Analyzed 308/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 312/334 files...Analyzed 316/334 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 320/334 files...Analyzed 324/334 files...Analyzed 328/334 files...Analyzed 332/334 files...Analyzed 334/334 files...
+Results written to: ./outline_outline.json
+### Done (CLI exit code 1 — non-zero here just means it found issues). Results written to ./outline_outline.json
+N+1 Query Detector findings: 27 {"critical":0,"high":9,"medium":18,"low":0}
+
+These are RAW detector findings. As documented in ../README.md, roughly
+two-thirds of raw findings on real codebases turn out to be false positives
+(mainly plain Map.get()/Array.find() calls mistaken for ORM lookups) — read
+each codeBefore snippet in ./outline_outline.json before treating a finding as real.

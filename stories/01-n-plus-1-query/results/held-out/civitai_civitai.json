@@ -1,0 +1,63 @@
+{
+ "repository": "civitai/civitai",
+ "filesScanned": 107,
+ "findings": [
+  {
+   "file": "apps/event-engine/scripts/teardown-pg-replication.ts",
+   "line": 35,
+   "severity": "medium",
+   "description": "Found 1 database query (Raw SQL.query()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const slot of slotsResult.rows) {\n        if (slot.active) {\n          console.warn(`⚠️  Slot '${slot.slot_name}' is currently active. It will be dropped anyway.`);\n        }\n        console.log(`Dropping replication slot '${slot.slot_name}'...`);\n        try {\n          await client.query(`SELECT pg_drop_replication_slot('${slot.slot_name}')`);\n          console.log(`  ✓ Dropped slot '${slot.slot_name}'`);\n        } catch (error: any) {\n          if (error.message?.includes('is active')) {\n            console.error(`  ✗ Cannot drop active slot '${slot.slot_name}'. Stop Debezium first.`);\n          } else {\n            throw error;\n          }\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: slot, slotsResult.rows",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over slotsResult.rows\n// Problem: N+1 queries where N = slotsResult.rows.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = slotsResult.rows.map(slot => slot.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const slot of slotsResult.rows) {\n        if (slot.active) {\n          console.warn(`⚠️  Slot '${slot.slot_name}' is currently active. It will be dropped anyway.`);\n        }\n        console.log(`Dropping replication slot '${slot.slot_name}'...`);\n        try {\n          dataMap.get(slot.id)`);\n          console.log(`  ✓ Dropped slot '${slot.slot_name}'`);\n        } catch (error: any) {\n          if (error.message?.includes('is active')) {\n            console.error(`  ✗ Cannot drop active slot '${slot.slot_name}'. Stop Debezium first.`);\n          } else {\n            throw error;\n          }\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "apps/event-engine/scripts/teardown-pg-replication.ts",
+   "line": 65,
+   "severity": "medium",
+   "description": "Found 1 database query (Raw SQL.query()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const pub of publicationsResult.rows) {\n        console.log(`  - ${pub.pubname}`);\n        console.log(`Dropping publication '${pub.pubname}'...`);\n        await client.query(`DROP PUBLICATION IF EXISTS ${pub.pubname}`);\n        console.log(`  ✓ Dropped publication '${pub.pubname}'`);\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: pub, publicationsResult.rows",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over publicationsResult.rows\n// Problem: N+1 queries where N = publicationsResult.rows.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = publicationsResult.rows.map(pub => pub.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const pub of publicationsResult.rows) {\n        console.log(`  - ${pub.pubname}`);\n        console.log(`Dropping publication '${pub.pubname}'...`);\n        dataMap.get(pub.id);\n        console.log(`  ✓ Dropped publication '${pub.pubname}'`);\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ],
+ "n1Findings": 2
+}

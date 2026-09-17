@@ -1,0 +1,1014 @@
+{
+ "repository": "prisma/prisma-examples",
+ "filesScanned": 278,
+ "findings": [
+  {
+   "file": "orm/testing-express/prisma/seed.ts",
+   "line": 29,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/sveltekit/prisma/seed.ts",
+   "line": 41,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n\t\tawait prisma.user.create({ data: u });\n\t}",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n\t\tawait prisma.user.create({ data: u });\n\t}\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n\t\tawait prisma.user.create({ data: u });\n\t}\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/solid-start/prisma/seed.ts",
+   "line": 41,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    await prisma.user.create({ data: u })\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nuxt-prisma-module/prisma/seed.ts",
+   "line": 51,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.upsert({\n      where: { email: u.email },\n      update: {},\n      create: u,\n    })\n    console.log(`Created/updated user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.upsert({\n      where: { email: u.email },\n      update: {},\n      create: u,\n    })\n    console.log(`Created/updated user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.upsert({\n      where: { email: u.email },\n      update: {},\n      create: u,\n    })\n    console.log(`Created/updated user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nuxt/prisma/seed.ts",
+   "line": 58,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nextjs-graphql/prisma/seed.ts",
+   "line": 56,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n      const user = await prisma.user.create({\n        data: u,\n      })\n      console.log(`Created user with id: ${user.id}`)\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n      const user = await prisma.user.create({\n        data: u,\n      })\n      console.log(`Created user with id: ${user.id}`)\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n      const user = await prisma.user.create({\n        data: u,\n      })\n      console.log(`Created user with id: ${user.id}`)\n    }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nextjs/prisma/seed.ts",
+   "line": 41,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    await prisma.user.create({ data: u })\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nest-graphql-sdl-first/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nest-graphql/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/nest/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    });\n    console.log(`Created user with id: ${user.id}`);\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/koa/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/hono/prisma/seed.ts",
+   "line": 54,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    await prisma.user.create({ data: u });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    await prisma.user.create({ data: u });\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    await prisma.user.create({ data: u });\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/hapi-graphql-sdl-first/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/hapi-graphql/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/hapi/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/grpc/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql-subscriptions/prisma/seed.ts",
+   "line": 55,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql-sdl-first/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql-nexus/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql-gqloom/prisma/seed.ts",
+   "line": 54,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "userData.map((u) => prisma.user.create({ data: u }))",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nuserData.map((u) => prisma.user.create({ data: u }))\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql-auth/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/graphql/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/fastify-graphql-sdl-first/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/fastify-graphql/prisma/seed.ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/fastify/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/express/prisma/seed.ts",
+   "line": 60,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    const user = await prisma.user.create({\n      data: u,\n    })\n    console.log(`Created user with id: ${user.id}`)\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/elysia/prisma/seed.ts",
+   "line": 19,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const todo of todoData) {\n        const created = await prisma.todo.create({\n            data: todo,\n        })\n        console.log(`Created todo with id: ${created.id}`)\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: todo, todoData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over todoData\n// Problem: N+1 queries where N = todoData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = todoData.map(todo => todo.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const todo of todoData) {\n        const created = await prisma.todo.create({\n            data: todo,\n        })\n        console.log(`Created todo with id: ${created.id}`)\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: todo",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for todo and related data\n// Optimized: Single query with include\n\nconst todoWithRelations = await prisma.todo.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const todo of todoData) {\n        const created = await prisma.todo.create({\n            data: todo,\n        })\n        console.log(`Created todo with id: ${created.id}`)\n    }\n*/\n\n// Access related data directly: todoWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/astro/prisma/seed.ts",
+   "line": 41,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const u of userData) {\n    await prisma.user.create({ data: u })\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: u, userData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userData\n// Problem: N+1 queries where N = userData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userData.map(u => u.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: user",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for user and related data\n// Optimized: Single query with include\n\nconst userWithRelations = await prisma.user.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const u of userData) {\n    await prisma.user.create({ data: u })\n  }\n*/\n\n// Access related data directly: userWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "orm/ai-sdk-nextjs/lib/save-chat.ts",
+   "line": 15,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const msg of lastTwoMessages) {\n    let content = JSON.stringify(msg.parts);\n    if (msg.role === \"assistant\") {\n      const textParts = msg.parts.filter((part) => part.type === \"text\");\n      content = JSON.stringify(textParts);\n    }\n\n    await prisma.message.create({\n      data: {\n        role: msg.role === \"user\" ? \"USER\" : \"ASSISTANT\",\n        content: content,\n        sessionId: session.id,\n      },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: msg, lastTwoMessages",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over lastTwoMessages\n// Problem: N+1 queries where N = lastTwoMessages.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = lastTwoMessages.map(msg => msg.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const msg of lastTwoMessages) {\n    let content = JSON.stringify(msg.parts);\n    if (msg.role === \"assistant\") {\n      const textParts = msg.parts.filter((part) => part.type === \"text\");\n      content = JSON.stringify(textParts);\n    }\n\n    await prisma.message.create({\n      data: {\n        role: msg.role === \"user\" ? \"USER\" : \"ASSISTANT\",\n        content: content,\n        sessionId: session.id,\n      },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: message",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for message and related data\n// Optimized: Single query with include\n\nconst messageWithRelations = await prisma.message.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const msg of lastTwoMessages) {\n    let content = JSON.stringify(msg.parts);\n    if (msg.role === \"assistant\") {\n      const textParts = msg.parts.filter((part) => part.type === \"text\");\n      content = JSON.stringify(textParts);\n    }\n\n    await prisma.message.create({\n      data: {\n        role: msg.role === \"user\" ? \"USER\" : \"ASSISTANT\",\n        content: content,\n        sessionId: session.id,\n      },\n    });\n  }\n*/\n\n// Access related data directly: messageWithRelations[0].relation"
+    }
+   ]
+  }
+ ]
+}

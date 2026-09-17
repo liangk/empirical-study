@@ -1,0 +1,371 @@
+{
+ "repository": "toeverything/AFFiNE",
+ "filesScanned": 540,
+ "findings": [
+  {
+   "file": "packages/backend/server/src/models/permission-write.ts",
+   "line": 589,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.upsert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const userId of userIds) {\n      await this.db.docGrant.upsert({\n        where: {\n          workspaceId_docId_principalType_principalId: {\n            workspaceId,\n            docId,\n            principalType: 'user',\n            principalId: userId,\n          },\n        },\n        update: {\n          role: grantRole,\n        },\n        create: {\n          workspaceId,\n          docId,\n          principalType: 'user',\n          principalId: userId,\n          role: grantRole,\n        },\n      });\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: userId, userIds",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over userIds\n// Problem: N+1 queries where N = userIds.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = userIds.map(userId => userId.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const userId of userIds) {\n      await this.db.docGrant.upsert({\n        where: {\n          workspaceId_docId_principalType_principalId: {\n            workspaceId,\n            docId,\n            principalType: 'user',\n            principalId: userId,\n          },\n        },\n        update: {\n          role: grantRole,\n        },\n        create: {\n          workspaceId,\n          docId,\n          principalType: 'user',\n          principalId: userId,\n          role: grantRole,\n        },\n      });\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/models/config.ts",
+   "line": 41,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "updates.map(async update => {\n        return this.db.appConfig.upsert({\n          where: { id: update.key },\n          update: { value: update.value, lastUpdatedBy: user },\n          create: { id: update.key, value: update.value, lastUpdatedBy: user },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 87.15,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: updates.map(), this.db.appConfig.upsert()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nupdates.map(async update => {\n        return this.db.appConfig.upsert({\n          where: { id: update.key },\n          update: { value: update.value, lastUpdatedBy: user },\n          create: { id: update.key, value: update.value, lastUpdatedBy: user },\n        });\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/plugins/calendar/service.ts",
+   "line": 301,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.upsert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const calendar of calendars) {\n      upserted.push(\n        await this.models.calendarSubscription.upsert({\n          accountId: account.id,\n          provider: account.provider,\n          externalCalendarId: calendar.id,\n          displayName: calendar.summary ?? null,\n          timezone: calendar.timeZone ?? null,\n          color: calendar.colorId ?? null,\n          enabled: true,\n        })\n      );\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: calendar, calendars",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over calendars\n// Problem: N+1 queries where N = calendars.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = calendars.map(calendar => calendar.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const calendar of calendars) {\n      upserted.push(\n        await this.models.calendarSubscription.upsert({\n          accountId: account.id,\n          provider: account.provider,\n          externalCalendarId: calendar.id,\n          displayName: calendar.summary ?? null,\n          timezone: calendar.timeZone ?? null,\n          color: calendar.colorId ?? null,\n          enabled: true,\n        })\n      );\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/plugins/calendar/service.ts",
+   "line": 712,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.upsert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const event of response.events) {\n          if (event.status === 'cancelled') {\n            cancelledEventIds.push(event.id);\n            continue;\n          }\n\n          let mapped;\n          try {\n            mapped = this.mapProviderEvent(\n              params.subscriptionId,\n              event,\n              params.subscriptionTimezone\n            );\n          } catch {\n            failedEventIds.push(event.id);\n            continue;\n          }\n          await this.models.calendarEvent.upsert(mapped);\n        }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: event, response.events",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over response.events\n// Problem: N+1 queries where N = response.events.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = response.events.map(event => event.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const event of response.events) {\n          if (event.status === 'cancelled') {\n            cancelledEventIds.push(event.id);\n            continue;\n          }\n\n          let mapped;\n          try {\n            mapped = this.mapProviderEvent(\n              params.subscriptionId,\n              event,\n              params.subscriptionTimezone\n            );\n          } catch {\n            failedEventIds.push(event.id);\n            continue;\n          }\n          await this.models.calendarEvent.upsert(mapped);\n        }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/data/migrations/1751966744168-correct-session-update-time.ts",
+   "line": 25,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "sessions.map(s =>\n            tx.aiSession.update({\n              where: { id: s.sessionId },\n              data: { updatedAt: s._max.createdAt },\n            })\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: sessions.map(), tx.aiSession.update()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nsessions.map(s =>\n            tx.aiSession.update({\n              where: { id: s.sessionId },\n              data: { updatedAt: s._max.createdAt },\n            })\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/data/migrations/1703756315970-unamed-account.ts",
+   "line": 14,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "users.map(({ id, email }) =>\n          tx.user.update({\n            where: { id },\n            data: {\n              name: email.split('@')[0],\n            },\n          })\n        )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: users.map(), tx.user.update(), email.split()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nusers.map(({ id, email }) =>\n          tx.user.update({\n            where: { id },\n            data: {\n              name: email.split('@')[0],\n            },\n          })\n        )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/data/migrations/1698398506533-guid.ts",
+   "line": 25,
+   "severity": "critical",
+   "description": "Found 5 database queries (Database.findFirst(), Database.findFirst(), Database.deleteMany(), Database.update(), Database.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const doc of docs) {\n        const docId = canonicalizeDocumentIdentity(doc.id, doc.workspaceId);\n\n        // NOTE:\n        // `doc.id` could be 'space:xxx' or 'xxx'\n        // `docId.docId` is always 'xxx'\n        // what we want achieve is:\n        //   if both 'space:xxx' and 'xxx' exist, merge 'space:xxx' to 'xxx' and delete it\n        //   else just modify 'space:xxx' to 'xxx'\n\n        if (!docId.isWorkspace && docId.docId !== doc.id) {\n          const existingUpdate = await db.snapshot.findFirst({\n            where: {\n              id: docId.docId,\n              workspaceId: doc.workspaceId,\n            },\n            select: {\n              blob: true,\n            },\n          });\n\n          // we have missing update with wrong id used before and need to be recovered\n          if (existingUpdate) {\n            const toBeMergeUpdate = await db.snapshot.findFirst({\n              // id 'space:xxx'\n              where: {\n                id: doc.id,\n                workspaceId: doc.workspaceId,\n              },\n              select: {\n                blob: true,\n              },\n            });\n\n            // no conflict\n            // actually unreachable path\n            if (!toBeMergeUpdate) {\n              continue;\n            }\n\n            // recover\n            const yDoc = new Doc();\n            applyUpdate(yDoc, toBeMergeUpdate.blob);\n            applyUpdate(yDoc, existingUpdate.blob);\n            const update = encodeStateAsUpdate(yDoc);\n\n            await db.$transaction([\n              // we already have 'xxx', delete 'space:xxx'\n              db.snapshot.deleteMany({\n                where: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              }),\n              db.snapshot.update({\n                where: {\n                  workspaceId_id: {\n                    id: docId.docId,\n                    workspaceId: doc.workspaceId,\n                  },\n                },\n                data: {\n                  blob: Buffer.from(update),\n                },\n              }),\n            ]);\n          } else {\n            // there is no updates need to be merged\n            // just modify the id the required one\n            await db.snapshot.update({\n              where: {\n                workspaceId_id: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              },\n              data: {\n                id: docId.docId,\n              },\n            });\n          }\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "501 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 501,
+     "queriesOptimal": 1,
+     "performanceGain": "501x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 71.85,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: doc, docs",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 4 async call(s) inside loop over docs\n// Problem: N+1 queries where N = docs.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = docs.map(doc => doc.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const doc of docs) {\n        const docId = canonicalizeDocumentIdentity(doc.id, doc.workspaceId);\n\n        // NOTE:\n        // `doc.id` could be 'space:xxx' or 'xxx'\n        // `docId.docId` is always 'xxx'\n        // what we want achieve is:\n        //   if both 'space:xxx' and 'xxx' exist, merge 'space:xxx' to 'xxx' and delete it\n        //   else just modify 'space:xxx' to 'xxx'\n\n        if (!docId.isWorkspace && docId.docId !== doc.id) {\n          const existingUpdate = await db.snapshot.findFirst({\n            where: {\n              id: docId.docId,\n              workspaceId: doc.workspaceId,\n            },\n            select: {\n              blob: true,\n            },\n          });\n\n          // we have missing update with wrong id used before and need to be recovered\n          if (existingUpdate) {\n            const toBeMergeUpdate = await db.snapshot.findFirst({\n              // id 'space:xxx'\n              where: {\n                id: doc.id,\n                workspaceId: doc.workspaceId,\n              },\n              select: {\n                blob: true,\n              },\n            });\n\n            // no conflict\n            // actually unreachable path\n            if (!toBeMergeUpdate) {\n              continue;\n            }\n\n            // recover\n            const yDoc = new Doc();\n            applyUpdate(yDoc, toBeMergeUpdate.blob);\n            applyUpdate(yDoc, existingUpdate.blob);\n            const update = encodeStateAsUpdate(yDoc);\n\n            await db.$transaction([\n              // we already have 'xxx', delete 'space:xxx'\n              db.snapshot.deleteMany({\n                where: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              }),\n              db.snapshot.update({\n                where: {\n                  workspaceId_id: {\n                    id: docId.docId,\n                    workspaceId: doc.workspaceId,\n                  },\n                },\n                data: {\n                  blob: Buffer.from(update),\n                },\n              }),\n            ]);\n          } else {\n            // there is no updates need to be merged\n            // just modify the id the required one\n            await db.snapshot.update({\n              where: {\n                workspaceId_id: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              },\n              data: {\n                id: docId.docId,\n              },\n            });\n          }\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "memoization",
+     "rank": 2,
+     "fitnessScore": 68.94999999999999,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: db.snapshot.findFirst",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize db.snapshot.findFirst (called 2x)\nconst findFirstCache = new Map();\nasync function memoizedFindFirst(key) {\n  if (findFirstCache.has(key)) return findFirstCache.get(key);\n  const result = await db.snapshot.findFirst(key);\n  findFirstCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nfor (const doc of docs) {\n        const docId = canonicalizeDocumentIdentity(doc.id, doc.workspaceId);\n\n        // NOTE:\n        // `doc.id` could be 'space:xxx' or 'xxx'\n        // `docId.docId` is always 'xxx'\n        // what we want achieve is:\n        //   if both 'space:xxx' and 'xxx' exist, merge 'space:xxx' to 'xxx' and delete it\n        //   else just modify 'space:xxx' to 'xxx'\n\n        if (!docId.isWorkspace && docId.docId !== doc.id) {\n          const existingUpdate = await db.snapshot.findFirst({\n            where: {\n              id: docId.docId,\n              workspaceId: doc.workspaceId,\n            },\n            select: {\n              blob: true,\n            },\n          });\n\n          // we have missing update with wrong id used before and need to be recovered\n          if (existingUpdate) {\n            const toBeMergeUpdate = await db.snapshot.findFirst({\n              // id 'space:xxx'\n              where: {\n                id: doc.id,\n                workspaceId: doc.workspaceId,\n              },\n              select: {\n                blob: true,\n              },\n            });\n\n            // no conflict\n            // actually unreachable path\n            if (!toBeMergeUpdate) {\n              continue;\n            }\n\n            // recover\n            const yDoc = new Doc();\n            applyUpdate(yDoc, toBeMergeUpdate.blob);\n            applyUpdate(yDoc, existingUpdate.blob);\n            const update = encodeStateAsUpdate(yDoc);\n\n            await db.$transaction([\n              // we already have 'xxx', delete 'space:xxx'\n              db.snapshot.deleteMany({\n                where: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              }),\n              db.snapshot.update({\n                where: {\n                  workspaceId_id: {\n                    id: docId.docId,\n                    workspaceId: doc.workspaceId,\n                  },\n                },\n                data: {\n                  blob: Buffer.from(update),\n                },\n              }),\n            ]);\n          } else {\n            // there is no updates need to be merged\n            // just modify the id the required one\n            await db.snapshot.update({\n              where: {\n                workspaceId_id: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              },\n              data: {\n                id: docId.docId,\n              },\n            });\n          }\n        }\n      }"
+    },
+    {
+     "type": "memoize",
+     "rank": 3,
+     "fitnessScore": 66.45,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const findFirstCache = new Map(); // Memoize db.snapshot.findFirst\n\nfor (const doc of docs) {\n        const docId = canonicalizeDocumentIdentity(doc.id, doc.workspaceId);\n\n        // NOTE:\n        // `doc.id` could be 'space:xxx' or 'xxx'\n        // `docId.docId` is always 'xxx'\n        // what we want achieve is:\n        //   if both 'space:xxx' and 'xxx' exist, merge 'space:xxx' to 'xxx' and delete it\n        //   else just modify 'space:xxx' to 'xxx'\n\n        if (!docId.isWorkspace && docId.docId !== doc.id) {\n          const existingUpdate = await db.snapshot.findFirst({\n            where: {\n              id: docId.docId,\n              workspaceId: doc.workspaceId,\n            },\n            select: {\n              blob: true,\n            },\n          });\n\n          // we have missing update with wrong id used before and need to be recovered\n          if (existingUpdate) {\n            const toBeMergeUpdate = await db.snapshot.findFirst({\n              // id 'space:xxx'\n              where: {\n                id: doc.id,\n                workspaceId: doc.workspaceId,\n              },\n              select: {\n                blob: true,\n              },\n            });\n\n            // no conflict\n            // actually unreachable path\n            if (!toBeMergeUpdate) {\n              continue;\n            }\n\n            // recover\n            const yDoc = new Doc();\n            applyUpdate(yDoc, toBeMergeUpdate.blob);\n            applyUpdate(yDoc, existingUpdate.blob);\n            const update = encodeStateAsUpdate(yDoc);\n\n            await db.$transaction([\n              // we already have 'xxx', delete 'space:xxx'\n              db.snapshot.deleteMany({\n                where: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              }),\n              db.snapshot.update({\n                where: {\n                  workspaceId_id: {\n                    id: docId.docId,\n                    workspaceId: doc.workspaceId,\n                  },\n                },\n                data: {\n                  blob: Buffer.from(update),\n                },\n              }),\n            ]);\n          } else {\n            // there is no updates need to be merged\n            // just modify the id the required one\n            await db.snapshot.update({\n              where: {\n                workspaceId_id: {\n                  id: doc.id,\n                  workspaceId: doc.workspaceId,\n                },\n              },\n              data: {\n                id: docId.docId,\n              },\n            });\n          }\n        }\n      }"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/data/commands/run.ts",
+   "line": 59,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.count()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const migration of migrations) {\n      const exists = await this.db.dataMigration.count({\n        where: {\n          name: migration.name,\n        },\n      });\n\n      if (exists && !migration.always) {\n        continue;\n      }\n\n      await this.runMigration(migration);\n\n      done.push(migration);\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 82.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: migration, migrations",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over migrations\n// Problem: N+1 queries where N = migrations.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = migrations.map(migration => migration.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const migration of migrations) {\n      const exists = await this.db.dataMigration.count({\n        where: {\n          name: migration.name,\n        },\n      });\n\n      if (exists && !migration.always) {\n        continue;\n      }\n\n      dataMap.get(migration.id);\n\n      done.push(migration);\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/core/doc-jobs/job.ts",
+   "line": 70,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.updateMany(), Prisma.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const workspace of roots) {\n      const claimedAt = new Date();\n      const claimed = await this.prisma.workspace.updateMany({\n        where: {\n          id: workspace.id,\n          lastCheckEmbeddings: workspace.lastCheckEmbeddings,\n        },\n        data: { lastCheckEmbeddings: claimedAt },\n      });\n      if (!claimed.count) continue;\n      try {\n        await this.embedding.reconcileDocuments(workspace.id);\n        reconciledWorkspaces++;\n      } catch (error) {\n        await this.prisma.workspace.updateMany({\n          where: { id: workspace.id, lastCheckEmbeddings: claimedAt },\n          data: { lastCheckEmbeddings: new Date(0) },\n        });\n        this.logger.error(\n          `embedding workspace reconciliation failed workspace=${workspace.id}`,\n          error\n        );\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: workspace, roots",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over roots\n// Problem: N+1 queries where N = roots.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = roots.map(workspace => workspace.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const workspace of roots) {\n      const claimedAt = new Date();\n      const claimed = await this.prisma.workspace.updateMany({\n        where: {\n          id: workspace.id,\n          lastCheckEmbeddings: workspace.lastCheckEmbeddings,\n        },\n        data: { lastCheckEmbeddings: claimedAt },\n      });\n      if (!claimed.count) continue;\n      try {\n        await this.embedding.reconcileDocuments(workspace.id);\n        reconciledWorkspaces++;\n      } catch (error) {\n        await this.prisma.workspace.updateMany({\n          where: { id: workspace.id, lastCheckEmbeddings: claimedAt },\n          data: { lastCheckEmbeddings: new Date(0) },\n        });\n        this.logger.error(\n          `embedding workspace reconciliation failed workspace=${workspace.id}`,\n          error\n        );\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: workspace",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for workspace and related data\n// Optimized: Single query with include\n\nconst workspaceWithRelations = await prisma.workspace.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const workspace of roots) {\n      const claimedAt = new Date();\n      const claimed = await this.prisma.workspace.updateMany({\n        where: {\n          id: workspace.id,\n          lastCheckEmbeddings: workspace.lastCheckEmbeddings,\n        },\n        data: { lastCheckEmbeddings: claimedAt },\n      });\n      if (!claimed.count) continue;\n      try {\n        await this.embedding.reconcileDocuments(workspace.id);\n        reconciledWorkspaces++;\n      } catch (error) {\n        await this.prisma.workspace.updateMany({\n          where: { id: workspace.id, lastCheckEmbeddings: claimedAt },\n          data: { lastCheckEmbeddings: new Date(0) },\n        });\n        this.logger.error(\n          `embedding workspace reconciliation failed workspace=${workspace.id}`,\n          error\n        );\n      }\n    }\n*/\n\n// Access related data directly: workspaceWithRelations[0].relation"
+    },
+    {
+     "type": "memoization",
+     "rank": 3,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: this.prisma.workspace.updateMany",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize this.prisma.workspace.updateMany (called 2x)\nconst updateManyCache = new Map();\nasync function memoizedUpdateMany(key) {\n  if (updateManyCache.has(key)) return updateManyCache.get(key);\n  const result = await this.prisma.workspace.updateMany(key);\n  updateManyCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nfor (const workspace of roots) {\n      const claimedAt = new Date();\n      const claimed = await this.prisma.workspace.updateMany({\n        where: {\n          id: workspace.id,\n          lastCheckEmbeddings: workspace.lastCheckEmbeddings,\n        },\n        data: { lastCheckEmbeddings: claimedAt },\n      });\n      if (!claimed.count) continue;\n      try {\n        await this.embedding.reconcileDocuments(workspace.id);\n        reconciledWorkspaces++;\n      } catch (error) {\n        await this.prisma.workspace.updateMany({\n          where: { id: workspace.id, lastCheckEmbeddings: claimedAt },\n          data: { lastCheckEmbeddings: new Date(0) },\n        });\n        this.logger.error(\n          `embedding workspace reconciliation failed workspace=${workspace.id}`,\n          error\n        );\n      }\n    }"
+    },
+    {
+     "type": "memoize",
+     "rank": 4,
+     "fitnessScore": 78.2,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const updateManyCache = new Map(); // Memoize this.prisma.workspace.updateMany\n\nfor (const workspace of roots) {\n      const claimedAt = new Date();\n      const claimed = await this.prisma.workspace.updateMany({\n        where: {\n          id: workspace.id,\n          lastCheckEmbeddings: workspace.lastCheckEmbeddings,\n        },\n        data: { lastCheckEmbeddings: claimedAt },\n      });\n      if (!claimed.count) continue;\n      try {\n        await this.embedding.reconcileDocuments(workspace.id);\n        reconciledWorkspaces++;\n      } catch (error) {\n        await this.prisma.workspace.updateMany({\n          where: { id: workspace.id, lastCheckEmbeddings: claimedAt },\n          data: { lastCheckEmbeddings: new Date(0) },\n        });\n        this.logger.error(\n          `embedding workspace reconciliation failed workspace=${workspace.id}`,\n          error\n        );\n      }\n    }"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/core/auth/dev.ts",
+   "line": 40,
+   "severity": "critical",
+   "description": "Found 3 database queries (Database.create(), Database.create(), Database.upsert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { email, name, password, plans, teamWorkspace } of devUsers) {\n    try {\n      let devUser = await models.user.getUserByEmail(email);\n      if (!devUser) {\n        devUser = await models.user.create({\n          email,\n          name,\n          password,\n        });\n      }\n      await models.userFeature.add(devUser.id, 'administrator', name);\n      if (!env.selfhosted) {\n        for (const plan of plans) {\n          await entitlement.upsertAdminGrant({\n            targetType: 'user',\n            targetId: devUser.id,\n            plan,\n          });\n        }\n      }\n      if (teamWorkspace && !env.selfhosted) {\n        const workspaceIds = (\n          await models.workspaceUser.getUserActiveRoles(devUser.id)\n        ).map(row => row.workspaceId);\n        const workspaces = await models.workspace.findMany(workspaceIds);\n        const hasTeamWorkspace = (\n          await Promise.all(\n            workspaces.map(workspace =>\n              entitlement.hasCommercialWorkspace(workspace.id)\n            )\n          )\n        ).some(Boolean);\n        if (!hasTeamWorkspace) {\n          const workspace = await models.workspace.create(devUser.id);\n          await models.doc.upsert({\n            spaceId: workspace.id,\n            docId: workspace.id,\n            blob: devWorkspaceBlob,\n            timestamp: Date.now(),\n            editorId: devUser.id,\n          });\n          await entitlement.upsertAdminGrant({\n            targetType: 'workspace',\n            targetId: workspace.id,\n            plan: 'team',\n            quantity: 10,\n          });\n        }\n      }\n    } catch {\n      // ignore\n    }\n  }",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 69.25,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: plan, plans",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 10 async call(s) inside loop over plans\n// Problem: N+1 queries where N = plans.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = plans.map(plan => plan.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { email, name, password, plans, teamWorkspace } of devUsers) {\n    try {\n      let devUser = await models.user.getUserByEmail(email);\n      if (!devUser) {\n        devUser = await models.user.create({\n          email,\n          name,\n          password,\n        });\n      }\n      await models.userFeature.add(devUser.id, 'administrator', name);\n      if (!env.selfhosted) {\n        for (const plan of plans) {\n          dataMap.get(plan.id);\n        }\n      }\n      if (teamWorkspace && !env.selfhosted) {\n        const workspaceIds = (\n          await models.workspaceUser.getUserActiveRoles(devUser.id)\n        ).map(row => row.workspaceId);\n        const workspaces = await models.workspace.findMany(workspaceIds);\n        const hasTeamWorkspace = (\n          dataMap.get(plan.id)\n            )\n          )\n        ).some(Boolean);\n        if (!hasTeamWorkspace) {\n          const workspace = await models.workspace.create(devUser.id);\n          await models.doc.upsert({\n            spaceId: workspace.id,\n            docId: workspace.id,\n            blob: devWorkspaceBlob,\n            timestamp: Date.now(),\n            editorId: devUser.id,\n          });\n          dataMap.get(plan.id);\n        }\n      }\n    } catch {\n      // ignore\n    }\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "memoization",
+     "rank": 2,
+     "fitnessScore": 68.1,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: entitlement.upsertAdminGrant",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize entitlement.upsertAdminGrant (called 2x)\nconst upsertAdminGrantCache = new Map();\nasync function memoizedUpsertAdminGrant(key) {\n  if (upsertAdminGrantCache.has(key)) return upsertAdminGrantCache.get(key);\n  const result = await entitlement.upsertAdminGrant(key);\n  upsertAdminGrantCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nfor (const { email, name, password, plans, teamWorkspace } of devUsers) {\n    try {\n      let devUser = await models.user.getUserByEmail(email);\n      if (!devUser) {\n        devUser = await models.user.create({\n          email,\n          name,\n          password,\n        });\n      }\n      await models.userFeature.add(devUser.id, 'administrator', name);\n      if (!env.selfhosted) {\n        for (const plan of plans) {\n          await entitlement.upsertAdminGrant({\n            targetType: 'user',\n            targetId: devUser.id,\n            plan,\n          });\n        }\n      }\n      if (teamWorkspace && !env.selfhosted) {\n        const workspaceIds = (\n          await models.workspaceUser.getUserActiveRoles(devUser.id)\n        ).map(row => row.workspaceId);\n        const workspaces = await models.workspace.findMany(workspaceIds);\n        const hasTeamWorkspace = (\n          await Promise.all(\n            workspaces.map(workspace =>\n              entitlement.hasCommercialWorkspace(workspace.id)\n            )\n          )\n        ).some(Boolean);\n        if (!hasTeamWorkspace) {\n          const workspace = await models.workspace.create(devUser.id);\n          await models.doc.upsert({\n            spaceId: workspace.id,\n            docId: workspace.id,\n            blob: devWorkspaceBlob,\n            timestamp: Date.now(),\n            editorId: devUser.id,\n          });\n          await entitlement.upsertAdminGrant({\n            targetType: 'workspace',\n            targetId: workspace.id,\n            plan: 'team',\n            quantity: 10,\n          });\n        }\n      }\n    } catch {\n      // ignore\n    }\n  }"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 3,
+     "fitnessScore": 66.35,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: model",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for model and related data\n// Optimized: Single query with include\n\nconst modelWithRelations = await prisma.model.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const { email, name, password, plans, teamWorkspace } of devUsers) {\n    try {\n      let devUser = await models.user.getUserByEmail(email);\n      if (!devUser) {\n        devUser = await models.user.create({\n          email,\n          name,\n          password,\n        });\n      }\n      await models.userFeature.add(devUser.id, 'administrator', name);\n      if (!env.selfhosted) {\n        for (const plan of plans) {\n          await entitlement.upsertAdminGrant({\n            targetType: 'user',\n            targetId: devUser.id,\n            plan,\n          });\n        }\n      }\n      if (teamWorkspace && !env.selfhosted) {\n        const workspaceIds = (\n          await models.workspaceUser.getUserActiveRoles(devUser.id)\n        ).map(row => row.workspaceId);\n        const workspaces = await models.workspace.findMany(workspaceIds);\n        const hasTeamWorkspace = (\n          await Promise.all(\n            workspaces.map(workspace =>\n              entitlement.hasCommercialWorkspace(workspace.id)\n            )\n          )\n        ).some(Boolean);\n        if (!hasTeamWorkspace) {\n          const workspace = await models.workspace.create(devUser.id);\n          await models.doc.upsert({\n            spaceId: workspace.id,\n            docId: workspace.id,\n            blob: devWorkspaceBlob,\n            timestamp: Date.now(),\n            editorId: devUser.id,\n          });\n          await entitlement.upsertAdminGrant({\n            targetType: 'workspace',\n            targetId: workspace.id,\n            plan: 'team',\n            quantity: 10,\n          });\n        }\n      }\n    } catch {\n      // ignore\n    }\n  }\n*/\n\n// Access related data directly: modelWithRelations[0].relation"
+    },
+    {
+     "type": "memoize",
+     "rank": 4,
+     "fitnessScore": 64.6,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const upsertAdminGrantCache = new Map(); // Memoize entitlement.upsertAdminGrant\n\nfor (const { email, name, password, plans, teamWorkspace } of devUsers) {\n    try {\n      let devUser = await models.user.getUserByEmail(email);\n      if (!devUser) {\n        devUser = await models.user.create({\n          email,\n          name,\n          password,\n        });\n      }\n      await models.userFeature.add(devUser.id, 'administrator', name);\n      if (!env.selfhosted) {\n        for (const plan of plans) {\n          await entitlement.upsertAdminGrant({\n            targetType: 'user',\n            targetId: devUser.id,\n            plan,\n          });\n        }\n      }\n      if (teamWorkspace && !env.selfhosted) {\n        const workspaceIds = (\n          await models.workspaceUser.getUserActiveRoles(devUser.id)\n        ).map(row => row.workspaceId);\n        const workspaces = await models.workspace.findMany(workspaceIds);\n        const hasTeamWorkspace = (\n          await Promise.all(\n            workspaces.map(workspace =>\n              entitlement.hasCommercialWorkspace(workspace.id)\n            )\n          )\n        ).some(Boolean);\n        if (!hasTeamWorkspace) {\n          const workspace = await models.workspace.create(devUser.id);\n          await models.doc.upsert({\n            spaceId: workspace.id,\n            docId: workspace.id,\n            blob: devWorkspaceBlob,\n            timestamp: Date.now(),\n            editorId: devUser.id,\n          });\n          await entitlement.upsertAdminGrant({\n            targetType: 'workspace',\n            targetId: workspace.id,\n            plan: 'team',\n            quantity: 10,\n          });\n        }\n      }\n    } catch {\n      // ignore\n    }\n  }"
+    }
+   ]
+  },
+  {
+   "file": "packages/backend/server/src/core/workspaces/resolvers/member.ts",
+   "line": 192,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.get()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [index, email] of emails.entries()) {\n      try {\n        const normalizedEmail = email.trim().toLowerCase();\n        validators.assertValidEmail(normalizedEmail);\n        if (seen.has(normalizedEmail)) {\n          throw new ActionForbidden('Duplicate invite email.');\n        }\n        seen.add(normalizedEmail);\n\n        const target = await this.models.user.getUserByEmail(normalizedEmail);\n        if (target) {\n          const originRecord = await this.models.workspaceUser.get(\n            workspaceId,\n            target.id\n          );\n          if (originRecord) {\n            throw new AlreadyInSpace({ spaceId: workspaceId });\n          }\n        }\n\n        candidates.push({\n          index,\n          email,\n          normalizedEmail,\n          domain: emailDomain(normalizedEmail),\n          target: target ? { id: target.id } : undefined,\n        });\n      } catch (error) {\n        results[index] = {\n          email,\n          error: mapAnyError(error),\n        };\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 80.85,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , emails.entries()",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over emails.entries()\n// Problem: N+1 queries where N = emails.entries().length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = emails.entries().map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [index, email] of emails.entries()) {\n      try {\n        const normalizedEmail = email.trim().toLowerCase();\n        validators.assertValidEmail(normalizedEmail);\n        if (seen.has(normalizedEmail)) {\n          throw new ActionForbidden('Duplicate invite email.');\n        }\n        seen.add(normalizedEmail);\n\n        const target = await this.models.user.getUserByEmail(normalizedEmail);\n        if (target) {\n          const originRecord = await this.models.workspaceUser.get(\n            workspaceId,\n            target.id\n          );\n          if (originRecord) {\n            throw new AlreadyInSpace({ spaceId: workspaceId });\n          }\n        }\n\n        candidates.push({\n          index,\n          email,\n          normalizedEmail,\n          domain: emailDomain(normalizedEmail),\n          target: target ? { id: target.id } : undefined,\n        });\n      } catch (error) {\n        results[index] = {\n          email,\n          error: mapAnyError(error),\n        };\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ],
+ "n1Findings": 11
+}

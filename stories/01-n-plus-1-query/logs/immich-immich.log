@@ -1,0 +1,303 @@
+### Cloning immich-app/immich (blobless, no checkout yet)
+### Narrowing checkout to: server/src/services server/src/repositories server/src/controllers server/src/workers server/src/commands
+### Files in scope: 259
+### Scanning...
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 4/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 8/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 12/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for sync_file_io_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for sync_file_io_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 16/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 20/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 24/172 files...[N+1 Query Solution Generator] Generating solutions from original code (377 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: assetFace
+[N+1 Query Solution Generator] Repeated calls: getRandomFace(1x), update(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (1995 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: mergePerson, targetPerson, changes, mergeName, mergeData
+[N+1 Query Solution Generator] Repeated calls: keys(1x), update(1x), log(2x), reassignFaces(1x), removeAllPersonGroups(1x), push(2x), error(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 28/172 files...Parse error: Unexpected token, expected "}" (501:19)
+[N+1 Query Solution Generator] Generating solutions from original code (345 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: unknown
+[N+1 Query Solution Generator] Variables: 
+[N+1 Query Solution Generator] Repeated calls: map(1x), create(1x), toISO(1x), set(1x), map(1x)
+[N+1 Query Solution Generator] No direct transformations worked, creating context-aware solutions
+[N+1 Query Solution Generator] Generating solutions from original code (466 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: person, face
+[N+1 Query Solution Generator] Repeated calls: getRandomFace(1x), update(1x), push(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 32/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 36/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 40/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 44/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 48/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 52/172 files...[N+1 Query Solution Generator] Generating solutions from original code (260 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: exists
+[N+1 Query Solution Generator] Repeated calls: get(1x), debug(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (1026 chars)
+[N+1 Query Solution Generator] Detected pattern: chained-methods, ORM: unknown
+[N+1 Query Solution Generator] Variables: albumId, existingAssetIds, notPresentAssetIds, album, assetId, userIds, recipientIds
+[N+1 Query Solution Generator] Repeated calls: getAssetIds(1x), difference(1x), findOrFail(1x), push(1x), update(1x), map(1x), filter(1x), push(1x)
+[N+1 Query Solution Generator] Generating solutions from original code (689 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: exists, user
+[N+1 Query Solution Generator] Repeated calls: some(1x), get(1x), debug(1x), create(1x), emit(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 56/172 files...Analyzed 60/172 files...Analyzed 64/172 files...Analyzed 68/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+Analyzed 72/172 files...Analyzed 76/172 files...Analyzed 80/172 files...Analyzed 84/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 88/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 92/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 96/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] No specific strategy for regex_compilation_in_loop, using transformer fallback
+[Inefficient Loop Solution Generator] Creating context-aware solutions for regex_compilation_in_loop
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 100/172 files...[N+1 Query Solution Generator] Generating solutions from original code (158 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: 
+[N+1 Query Solution Generator] Repeated calls: execute(1x), where(1x), where(1x), deleteFrom(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 104/172 files...Analyzed 108/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 112/172 files...Analyzed 116/172 files...Analyzed 120/172 files...Analyzed 124/172 files...Analyzed 128/172 files...Analyzed 132/172 files...Analyzed 136/172 files...Analyzed 140/172 files...Analyzed 144/172 files...Analyzed 148/172 files...Analyzed 152/172 files...Analyzed 156/172 files...Analyzed 160/172 files...Analyzed 164/172 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 168/172 files...Analyzed 172/172 files...
+Results written to: ./immich-app_immich.json
+### Done (CLI exit code 1 — non-zero here just means it found issues). Results written to ./immich-app_immich.json
+N+1 Query Detector findings: 8 {"critical":0,"high":1,"medium":7,"low":0}
+
+These are RAW detector findings. As documented in ../README.md, roughly
+two-thirds of raw findings on real codebases turn out to be false positives
+(mainly plain Map.get()/Array.find() calls mistaken for ORM lookups) — read
+each codeBefore snippet in ./immich-app_immich.json before treating a finding as real.

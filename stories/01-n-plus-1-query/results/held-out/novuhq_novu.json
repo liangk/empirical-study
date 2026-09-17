@@ -1,0 +1,35 @@
+{
+ "repository": "novuhq/novu",
+ "filesScanned": 335,
+ "findings": [
+  {
+   "file": "apps/api/src/app/inbox/usecases/get-topic-subscriptions/get-topic-subscriptions.usecase.ts",
+   "line": 51,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.find()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const subscription of subscriptions) {\n      const preferences = await this.preferencesRepository.find({\n        _environmentId: subscription._environmentId,\n        _subscriberId: subscription._subscriberId,\n        _topicSubscriptionId: subscription._id,\n        type: PreferencesTypeEnum.SUBSCRIPTION_SUBSCRIBER_WORKFLOW,\n        ...contextQuery,\n      });\n      subscriptionPreferencesMap.set(subscription, preferences);\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: subscription, subscriptions",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over subscriptions\n// Problem: N+1 queries where N = subscriptions.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = subscriptions.map(subscription => subscription.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const subscription of subscriptions) {\n      const preferences = await this.preferencesRepository.find({\n        _environmentId: subscription._environmentId,\n        _subscriberId: subscription._subscriberId,\n        _topicSubscriptionId: subscription._id,\n        type: PreferencesTypeEnum.SUBSCRIPTION_SUBSCRIBER_WORKFLOW,\n        ...contextQuery,\n      });\n      subscriptionPreferencesMap.set(subscription, preferences);\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ],
+ "n1Findings": 1
+}

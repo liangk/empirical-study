@@ -1,0 +1,185 @@
+### Cloning calcom/cal.com (blobless, no checkout yet)
+### Narrowing checkout to: packages/trpc
+### Files in scope: 428
+### Scanning...
+Analyzed 4/398 files...Analyzed 8/398 files...Analyzed 12/398 files...Analyzed 16/398 files...Analyzed 20/398 files...Analyzed 24/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 28/398 files...Analyzed 32/398 files...[N+1 Query Solution Generator] Generating solutions from original code (188 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: prisma
+[N+1 Query Solution Generator] Variables: 
+[N+1 Query Solution Generator] Repeated calls: map(1x), reverse(1x), update(1x)
+Analyzed 36/398 files...Analyzed 40/398 files...Analyzed 44/398 files...Analyzed 48/398 files...Analyzed 52/398 files...Analyzed 56/398 files...Analyzed 60/398 files...Analyzed 64/398 files...Analyzed 68/398 files...Analyzed 72/398 files...[N+1 Query Solution Generator] Generating solutions from original code (606 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: prisma
+[N+1 Query Solution Generator] Variables: 
+[N+1 Query Solution Generator] Repeated calls: map(1x), upsert(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy flatten-loops generated comment-only code, skipping
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_loops
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 76/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 80/398 files...Analyzed 84/398 files...Analyzed 88/398 files...Analyzed 92/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 96/398 files...Analyzed 100/398 files...Analyzed 104/398 files...Analyzed 108/398 files...Analyzed 112/398 files...[N+1 Query Solution Generator] Generating solutions from original code (596 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: prisma
+[N+1 Query Solution Generator] Variables: emailVerified
+[N+1 Query Solution Generator] Repeated calls: map(1x), update(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 116/398 files...Analyzed 120/398 files...Analyzed 124/398 files...Analyzed 128/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 132/398 files...Analyzed 136/398 files...Analyzed 140/398 files...Analyzed 144/398 files...Analyzed 148/398 files...Analyzed 152/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 156/398 files...Analyzed 160/398 files...Analyzed 164/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 168/398 files...Analyzed 172/398 files...Analyzed 176/398 files...Analyzed 180/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 184/398 files...Analyzed 188/398 files...Analyzed 192/398 files...Analyzed 196/398 files...Analyzed 200/398 files...Analyzed 204/398 files...Analyzed 208/398 files...Analyzed 212/398 files...Analyzed 216/398 files...Analyzed 220/398 files...Analyzed 224/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 228/398 files...Analyzed 232/398 files...Analyzed 236/398 files...[N+1 Query Solution Generator] Generating solutions from original code (1452 chars)
+[N+1 Query Solution Generator] Detected pattern: chained-methods, ORM: prisma
+[N+1 Query Solution Generator] Variables: rescheduler, rescheduledBooking
+[N+1 Query Solution Generator] Repeated calls: map(1x), filter(1x), findUnique(1x), parse(1x), toISOString(1x), toISOString(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 240/398 files...Analyzed 244/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 248/398 files...Analyzed 252/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 256/398 files...Analyzed 260/398 files...Analyzed 264/398 files...Analyzed 268/398 files...Analyzed 272/398 files...[N+1 Query Solution Generator] Generating solutions from original code (1510 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: prisma
+[N+1 Query Solution Generator] Variables: locale, t
+[N+1 Query Solution Generator] Repeated calls: map(1x), update(1x), all(1x), map(1x), get(1x), set(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 276/398 files...Analyzed 280/398 files...[N+1 Query Solution Generator] Generating solutions from original code (600 chars)
+[N+1 Query Solution Generator] Detected pattern: unknown, ORM: prisma
+[N+1 Query Solution Generator] Variables: appId, dbCredential, delegationCredentials, appInstalled, app
+[N+1 Query Solution Generator] Repeated calls: map(1x), findFirst(1x), push(1x)
+Analyzed 284/398 files...Analyzed 288/398 files...Analyzed 292/398 files...Analyzed 296/398 files...Analyzed 300/398 files...Analyzed 304/398 files...Analyzed 308/398 files...Analyzed 312/398 files...Analyzed 316/398 files...Analyzed 320/398 files...Analyzed 324/398 files...Analyzed 328/398 files...Analyzed 332/398 files...Analyzed 336/398 files...Analyzed 340/398 files...Analyzed 344/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+Analyzed 348/398 files...[N+1 Query Solution Generator] Generating solutions from original code (166 chars)
+[N+1 Query Solution Generator] Detected pattern: loop-with-calls, ORM: unknown
+[N+1 Query Solution Generator] Variables: group
+[N+1 Query Solution Generator] Repeated calls: update(1x)
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 352/398 files...Analyzed 356/398 files...[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+[Inefficient Loop Solution Generator] Strategy chained-to-single-pass failed: TypeError: Property arguments[0] of CallExpression expected node to be of a type ["Expression","SpreadElement","ArgumentPlaceholder"] but instead got "BlockStatement"
+    at validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:123:11)
+    at validator (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:84:7)
+    at Object.validate (/home/claude/cel-public/node_modules/@babel/types/lib/definitions/utils.js:201:7)
+    at validateInternal (/home/claude/cel-public/node_modules/@babel/types/lib/validators/validate.js:22:9)
+    at Object.callExpression (/home/claude/cel-public/node_modules/@babel/types/lib/builders/generated/lowercase.js:374:3)
+    at CallExpression (/home/claude/cel-public/dist/utils/code-transformer.js:347:89)
+    at NodePath._call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:49:20)
+    at NodePath.call (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:39:18)
+    at NodePath.visit (/home/claude/cel-public/node_modules/@babel/traverse/lib/path/context.js:88:31)
+    at TraversalContext.visitQueue (/home/claude/cel-public/node_modules/@babel/traverse/lib/context.js:91:16)
+[Inefficient Loop Solution Generator] Creating context-aware solutions for nested_array_methods
+[Inefficient Loop Solution Generator] Generating transformation-based solutions from original code
+Analyzed 360/398 files...Analyzed 364/398 files...Analyzed 368/398 files...Analyzed 372/398 files...Analyzed 376/398 files...Analyzed 380/398 files...Analyzed 384/398 files...Analyzed 388/398 files...Analyzed 392/398 files...Analyzed 396/398 files...Analyzed 398/398 files...
+Results written to: ./calcom_cal.com.json
+### Done (CLI exit code 1 — non-zero here just means it found issues). Results written to ./calcom_cal.com.json
+N+1 Query Detector findings: 7 {"critical":0,"high":0,"medium":7,"low":0}
+
+These are RAW detector findings. As documented in ../README.md, roughly
+two-thirds of raw findings on real codebases turn out to be false positives
+(mainly plain Map.get()/Array.find() calls mistaken for ORM lookups) — read
+each codeBefore snippet in ./calcom_cal.com.json before treating a finding as real.

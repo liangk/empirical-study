@@ -1,0 +1,846 @@
+{
+ "repository": "mfts/papermark",
+ "filesScanned": 458,
+ "findings": [
+  {
+   "file": "pages/api/teams/[teamId]/enable-advanced-mode.ts",
+   "line": 93,
+   "severity": "critical",
+   "description": "Found 3 database queries (Database.update(), Database.update(), Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "eligibleDocuments.map(async (doc) => {\n        const primaryVersion = doc.versions[0];\n        if (!primaryVersion) return;\n\n        if (enableExcelAdvancedMode) {\n          // Update document and version when enabling\n          await Promise.all([\n            tx.document.update({\n              where: { id: doc.id },\n              data: { advancedExcelEnabled: true },\n            }),\n            tx.documentVersion.update({\n              where: { id: primaryVersion.id },\n              data: { numPages: 1 },\n            }),\n          ]);\n        } else {\n          await tx.document.update({\n            where: { id: doc.id },\n            data: { advancedExcelEnabled: false },\n          });\n        }\n\n        // Revalidate the document\n        await fetch(\n          `${process.env.NEXTAUTH_URL}/api/revalidate?secret=${process.env.REVALIDATE_TOKEN}&documentId=${doc.id}`,\n        );\n      })",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 77.7,
+     "reasoning": "Pattern analysis for unknown with http framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: http\n// Variables: primaryVersion\n// Method calls: eligibleDocuments.map(), Promise.all(), tx.document.update(), tx.documentVersion.update(), tx.document.update()\n// Loop structure: none\n// Async calls: 3\n\n// Original code:\neligibleDocuments.map(async (doc) => {\n        const primaryVersion = doc.versions[0];\n        if (!primaryVersion) return;\n\n        if (enableExcelAdvancedMode) {\n          // Update document and version when enabling\n          await Promise.all([\n            tx.document.update({\n              where: { id: doc.id },\n              data: { advancedExcelEnabled: true },\n            }),\n            tx.documentVersion.update({\n              where: { id: primaryVersion.id },\n              data: { numPages: 1 },\n            }),\n          ]);\n        } else {\n          await tx.document.update({\n            where: { id: doc.id },\n            data: { advancedExcelEnabled: false },\n          });\n        }\n\n        // Revalidate the document\n        await fetch(\n          `${process.env.NEXTAUTH_URL}/api/revalidate?secret=${process.env.REVALIDATE_TOKEN}&documentId=${doc.id}`,\n        );\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/webhooks/services/[...path]/index.ts",
+   "line": 1368,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const folder of folders) {\n    const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n    // Create the folder\n    const createdFolder = await prisma.dataroomFolder.create({\n      data: {\n        name: folder.name,\n        path: folderPath,\n        parentId: parentId,\n        dataroomId: dataroomId,\n      },\n    });\n\n    // If the folder has subfolders, create them recursively\n    if (folder.subfolders && folder.subfolders.length > 0) {\n      await createDataroomFoldersRecursive(\n        dataroomId,\n        folder.subfolders,\n        folderPath,\n        createdFolder.id,\n      );\n    }\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: folder, folders",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over folders\n// Problem: N+1 queries where N = folders.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = folders.map(folder => folder.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const folder of folders) {\n    const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n    // Create the folder\n    const createdFolder = await prisma.dataroomFolder.create({\n      data: {\n        name: folder.name,\n        path: folderPath,\n        parentId: parentId,\n        dataroomId: dataroomId,\n      },\n    });\n\n    // If the folder has subfolders, create them recursively\n    if (folder.subfolders && folder.subfolders.length > 0) {\n      await createDataroomFoldersRecursive(\n        dataroomId,\n        folder.subfolders,\n        folderPath,\n        createdFolder.id,\n      );\n    }\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and related data\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const folder of folders) {\n    const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n    // Create the folder\n    const createdFolder = await prisma.dataroomFolder.create({\n      data: {\n        name: folder.name,\n        path: folderPath,\n        parentId: parentId,\n        dataroomId: dataroomId,\n      },\n    });\n\n    // If the folder has subfolders, create them recursively\n    if (folder.subfolders && folder.subfolders.length > 0) {\n      await createDataroomFoldersRecursive(\n        dataroomId,\n        folder.subfolders,\n        folderPath,\n        createdFolder.id,\n      );\n    }\n  }\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/notifications/preferences.ts",
+   "line": 141,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "preferences.map((pref) => {\n      const scope = isMember ? \"MINE_ONLY\" : (pref.scope ?? \"ALL\");\n\n      return prisma.notificationPreference.upsert({\n        where: {\n          userId_teamId_type: {\n            userId,\n            teamId,\n            type: pref.type,\n          },\n        },\n        update: {\n          frequency: pref.frequency,\n          scope,\n        },\n        create: {\n          userId,\n          teamId,\n          type: pref.type,\n          frequency: pref.frequency,\n          scope,\n        },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: notificationPreference",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for notificationPreference and related data\n// Optimized: Single query with include\n\nconst notificationPreferenceWithRelations = await prisma.notificationPreference.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\npreferences.map((pref) => {\n      const scope = isMember ? \"MINE_ONLY\" : (pref.scope ?? \"ALL\");\n\n      return prisma.notificationPreference.upsert({\n        where: {\n          userId_teamId_type: {\n            userId,\n            teamId,\n            type: pref.type,\n          },\n        },\n        update: {\n          frequency: pref.frequency,\n          scope,\n        },\n        create: {\n          userId,\n          teamId,\n          type: pref.type,\n          frequency: pref.frequency,\n          scope,\n        },\n      });\n    })\n*/\n\n// Access related data directly: notificationPreferenceWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/folders/move.ts",
+   "line": 117,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "allSubfolders.map((subfolder) => {\n          // Find the parent folder it belongs to\n          const parentFolder = foldersToMove.find((folder) =>\n            subfolder.path.startsWith(folder.path),\n          );\n\n          if (!parentFolder) return null;\n\n          // Get the new base path for the parent\n          const newParentPath = folderPathUpdates.get(parentFolder.id);\n\n          // Calculate the new subfolder path by replacing the old path with the new one\n          const relativePath = subfolder.path\n            .replace(parentFolder.path, \"\")\n            .trim();\n          const newSubfolderPath = `${newParentPath}${relativePath}`;\n\n          return prisma.folder.update({\n            where: { id: subfolder.id, teamId },\n            data: { path: newSubfolderPath },\n          });\n        })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nallSubfolders.map((subfolder) => {\n          // Find the parent folder it belongs to\n          const parentFolder = foldersToMove.find((folder) =>\n            subfolder.path.startsWith(folder.path),\n          );\n\n          if (!parentFolder) return null;\n\n          // Get the new base path for the parent\n          const newParentPath = folderPathUpdates.get(parentFolder.id);\n\n          // Calculate the new subfolder path by replacing the old path with the new one\n          const relativePath = subfolder.path\n            .replace(parentFolder.path, \"\")\n            .trim();\n          const newSubfolderPath = `${newParentPath}${relativePath}`;\n\n          return prisma.folder.update({\n            where: { id: subfolder.id, teamId },\n            data: { path: newSubfolderPath },\n          });\n        })\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/folders/move.ts",
+   "line": 141,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "folderIds.map((folderId) =>\n          prisma.folder.update({\n            where: {\n              id: folderId,\n              teamId,\n            },\n            data: {\n              parentId: selectedFolder,\n              path: folderPathUpdates.get(folderId),\n            },\n          }),\n        )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfolderIds.map((folderId) =>\n          prisma.folder.update({\n            where: {\n              id: folderId,\n              teamId,\n            },\n            data: {\n              parentId: selectedFolder,\n              path: folderPathUpdates.get(folderId),\n            },\n          }),\n        )\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/documents/index.ts",
+   "line": 213,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findMany()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "documentsWithCounts.map(async (doc) => {\n            const folderNames = [];\n            const pathSegments = doc.folder?.path?.split(\"/\") || [];\n\n            if (pathSegments.length > 0) {\n              const folders = await prisma.folder.findMany({\n                where: {\n                  teamId,\n                  path: {\n                    in: pathSegments.map((_, index) =>\n                      pathSegments.slice(0, index + 1).join(\"/\"),\n                    ),\n                  },\n                },\n                select: {\n                  path: true,\n                  name: true,\n                },\n                orderBy: {\n                  path: \"asc\",\n                },\n              });\n              folderNames.push(...folders.map((f) => f.name));\n            }\n            return { ...doc, folderList: folderNames };\n          })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 78.35,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ndocumentsWithCounts.map(async (doc) => {\n            const folderNames = [];\n            const pathSegments = doc.folder?.path?.split(\"/\") || [];\n\n            if (pathSegments.length > 0) {\n              const folders = await prisma.folder.findMany({\n                where: {\n                  teamId,\n                  path: {\n                    in: pathSegments.map((_, index) =>\n                      pathSegments.slice(0, index + 1).join(\"/\"),\n                    ),\n                  },\n                },\n                select: {\n                  path: true,\n                  name: true,\n                },\n                orderBy: {\n                  path: \"asc\",\n                },\n              });\n              folderNames.push(...folders.map((f) => f.name));\n            }\n            return { ...doc, folderList: folderNames };\n          })\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/generate-ai.ts",
+   "line": 219,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: createdDataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: folder, folders",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over folders\n// Problem: N+1 queries where N = folders.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = folders.map(folder => folder.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: createdDataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/create-from-folder.ts",
+   "line": 115,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "folder.documents.map((doc) => {\n        return prisma.dataroomDocument.create({\n          data: {\n            documentId: doc.id,\n            dataroomId: dataroomId,\n            folderId: dataroomFolder?.id,\n          },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomDocument",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomDocument and related data\n// Optimized: Single query with include\n\nconst dataroomDocumentWithRelations = await prisma.dataroomDocument.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfolder.documents.map((doc) => {\n        return prisma.dataroomDocument.create({\n          data: {\n            documentId: doc.id,\n            dataroomId: dataroomId,\n            folderId: dataroomFolder?.id,\n          },\n        });\n      })\n*/\n\n// Access related data directly: dataroomDocumentWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "app/api/cron/domains/route.ts",
+   "line": 63,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "domains.map(async (domain) => {\n        const { slug, verified, createdAt, _count } = domain;\n        const [domainJson, configJson] = await Promise.all([\n          getDomainResponse(slug),\n          getConfigResponse(slug),\n        ]);\n\n        let newVerified;\n\n        if (domainJson?.error?.code === \"not_found\") {\n          newVerified = false;\n        } else if (!domainJson.verified) {\n          const verificationJson = await verifyDomain(slug);\n          if (verificationJson && verificationJson.verified) {\n            newVerified = true;\n          } else {\n            newVerified = false;\n          }\n        } else if (!configJson.misconfigured) {\n          newVerified = true;\n        } else {\n          newVerified = false;\n        }\n\n        const prismaResponse = await prisma.domain.update({\n          where: {\n            slug,\n          },\n          data: {\n            verified: newVerified,\n            lastChecked: new Date(),\n          },\n        });\n\n        const changed = newVerified !== verified;\n\n        const updates = await handleDomainUpdates({\n          domain: slug,\n          createdAt,\n          verified: newVerified,\n          changed,\n          linksCount: _count.links,\n        });\n\n        return {\n          domain,\n          previousStatus: verified,\n          currentStatus: newVerified,\n          changed,\n          updates,\n          prismaResponse,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 65,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: domain",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for domain and related data\n// Optimized: Single query with include\n\nconst domainWithRelations = await prisma.domain.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ndomains.map(async (domain) => {\n        const { slug, verified, createdAt, _count } = domain;\n        const [domainJson, configJson] = await Promise.all([\n          getDomainResponse(slug),\n          getConfigResponse(slug),\n        ]);\n\n        let newVerified;\n\n        if (domainJson?.error?.code === \"not_found\") {\n          newVerified = false;\n        } else if (!domainJson.verified) {\n          const verificationJson = await verifyDomain(slug);\n          if (verificationJson && verificationJson.verified) {\n            newVerified = true;\n          } else {\n            newVerified = false;\n          }\n        } else if (!configJson.misconfigured) {\n          newVerified = true;\n        } else {\n          newVerified = false;\n        }\n\n        const prismaResponse = await prisma.domain.update({\n          where: {\n            slug,\n          },\n          data: {\n            verified: newVerified,\n            lastChecked: new Date(),\n          },\n        });\n\n        const changed = newVerified !== verified;\n\n        const updates = await handleDomainUpdates({\n          domain: slug,\n          createdAt,\n          verified: newVerified,\n          changed,\n          linksCount: _count.links,\n        });\n\n        return {\n          domain,\n          previousStatus: verified,\n          currentStatus: newVerified,\n          changed,\n          updates,\n          prismaResponse,\n        };\n      })\n*/\n\n// Access related data directly: domainWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/workflows/lib/engine.ts",
+   "line": 70,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.create(), Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const step of workflow.steps) {\n          const startTime = Date.now();\n\n          try {\n            // Parse step data\n            const conditions = ConditionsConfigSchema.parse(step.conditions);\n            const actions = (step.actions as any[]).map((action) =>\n              ActionSchema.parse(action),\n            );\n\n            // Evaluate conditions\n            const conditionsMatched = await this.evaluateConditions(\n              conditions,\n              context,\n            );\n\n            let actionsResult: (Action & { routed: boolean }) | undefined;\n\n            // If conditions matched, execute the route action\n            if (conditionsMatched && actions.length > 0) {\n              const routeAction = actions[0]; // Only support single route action for now\n              if (routeAction.type === \"route\") {\n                targetLinkId = routeAction.targetLinkId;\n                targetDocumentId = routeAction.targetDocumentId;\n                targetDataroomId = routeAction.targetDataroomId;\n                actionsResult = { ...routeAction, routed: true };\n              }\n            }\n\n            // Log step execution\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched,\n                conditionResults: conditions,\n                ...(actionsResult ? { actionsExecuted: [actionsResult] } : {}),\n                duration: Date.now() - startTime,\n              },\n            });\n\n            // If we found a match, stop processing further steps\n            if (conditionsMatched && targetLinkId) {\n              break;\n            }\n          } catch (stepError) {\n            // Log step error\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched: false,\n                error:\n                  stepError instanceof Error\n                    ? stepError.message\n                    : \"Unknown error\",\n                duration: Date.now() - startTime,\n              },\n            });\n            console.error(`Error executing step ${step.id}:`, stepError);\n          }\n        }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "memoize",
+     "rank": 1,
+     "fitnessScore": 71.65,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const createCache = new Map(); // Memoize prisma.workflowStepLog.create\n\nfor (const step of workflow.steps) {\n          const startTime = Date.now();\n\n          try {\n            // Parse step data\n            const conditions = ConditionsConfigSchema.parse(step.conditions);\n            const actions = (step.actions as any[]).map((action) =>\n              ActionSchema.parse(action),\n            );\n\n            // Evaluate conditions\n            const conditionsMatched = await this.evaluateConditions(\n              conditions,\n              context,\n            );\n\n            let actionsResult: (Action & { routed: boolean }) | undefined;\n\n            // If conditions matched, execute the route action\n            if (conditionsMatched && actions.length > 0) {\n              const routeAction = actions[0]; // Only support single route action for now\n              if (routeAction.type === \"route\") {\n                targetLinkId = routeAction.targetLinkId;\n                targetDocumentId = routeAction.targetDocumentId;\n                targetDataroomId = routeAction.targetDataroomId;\n                actionsResult = { ...routeAction, routed: true };\n              }\n            }\n\n            // Log step execution\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched,\n                conditionResults: conditions,\n                ...(actionsResult ? { actionsExecuted: [actionsResult] } : {}),\n                duration: Date.now() - startTime,\n              },\n            });\n\n            // If we found a match, stop processing further steps\n            if (conditionsMatched && targetLinkId) {\n              break;\n            }\n          } catch (stepError) {\n            // Log step error\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched: false,\n                error:\n                  stepError instanceof Error\n                    ? stepError.message\n                    : \"Unknown error\",\n                duration: Date.now() - startTime,\n              },\n            });\n            console.error(`Error executing step ${step.id}:`, stepError);\n          }\n        }"
+    },
+    {
+     "type": "batch-query-before-loop",
+     "rank": 2,
+     "fitnessScore": 71.3,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: step, workflow.steps",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over workflow.steps\n// Problem: N+1 queries where N = workflow.steps.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = workflow.steps.map(step => step.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const step of workflow.steps) {\n          const startTime = Date.now();\n\n          try {\n            // Parse step data\n            const conditions = ConditionsConfigSchema.parse(step.conditions);\n            const actions = (step.actions as any[]).map((action) =>\n              ActionSchema.parse(action),\n            );\n\n            // Evaluate conditions\n            const conditionsMatched = dataMap.get(step.id);\n\n            let actionsResult: (Action & { routed: boolean }) | undefined;\n\n            // If conditions matched, execute the route action\n            if (conditionsMatched && actions.length > 0) {\n              const routeAction = actions[0]; // Only support single route action for now\n              if (routeAction.type === \"route\") {\n                targetLinkId = routeAction.targetLinkId;\n                targetDocumentId = routeAction.targetDocumentId;\n                targetDataroomId = routeAction.targetDataroomId;\n                actionsResult = { ...routeAction, routed: true };\n              }\n            }\n\n            // Log step execution\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched,\n                conditionResults: conditions,\n                ...(actionsResult ? { actionsExecuted: [actionsResult] } : {}),\n                duration: Date.now() - startTime,\n              },\n            });\n\n            // If we found a match, stop processing further steps\n            if (conditionsMatched && targetLinkId) {\n              break;\n            }\n          } catch (stepError) {\n            // Log step error\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched: false,\n                error:\n                  stepError instanceof Error\n                    ? stepError.message\n                    : \"Unknown error\",\n                duration: Date.now() - startTime,\n              },\n            });\n            console.error(`Error executing step ${step.id}:`, stepError);\n          }\n        }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 3,
+     "fitnessScore": 66.15,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: workflowStepLog",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for workflowStepLog and related data\n// Optimized: Single query with include\n\nconst workflowStepLogWithRelations = await prisma.workflowStepLog.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const step of workflow.steps) {\n          const startTime = Date.now();\n\n          try {\n            // Parse step data\n            const conditions = ConditionsConfigSchema.parse(step.conditions);\n            const actions = (step.actions as any[]).map((action) =>\n              ActionSchema.parse(action),\n            );\n\n            // Evaluate conditions\n            const conditionsMatched = await this.evaluateConditions(\n              conditions,\n              context,\n            );\n\n            let actionsResult: (Action & { routed: boolean }) | undefined;\n\n            // If conditions matched, execute the route action\n            if (conditionsMatched && actions.length > 0) {\n              const routeAction = actions[0]; // Only support single route action for now\n              if (routeAction.type === \"route\") {\n                targetLinkId = routeAction.targetLinkId;\n                targetDocumentId = routeAction.targetDocumentId;\n                targetDataroomId = routeAction.targetDataroomId;\n                actionsResult = { ...routeAction, routed: true };\n              }\n            }\n\n            // Log step execution\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched,\n                conditionResults: conditions,\n                ...(actionsResult ? { actionsExecuted: [actionsResult] } : {}),\n                duration: Date.now() - startTime,\n              },\n            });\n\n            // If we found a match, stop processing further steps\n            if (conditionsMatched && targetLinkId) {\n              break;\n            }\n          } catch (stepError) {\n            // Log step error\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched: false,\n                error:\n                  stepError instanceof Error\n                    ? stepError.message\n                    : \"Unknown error\",\n                duration: Date.now() - startTime,\n              },\n            });\n            console.error(`Error executing step ${step.id}:`, stepError);\n          }\n        }\n*/\n\n// Access related data directly: workflowStepLogWithRelations[0].relation"
+    },
+    {
+     "type": "memoization",
+     "rank": 4,
+     "fitnessScore": 63.15,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: prisma.workflowStepLog.create",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize prisma.workflowStepLog.create (called 2x)\nconst createCache = new Map();\nasync function memoizedCreate(key) {\n  if (createCache.has(key)) return createCache.get(key);\n  const result = await prisma.workflowStepLog.create(key);\n  createCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nfor (const step of workflow.steps) {\n          const startTime = Date.now();\n\n          try {\n            // Parse step data\n            const conditions = ConditionsConfigSchema.parse(step.conditions);\n            const actions = (step.actions as any[]).map((action) =>\n              ActionSchema.parse(action),\n            );\n\n            // Evaluate conditions\n            const conditionsMatched = await this.evaluateConditions(\n              conditions,\n              context,\n            );\n\n            let actionsResult: (Action & { routed: boolean }) | undefined;\n\n            // If conditions matched, execute the route action\n            if (conditionsMatched && actions.length > 0) {\n              const routeAction = actions[0]; // Only support single route action for now\n              if (routeAction.type === \"route\") {\n                targetLinkId = routeAction.targetLinkId;\n                targetDocumentId = routeAction.targetDocumentId;\n                targetDataroomId = routeAction.targetDataroomId;\n                actionsResult = { ...routeAction, routed: true };\n              }\n            }\n\n            // Log step execution\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched,\n                conditionResults: conditions,\n                ...(actionsResult ? { actionsExecuted: [actionsResult] } : {}),\n                duration: Date.now() - startTime,\n              },\n            });\n\n            // If we found a match, stop processing further steps\n            if (conditionsMatched && targetLinkId) {\n              break;\n            }\n          } catch (stepError) {\n            // Log step error\n            await prisma.workflowStepLog.create({\n              data: {\n                executionId: execution.id,\n                workflowStepId: step.id,\n                conditionsMatched: false,\n                error:\n                  stepError instanceof Error\n                    ? stepError.message\n                    : \"Unknown error\",\n                duration: Date.now() - startTime,\n              },\n            });\n            console.error(`Error executing step ${step.id}:`, stepError);\n          }\n        }"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/dataroom-invitations/api/link-invite.ts",
+   "line": 202,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const email of validEmails) {\n          const viewer = viewerByEmail[email]!;\n          const record = await tx.viewerInvitation.create({\n            data: {\n              viewerId: viewer.id,\n              linkId: link.id,\n              invitedBy: user.id,\n              customMessage,\n              status: \"SENT\",\n            },\n          });\n          created.push({ id: record.id, email });\n        }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: email, validEmails",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over validEmails\n// Problem: N+1 queries where N = validEmails.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = validEmails.map(email => email.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const email of validEmails) {\n          const viewer = viewerByEmail[email]!;\n          const record = await tx.viewerInvitation.create({\n            data: {\n              viewerId: viewer.id,\n              linkId: link.id,\n              invitedBy: user.id,\n              customMessage,\n              status: \"SENT\",\n            },\n          });\n          created.push({ id: record.id, email });\n        }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/dataroom-invitations/api/link-invite.ts",
+   "line": 265,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { id, email } of reservedInvitations) {\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: link.dataroom?.name ?? \"\",\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.update({\n          where: { id },\n          data: { status: \"FAILED\" },\n        });\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , reservedInvitations",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over reservedInvitations\n// Problem: N+1 queries where N = reservedInvitations.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = reservedInvitations.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { id, email } of reservedInvitations) {\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: link.dataroom?.name ?? \"\",\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.update({\n          where: { id },\n          data: { status: \"FAILED\" },\n        });\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: viewerInvitation",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for viewerInvitation and related data\n// Optimized: Single query with include\n\nconst viewerInvitationWithRelations = await prisma.viewerInvitation.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const { id, email } of reservedInvitations) {\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: link.dataroom?.name ?? \"\",\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.update({\n          where: { id },\n          data: { status: \"FAILED\" },\n        });\n      }\n    }\n*/\n\n// Access related data directly: viewerInvitationWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/dataroom-invitations/api/group-invite.ts",
+   "line": 215,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.create(), Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const email of targetEmails) {\n      const viewer = viewerByEmail[email];\n      if (!viewer) {\n        failures.push({\n          email,\n          error: \"Viewer not found\",\n        });\n        continue;\n      }\n\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: group.dataroom.name,\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"SENT\",\n          },\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"FAILED\",\n          },\n        });\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 80.35,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: email, targetEmails",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over targetEmails\n// Problem: N+1 queries where N = targetEmails.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = targetEmails.map(email => email.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const email of targetEmails) {\n      const viewer = viewerByEmail[email];\n      if (!viewer) {\n        failures.push({\n          email,\n          error: \"Viewer not found\",\n        });\n        continue;\n      }\n\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: group.dataroom.name,\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"SENT\",\n          },\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"FAILED\",\n          },\n        });\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: viewerInvitation",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for viewerInvitation and related data\n// Optimized: Single query with include\n\nconst viewerInvitationWithRelations = await prisma.viewerInvitation.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const email of targetEmails) {\n      const viewer = viewerByEmail[email];\n      if (!viewer) {\n        failures.push({\n          email,\n          error: \"Viewer not found\",\n        });\n        continue;\n      }\n\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: group.dataroom.name,\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"SENT\",\n          },\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"FAILED\",\n          },\n        });\n      }\n    }\n*/\n\n// Access related data directly: viewerInvitationWithRelations[0].relation"
+    },
+    {
+     "type": "memoize",
+     "rank": 3,
+     "fitnessScore": 73.95,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const createCache = new Map(); // Memoize prisma.viewerInvitation.create\n\nfor (const email of targetEmails) {\n      const viewer = viewerByEmail[email];\n      if (!viewer) {\n        failures.push({\n          email,\n          error: \"Viewer not found\",\n        });\n        continue;\n      }\n\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: group.dataroom.name,\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"SENT\",\n          },\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"FAILED\",\n          },\n        });\n      }\n    }"
+    },
+    {
+     "type": "memoization",
+     "rank": 4,
+     "fitnessScore": 67.2,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: prisma.viewerInvitation.create",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize prisma.viewerInvitation.create (called 2x)\nconst createCache = new Map();\nasync function memoizedCreate(key) {\n  if (createCache.has(key)) return createCache.get(key);\n  const result = await prisma.viewerInvitation.create(key);\n  createCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nfor (const email of targetEmails) {\n      const viewer = viewerByEmail[email];\n      if (!viewer) {\n        failures.push({\n          email,\n          error: \"Viewer not found\",\n        });\n        continue;\n      }\n\n      try {\n        await sendDataroomViewerInvite({\n          dataroomName: group.dataroom.name,\n          senderEmail: teamMember.email,\n          to: email,\n          url: linkUrl,\n          customMessage,\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"SENT\",\n          },\n        });\n\n        successes.push(email);\n      } catch (error: any) {\n        failures.push({\n          email,\n          error: error?.message ?? \"Unknown error\",\n        });\n\n        await prisma.viewerInvitation.create({\n          data: {\n            viewerId: viewer.id,\n            linkId: link.id,\n            groupId,\n            invitedBy: user.id,\n            customMessage,\n            status: \"FAILED\",\n          },\n        });\n      }\n    }"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/folders/parents/[...name].ts",
+   "line": 51,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a for loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (let i = 0; i < validatedName.length; i++) {\n        const path = \"/\" + validatedName.slice(0, i + 1).join(\"/\"); // construct the materialized path\n\n        const folder = await prisma.folder.findUnique({\n          where: {\n            teamId_path: {\n              teamId: teamId,\n              path: path,\n            },\n          },\n          select: {\n            id: true,\n            parentId: true,\n            name: true,\n          },\n        });\n\n        if (!folder) {\n          return res.status(404).end(\"Parent Folder not found\");\n        }\n\n        folderNames.push({ name: folder.name, path: path });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (let i = 0; i < validatedName.length; i++) {\n        const path = \"/\" + validatedName.slice(0, i + 1).join(\"/\"); // construct the materialized path\n\n        const folder = await prisma.folder.findUnique({\n          where: {\n            teamId_path: {\n              teamId: teamId,\n              path: path,\n            },\n          },\n          select: {\n            id: true,\n            parentId: true,\n            name: true,\n          },\n        });\n\n        if (!folder) {\n          return res.status(404).end(\"Parent Folder not found\");\n        }\n\n        folderNames.push({ name: folder.name, path: path });\n      }\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/folders/manage/index.ts",
+   "line": 133,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "descendantFolders.map((descendant) => {\n              // Replace the old path prefix with the new path\n              const relativePath = descendant.path.slice(oldPath.length);\n              const newDescendantPath = `${newPath}${relativePath}`;\n\n              return tx.folder.update({\n                where: { id: descendant.id },\n                data: { path: newDescendantPath },\n              });\n            })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: relativePath, newDescendantPath\n// Method calls: descendantFolders.map(), descendant.path.slice(), tx.folder.update()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\ndescendantFolders.map((descendant) => {\n              // Replace the old path prefix with the new path\n              const relativePath = descendant.path.slice(oldPath.length);\n              const newDescendantPath = `${newPath}${relativePath}`;\n\n              return tx.folder.update({\n                where: { id: descendant.id },\n                data: { path: newDescendantPath },\n              });\n            })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/reorder.ts",
+   "line": 95,
+   "severity": "high",
+   "description": "Found 2 database queries (Database.updateMany(), Database.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const item of newOrder) {\n        if (item.category === \"folder\") {\n          const updatedFolder = await tx.dataroomFolder.updateMany({\n            where: { id: item.id, dataroomId },\n            data: { orderIndex: item.orderIndex },\n          });\n\n          if (updatedFolder.count === 0) {\n            throw new Error(\"REORDER_ITEM_NOT_FOUND\");\n          }\n        } else {\n          const updatedDocument = await tx.dataroomDocument.updateMany({\n            where: { id: item.id, dataroomId },\n            data: { orderIndex: item.orderIndex },\n          });\n\n          if (updatedDocument.count === 0) {\n            throw new Error(\"REORDER_ITEM_NOT_FOUND\");\n          }\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 82.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: item, newOrder",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over newOrder\n// Problem: N+1 queries where N = newOrder.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = newOrder.map(item => item.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const item of newOrder) {\n        if (item.category === \"folder\") {\n          const updatedFolder = await tx.dataroomFolder.updateMany({\n            where: { id: item.id, dataroomId },\n            data: { orderIndex: item.orderIndex },\n          });\n\n          if (updatedFolder.count === 0) {\n            throw new Error(\"REORDER_ITEM_NOT_FOUND\");\n          }\n        } else {\n          const updatedDocument = await tx.dataroomDocument.updateMany({\n            where: { id: item.id, dataroomId },\n            data: { orderIndex: item.orderIndex },\n          });\n\n          if (updatedDocument.count === 0) {\n            throw new Error(\"REORDER_ITEM_NOT_FOUND\");\n          }\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/links.ts",
+   "line": 90,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.findMany(), Prisma.findMany()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "extendedLinks.map(async (link) => {\n            // Decrypt the password if it exists\n            if (link.password !== null) {\n              link.password = decryptEncrpytedPassword(link.password);\n            }\n            if (link.enableUpload) {\n              const allowedIds = Array.isArray(link.uploadFolderIds)\n                ? link.uploadFolderIds.filter(\n                    (id): id is string => typeof id === \"string\" && !!id,\n                  )\n                : [];\n\n              if (allowedIds.length > 0) {\n                const folders = await prisma.dataroomFolder.findMany({\n                  where: {\n                    id: { in: allowedIds },\n                    dataroomId,\n                  },\n                  select: { id: true, name: true, path: true },\n                });\n                // Preserve the admin-selected order when possible.\n                const byId = new Map(folders.map((f) => [f.id, f]));\n                link.uploadFolders = allowedIds\n                  .map((id) => byId.get(id))\n                  .filter((f): f is (typeof folders)[number] => !!f);\n              }\n            }\n            const tags = await prisma.tag.findMany({\n              where: {\n                items: {\n                  some: {\n                    linkId: link.id,\n                    itemType: \"LINK_TAG\",\n                  },\n                },\n              },\n              select: {\n                id: true,\n                name: true,\n                color: true,\n                description: true,\n              },\n            });\n\n            return {\n              ...link,\n              tags,\n            };\n          })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 71.85,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder, dataroomFolder, tag",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and dataroomFolder, tag\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    dataroomFolder: true, // Eager load dataroomFolder\n    tag: true, // Eager load tag\n  }\n});\n\n// Original code reference:\n/*\nextendedLinks.map(async (link) => {\n            // Decrypt the password if it exists\n            if (link.password !== null) {\n              link.password = decryptEncrpytedPassword(link.password);\n            }\n            if (link.enableUpload) {\n              const allowedIds = Array.isArray(link.uploadFolderIds)\n                ? link.uploadFolderIds.filter(\n                    (id): id is string => typeof id === \"string\" && !!id,\n                  )\n                : [];\n\n              if (allowedIds.length > 0) {\n                const folders = await prisma.dataroomFolder.findMany({\n                  where: {\n                    id: { in: allowedIds },\n                    dataroomId,\n                  },\n                  select: { id: true, name: true, path: true },\n                });\n                // Preserve the admin-selected order when possible.\n                const byId = new Map(folders.map((f) => [f.id, f]));\n                link.uploadFolders = allowedIds\n                  .map((id) => byId.get(id))\n                  .filter((f): f is (typeof folders)[number] => !!f);\n              }\n            }\n            const tags = await prisma.tag.findMany({\n              where: {\n                items: {\n                  some: {\n                    linkId: link.id,\n                    itemType: \"LINK_TAG\",\n                  },\n                },\n              },\n              select: {\n                id: true,\n                name: true,\n                color: true,\n                description: true,\n              },\n            });\n\n            return {\n              ...link,\n              tags,\n            };\n          })\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].dataroomFolder"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/duplicate.ts",
+   "line": 110,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "folder.documents.map((doc) =>\n      prisma.dataroomDocument.create({\n        data: {\n          documentId: doc.documentId,\n          dataroomId: dataroomId,\n          folderId: newFolder.id,\n        },\n      }),\n    )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomDocument",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomDocument and related data\n// Optimized: Single query with include\n\nconst dataroomDocumentWithRelations = await prisma.dataroomDocument.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfolder.documents.map((doc) =>\n      prisma.dataroomDocument.create({\n        data: {\n          documentId: doc.documentId,\n          dataroomId: dataroomId,\n          folderId: newFolder.id,\n        },\n      }),\n    )\n*/\n\n// Access related data directly: dataroomDocumentWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/templates/api/datarooms/generate.ts",
+   "line": 132,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: createdDataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: folder, folders",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over folders\n// Problem: N+1 queries where N = folders.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = folders.map(folder => folder.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: createdDataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "ee/features/templates/api/datarooms/apply-template.ts",
+   "line": 83,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: dataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: folder, folders",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over folders\n// Problem: N+1 queries where N = folders.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = folders.map(folder => folder.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const folder of folders) {\n            const folderPath = parentPath + \"/\" + safeSlugify(folder.name);\n\n            // Create the folder\n            const createdFolder = await tx.dataroomFolder.create({\n              data: {\n                name: folder.name,\n                path: folderPath,\n                parentId: parentId,\n                dataroomId: dataroom.id,\n              },\n            });\n\n            // If the folder has subfolders, create them recursively\n            if (folder.subfolders && folder.subfolders.length > 0) {\n              await createFolders(\n                folder.subfolders,\n                folderPath,\n                createdFolder.id,\n              );\n            }\n          }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/folders/move.ts",
+   "line": 130,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "allSubfolders.map((subfolder) => {\n          // Find the parent folder it belongs to\n          const parentFolder = foldersToMove.find((folder) =>\n            subfolder.path.startsWith(folder.path),\n          );\n\n          if (!parentFolder) return null;\n\n          // Get the new base path for the parent\n          const newParentPath = folderPathUpdates.get(parentFolder.id);\n\n          // Calculate the new subfolder path by replacing the old path with the new one\n          const relativePath = subfolder.path\n            .replace(parentFolder.path, \"\")\n            .trim();\n          const newSubfolderPath = `${newParentPath}${relativePath}`;\n\n          return prisma.dataroomFolder.update({\n            where: { id: subfolder.id, dataroomId: dataroomId },\n            data: { path: newSubfolderPath },\n          });\n        })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and related data\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nallSubfolders.map((subfolder) => {\n          // Find the parent folder it belongs to\n          const parentFolder = foldersToMove.find((folder) =>\n            subfolder.path.startsWith(folder.path),\n          );\n\n          if (!parentFolder) return null;\n\n          // Get the new base path for the parent\n          const newParentPath = folderPathUpdates.get(parentFolder.id);\n\n          // Calculate the new subfolder path by replacing the old path with the new one\n          const relativePath = subfolder.path\n            .replace(parentFolder.path, \"\")\n            .trim();\n          const newSubfolderPath = `${newParentPath}${relativePath}`;\n\n          return prisma.dataroomFolder.update({\n            where: { id: subfolder.id, dataroomId: dataroomId },\n            data: { path: newSubfolderPath },\n          });\n        })\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/folders/move.ts",
+   "line": 153,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "folderIds.map((folderId) =>\n          prisma.dataroomFolder.update({\n            where: {\n              id: folderId,\n              dataroomId: dataroomId,\n            },\n            data: {\n              parentId: selectedFolder,\n              path: folderPathUpdates.get(folderId),\n              orderIndex: null,\n            },\n          }),\n        )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and related data\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfolderIds.map((folderId) =>\n          prisma.dataroomFolder.update({\n            where: {\n              id: folderId,\n              dataroomId: dataroomId,\n            },\n            data: {\n              parentId: selectedFolder,\n              path: folderPathUpdates.get(folderId),\n              orderIndex: null,\n            },\n          }),\n        )\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "app/(ee)/api/workflows/[workflowId]/steps/route.ts",
+   "line": 96,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "steps.map(async (step) => {\n        const actions = step.actions as any[];\n        const routeAction = actions.find((a) => a.type === \"route\");\n\n        if (routeAction && routeAction.targetLinkId) {\n          const targetLink = await prisma.link.findUnique({\n            where: { id: routeAction.targetLinkId },\n            select: {\n              id: true,\n              name: true,\n              slug: true,\n              domainSlug: true,\n              linkType: true,\n            },\n          });\n\n          return {\n            ...step,\n            targetLink,\n          };\n        }\n\n        return step;\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 76.45,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: link",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for link and related data\n// Optimized: Single query with include\n\nconst linkWithRelations = await prisma.link.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nsteps.map(async (step) => {\n        const actions = step.actions as any[];\n        const routeAction = actions.find((a) => a.type === \"route\");\n\n        if (routeAction && routeAction.targetLinkId) {\n          const targetLink = await prisma.link.findUnique({\n            where: { id: routeAction.targetLinkId },\n            select: {\n              id: true,\n              name: true,\n              slug: true,\n              domainSlug: true,\n              linkType: true,\n            },\n          });\n\n          return {\n            ...step,\n            targetLink,\n          };\n        }\n\n        return step;\n      })\n*/\n\n// Access related data directly: linkWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "app/(ee)/api/workflows/[workflowId]/steps/route.ts",
+   "line": 418,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "validation.data.steps.map((step) =>\n        prisma.workflowStep.update({\n          where: {\n            id: step.stepId,\n            workflowId, // Ensure step belongs to this workflow\n          },\n          data: {\n            stepOrder: step.stepOrder,\n          },\n        }),\n      )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: workflowStep",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for workflowStep and related data\n// Optimized: Single query with include\n\nconst workflowStepWithRelations = await prisma.workflowStep.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nvalidation.data.steps.map((step) =>\n        prisma.workflowStep.update({\n          where: {\n            id: step.stepId,\n            workflowId, // Ensure step belongs to this workflow\n          },\n          data: {\n            stepOrder: step.stepOrder,\n          },\n        }),\n      )\n*/\n\n// Access related data directly: workflowStepWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/groups/[groupId]/links.ts",
+   "line": 98,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.findMany(), Prisma.findMany()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "extendedLinks.map(async (link) => {\n            // Decrypt the password if it exists\n            if (link.password !== null) {\n              link.password = decryptEncrpytedPassword(link.password);\n            }\n            // Resolve the upload-folder allow-list when restricted.\n            if (link.enableUpload) {\n              const allowedIds = Array.isArray(link.uploadFolderIds)\n                ? link.uploadFolderIds.filter(\n                    (id): id is string => typeof id === \"string\" && !!id,\n                  )\n                : [];\n\n              if (allowedIds.length > 0) {\n                const folders = await prisma.dataroomFolder.findMany({\n                  where: {\n                    id: { in: allowedIds },\n                    dataroomId,\n                  },\n                  select: { id: true, name: true, path: true },\n                });\n                const byId = new Map(folders.map((f) => [f.id, f]));\n                link.uploadFolders = allowedIds\n                  .map((id) => byId.get(id))\n                  .filter((f): f is (typeof folders)[number] => !!f);\n              }\n            }\n            // Get the tags for the link\n            const tags = await prisma.tag.findMany({\n              where: {\n                items: {\n                  some: {\n                    linkId: link.id,\n                    itemType: \"LINK_TAG\",\n                  },\n                },\n              },\n              select: {\n                id: true,\n                name: true,\n                color: true,\n                description: true,\n              },\n            });\n\n            return {\n              ...link,\n              tags,\n            };\n          })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 71.85,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder, dataroomFolder, tag",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and dataroomFolder, tag\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    dataroomFolder: true, // Eager load dataroomFolder\n    tag: true, // Eager load tag\n  }\n});\n\n// Original code reference:\n/*\nextendedLinks.map(async (link) => {\n            // Decrypt the password if it exists\n            if (link.password !== null) {\n              link.password = decryptEncrpytedPassword(link.password);\n            }\n            // Resolve the upload-folder allow-list when restricted.\n            if (link.enableUpload) {\n              const allowedIds = Array.isArray(link.uploadFolderIds)\n                ? link.uploadFolderIds.filter(\n                    (id): id is string => typeof id === \"string\" && !!id,\n                  )\n                : [];\n\n              if (allowedIds.length > 0) {\n                const folders = await prisma.dataroomFolder.findMany({\n                  where: {\n                    id: { in: allowedIds },\n                    dataroomId,\n                  },\n                  select: { id: true, name: true, path: true },\n                });\n                const byId = new Map(folders.map((f) => [f.id, f]));\n                link.uploadFolders = allowedIds\n                  .map((id) => byId.get(id))\n                  .filter((f): f is (typeof folders)[number] => !!f);\n              }\n            }\n            // Get the tags for the link\n            const tags = await prisma.tag.findMany({\n              where: {\n                items: {\n                  some: {\n                    linkId: link.id,\n                    itemType: \"LINK_TAG\",\n                  },\n                },\n              },\n              select: {\n                id: true,\n                name: true,\n                color: true,\n                description: true,\n              },\n            });\n\n            return {\n              ...link,\n              tags,\n            };\n          })\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].dataroomFolder"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/folders/parents/[...name].ts",
+   "line": 57,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a for loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (let i = 0; i < validatedName.length; i++) {\n        const path = \"/\" + validatedName.slice(0, i + 1).join(\"/\"); // construct the materialized path\n        console.log(\"path\", path);\n\n        const folder = await prisma.dataroomFolder.findUnique({\n          where: {\n            dataroomId_path: {\n              dataroomId,\n              path,\n            },\n          },\n          select: {\n            id: true,\n            parentId: true,\n            name: true,\n            hierarchicalIndex: true,\n          },\n        });\n\n        if (!folder) {\n          return res.status(404).end(\"Parent Folder not found\");\n        }\n\n        folderNames.push({\n          name: folder.name,\n          path: path,\n          hierarchicalIndex: folder.hierarchicalIndex,\n        });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: dataroomFolder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for dataroomFolder and related data\n// Optimized: Single query with include\n\nconst dataroomFolderWithRelations = await prisma.dataroomFolder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (let i = 0; i < validatedName.length; i++) {\n        const path = \"/\" + validatedName.slice(0, i + 1).join(\"/\"); // construct the materialized path\n        console.log(\"path\", path);\n\n        const folder = await prisma.dataroomFolder.findUnique({\n          where: {\n            dataroomId_path: {\n              dataroomId,\n              path,\n            },\n          },\n          select: {\n            id: true,\n            parentId: true,\n            name: true,\n            hierarchicalIndex: true,\n          },\n        });\n\n        if (!folder) {\n          return res.status(404).end(\"Parent Folder not found\");\n        }\n\n        folderNames.push({\n          name: folder.name,\n          path: path,\n          hierarchicalIndex: folder.hierarchicalIndex,\n        });\n      }\n*/\n\n// Access related data directly: dataroomFolderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "pages/api/teams/[teamId]/datarooms/[id]/folders/manage/index.ts",
+   "line": 135,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "descendantFolders.map((descendant) => {\n              // Replace the old path prefix with the new path\n              const relativePath = descendant.path.slice(oldPath.length);\n              const newDescendantPath = `${newPath}${relativePath}`;\n\n              return tx.dataroomFolder.update({\n                where: { id: descendant.id },\n                data: { path: newDescendantPath },\n              });\n            })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: relativePath, newDescendantPath\n// Method calls: descendantFolders.map(), descendant.path.slice(), tx.dataroomFolder.update()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\ndescendantFolders.map((descendant) => {\n              // Replace the old path prefix with the new path\n              const relativePath = descendant.path.slice(oldPath.length);\n              const newDescendantPath = `${newPath}${relativePath}`;\n\n              return tx.dataroomFolder.update({\n                where: { id: descendant.id },\n                data: { path: newDescendantPath },\n              });\n            })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "app/(ee)/api/workflows/[workflowId]/steps/[stepId]/route.ts",
+   "line": 343,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "stepsToReorder.map((s) =>\n        prisma.workflowStep.update({\n          where: { id: s.id },\n          data: { stepOrder: s.stepOrder - 1 },\n        }),\n      )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: workflowStep",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for workflowStep and related data\n// Optimized: Single query with include\n\nconst workflowStepWithRelations = await prisma.workflowStep.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nstepsToReorder.map((s) =>\n        prisma.workflowStep.update({\n          where: { id: s.id },\n          data: { stepOrder: s.stepOrder - 1 },\n        }),\n      )\n*/\n\n// Access related data directly: workflowStepWithRelations[0].relation"
+    }
+   ]
+  }
+ ]
+}

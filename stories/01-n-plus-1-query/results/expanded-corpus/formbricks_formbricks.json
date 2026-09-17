@@ -1,0 +1,258 @@
+{
+ "repository": "formbricks/formbricks",
+ "filesScanned": 404,
+ "findings": [
+  {
+   "file": "apps/web/lib/feedback-source/service.ts",
+   "line": 360,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "mappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFormbricksMapping.create({\n              data: {\n                feedbackSourceId: feedbackSource.id,\n                workspaceId,\n                surveyId: mapping.surveyId,\n                elementId: mapping.elementId,\n                hubFieldType: mapping.hubFieldType,\n                customFieldLabel: mapping.customFieldLabel,\n              },\n            })\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: mappingsInput.mappings.map(), tx.feedbackSourceFormbricksMapping.create()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nmappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFormbricksMapping.create({\n              data: {\n                feedbackSourceId: feedbackSource.id,\n                workspaceId,\n                surveyId: mapping.surveyId,\n                elementId: mapping.elementId,\n                hubFieldType: mapping.hubFieldType,\n                customFieldLabel: mapping.customFieldLabel,\n              },\n            })\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/feedback-source/service.ts",
+   "line": 375,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "mappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFieldMapping.create({\n              data: {\n                feedbackSourceId: feedbackSource.id,\n                workspaceId,\n                sourceFieldId: mapping.sourceFieldId,\n                targetFieldId: mapping.targetFieldId,\n                staticValue: mapping.staticValue,\n              },\n            })\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: mappingsInput.mappings.map(), tx.feedbackSourceFieldMapping.create()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nmappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFieldMapping.create({\n              data: {\n                feedbackSourceId: feedbackSource.id,\n                workspaceId,\n                sourceFieldId: mapping.sourceFieldId,\n                targetFieldId: mapping.targetFieldId,\n                staticValue: mapping.staticValue,\n              },\n            })\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/feedback-source/service.ts",
+   "line": 466,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "mappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFormbricksMapping.create({\n              data: {\n                feedbackSourceId,\n                workspaceId,\n                surveyId: mapping.surveyId,\n                elementId: mapping.elementId,\n                hubFieldType: mapping.hubFieldType,\n                customFieldLabel: mapping.customFieldLabel,\n              },\n            })\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: mappingsInput.mappings.map(), tx.feedbackSourceFormbricksMapping.create()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nmappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFormbricksMapping.create({\n              data: {\n                feedbackSourceId,\n                workspaceId,\n                surveyId: mapping.surveyId,\n                elementId: mapping.elementId,\n                hubFieldType: mapping.hubFieldType,\n                customFieldLabel: mapping.customFieldLabel,\n              },\n            })\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/feedback-source/service.ts",
+   "line": 485,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "mappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFieldMapping.create({\n              data: {\n                feedbackSourceId,\n                workspaceId,\n                sourceFieldId: mapping.sourceFieldId,\n                targetFieldId: mapping.targetFieldId,\n                staticValue: mapping.staticValue,\n              },\n            })\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: mappingsInput.mappings.map(), tx.feedbackSourceFieldMapping.create()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nmappingsInput.mappings.map((mapping) =>\n            tx.feedbackSourceFieldMapping.create({\n              data: {\n                feedbackSourceId,\n                workspaceId,\n                sourceFieldId: mapping.sourceFieldId,\n                targetFieldId: mapping.targetFieldId,\n                staticValue: mapping.staticValue,\n              },\n            })\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/feedback-source/mapping-reconciliation.ts",
+   "line": 235,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [hubFieldType, elementIds] of elementIdsByHubFieldType) {\n        await tx.feedbackSourceFormbricksMapping.updateMany({\n          where: { feedbackSourceId, workspaceId, surveyId, elementId: { in: elementIds } },\n          data: { hubFieldType },\n        });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , elementIdsByHubFieldType",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over elementIdsByHubFieldType\n// Problem: N+1 queries where N = elementIdsByHubFieldType.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = elementIdsByHubFieldType.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [hubFieldType, elementIds] of elementIdsByHubFieldType) {\n        await tx.feedbackSourceFormbricksMapping.updateMany({\n          where: { feedbackSourceId, workspaceId, surveyId, elementId: { in: elementIds } },\n          data: { hubFieldType },\n        });\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/embedded-data/reconcile.ts",
+   "line": 279,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const entry of plan.toUpdate) {\n    // Scoped by `surveyId` to match the delete above. The id provably came from a link this survey\n    // owns, so the extra clause changes nothing — it just keeps every write here tenant-scoped on its\n    // face rather than by argument.\n    await tx.embeddedData.updateMany({\n      where: { id: entry.fieldId, surveyId },\n      data: {\n        name: entry.name,\n        dataType: entry.dataType,\n        defaultValue: toStoredDefaultValue(entry.defaultValue),\n      },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: entry, plan.toUpdate",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over plan.toUpdate\n// Problem: N+1 queries where N = plan.toUpdate.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = plan.toUpdate.map(entry => entry.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const entry of plan.toUpdate) {\n    // Scoped by `surveyId` to match the delete above. The id provably came from a link this survey\n    // owns, so the extra clause changes nothing — it just keeps every write here tenant-scoped on its\n    // face rather than by argument.\n    await tx.embeddedData.updateMany({\n      where: { id: entry.fieldId, surveyId },\n      data: {\n        name: entry.name,\n        dataType: entry.dataType,\n        defaultValue: toStoredDefaultValue(entry.defaultValue),\n      },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/embedded-data/reconcile.ts",
+   "line": 295,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const entry of plan.toReorder) {\n    await tx.surveyEmbeddedData.updateMany({\n      where: { id: entry.linkId, surveyId },\n      data: { order: entry.order },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: entry, plan.toReorder",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over plan.toReorder\n// Problem: N+1 queries where N = plan.toReorder.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = plan.toReorder.map(entry => entry.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const entry of plan.toReorder) {\n    await tx.surveyEmbeddedData.updateMany({\n      where: { id: entry.linkId, surveyId },\n      data: { order: entry.order },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/embedded-data/reconcile.ts",
+   "line": 304,
+   "severity": "high",
+   "description": "Found 2 database queries (Database.create(), Database.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const entry of plan.toCreate) {\n    const field = await tx.embeddedData.create({\n      data: {\n        // Local: owned by this survey, absent from the shared library, so no library key.\n        key: null,\n        surveyId,\n        workspaceId,\n        name: entry.name,\n        source: entry.source,\n        dataType: entry.dataType,\n        defaultValue: toStoredDefaultValue(entry.defaultValue),\n      },\n      select: { id: true },\n    });\n\n    await tx.surveyEmbeddedData.create({\n      data: {\n        surveyId,\n        workspaceId,\n        embeddedDataId: field.id,\n        storageKey: entry.storageKey,\n        order: entry.order,\n      },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: entry, plan.toCreate",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over plan.toCreate\n// Problem: N+1 queries where N = plan.toCreate.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = plan.toCreate.map(entry => entry.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const entry of plan.toCreate) {\n    const field = await tx.embeddedData.create({\n      data: {\n        // Local: owned by this survey, absent from the shared library, so no library key.\n        key: null,\n        surveyId,\n        workspaceId,\n        name: entry.name,\n        source: entry.source,\n        dataType: entry.dataType,\n        defaultValue: toStoredDefaultValue(entry.defaultValue),\n      },\n      select: { id: true },\n    });\n\n    await tx.surveyEmbeddedData.create({\n      data: {\n        surveyId,\n        workspaceId,\n        embeddedDataId: field.id,\n        storageKey: entry.storageKey,\n        order: entry.order,\n      },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/app/api/v3/surveys/languages.ts",
+   "line": 56,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "languageRequests.map((languageRequest) =>\n        prisma.language.upsert({\n          where: {\n            workspaceId_code: {\n              workspaceId,\n              code: languageRequest.code,\n            },\n          },\n          update: {},\n          create: {\n            workspaceId,\n            code: languageRequest.code,\n            alias: null,\n          },\n          select: languageSelect,\n        })\n      )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: language",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for language and related data\n// Optimized: Single query with include\n\nconst languageWithRelations = await prisma.language.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nlanguageRequests.map((languageRequest) =>\n        prisma.language.upsert({\n          where: {\n            workspaceId_code: {\n              workspaceId,\n              code: languageRequest.code,\n            },\n          },\n          update: {},\n          create: {\n            workspaceId,\n            code: languageRequest.code,\n            alias: null,\n          },\n          select: languageSelect,\n        })\n      )\n*/\n\n// Access related data directly: languageWithRelations[0].relation"
+    }
+   ]
+  }
+ ]
+}

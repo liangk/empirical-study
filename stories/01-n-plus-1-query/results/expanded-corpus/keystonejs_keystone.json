@@ -1,0 +1,34 @@
+{
+ "repository": "keystonejs/keystone",
+ "filesScanned": 190,
+ "findings": [
+  {
+   "file": "packages/core/src/testing/postgresql.ts",
+   "line": 27,
+   "severity": "medium",
+   "description": "Found 1 database query (Raw SQL.query()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const candidate of candidates) {\n    const client = new Client(configForDatabase(config, candidate))\n    try {\n      await client.connect()\n      await client.query(`CREATE DATABASE ${escapeIdentifier(database)}`)\n      return\n    } catch (error) {\n      if (errorCode(error) === '42P04') return\n      lastError = error\n    } finally {\n      await client.end().catch(() => {})\n    }\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 91.69999999999999,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: none detected\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nfor (const candidate of candidates) {\n    const client = new Client(configForDatabase(config, candidate))\n    try {\n      await client.connect()\n      await client.query(`CREATE DATABASE ${escapeIdentifier(database)}`)\n      return\n    } catch (error) {\n      if (errorCode(error) === '42P04') return\n      lastError = error\n    } finally {\n      await client.end().catch(() => {})\n    }\n  }\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  }
+ ]
+}

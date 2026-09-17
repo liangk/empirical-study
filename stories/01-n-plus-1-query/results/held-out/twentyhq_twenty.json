@@ -1,0 +1,259 @@
+{
+ "repository": "twentyhq/twenty",
+ "filesScanned": 470,
+ "findings": [
+  {
+   "file": "packages/twenty-server/src/modules/workflow/workflow-builder/workflow-version-step/workflow-version-step-operations.workspace-service.ts",
+   "line": 712,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.findOne()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "responseKeys.map(async (key) => {\n          // @ts-expect-error legacy noImplicitAny\n          if (!isDefined(response[key])) {\n            // @ts-expect-error legacy noImplicitAny\n            return { key, value: response[key] };\n          }\n\n          const field = step.settings.input.find((field) => field.name === key);\n\n          if (\n            field?.type === 'RECORD' &&\n            field?.settings?.objectName &&\n            // @ts-expect-error legacy noImplicitAny\n            isDefined(response[key].id) &&\n            // @ts-expect-error legacy noImplicitAny\n            isValidUuid(response[key].id)\n          ) {\n            const { flatObjectMetadata, flatFieldMetadataMaps } =\n              await this.workflowCommonWorkspaceService.getObjectMetadataInfo(\n                field.settings.objectName,\n                workspaceId,\n              );\n\n            const relationFieldsNames = getFlatFieldsFromFlatObjectMetadata(\n              flatObjectMetadata,\n              flatFieldMetadataMaps,\n            )\n              .filter((field) => field.type === FieldMetadataType.RELATION)\n              .map((field) => field.name);\n\n            const repository = this.workspaceOrmManager.getRepository(\n              field.settings.objectName,\n              { shouldBypassPermissionChecks: true },\n            );\n\n            const record = await repository.findOne({\n              // @ts-expect-error legacy noImplicitAny\n              where: { id: response[key].id },\n              relations: relationFieldsNames,\n            });\n\n            return { key, value: record };\n          } else {\n            // @ts-expect-error legacy noImplicitAny\n            return { key, value: response[key] };\n          }\n        })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "single-pass",
+     "rank": 1,
+     "fitnessScore": 77.7,
+     "reasoning": "Converted filter().map() chain to single reduce() pass",
+     "code": "responseKeys.map(async key => {\n  // @ts-expect-error legacy noImplicitAny\n  if (!isDefined(response[key])) {\n    // @ts-expect-error legacy noImplicitAny\n    return {\n      key,\n      value: response[key]\n    };\n  }\n  const field = step.settings.input.find(field => field.name === key);\n  if (field?.type === 'RECORD' && field?.settings?.objectName &&\n  // @ts-expect-error legacy noImplicitAny\n  isDefined(response[key].id) &&\n  // @ts-expect-error legacy noImplicitAny\n  isValidUuid(response[key].id)) {\n    const {\n      flatObjectMetadata,\n      flatFieldMetadataMaps\n    } = await this.workflowCommonWorkspaceService.getObjectMetadataInfo(field.settings.objectName, workspaceId);\n    const relationFieldsNames = getFlatFieldsFromFlatObjectMetadata(flatObjectMetadata, flatFieldMetadataMaps).reduce((acc, field) => {\n      if (field.type === FieldMetadataType.RELATION) acc.push(field.name);\n      return acc;\n    }, []);\n    const repository = this.workspaceOrmManager.getRepository(field.settings.objectName, {\n      shouldBypassPermissionChecks: true\n    });\n    const record = await repository.findOne({\n      // @ts-expect-error legacy noImplicitAny\n      where: {\n        id: response[key].id\n      },\n      relations: relationFieldsNames\n    });\n    return {\n      key,\n      value: record\n    };\n  } else {\n    // @ts-expect-error legacy noImplicitAny\n    return {\n      key,\n      value: response[key]\n    };\n  }\n});"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/workflow/common/workspace-services/workflow-common.workspace-service.ts",
+   "line": 372,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const workflowVersion of workflowVersions) {\n          if (workflowVersion.status === WorkflowVersionStatus.ACTIVE) {\n            await transactionalWorkflowVersionRepository.update(\n              workflowVersion.id,\n              { status: WorkflowVersionStatus.DEACTIVATED },\n            );\n          }\n        }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: workflowVersion, workflowVersions",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over workflowVersions\n// Problem: N+1 queries where N = workflowVersions.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = workflowVersions.map(workflowVersion => workflowVersion.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const workflowVersion of workflowVersions) {\n          if (workflowVersion.status === WorkflowVersionStatus.ACTIVE) {\n            dataMap.get(workflowVersion.id);\n          }\n        }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/workflow/common/query-hooks/workflow-create-many.post-query.hook.ts",
+   "line": 51,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.insert()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const workflow of payload) {\n      await this.workflowVersionCoreSyncService.writeWorkflowVersionAndMirror(\n        workspace.id,\n        async (workflowVersionRepository) => {\n          const insertResult = await workflowVersionRepository.insert({\n            workflowId: workflow.id,\n            status: WorkflowVersionStatus.DRAFT,\n            name: 'v1',\n            position,\n          });\n\n          return (\n            insertResult.generatedMaps[0] as WorkflowVersionWorkspaceEntity\n          ).id;\n        },\n      );\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: workflow, payload",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over payload\n// Problem: N+1 queries where N = payload.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = payload.map(workflow => workflow.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const workflow of payload) {\n      await this.workflowVersionCoreSyncService.writeWorkflowVersionAndMirror(\n        workspace.id,\n        async (workflowVersionRepository) => {\n          const insertResult = dataMap.get(workflow.id);\n\n          return (\n            insertResult.generatedMaps[0] as WorkflowVersionWorkspaceEntity\n          ).id;\n        },\n      );\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/calendar/common/services/calendar-channel-sync-status.service.ts",
+   "line": 368,
+   "severity": "high",
+   "description": "Found 2 database queries (Repository.findOne(), Repository.findOne()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const calendarChannel of calendarChannels) {\n      const connectedAccount = await this.connectedAccountRepository.findOne({\n        where: { id: calendarChannel.connectedAccountId, workspaceId },\n      });\n\n      if (!connectedAccount) {\n        continue;\n      }\n\n      const userWorkspace = await this.userWorkspaceRepository.findOne({\n        where: { id: connectedAccount.userWorkspaceId },\n        select: ['userId'],\n      });\n\n      if (!userWorkspace) {\n        continue;\n      }\n\n      const userId = userWorkspace.userId;\n      const connectedAccountId = connectedAccount.id;\n\n      await this.accountsToReconnectService.addAccountToReconnectByKey(\n        AccountsToReconnectKeys.ACCOUNTS_TO_RECONNECT_INSUFFICIENT_PERMISSIONS,\n        userId,\n        workspaceId,\n        connectedAccountId,\n      );\n    }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 82.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: calendarChannel, calendarChannels",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over calendarChannels\n// Problem: N+1 queries where N = calendarChannels.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = calendarChannels.map(calendarChannel => calendarChannel.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const calendarChannel of calendarChannels) {\n      const connectedAccount = await this.connectedAccountRepository.findOne({\n        where: { id: calendarChannel.connectedAccountId, workspaceId },\n      });\n\n      if (!connectedAccount) {\n        continue;\n      }\n\n      const userWorkspace = await this.userWorkspaceRepository.findOne({\n        where: { id: connectedAccount.userWorkspaceId },\n        select: ['userId'],\n      });\n\n      if (!userWorkspace) {\n        continue;\n      }\n\n      const userId = userWorkspace.userId;\n      const connectedAccountId = connectedAccount.id;\n\n      await this.accountsToReconnectService.addAccountToReconnectByKey(\n        AccountsToReconnectKeys.ACCOUNTS_TO_RECONNECT_INSUFFICIENT_PERMISSIONS,\n        userId,\n        workspaceId,\n        connectedAccountId,\n      );\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/calendar/calendar-event-import-manager/commands/calendar-trigger-event-list-fetch.command.ts",
+   "line": 80,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const calendarChannel of calendarChannels) {\n          await this.calendarChannelRepository.update(\n            { id: calendarChannel.id, workspaceId },\n            {\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_SCHEDULED,\n              syncStageStartedAt: new Date().toISOString(),\n            },\n          );\n\n          await this.messageQueueService.add<CalendarEventListFetchJobData>(\n            CalendarEventListFetchJob.name,\n            {\n              calendarChannelId: calendarChannel.id,\n              workspaceId,\n            },\n          );\n\n          this.logger.log(\n            `Triggered fetch for calendar channel ${calendarChannel.id}`,\n          );\n        }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: calendarChannel, calendarChannels",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over calendarChannels\n// Problem: N+1 queries where N = calendarChannels.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = calendarChannels.map(calendarChannel => calendarChannel.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const calendarChannel of calendarChannels) {\n          await this.calendarChannelRepository.update(\n            { id: calendarChannel.id, workspaceId },\n            {\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_SCHEDULED,\n              syncStageStartedAt: new Date().toISOString(),\n            },\n          );\n\n          await this.messageQueueService.add<CalendarEventListFetchJobData>(\n            CalendarEventListFetchJob.name,\n            {\n              calendarChannelId: calendarChannel.id,\n              workspaceId,\n            },\n          );\n\n          this.logger.log(\n            `Triggered fetch for calendar channel ${calendarChannel.id}`,\n          );\n        }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/workflow/workflow-trigger/automated-trigger/listeners/workflow-database-event-trigger.listener.ts",
+   "line": 279,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.find()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [joinColumnName, joinFieldId] of Object.entries(\n        fieldIdByJoinColumnName,\n      )) {\n        const joinField = findFlatEntityByIdInFlatEntityMapsOrThrow({\n          flatEntityMaps: flatFieldMetadataMaps,\n          flatEntityId: joinFieldId,\n        });\n\n        const joinRecordIds = records\n          .map((record) => record[joinColumnName])\n          .filter(isDefined);\n\n        if (joinRecordIds.length === 0) {\n          continue;\n        }\n\n        const relatedObjectMetadataId =\n          joinField.relationTargetObjectMetadataId;\n\n        if (!isDefined(relatedObjectMetadataId)) {\n          continue;\n        }\n\n        const relatedObjectMetadataNameSingular =\n          findFlatEntityByIdInFlatEntityMaps({\n            flatEntityId: relatedObjectMetadataId,\n            flatEntityMaps: flatObjectMetadataMaps,\n          })?.nameSingular;\n\n        if (!isDefined(relatedObjectMetadataNameSingular)) {\n          continue;\n        }\n\n        const relatedObjectRepository = this.workspaceOrmManager.getRepository(\n          relatedObjectMetadataNameSingular,\n          { shouldBypassPermissionChecks: true },\n        );\n\n        const relatedRecords = await relatedObjectRepository.find({\n          where: { id: In(joinRecordIds) },\n        });\n\n        for (const record of records) {\n          record[joinField.name] = relatedRecords.find(\n            (relatedRecord) => relatedRecord.id === record[joinColumnName],\n          );\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 89.5,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: record, records",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over records\n// Problem: N+1 queries where N = records.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = records.map(record => record.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [joinColumnName, joinFieldId] of Object.entries(\n        fieldIdByJoinColumnName,\n      )) {\n        const joinField = findFlatEntityByIdInFlatEntityMapsOrThrow({\n          flatEntityMaps: flatFieldMetadataMaps,\n          flatEntityId: joinFieldId,\n        });\n\n        const joinRecordIds = records\n          .map((record) => record[joinColumnName])\n          .filter(isDefined);\n\n        if (joinRecordIds.length === 0) {\n          continue;\n        }\n\n        const relatedObjectMetadataId =\n          joinField.relationTargetObjectMetadataId;\n\n        if (!isDefined(relatedObjectMetadataId)) {\n          continue;\n        }\n\n        const relatedObjectMetadataNameSingular =\n          findFlatEntityByIdInFlatEntityMaps({\n            flatEntityId: relatedObjectMetadataId,\n            flatEntityMaps: flatObjectMetadataMaps,\n          })?.nameSingular;\n\n        if (!isDefined(relatedObjectMetadataNameSingular)) {\n          continue;\n        }\n\n        const relatedObjectRepository = this.workspaceOrmManager.getRepository(\n          relatedObjectMetadataNameSingular,\n          { shouldBypassPermissionChecks: true },\n        );\n\n        const relatedRecords = dataMap.get(record.id) },\n        });\n\n        for (const record of records) {\n          record[joinField.name] = relatedRecords.find(\n            (relatedRecord) => relatedRecord.id === record[joinColumnName],\n          );\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/calendar/calendar-event-import-manager/crons/jobs/calendar-events-import.cron.job.ts",
+   "line": 54,
+   "severity": "critical",
+   "description": "Found 3 database queries (Repository.find(), SQL Builder.execute(), SQL Builder.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const activeWorkspace of activeWorkspaces) {\n      try {\n        const pendingCalendarChannels =\n          await this.calendarChannelRepository.find({\n            where: {\n              workspaceId: activeWorkspace.id,\n              isSyncEnabled: true,\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_PENDING,\n            },\n          });\n\n        const calendarChannelsToSchedule = pendingCalendarChannels.filter(\n          (calendarChannel) =>\n            !isThrottled(\n              toIsoStringOrNull(calendarChannel.syncStageStartedAt),\n              calendarChannel.throttleFailureCount,\n            ),\n        );\n\n        const throttledCount =\n          pendingCalendarChannels.length - calendarChannelsToSchedule.length;\n\n        if (throttledCount > 0) {\n          this.logger.log(\n            `Skipped ${throttledCount} throttled calendar channels for workspace ${activeWorkspace.id}`,\n          );\n        }\n\n        if (calendarChannelsToSchedule.length === 0) {\n          continue;\n        }\n\n        const calendarChannelIds = calendarChannelsToSchedule.map(\n          (calendarChannel) => calendarChannel.id,\n        );\n\n        const updateResult = await this.calendarChannelRepository\n          .createQueryBuilder()\n          .update()\n          .set({\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_SCHEDULED,\n            syncStageStartedAt: new Date(),\n          })\n          .where({\n            id: In(calendarChannelIds),\n            workspaceId: activeWorkspace.id,\n            isSyncEnabled: true,\n            syncStage: CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_PENDING,\n          })\n          .returning('id')\n          .execute();\n\n        const updatedIds = updateResult.raw.map(\n          (row: { id: string }) => row.id,\n        );\n\n        for (const calendarChannelId of updatedIds) {\n          await this.messageQueueService.add<CalendarEventsImportJobData>(\n            CalendarEventsImportJob.name,\n            {\n              calendarChannelId,\n              workspaceId: activeWorkspace.id,\n            },\n          );\n        }\n      } catch (error) {\n        this.exceptionHandlerService.captureExceptions([error], {\n          workspace: {\n            id: activeWorkspace.id,\n          },\n        });\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 72.2,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: calendarChannelId, updatedIds",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over updatedIds\n// Problem: N+1 queries where N = updatedIds.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = updatedIds.map(calendarChannelId => calendarChannelId.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const activeWorkspace of activeWorkspaces) {\n      try {\n        const pendingCalendarChannels =\n          await this.calendarChannelRepository.find({\n            where: {\n              workspaceId: activeWorkspace.id,\n              isSyncEnabled: true,\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_PENDING,\n            },\n          });\n\n        const calendarChannelsToSchedule = pendingCalendarChannels.filter(\n          (calendarChannel) =>\n            !isThrottled(\n              toIsoStringOrNull(calendarChannel.syncStageStartedAt),\n              calendarChannel.throttleFailureCount,\n            ),\n        );\n\n        const throttledCount =\n          pendingCalendarChannels.length - calendarChannelsToSchedule.length;\n\n        if (throttledCount > 0) {\n          this.logger.log(\n            `Skipped ${throttledCount} throttled calendar channels for workspace ${activeWorkspace.id}`,\n          );\n        }\n\n        if (calendarChannelsToSchedule.length === 0) {\n          continue;\n        }\n\n        const calendarChannelIds = calendarChannelsToSchedule.map(\n          (calendarChannel) => calendarChannel.id,\n        );\n\n        const updateResult = await this.calendarChannelRepository\n          .createQueryBuilder()\n          .update()\n          .set({\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_SCHEDULED,\n            syncStageStartedAt: new Date(),\n          })\n          .where({\n            id: In(calendarChannelIds),\n            workspaceId: activeWorkspace.id,\n            isSyncEnabled: true,\n            syncStage: CalendarChannelSyncStage.CALENDAR_EVENTS_IMPORT_PENDING,\n          })\n          .returning('id')\n          .execute();\n\n        const updatedIds = updateResult.raw.map(\n          (row: { id: string }) => row.id,\n        );\n\n        for (const calendarChannelId of updatedIds) {\n          await this.messageQueueService.add<CalendarEventsImportJobData>(\n            CalendarEventsImportJob.name,\n            {\n              calendarChannelId,\n              workspaceId: activeWorkspace.id,\n            },\n          );\n        }\n      } catch (error) {\n        this.exceptionHandlerService.captureExceptions([error], {\n          workspace: {\n            id: activeWorkspace.id,\n          },\n        });\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/calendar/calendar-event-import-manager/crons/jobs/calendar-event-list-fetch.cron.job.ts",
+   "line": 58,
+   "severity": "critical",
+   "description": "Found 3 database queries (Repository.find(), SQL Builder.execute(), SQL Builder.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const activeWorkspace of activeWorkspaces) {\n      try {\n        const pendingCalendarChannels =\n          await this.calendarChannelRepository.find({\n            where: {\n              workspaceId: activeWorkspace.id,\n              isSyncEnabled: true,\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_PENDING,\n            },\n          });\n\n        const calendarChannelsToSchedule = pendingCalendarChannels.filter(\n          (calendarChannel) =>\n            !isThrottled(\n              toIsoStringOrNull(calendarChannel.syncStageStartedAt),\n              calendarChannel.throttleFailureCount,\n            ) &&\n            (calendarChannel.webhookSubscriptionStatus !==\n              WebhookSubscriptionStatus.ACTIVE ||\n              isLastSuccessfulSyncStale(\n                toIsoStringOrNull(calendarChannel.syncedAt),\n              )),\n        );\n\n        const throttledCount =\n          pendingCalendarChannels.length - calendarChannelsToSchedule.length;\n\n        if (throttledCount > 0) {\n          this.logger.log(\n            `Skipped ${throttledCount} throttled calendar channels for workspace ${activeWorkspace.id}`,\n          );\n        }\n\n        if (calendarChannelsToSchedule.length === 0) {\n          continue;\n        }\n\n        const calendarChannelIds = calendarChannelsToSchedule.map(\n          (calendarChannel) => calendarChannel.id,\n        );\n\n        const updateResult = await this.calendarChannelRepository\n          .createQueryBuilder()\n          .update()\n          .set({\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_SCHEDULED,\n            syncStageStartedAt: new Date(),\n          })\n          .where({\n            id: In(calendarChannelIds),\n            workspaceId: activeWorkspace.id,\n            isSyncEnabled: true,\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_PENDING,\n          })\n          .returning('id')\n          .execute();\n\n        const updatedIds = updateResult.raw.map(\n          (row: { id: string }) => row.id,\n        );\n\n        for (const calendarChannelId of updatedIds) {\n          await this.messageQueueService.add<CalendarEventListFetchJobData>(\n            CalendarEventListFetchJob.name,\n            {\n              calendarChannelId,\n              workspaceId: activeWorkspace.id,\n            },\n          );\n        }\n      } catch (error) {\n        this.exceptionHandlerService.captureExceptions([error], {\n          workspace: {\n            id: activeWorkspace.id,\n          },\n        });\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 72.2,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: calendarChannelId, updatedIds",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over updatedIds\n// Problem: N+1 queries where N = updatedIds.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = updatedIds.map(calendarChannelId => calendarChannelId.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const activeWorkspace of activeWorkspaces) {\n      try {\n        const pendingCalendarChannels =\n          await this.calendarChannelRepository.find({\n            where: {\n              workspaceId: activeWorkspace.id,\n              isSyncEnabled: true,\n              syncStage:\n                CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_PENDING,\n            },\n          });\n\n        const calendarChannelsToSchedule = pendingCalendarChannels.filter(\n          (calendarChannel) =>\n            !isThrottled(\n              toIsoStringOrNull(calendarChannel.syncStageStartedAt),\n              calendarChannel.throttleFailureCount,\n            ) &&\n            (calendarChannel.webhookSubscriptionStatus !==\n              WebhookSubscriptionStatus.ACTIVE ||\n              isLastSuccessfulSyncStale(\n                toIsoStringOrNull(calendarChannel.syncedAt),\n              )),\n        );\n\n        const throttledCount =\n          pendingCalendarChannels.length - calendarChannelsToSchedule.length;\n\n        if (throttledCount > 0) {\n          this.logger.log(\n            `Skipped ${throttledCount} throttled calendar channels for workspace ${activeWorkspace.id}`,\n          );\n        }\n\n        if (calendarChannelsToSchedule.length === 0) {\n          continue;\n        }\n\n        const calendarChannelIds = calendarChannelsToSchedule.map(\n          (calendarChannel) => calendarChannel.id,\n        );\n\n        const updateResult = await this.calendarChannelRepository\n          .createQueryBuilder()\n          .update()\n          .set({\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_SCHEDULED,\n            syncStageStartedAt: new Date(),\n          })\n          .where({\n            id: In(calendarChannelIds),\n            workspaceId: activeWorkspace.id,\n            isSyncEnabled: true,\n            syncStage:\n              CalendarChannelSyncStage.CALENDAR_EVENT_LIST_FETCH_PENDING,\n          })\n          .returning('id')\n          .execute();\n\n        const updatedIds = updateResult.raw.map(\n          (row: { id: string }) => row.id,\n        );\n\n        for (const calendarChannelId of updatedIds) {\n          await this.messageQueueService.add<CalendarEventListFetchJobData>(\n            CalendarEventListFetchJob.name,\n            {\n              calendarChannelId,\n              workspaceId: activeWorkspace.id,\n            },\n          );\n        }\n      } catch (error) {\n        this.exceptionHandlerService.captureExceptions([error], {\n          workspace: {\n            id: activeWorkspace.id,\n          },\n        });\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/twenty-server/src/modules/calendar/common/query-hooks/calendar-event/services/apply-calendar-events-visibility-restrictions.service.ts",
+   "line": 73,
+   "severity": "high",
+   "description": "Found 2 database queries (Repository.findOne(), Repository.find()) inside a for loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (let i = calendarEvents.length - 1; i >= 0; i--) {\n          const associations = calendarChannelCalendarEventsAssociations.filter(\n            (association) =>\n              association.calendarEventId === calendarEvents[i].id,\n          );\n\n          const calendarChannels = associations\n            .map((association) =>\n              calendarChannelMap.get(association.calendarChannelId),\n            )\n            .filter(isDefined);\n\n          const calendarChannelsGroupByVisibility = groupBy(\n            calendarChannels,\n            (channel) => channel.visibility,\n          );\n\n          if (\n            calendarChannelsGroupByVisibility[\n              CalendarChannelVisibility.SHARE_EVERYTHING\n            ]\n          ) {\n            continue;\n          }\n\n          if (isDefined(userId)) {\n            const userWorkspace = await this.userWorkspaceRepository.findOne({\n              where: { userId, workspaceId },\n              select: ['id'],\n            });\n\n            if (userWorkspace) {\n              const connectedAccounts =\n                await this.connectedAccountRepository.find({\n                  where: {\n                    calendarChannels: {\n                      id: In(calendarChannels.map((channel) => channel.id)),\n                    },\n                    userWorkspaceId: userWorkspace.id,\n                    workspaceId,\n                  },\n                });\n\n              if (connectedAccounts.length > 0) {\n                continue;\n              }\n            }\n          }\n\n          if (\n            calendarChannelsGroupByVisibility[\n              CalendarChannelVisibility.METADATA\n            ]\n          ) {\n            calendarEvents[i].title =\n              FIELD_RESTRICTED_ADDITIONAL_PERMISSIONS_REQUIRED;\n            calendarEvents[i].description =\n              FIELD_RESTRICTED_ADDITIONAL_PERMISSIONS_REQUIRED;\n            continue;\n          }\n\n          calendarEvents.splice(i, 1);\n        }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 72.5,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , ",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over \n// Problem: N+1 queries where N = .length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = .map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (let i = calendarEvents.length - 1; i >= 0; i--) {\n          const associations = calendarChannelCalendarEventsAssociations.filter(\n            (association) =>\n              association.calendarEventId === calendarEvents[i].id,\n          );\n\n          const calendarChannels = associations\n            .map((association) =>\n              calendarChannelMap.get(association.calendarChannelId),\n            )\n            .filter(isDefined);\n\n          const calendarChannelsGroupByVisibility = groupBy(\n            calendarChannels,\n            (channel) => channel.visibility,\n          );\n\n          if (\n            calendarChannelsGroupByVisibility[\n              CalendarChannelVisibility.SHARE_EVERYTHING\n            ]\n          ) {\n            continue;\n          }\n\n          if (isDefined(userId)) {\n            const userWorkspace = await this.userWorkspaceRepository.findOne({\n              where: { userId, workspaceId },\n              select: ['id'],\n            });\n\n            if (userWorkspace) {\n              const connectedAccounts =\n                await this.connectedAccountRepository.find({\n                  where: {\n                    calendarChannels: {\n                      id: In(calendarChannels.map((channel) => channel.id)),\n                    },\n                    userWorkspaceId: userWorkspace.id,\n                    workspaceId,\n                  },\n                });\n\n              if (connectedAccounts.length > 0) {\n                continue;\n              }\n            }\n          }\n\n          if (\n            calendarChannelsGroupByVisibility[\n              CalendarChannelVisibility.METADATA\n            ]\n          ) {\n            calendarEvents[i].title =\n              FIELD_RESTRICTED_ADDITIONAL_PERMISSIONS_REQUIRED;\n            calendarEvents[i].description =\n              FIELD_RESTRICTED_ADDITIONAL_PERMISSIONS_REQUIRED;\n            continue;\n          }\n\n          calendarEvents.splice(i, 1);\n        }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ],
+ "n1Findings": 9
+}

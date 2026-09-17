@@ -1,0 +1,223 @@
+{
+ "repository": "dubinc/dub",
+ "filesScanned": 441,
+ "findings": [
+  {
+   "file": "apps/web/lib/api/partners/bulk-reactivate-partners.ts",
+   "line": 114,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.updateMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [groupId, groupPartnerIds] of partnerIdsByGroupId) {\n    const group = groupsById.get(groupId);\n\n    if (!group) {\n      continue;\n    }\n\n    await prisma.programEnrollment.updateMany({\n      where: {\n        programId: program.id,\n        partnerId: {\n          in: groupPartnerIds,\n        },\n        status: \"deactivated\",\n      },\n      data: {\n        status: \"approved\",\n        groupId,\n        clickRewardId: group.clickRewardId,\n        leadRewardId: group.leadRewardId,\n        saleRewardId: group.saleRewardId,\n        referralRewardId: group.referralRewardId,\n        customRewardId: group.customRewardId,\n        discountId: group.discountId,\n      },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , partnerIdsByGroupId",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over partnerIdsByGroupId\n// Problem: N+1 queries where N = partnerIdsByGroupId.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = partnerIdsByGroupId.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [groupId, groupPartnerIds] of partnerIdsByGroupId) {\n    const group = groupsById.get(groupId);\n\n    if (!group) {\n      continue;\n    }\n\n    await prisma.programEnrollment.updateMany({\n      where: {\n        programId: program.id,\n        partnerId: {\n          in: groupPartnerIds,\n        },\n        status: \"deactivated\",\n      },\n      data: {\n        status: \"approved\",\n        groupId,\n        clickRewardId: group.clickRewardId,\n        leadRewardId: group.leadRewardId,\n        saleRewardId: group.saleRewardId,\n        referralRewardId: group.referralRewardId,\n        customRewardId: group.customRewardId,\n        discountId: group.discountId,\n      },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: programEnrollment",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for programEnrollment and related data\n// Optimized: Single query with include\n\nconst programEnrollmentWithRelations = await prisma.programEnrollment.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const [groupId, groupPartnerIds] of partnerIdsByGroupId) {\n    const group = groupsById.get(groupId);\n\n    if (!group) {\n      continue;\n    }\n\n    await prisma.programEnrollment.updateMany({\n      where: {\n        programId: program.id,\n        partnerId: {\n          in: groupPartnerIds,\n        },\n        status: \"deactivated\",\n      },\n      data: {\n        status: \"approved\",\n        groupId,\n        clickRewardId: group.clickRewardId,\n        leadRewardId: group.leadRewardId,\n        saleRewardId: group.saleRewardId,\n        referralRewardId: group.referralRewardId,\n        customRewardId: group.customRewardId,\n        discountId: group.discountId,\n      },\n    });\n  }\n*/\n\n// Access related data directly: programEnrollmentWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/api/links/bulk-update-links.ts",
+   "line": 55,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "linkIds.map((linkId) =>\n      prisma.link.update({\n        where: {\n          id: linkId,\n        },\n        data: {\n          ...rest,\n          url,\n          proxy,\n          title: title ? truncate(title, 120) : title,\n          description: description ? truncate(description, 240) : description,\n          image:\n            proxy && image && isNotHostedImage(image)\n              ? `${R2_URL}/images/${linkIds[0]}_${imageUrlNonce}`\n              : image,\n          expiresAt: expiresAt ? new Date(expiresAt) : expiresAt,\n          geo: geo === null ? Prisma.DbNull : geo,\n          testVariants: testVariants === null ? Prisma.DbNull : testVariants,\n\n          ...(url && getParamsFromURL(url)),\n          // Associate tags by tagNames\n          ...(tagNames &&\n            workspaceId && {\n              tags: {\n                deleteMany: {},\n                create: tagNames.map((tagName, idx) => ({\n                  tag: {\n                    connect: {\n                      name_projectId: {\n                        name: tagName,\n                        projectId: workspaceId as string,\n                      },\n                    },\n                  },\n                  createdAt: new Date(new Date().getTime() + idx * 100), // increment by 100ms for correct order\n                })),\n              },\n            }),\n\n          // Associate tags by IDs (takes priority over tagNames)\n          ...(combinedTagIds && {\n            tags: {\n              deleteMany: {},\n              create: combinedTagIds.map((tagId, idx) => ({\n                tagId,\n                createdAt: new Date(new Date().getTime() + idx * 100), // increment by 100ms for correct order\n              })),\n            },\n          }),\n\n          // Associate webhooks\n          ...(webhookIds && {\n            webhooks: {\n              deleteMany: {},\n              create: webhookIds.map((webhookId) => ({\n                webhookId,\n              })),\n            },\n          }),\n        },\n        include: {\n          ...includeTags,\n          ...includeProgramEnrollment,\n          webhooks: webhookIds ? { select: { webhookId: true } } : false,\n        },\n      }),\n    )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 63.8,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: link",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for link and related data\n// Optimized: Single query with include\n\nconst linkWithRelations = await prisma.link.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nlinkIds.map((linkId) =>\n      prisma.link.update({\n        where: {\n          id: linkId,\n        },\n        data: {\n          ...rest,\n          url,\n          proxy,\n          title: title ? truncate(title, 120) : title,\n          description: description ? truncate(description, 240) : description,\n          image:\n            proxy && image && isNotHostedImage(image)\n              ? `${R2_URL}/images/${linkIds[0]}_${imageUrlNonce}`\n              : image,\n          expiresAt: expiresAt ? new Date(expiresAt) : expiresAt,\n          geo: geo === null ? Prisma.DbNull : geo,\n          testVariants: testVariants === null ? Prisma.DbNull : testVariants,\n\n          ...(url && getParamsFromURL(url)),\n          // Associate tags by tagNames\n          ...(tagNames &&\n            workspaceId && {\n              tags: {\n                deleteMany: {},\n                create: tagNames.map((tagName, idx) => ({\n                  tag: {\n                    connect: {\n                      name_projectId: {\n                        name: tagName,\n                        projectId: workspaceId as string,\n                      },\n                    },\n                  },\n                  createdAt: new Date(new Date().getTime() + idx * 100), // increment by 100ms for correct order\n                })),\n              },\n            }),\n\n          // Associate tags by IDs (takes priority over tagNames)\n          ...(combinedTagIds && {\n            tags: {\n              deleteMany: {},\n              create: combinedTagIds.map((tagId, idx) => ({\n                tagId,\n                createdAt: new Date(new Date().getTime() + idx * 100), // increment by 100ms for correct order\n              })),\n            },\n          }),\n\n          // Associate webhooks\n          ...(webhookIds && {\n            webhooks: {\n              deleteMany: {},\n              create: webhookIds.map((webhookId) => ({\n                webhookId,\n              })),\n            },\n          }),\n        },\n        include: {\n          ...includeTags,\n          ...includeProgramEnrollment,\n          webhooks: webhookIds ? { select: { webhookId: true } } : false,\n        },\n      }),\n    )\n*/\n\n// Access related data directly: linkWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/api/groups/remove-group-id-from-move-rules.ts",
+   "line": 30,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const group of groups) {\n    if (!group.workflowId || !group.workflow) {\n      continue;\n    }\n\n    const parsed = workflowConditionsSchema.safeParse(\n      group.workflow.triggerConditions,\n    );\n\n    if (!parsed.success) {\n      continue;\n    }\n\n    const nextConditions = scrubGroupIdFromConditions({\n      conditions: parsed.data,\n      groupId,\n    });\n\n    if (JSON.stringify(nextConditions) === JSON.stringify(parsed.data)) {\n      continue;\n    }\n\n    await prisma.workflow.update({\n      where: {\n        id: group.workflowId,\n      },\n      data: {\n        triggerConditions: nextConditions,\n      },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: group, groups",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over groups\n// Problem: N+1 queries where N = groups.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = groups.map(group => group.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const group of groups) {\n    if (!group.workflowId || !group.workflow) {\n      continue;\n    }\n\n    const parsed = workflowConditionsSchema.safeParse(\n      group.workflow.triggerConditions,\n    );\n\n    if (!parsed.success) {\n      continue;\n    }\n\n    const nextConditions = scrubGroupIdFromConditions({\n      conditions: parsed.data,\n      groupId,\n    });\n\n    if (JSON.stringify(nextConditions) === JSON.stringify(parsed.data)) {\n      continue;\n    }\n\n    await prisma.workflow.update({\n      where: {\n        id: group.workflowId,\n      },\n      data: {\n        triggerConditions: nextConditions,\n      },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: workflow",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for workflow and related data\n// Optimized: Single query with include\n\nconst workflowWithRelations = await prisma.workflow.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const group of groups) {\n    if (!group.workflowId || !group.workflow) {\n      continue;\n    }\n\n    const parsed = workflowConditionsSchema.safeParse(\n      group.workflow.triggerConditions,\n    );\n\n    if (!parsed.success) {\n      continue;\n    }\n\n    const nextConditions = scrubGroupIdFromConditions({\n      conditions: parsed.data,\n      groupId,\n    });\n\n    if (JSON.stringify(nextConditions) === JSON.stringify(parsed.data)) {\n      continue;\n    }\n\n    await prisma.workflow.update({\n      where: {\n        id: group.workflowId,\n      },\n      data: {\n        triggerConditions: nextConditions,\n      },\n    });\n  }\n*/\n\n// Access related data directly: workflowWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/api/fraud/create-fraud-events.ts",
+   "line": 153,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "finalGroups.map((group) =>\n      prisma.fraudEventGroup.update({\n        where: {\n          id: group.id,\n        },\n        data: {\n          lastEventAt: new Date(),\n          eventCount: {\n            increment: newEventsWithGroup.filter(\n              (e) => e.fraudEventGroupId === group.id,\n            ).length,\n          },\n        },\n      }),\n    )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: fraudEventGroup",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for fraudEventGroup and related data\n// Optimized: Single query with include\n\nconst fraudEventGroupWithRelations = await prisma.fraudEventGroup.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfinalGroups.map((group) =>\n      prisma.fraudEventGroup.update({\n        where: {\n          id: group.id,\n        },\n        data: {\n          lastEventAt: new Date(),\n          eventCount: {\n            increment: newEventsWithGroup.filter(\n              (e) => e.fraudEventGroupId === group.id,\n            ).length,\n          },\n        },\n      }),\n    )\n*/\n\n// Access related data directly: fraudEventGroupWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/lib/api/commissions/reconcile-payout-amounts.ts",
+   "line": 58,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "toUpdate.map(({ id, amount }) =>\n          tx.payout.update({\n            where: {\n              id,\n              status: {\n                in: MUTABLE_PAYOUT_STATUSES,\n              },\n            },\n            data: {\n              amount,\n            },\n          }),\n        )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: toUpdate.map(), tx.payout.update()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\ntoUpdate.map(({ id, amount }) =>\n          tx.payout.update({\n            where: {\n              id,\n              status: {\n                in: MUTABLE_PAYOUT_STATUSES,\n              },\n            },\n            data: {\n              amount,\n            },\n          }),\n        )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/app/api/utm/[id]/route.ts",
+   "line": 77,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const defaultLink of defaultLinks) {\n                const res = await prisma.partnerGroupDefaultLink.update({\n                  where: {\n                    id: defaultLink.id,\n                  },\n                  data: {\n                    url: constructURLFromUTMParams(\n                      defaultLink.url,\n                      extractUtmParams(updatedTemplate),\n                    ),\n                  },\n                });\n                console.log(\n                  `Updated default link ${defaultLink.id} with URL: ${res.url}`,\n                );\n              }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: defaultLink, defaultLinks",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over defaultLinks\n// Problem: N+1 queries where N = defaultLinks.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = defaultLinks.map(defaultLink => defaultLink.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const defaultLink of defaultLinks) {\n                const res = await prisma.partnerGroupDefaultLink.update({\n                  where: {\n                    id: defaultLink.id,\n                  },\n                  data: {\n                    url: constructURLFromUTMParams(\n                      defaultLink.url,\n                      extractUtmParams(updatedTemplate),\n                    ),\n                  },\n                });\n                console.log(\n                  `Updated default link ${defaultLink.id} with URL: ${res.url}`,\n                );\n              }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: partnerGroupDefaultLink",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for partnerGroupDefaultLink and related data\n// Optimized: Single query with include\n\nconst partnerGroupDefaultLinkWithRelations = await prisma.partnerGroupDefaultLink.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const defaultLink of defaultLinks) {\n                const res = await prisma.partnerGroupDefaultLink.update({\n                  where: {\n                    id: defaultLink.id,\n                  },\n                  data: {\n                    url: constructURLFromUTMParams(\n                      defaultLink.url,\n                      extractUtmParams(updatedTemplate),\n                    ),\n                  },\n                });\n                console.log(\n                  `Updated default link ${defaultLink.id} with URL: ${res.url}`,\n                );\n              }\n*/\n\n// Access related data directly: partnerGroupDefaultLinkWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "apps/web/app/api/links/sync/route.ts",
+   "line": 23,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "links.map(async (link) => {\n        return await prisma.link.findUnique({\n          where: {\n            domain_key: {\n              domain: link.domain,\n              key: link.key,\n            },\n            projectId: null,\n            userId: null,\n          },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: link",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for link and related data\n// Optimized: Single query with include\n\nconst linkWithRelations = await prisma.link.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nlinks.map(async (link) => {\n        return await prisma.link.findUnique({\n          where: {\n            domain_key: {\n              domain: link.domain,\n              key: link.key,\n            },\n            projectId: null,\n            userId: null,\n          },\n        });\n      })\n*/\n\n// Access related data directly: linkWithRelations[0].relation"
+    }
+   ]
+  }
+ ]
+}

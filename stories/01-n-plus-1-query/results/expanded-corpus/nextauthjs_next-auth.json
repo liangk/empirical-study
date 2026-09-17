@@ -1,0 +1,34 @@
+{
+ "repository": "nextauthjs/next-auth",
+ "filesScanned": 261,
+ "findings": [
+  {
+   "file": "packages/adapter-d1/src/migrations.ts",
+   "line": 52,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.run()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "upSQLStatements.forEach(async (sql) => {\n    try {\n      await db.prepare(sql).run()\n    } catch (e: any) {\n      console.error(e.cause?.message, e.message)\n    }\n  })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 87.15,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: upSQLStatements.forEach(), db.prepare(sql).run(), db.prepare(), console.error()\n// Loop structure: none\n// Async calls: 1\n\n// Original code:\nupSQLStatements.forEach(async (sql) => {\n    try {\n      await db.prepare(sql).run()\n    } catch (e: any) {\n      console.error(e.cause?.message, e.message)\n    }\n  })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,202 @@
+{
+ "filesScanned": 398,
+ "n1Findings": 7,
+ "findings": [
+  {
+   "file": "packages/trpc/server/routers/loggedInViewer/eventTypeOrder.handler.ts",
+   "line": 56,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "input.ids.reverse().map((id, position) => {\n      return prisma.eventType.update({\n        where: {\n          id,\n        },\n        data: {\n          position,\n        },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: eventType",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for eventType and related data\n// Optimized: Single query with include\n\nconst eventTypeWithRelations = await prisma.eventType.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ninput.ids.reverse().map((id, position) => {\n      return prisma.eventType.update({\n        where: {\n          id,\n        },\n        data: {\n          position,\n        },\n      });\n    })\n*/\n\n// Access related data directly: eventTypeWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/slots/reserveSlot.handler.ts",
+   "line": 83,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "eventType.users.map((user) =>\n          prisma.selectedSlots.upsert({\n            where: { selectedSlotUnique: { userId: user.id, slotUtcStartDate, slotUtcEndDate, uid } },\n            update: {\n              slotUtcStartDate,\n              slotUtcEndDate,\n              releaseAt,\n              eventTypeId,\n            },\n            create: {\n              userId: user.id,\n              eventTypeId,\n              slotUtcStartDate,\n              slotUtcEndDate,\n              uid,\n              releaseAt,\n              isSeat: eventType.seatsPerTimeSlot !== null,\n            },\n          })\n        )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: selectedSlots",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for selectedSlots and related data\n// Optimized: Single query with include\n\nconst selectedSlotsWithRelations = await prisma.selectedSlots.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\neventType.users.map((user) =>\n          prisma.selectedSlots.upsert({\n            where: { selectedSlotUnique: { userId: user.id, slotUtcStartDate, slotUtcEndDate, uid } },\n            update: {\n              slotUtcStartDate,\n              slotUtcEndDate,\n              releaseAt,\n              eventTypeId,\n            },\n            create: {\n              userId: user.id,\n              eventTypeId,\n              slotUtcStartDate,\n              slotUtcEndDate,\n              uid,\n              releaseAt,\n              isSeat: eventType.seatsPerTimeSlot !== null,\n            },\n          })\n        )\n*/\n\n// Access related data directly: selectedSlotsWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/me/updateProfile.handler.ts",
+   "line": 369,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "modifiedRecords.map((updated) => {\n        let emailVerified = keyedSecondaryEmailsFromDB[updated.id].emailVerified;\n        if (secondaryEmail?.id === updated.id) {\n          emailVerified = primaryEmailVerified;\n        } else if (updated.email !== keyedSecondaryEmailsFromDB[updated.id].email) {\n          emailVerified = null;\n        }\n\n        return prisma.secondaryEmail.update({\n          where: {\n            id: updated.id,\n            userId: updatedUser.id,\n          },\n          data: {\n            email: updated.email,\n            emailVerified,\n          },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 72.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: secondaryEmail",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for secondaryEmail and related data\n// Optimized: Single query with include\n\nconst secondaryEmailWithRelations = await prisma.secondaryEmail.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nmodifiedRecords.map((updated) => {\n        let emailVerified = keyedSecondaryEmailsFromDB[updated.id].emailVerified;\n        if (secondaryEmail?.id === updated.id) {\n          emailVerified = primaryEmailVerified;\n        } else if (updated.email !== keyedSecondaryEmailsFromDB[updated.id].email) {\n          emailVerified = null;\n        }\n\n        return prisma.secondaryEmail.update({\n          where: {\n            id: updated.id,\n            userId: updatedUser.id,\n          },\n          data: {\n            email: updated.email,\n            emailVerified,\n          },\n        });\n      })\n*/\n\n// Access related data directly: secondaryEmailWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/bookings/get.handler.ts",
+   "line": 748,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "plainBookings.map(async (booking) => {\n      // If seats are enabled, the event is not set to show attendees, and the current user is not the host, filter out attendees who are not the current user\n      if (\n        booking.seatsReferences.length &&\n        !booking.eventType?.seatsShowAttendees &&\n        !checkIfUserIsHost(user.id, booking)\n      ) {\n        booking.attendees = booking.attendees.filter((attendee) => attendee.email === user.email);\n      }\n\n      let rescheduler = null;\n      if (booking.fromReschedule) {\n        const rescheduledBooking = await prisma.booking.findUnique({\n          where: {\n            uid: booking.fromReschedule,\n          },\n          select: {\n            rescheduledBy: true,\n          },\n        });\n        if (rescheduledBooking) {\n          rescheduler = rescheduledBooking.rescheduledBy;\n        }\n      }\n\n      return {\n        ...booking,\n        rescheduler,\n        eventType: {\n          ...booking.eventType,\n          recurringEvent: parseRecurringEvent(booking.eventType?.recurringEvent),\n          eventTypeColor: parseEventTypeColor(booking.eventType?.eventTypeColor),\n          price: booking.eventType?.price || 0,\n          currency: booking.eventType?.currency || \"usd\",\n          metadata: EventTypeMetaDataSchema.parse(booking.eventType?.metadata || {}),\n        },\n        startTime: booking.startTime.toISOString(),\n        endTime: booking.endTime.toISOString(),\n      };\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 77.94999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: booking",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for booking and related data\n// Optimized: Single query with include\n\nconst bookingWithRelations = await prisma.booking.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nplainBookings.map(async (booking) => {\n      // If seats are enabled, the event is not set to show attendees, and the current user is not the host, filter out attendees who are not the current user\n      if (\n        booking.seatsReferences.length &&\n        !booking.eventType?.seatsShowAttendees &&\n        !checkIfUserIsHost(user.id, booking)\n      ) {\n        booking.attendees = booking.attendees.filter((attendee) => attendee.email === user.email);\n      }\n\n      let rescheduler = null;\n      if (booking.fromReschedule) {\n        const rescheduledBooking = await prisma.booking.findUnique({\n          where: {\n            uid: booking.fromReschedule,\n          },\n          select: {\n            rescheduledBy: true,\n          },\n        });\n        if (rescheduledBooking) {\n          rescheduler = rescheduledBooking.rescheduledBy;\n        }\n      }\n\n      return {\n        ...booking,\n        rescheduler,\n        eventType: {\n          ...booking.eventType,\n          recurringEvent: parseRecurringEvent(booking.eventType?.recurringEvent),\n          eventTypeColor: parseEventTypeColor(booking.eventType?.eventTypeColor),\n          price: booking.eventType?.price || 0,\n          currency: booking.eventType?.currency || \"usd\",\n          metadata: EventTypeMetaDataSchema.parse(booking.eventType?.metadata || {}),\n        },\n        startTime: booking.startTime.toISOString(),\n        endTime: booking.endTime.toISOString(),\n      };\n    })\n*/\n\n// Access related data directly: bookingWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/apps/toggle.handler.ts",
+   "line": 122,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "eventTypesWithApp.map(async (eventType) => {\n          // TODO: This update query can be removed by merging it with\n          // the previous `findMany` query, if that query returns certain values.\n          await prisma.eventType.update({\n            where: {\n              id: eventType.id,\n            },\n            data: {\n              metadata: {\n                ...(eventType.metadata as object),\n                apps: {\n                  // From this comment we can not type JSON fields in Prisma https://github.com/prisma/prisma/issues/3219#issuecomment-670202980\n                  // @ts-expect-error\n                  ...eventType.metadata?.apps,\n                  // @ts-expect-error\n                  [app.slug]: { ...eventType.metadata?.apps[app.slug], enabled: false },\n                },\n              },\n            },\n          });\n\n          return Promise.all(\n            eventType.users.map(async (user) => {\n              const locale = user.locale ?? \"en\";\n              let t = translations.get(locale);\n\n              if (!t) {\n                t = await getTranslation(locale, \"common\");\n                translations.set(locale, t);\n              }\n\n              await sendDisabledAppEmail({\n                email: user.email,\n                appName: appMetadata?.name || app.slug,\n                appType: app.categories,\n                t,\n                title: eventType.title,\n                eventTypeId: eventType.id,\n              });\n            })\n          );\n        })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.19999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: eventType",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for eventType and related data\n// Optimized: Single query with include\n\nconst eventTypeWithRelations = await prisma.eventType.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\neventTypesWithApp.map(async (eventType) => {\n          // TODO: This update query can be removed by merging it with\n          // the previous `findMany` query, if that query returns certain values.\n          await prisma.eventType.update({\n            where: {\n              id: eventType.id,\n            },\n            data: {\n              metadata: {\n                ...(eventType.metadata as object),\n                apps: {\n                  // From this comment we can not type JSON fields in Prisma https://github.com/prisma/prisma/issues/3219#issuecomment-670202980\n                  // @ts-expect-error\n                  ...eventType.metadata?.apps,\n                  // @ts-expect-error\n                  [app.slug]: { ...eventType.metadata?.apps[app.slug], enabled: false },\n                },\n              },\n            },\n          });\n\n          return Promise.all(\n            eventType.users.map(async (user) => {\n              const locale = user.locale ?? \"en\";\n              let t = translations.get(locale);\n\n              if (!t) {\n                t = await getTranslation(locale, \"common\");\n                translations.set(locale, t);\n              }\n\n              await sendDisabledAppEmail({\n                email: user.email,\n                appName: appMetadata?.name || app.slug,\n                appType: app.categories,\n                t,\n                title: eventType.title,\n                eventTypeId: eventType.id,\n              });\n            })\n          );\n        })\n*/\n\n// Access related data directly: eventTypeWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/apps/queryForDependencies.handler.ts",
+   "line": 21,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findFirst()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "input.map(async (dependency) => {\n      const appId = dependency;\n      const dbCredential = await prisma.credential.findFirst({\n        where: {\n          appId,\n          userId: ctx.user.id,\n        },\n      });\n\n      const delegationCredentials = await getAllDelegationCredentialsForUserByAppSlug({\n        user: ctx.user,\n        appSlug: appId,\n      });\n      const appInstalled = !!dbCredential || !!delegationCredentials.length;\n\n      const app = getAppFromSlug(dependency);\n\n      dependencyData.push({ name: app?.name || dependency, slug: dependency, installed: !!appInstalled });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: credential",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for credential and related data\n// Optimized: Single query with include\n\nconst credentialWithRelations = await prisma.credential.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ninput.map(async (dependency) => {\n      const appId = dependency;\n      const dbCredential = await prisma.credential.findFirst({\n        where: {\n          appId,\n          userId: ctx.user.id,\n        },\n      });\n\n      const delegationCredentials = await getAllDelegationCredentialsForUserByAppSlug({\n        user: ctx.user,\n        appSlug: appId,\n      });\n      const appInstalled = !!dbCredential || !!delegationCredentials.length;\n\n      const app = getAppFromSlug(dependency);\n\n      dependencyData.push({ name: app?.name || dependency, slug: dependency, installed: !!appInstalled });\n    })\n*/\n\n// Access related data directly: credentialWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/trpc/server/routers/viewer/eventTypes/heavy/update.handler.ts",
+   "line": 434,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const group of groupsToUpdate) {\n        await tx.hostGroup.update({\n          where: { id: group.id },\n          data: { name: group.name },\n        });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: group, groupsToUpdate",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over groupsToUpdate\n// Problem: N+1 queries where N = groupsToUpdate.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = groupsToUpdate.map(group => group.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const group of groupsToUpdate) {\n        await tx.hostGroup.update({\n          where: { id: group.id },\n          data: { name: group.name },\n        });\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,881 @@
+{
+ "repository": "documenso/documenso",
+ "filesScanned": 359,
+ "findings": [
+  {
+   "file": "packages/lib/server-only/user/delete-user.ts",
+   "line": 80,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.updateMany()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "memberTeams.map(async ({ teamId, orgOwnerId }) => {\n      return prisma.envelope.updateMany({\n        where: {\n          userId: user.id,\n          teamId,\n        },\n        data: {\n          userId: orgOwnerId,\n        },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: envelope",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for envelope and related data\n// Optimized: Single query with include\n\nconst envelopeWithRelations = await prisma.envelope.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nmemberTeams.map(async ({ teamId, orgOwnerId }) => {\n      return prisma.envelope.updateMany({\n        where: {\n          userId: user.id,\n          teamId,\n        },\n        data: {\n          userId: orgOwnerId,\n        },\n      });\n    })\n*/\n\n// Access related data directly: envelopeWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/template/create-document-from-template.ts",
+   "line": 442,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.findFirst(), Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "template.envelopeItems.map(async (item, i) => {\n      let documentDataIdToDuplicate = item.documentDataId;\n\n      const foundCustomDocumentData = customDocumentData.find((customDocumentDataItem) => {\n        // Handle empty envelopeItemId for backwards compatibility reasons.\n        if (customDocumentDataItem.documentDataId && !customDocumentDataItem.envelopeItemId) {\n          return true;\n        }\n\n        return customDocumentDataItem.envelopeItemId === item.id;\n      });\n\n      if (foundCustomDocumentData) {\n        documentDataIdToDuplicate = foundCustomDocumentData.documentDataId;\n      }\n\n      const documentDataToDuplicate = await prisma.documentData.findFirst({\n        where: {\n          id: documentDataIdToDuplicate,\n        },\n      });\n\n      if (!documentDataToDuplicate) {\n        throw new AppError(AppErrorCode.NOT_FOUND, {\n          message: 'Document data not found',\n        });\n      }\n\n      let buffer = await getFileServerSide(documentDataToDuplicate);\n\n      const titleToUse = item.title || finalEnvelopeTitle;\n\n      if (formValues) {\n        // eslint-disable-next-line require-atomic-updates\n        buffer = await insertFormValuesInPdf({\n          pdf: Buffer.from(buffer),\n          formValues,\n        });\n      }\n\n      const duplicatedFile = await putNormalizedPdfFileServerSide({\n        name: titleToUse,\n        type: 'application/pdf',\n        arrayBuffer: async () => Promise.resolve(buffer),\n      });\n\n      const newDocumentData = await prisma.documentData.create({\n        data: {\n          type: duplicatedFile.type,\n          data: duplicatedFile.data,\n          initialData: documentDataToDuplicate.data,\n        },\n      });\n\n      const newEnvelopeItemId = prefixedId('envelope_item');\n\n      oldEnvelopeItemToNewEnvelopeItemIdMap[item.id] = newEnvelopeItemId;\n\n      return {\n        id: newEnvelopeItemId,\n        title: titleToUse.endsWith('.pdf') ? titleToUse.slice(0, -4) : titleToUse,\n        documentDataId: newDocumentData.id,\n        order: item.order !== undefined ? item.order : i + 1,\n      };\n    })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 67.45,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: documentData",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for documentData and related data\n// Optimized: Single query with include\n\nconst documentDataWithRelations = await prisma.documentData.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ntemplate.envelopeItems.map(async (item, i) => {\n      let documentDataIdToDuplicate = item.documentDataId;\n\n      const foundCustomDocumentData = customDocumentData.find((customDocumentDataItem) => {\n        // Handle empty envelopeItemId for backwards compatibility reasons.\n        if (customDocumentDataItem.documentDataId && !customDocumentDataItem.envelopeItemId) {\n          return true;\n        }\n\n        return customDocumentDataItem.envelopeItemId === item.id;\n      });\n\n      if (foundCustomDocumentData) {\n        documentDataIdToDuplicate = foundCustomDocumentData.documentDataId;\n      }\n\n      const documentDataToDuplicate = await prisma.documentData.findFirst({\n        where: {\n          id: documentDataIdToDuplicate,\n        },\n      });\n\n      if (!documentDataToDuplicate) {\n        throw new AppError(AppErrorCode.NOT_FOUND, {\n          message: 'Document data not found',\n        });\n      }\n\n      let buffer = await getFileServerSide(documentDataToDuplicate);\n\n      const titleToUse = item.title || finalEnvelopeTitle;\n\n      if (formValues) {\n        // eslint-disable-next-line require-atomic-updates\n        buffer = await insertFormValuesInPdf({\n          pdf: Buffer.from(buffer),\n          formValues,\n        });\n      }\n\n      const duplicatedFile = await putNormalizedPdfFileServerSide({\n        name: titleToUse,\n        type: 'application/pdf',\n        arrayBuffer: async () => Promise.resolve(buffer),\n      });\n\n      const newDocumentData = await prisma.documentData.create({\n        data: {\n          type: duplicatedFile.type,\n          data: duplicatedFile.data,\n          initialData: documentDataToDuplicate.data,\n        },\n      });\n\n      const newEnvelopeItemId = prefixedId('envelope_item');\n\n      oldEnvelopeItemToNewEnvelopeItemIdMap[item.id] = newEnvelopeItemId;\n\n      return {\n        id: newEnvelopeItemId,\n        title: titleToUse.endsWith('.pdf') ? titleToUse.slice(0, -4) : titleToUse,\n        documentDataId: newDocumentData.id,\n        order: item.order !== undefined ? item.order : i + 1,\n      };\n    })\n*/\n\n// Access related data directly: documentDataWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/template/create-document-from-direct-template.ts",
+   "line": 521,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "directTemplateSignatureFields.map(async ({ templateField, signature, derivedRecipientActionAuth }) => {\n        if (!signature) {\n          throw new Error('Not possible.');\n        }\n\n        const field = await tx.field.create({\n          data: {\n            envelopeId: createdEnvelope.id,\n            envelopeItemId: oldEnvelopeItemToNewEnvelopeItemIdMap[templateField.envelopeItemId],\n            recipientId: createdDirectRecipient.id,\n            type: templateField.type,\n            page: templateField.page,\n            positionX: templateField.positionX,\n            positionY: templateField.positionY,\n            width: templateField.width,\n            height: templateField.height,\n            customText: '',\n            inserted: true,\n            fieldMeta: templateField.fieldMeta || Prisma.JsonNull,\n            signature: {\n              create: {\n                recipientId: createdDirectRecipient.id,\n                signatureImageAsBase64: signature.signatureImageAsBase64,\n                typedSignature: signature.typedSignature,\n              },\n            },\n          },\n          include: {\n            signature: true,\n          },\n        });\n\n        return {\n          field,\n          derivedRecipientActionAuth,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 87.65,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: field\n// Method calls: directTemplateSignatureFields.map(), tx.field.create()\n// Loop structure: none\n// Async calls: 1\n\n// Original code:\ndirectTemplateSignatureFields.map(async ({ templateField, signature, derivedRecipientActionAuth }) => {\n        if (!signature) {\n          throw new Error('Not possible.');\n        }\n\n        const field = await tx.field.create({\n          data: {\n            envelopeId: createdEnvelope.id,\n            envelopeItemId: oldEnvelopeItemToNewEnvelopeItemIdMap[templateField.envelopeItemId],\n            recipientId: createdDirectRecipient.id,\n            type: templateField.type,\n            page: templateField.page,\n            positionX: templateField.positionX,\n            positionY: templateField.positionY,\n            width: templateField.width,\n            height: templateField.height,\n            customText: '',\n            inserted: true,\n            fieldMeta: templateField.fieldMeta || Prisma.JsonNull,\n            signature: {\n              create: {\n                recipientId: createdDirectRecipient.id,\n                signatureImageAsBase64: signature.signatureImageAsBase64,\n                typedSignature: signature.typedSignature,\n              },\n            },\n          },\n          include: {\n            signature: true,\n          },\n        });\n\n        return {\n          field,\n          derivedRecipientActionAuth,\n        };\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/team/create-team.ts",
+   "line": 158,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "TEAM_INTERNAL_GROUPS.map(async (teamGroup) =>\n            tx.organisationGroup.create({\n              data: {\n                id: generateDatabaseId('org_group'),\n                type: teamGroup.type,\n                organisationRole: LOWEST_ORGANISATION_ROLE,\n                organisationId,\n                teamGroups: {\n                  create: {\n                    id: generateDatabaseId('team_group'),\n                    teamId: team.id,\n                    teamRole: teamGroup.teamRole,\n                  },\n                },\n              },\n            }),\n          )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: TEAM_INTERNAL_GROUPS.map(), tx.organisationGroup.create()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nTEAM_INTERNAL_GROUPS.map(async (teamGroup) =>\n            tx.organisationGroup.create({\n              data: {\n                id: generateDatabaseId('org_group'),\n                type: teamGroup.type,\n                organisationRole: LOWEST_ORGANISATION_ROLE,\n                organisationId,\n                teamGroups: {\n                  create: {\n                    id: generateDatabaseId('team_group'),\n                    teamId: team.id,\n                    teamRole: teamGroup.teamRole,\n                  },\n                },\n              },\n            }),\n          )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/recipient/update-recipient-next-reminder.ts",
+   "line": 91,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "recipients.map(async (recipient) => {\n      if (!recipient.sentAt) {\n        return;\n      }\n\n      const nextReminderAt = resolveNextReminderAt({\n        config: settings,\n        sentAt: recipient.sentAt,\n        lastReminderSentAt: recipient.lastReminderSentAt,\n        reminderCount: recipient.reminderCount,\n      });\n\n      await prisma.recipient.update({\n        where: { id: recipient.id },\n        data: { nextReminderAt },\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: recipient",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for recipient and related data\n// Optimized: Single query with include\n\nconst recipientWithRelations = await prisma.recipient.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nrecipients.map(async (recipient) => {\n      if (!recipient.sentAt) {\n        return;\n      }\n\n      const nextReminderAt = resolveNextReminderAt({\n        config: settings,\n        sentAt: recipient.sentAt,\n        lastReminderSentAt: recipient.lastReminderSentAt,\n        reminderCount: recipient.reminderCount,\n      });\n\n      await prisma.recipient.update({\n        where: { id: recipient.id },\n        data: { nextReminderAt },\n      });\n    })\n*/\n\n// Access related data directly: recipientWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/recipient/update-envelope-recipients.ts",
+   "line": 127,
+   "severity": "critical",
+   "description": "Found 3 database queries (Database.update(), Database.deleteMany(), Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "recipientsToUpdate.map(async ({ originalRecipient, updateData }) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(originalRecipient.authOptions);\n\n        if (updateData.actionAuth !== undefined || updateData.accessAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: updateData.accessAuth || authOptions.accessAuth,\n            actionAuth: updateData.actionAuth || authOptions.actionAuth,\n          });\n        }\n\n        const mergedRecipient = {\n          ...originalRecipient,\n          ...updateData,\n        };\n\n        const updatedRecipient = await tx.recipient.update({\n          where: {\n            id: originalRecipient.id,\n            envelopeId: envelope.id,\n          },\n          data: {\n            name: mergedRecipient.name,\n            email: mergedRecipient.email,\n            role: mergedRecipient.role,\n            signingOrder: mergedRecipient.signingOrder,\n            envelopeId: envelope.id,\n            sendStatus: mergedRecipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: mergedRecipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n          include: {\n            fields: true,\n          },\n        });\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          originalRecipient.role !== updatedRecipient.role &&\n          (updatedRecipient.role === RecipientRole.CC || updatedRecipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId: updatedRecipient.id,\n            },\n          });\n        }\n\n        // Handle recipient updated audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          const changes = diffRecipientChanges(originalRecipient, updatedRecipient);\n\n          if (changes.length > 0) {\n            await tx.documentAuditLog.create({\n              data: createDocumentAuditLogData({\n                type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_UPDATED,\n                envelopeId: envelope.id,\n                metadata: requestMetadata,\n                data: {\n                  recipientEmail: updatedRecipient.email,\n                  recipientName: updatedRecipient.name,\n                  recipientId: updatedRecipient.id,\n                  recipientRole: updatedRecipient.role,\n                  changes,\n                },\n              }),\n            });\n          }\n        }\n\n        return updatedRecipient;\n      })",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 69.15,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: authOptions, mergedRecipient, updatedRecipient, changes\n// Method calls: recipientsToUpdate.map(), ZRecipientAuthOptionsSchema.parse(), tx.recipient.update(), tx.field.deleteMany(), tx.documentAuditLog.create()\n// Loop structure: none\n// Async calls: 3\n\n// Original code:\nrecipientsToUpdate.map(async ({ originalRecipient, updateData }) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(originalRecipient.authOptions);\n\n        if (updateData.actionAuth !== undefined || updateData.accessAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: updateData.accessAuth || authOptions.accessAuth,\n            actionAuth: updateData.actionAuth || authOptions.actionAuth,\n          });\n        }\n\n        const mergedRecipient = {\n          ...originalRecipient,\n          ...updateData,\n        };\n\n        const updatedRecipient = await tx.recipient.update({\n          where: {\n            id: originalRecipient.id,\n            envelopeId: envelope.id,\n          },\n          data: {\n            name: mergedRecipient.name,\n            email: mergedRecipient.email,\n            role: mergedRecipient.role,\n            signingOrder: mergedRecipient.signingOrder,\n            envelopeId: envelope.id,\n            sendStatus: mergedRecipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: mergedRecipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n          include: {\n            fields: true,\n          },\n        });\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          originalRecipient.role !== updatedRecipient.role &&\n          (updatedRecipient.role === RecipientRole.CC || updatedRecipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId: updatedRecipient.id,\n            },\n          });\n        }\n\n        // Handle recipient updated audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          const changes = diffRecipientChanges(originalRecipient, updatedRecipient);\n\n          if (changes.length > 0) {\n            await tx.documentAuditLog.create({\n              data: createDocumentAuditLogData({\n                type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_UPDATED,\n                envelopeId: envelope.id,\n                metadata: requestMetadata,\n                data: {\n                  recipientEmail: updatedRecipient.email,\n                  recipientName: updatedRecipient.name,\n                  recipientId: updatedRecipient.id,\n                  recipientRole: updatedRecipient.role,\n                  changes,\n                },\n              }),\n            });\n          }\n        }\n\n        return updatedRecipient;\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/recipient/set-template-recipients.ts",
+   "line": 126,
+   "severity": "high",
+   "description": "Found 2 database queries (Database.upsert(), Database.deleteMany()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "linkedRecipients.map(async (recipient) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(recipient._persisted?.authOptions);\n\n        if (recipient.actionAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: authOptions.accessAuth,\n            actionAuth: recipient.actionAuth,\n          });\n        }\n\n        const upsertedRecipient = await tx.recipient.upsert({\n          where: {\n            id: recipient._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n          },\n          update: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            envelopeId: envelope.id,\n            authOptions,\n          },\n          create: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            envelopeId: envelope.id,\n            authOptions,\n          },\n        });\n\n        const recipientId = upsertedRecipient.id;\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          recipient._persisted &&\n          recipient._persisted.role !== recipient.role &&\n          (recipient.role === RecipientRole.CC || recipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId,\n            },\n          });\n        }\n\n        return {\n          ...upsertedRecipient,\n          clientId: recipient.clientId,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 83.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: authOptions, upsertedRecipient, recipientId\n// Method calls: linkedRecipients.map(), ZRecipientAuthOptionsSchema.parse(), tx.recipient.upsert(), tx.field.deleteMany()\n// Loop structure: none\n// Async calls: 2\n\n// Original code:\nlinkedRecipients.map(async (recipient) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(recipient._persisted?.authOptions);\n\n        if (recipient.actionAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: authOptions.accessAuth,\n            actionAuth: recipient.actionAuth,\n          });\n        }\n\n        const upsertedRecipient = await tx.recipient.upsert({\n          where: {\n            id: recipient._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n          },\n          update: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            envelopeId: envelope.id,\n            authOptions,\n          },\n          create: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            envelopeId: envelope.id,\n            authOptions,\n          },\n        });\n\n        const recipientId = upsertedRecipient.id;\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          recipient._persisted &&\n          recipient._persisted.role !== recipient.role &&\n          (recipient.role === RecipientRole.CC || recipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId,\n            },\n          });\n        }\n\n        return {\n          ...upsertedRecipient,\n          clientId: recipient.clientId,\n        };\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/recipient/set-document-recipients.ts",
+   "line": 138,
+   "severity": "critical",
+   "description": "Found 4 database queries (Database.upsert(), Database.deleteMany(), Database.create(), Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "linkedRecipients.map(async (recipient) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(recipient._persisted?.authOptions);\n\n        if (recipient.actionAuth !== undefined || recipient.accessAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: recipient.accessAuth || authOptions.accessAuth,\n            actionAuth: recipient.actionAuth || authOptions.actionAuth,\n          });\n        }\n\n        if (recipient._persisted && !recipient.canPersistedRecipientBeModified) {\n          return {\n            ...recipient._persisted,\n            clientId: recipient.clientId,\n          };\n        }\n\n        const upsertedRecipient = await tx.recipient.upsert({\n          where: {\n            id: recipient._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n          },\n          update: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n          create: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n        });\n\n        const recipientId = upsertedRecipient.id;\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          recipient._persisted &&\n          recipient._persisted.role !== recipient.role &&\n          (recipient.role === RecipientRole.CC || recipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId,\n            },\n          });\n        }\n\n        const baseAuditLog = {\n          recipientEmail: upsertedRecipient.email,\n          recipientName: upsertedRecipient.name,\n          recipientId,\n          recipientRole: upsertedRecipient.role,\n        };\n\n        const changes = recipient._persisted ? diffRecipientChanges(recipient._persisted, upsertedRecipient) : [];\n\n        // Handle recipient updated audit log.\n        if (recipient._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle recipient created audit log.\n        if (!recipient._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n                accessAuth: recipient.accessAuth || [],\n                actionAuth: recipient.actionAuth || [],\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedRecipient,\n          clientId: recipient.clientId,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "401 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 401,
+     "queriesOptimal": 1,
+     "performanceGain": "401x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "memoize",
+     "rank": 1,
+     "fitnessScore": 57.95,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const createCache = new Map(); // Memoize tx.documentAuditLog.create\n\nlinkedRecipients.map(async (recipient) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(recipient._persisted?.authOptions);\n\n        if (recipient.actionAuth !== undefined || recipient.accessAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: recipient.accessAuth || authOptions.accessAuth,\n            actionAuth: recipient.actionAuth || authOptions.actionAuth,\n          });\n        }\n\n        if (recipient._persisted && !recipient.canPersistedRecipientBeModified) {\n          return {\n            ...recipient._persisted,\n            clientId: recipient.clientId,\n          };\n        }\n\n        const upsertedRecipient = await tx.recipient.upsert({\n          where: {\n            id: recipient._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n          },\n          update: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n          create: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n        });\n\n        const recipientId = upsertedRecipient.id;\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          recipient._persisted &&\n          recipient._persisted.role !== recipient.role &&\n          (recipient.role === RecipientRole.CC || recipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId,\n            },\n          });\n        }\n\n        const baseAuditLog = {\n          recipientEmail: upsertedRecipient.email,\n          recipientName: upsertedRecipient.name,\n          recipientId,\n          recipientRole: upsertedRecipient.role,\n        };\n\n        const changes = recipient._persisted ? diffRecipientChanges(recipient._persisted, upsertedRecipient) : [];\n\n        // Handle recipient updated audit log.\n        if (recipient._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle recipient created audit log.\n        if (!recipient._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n                accessAuth: recipient.accessAuth || [],\n                actionAuth: recipient.actionAuth || [],\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedRecipient,\n          clientId: recipient.clientId,\n        };\n      })"
+    },
+    {
+     "type": "memoization",
+     "rank": 2,
+     "fitnessScore": 55.2,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: tx.documentAuditLog.create",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize tx.documentAuditLog.create (called 2x)\nconst createCache = new Map();\nasync function memoizedCreate(key) {\n  if (createCache.has(key)) return createCache.get(key);\n  const result = await tx.documentAuditLog.create(key);\n  createCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nlinkedRecipients.map(async (recipient) => {\n        let authOptions = ZRecipientAuthOptionsSchema.parse(recipient._persisted?.authOptions);\n\n        if (recipient.actionAuth !== undefined || recipient.accessAuth !== undefined) {\n          authOptions = createRecipientAuthOptions({\n            accessAuth: recipient.accessAuth || authOptions.accessAuth,\n            actionAuth: recipient.actionAuth || authOptions.actionAuth,\n          });\n        }\n\n        if (recipient._persisted && !recipient.canPersistedRecipientBeModified) {\n          return {\n            ...recipient._persisted,\n            clientId: recipient.clientId,\n          };\n        }\n\n        const upsertedRecipient = await tx.recipient.upsert({\n          where: {\n            id: recipient._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n          },\n          update: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n          create: {\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            envelopeId: envelope.id,\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n        });\n\n        const recipientId = upsertedRecipient.id;\n\n        // Clear all fields if the recipient role is changed to a type that cannot have fields.\n        if (\n          recipient._persisted &&\n          recipient._persisted.role !== recipient.role &&\n          (recipient.role === RecipientRole.CC || recipient.role === RecipientRole.VIEWER)\n        ) {\n          await tx.field.deleteMany({\n            where: {\n              recipientId,\n            },\n          });\n        }\n\n        const baseAuditLog = {\n          recipientEmail: upsertedRecipient.email,\n          recipientName: upsertedRecipient.name,\n          recipientId,\n          recipientRole: upsertedRecipient.role,\n        };\n\n        const changes = recipient._persisted ? diffRecipientChanges(recipient._persisted, upsertedRecipient) : [];\n\n        // Handle recipient updated audit log.\n        if (recipient._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle recipient created audit log.\n        if (!recipient._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n                accessAuth: recipient.accessAuth || [],\n                actionAuth: recipient.actionAuth || [],\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedRecipient,\n          clientId: recipient.clientId,\n        };\n      })"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/recipient/create-envelope-recipients.ts",
+   "line": 103,
+   "severity": "high",
+   "description": "Found 2 database queries (Database.create(), Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "normalizedRecipients.map(async (recipient) => {\n        const authOptions = createRecipientAuthOptions({\n          accessAuth: recipient.accessAuth ?? [],\n          actionAuth: recipient.actionAuth ?? [],\n        });\n\n        const createdRecipient = await tx.recipient.create({\n          data: {\n            envelopeId: envelope.id,\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n        });\n\n        // Handle recipient created audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                recipientEmail: createdRecipient.email,\n                recipientName: createdRecipient.name,\n                recipientId: createdRecipient.id,\n                recipientRole: createdRecipient.role,\n                accessAuth: recipient.accessAuth ?? [],\n                actionAuth: recipient.actionAuth ?? [],\n              },\n            }),\n          });\n        }\n\n        return createdRecipient;\n      })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 67.9,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: authOptions, createdRecipient\n// Method calls: normalizedRecipients.map(), tx.recipient.create(), tx.documentAuditLog.create()\n// Loop structure: none\n// Async calls: 2\n\n// Original code:\nnormalizedRecipients.map(async (recipient) => {\n        const authOptions = createRecipientAuthOptions({\n          accessAuth: recipient.accessAuth ?? [],\n          actionAuth: recipient.actionAuth ?? [],\n        });\n\n        const createdRecipient = await tx.recipient.create({\n          data: {\n            envelopeId: envelope.id,\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions,\n          },\n        });\n\n        // Handle recipient created audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.RECIPIENT_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                recipientEmail: createdRecipient.email,\n                recipientName: createdRecipient.name,\n                recipientId: createdRecipient.id,\n                recipientRole: createdRecipient.role,\n                accessAuth: recipient.accessAuth ?? [],\n                actionAuth: recipient.actionAuth ?? [],\n              },\n            }),\n          });\n        }\n\n        return createdRecipient;\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/folder/update-folder.ts",
+   "line": 68,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findUnique()) inside a while loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "while (currentParentId) {\n      if (currentParentId === folderId) {\n        throw new AppError(AppErrorCode.INVALID_REQUEST, {\n          message: 'Cannot move a folder into its descendant',\n        });\n      }\n\n      const currentParent = await prisma.folder.findUnique({\n        where: {\n          id: currentParentId,\n        },\n        select: {\n          parentId: true,\n        },\n      });\n\n      if (!currentParent) {\n        break;\n      }\n\n      currentParentId = currentParent.parentId;\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nwhile (currentParentId) {\n      if (currentParentId === folderId) {\n        throw new AppError(AppErrorCode.INVALID_REQUEST, {\n          message: 'Cannot move a folder into its descendant',\n        });\n      }\n\n      const currentParent = await prisma.folder.findUnique({\n        where: {\n          id: currentParentId,\n        },\n        select: {\n          parentId: true,\n        },\n      });\n\n      if (!currentParent) {\n        break;\n      }\n\n      currentParentId = currentParent.parentId;\n    }\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/folder/get-folder-breadcrumbs.ts",
+   "line": 54,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findFirst()) inside a while loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "while (currentFolder?.parentId) {\n    const parentFolder = await prisma.folder.findFirst({\n      where: whereClause(currentFolder.parentId),\n    });\n\n    if (!parentFolder) {\n      break;\n    }\n\n    breadcrumbs.unshift(parentFolder);\n    currentFolderId = parentFolder.id;\n    currentFolder.parentId = parentFolder.parentId;\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and related data\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nwhile (currentFolder?.parentId) {\n    const parentFolder = await prisma.folder.findFirst({\n      where: whereClause(currentFolder.parentId),\n    });\n\n    if (!parentFolder) {\n      break;\n    }\n\n    breadcrumbs.unshift(parentFolder);\n    currentFolderId = parentFolder.id;\n    currentFolder.parentId = parentFolder.parentId;\n  }\n*/\n\n// Access related data directly: folderWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/folder/find-folders-internal.ts",
+   "line": 46,
+   "severity": "critical",
+   "description": "Found 4 database queries (Prisma.findMany(), Prisma.count(), Prisma.count(), Prisma.count()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "folders.map(async (folder) => {\n        try {\n          const [subfolders, documentCount, templateCount, subfolderCount] = await Promise.all([\n            prisma.folder.findMany({\n              where: {\n                parentId: folder.id,\n                teamId,\n                ...visibilityFilters,\n              },\n              orderBy: {\n                createdAt: 'desc',\n              },\n            }),\n            prisma.envelope.count({\n              where: {\n                type: EnvelopeType.DOCUMENT,\n                folderId: folder.id,\n                deletedAt: null,\n              },\n            }),\n            prisma.envelope.count({\n              where: {\n                type: EnvelopeType.TEMPLATE,\n                folderId: folder.id,\n                deletedAt: null,\n              },\n            }),\n            prisma.folder.count({\n              where: {\n                parentId: folder.id,\n                teamId,\n                ...visibilityFilters,\n              },\n            }),\n          ]);\n\n          const subfoldersWithEmptySubfolders = subfolders.map((subfolder) => ({\n            ...subfolder,\n            subfolders: [],\n            _count: {\n              documents: 0,\n              templates: 0,\n              subfolders: 0,\n            },\n          }));\n\n          return {\n            ...folder,\n            subfolders: subfoldersWithEmptySubfolders,\n            _count: {\n              documents: documentCount,\n              templates: templateCount,\n              subfolders: subfolderCount,\n            },\n          };\n        } catch (error) {\n          console.error('Error processing folder:', folder.id, error);\n          throw error;\n        }\n      })",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "401 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 401,
+     "queriesOptimal": 1,
+     "performanceGain": "401x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: folder, folder",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for folder and folder\n// Optimized: Single query with include\n\nconst folderWithRelations = await prisma.folder.findMany({\n  include: {\n    folder: true, // Eager load folder\n  }\n});\n\n// Original code reference:\n/*\nfolders.map(async (folder) => {\n        try {\n          const [subfolders, documentCount, templateCount, subfolderCount] = await Promise.all([\n            prisma.folder.findMany({\n              where: {\n                parentId: folder.id,\n                teamId,\n                ...visibilityFilters,\n              },\n              orderBy: {\n                createdAt: 'desc',\n              },\n            }),\n            prisma.envelope.count({\n              where: {\n                type: EnvelopeType.DOCUMENT,\n                folderId: folder.id,\n                deletedAt: null,\n              },\n            }),\n            prisma.envelope.count({\n              where: {\n                type: EnvelopeType.TEMPLATE,\n                folderId: folder.id,\n                deletedAt: null,\n              },\n            }),\n            prisma.folder.count({\n              where: {\n                parentId: folder.id,\n                teamId,\n                ...visibilityFilters,\n              },\n            }),\n          ]);\n\n          const subfoldersWithEmptySubfolders = subfolders.map((subfolder) => ({\n            ...subfolder,\n            subfolders: [],\n            _count: {\n              documents: 0,\n              templates: 0,\n              subfolders: 0,\n            },\n          }));\n\n          return {\n            ...folder,\n            subfolders: subfoldersWithEmptySubfolders,\n            _count: {\n              documents: documentCount,\n              templates: templateCount,\n              subfolders: subfolderCount,\n            },\n          };\n        } catch (error) {\n          console.error('Error processing folder:', folder.id, error);\n          throw error;\n        }\n      })\n*/\n\n// Access related data directly: folderWithRelations[0].folder"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/field/update-envelope-fields.ts",
+   "line": 124,
+   "severity": "high",
+   "description": "Found 2 database queries (Database.update(), Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "fieldsToUpdate.map(async ({ originalField, updateData, recipientEmail }) => {\n        const updatedField = await tx.field.update({\n          where: {\n            id: updateData.id,\n          },\n          data: {\n            type: updateData.type,\n            page: updateData.pageNumber,\n            positionX: updateData.pageX,\n            positionY: updateData.pageY,\n            width: updateData.width,\n            height: updateData.height,\n            fieldMeta: updateData.fieldMeta,\n            envelopeItemId: updateData.envelopeItemId,\n          },\n        });\n\n        // Handle field updated audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          const changes = diffFieldChanges(originalField, updatedField);\n\n          if (changes.length > 0) {\n            await tx.documentAuditLog.create({\n              data: createDocumentAuditLogData({\n                type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_UPDATED,\n                envelopeId: envelope.id,\n                metadata: requestMetadata,\n                data: {\n                  fieldId: updatedField.secondaryId,\n                  fieldRecipientEmail: recipientEmail,\n                  fieldRecipientId: updatedField.recipientId,\n                  fieldType: updatedField.type,\n                  changes,\n                },\n              }),\n            });\n          }\n        }\n\n        return updatedField;\n      })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 70.9,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: updatedField, changes\n// Method calls: fieldsToUpdate.map(), tx.field.update(), tx.documentAuditLog.create()\n// Loop structure: none\n// Async calls: 2\n\n// Original code:\nfieldsToUpdate.map(async ({ originalField, updateData, recipientEmail }) => {\n        const updatedField = await tx.field.update({\n          where: {\n            id: updateData.id,\n          },\n          data: {\n            type: updateData.type,\n            page: updateData.pageNumber,\n            positionX: updateData.pageX,\n            positionY: updateData.pageY,\n            width: updateData.width,\n            height: updateData.height,\n            fieldMeta: updateData.fieldMeta,\n            envelopeItemId: updateData.envelopeItemId,\n          },\n        });\n\n        // Handle field updated audit log.\n        if (envelope.type === EnvelopeType.DOCUMENT) {\n          const changes = diffFieldChanges(originalField, updatedField);\n\n          if (changes.length > 0) {\n            await tx.documentAuditLog.create({\n              data: createDocumentAuditLogData({\n                type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_UPDATED,\n                envelopeId: envelope.id,\n                metadata: requestMetadata,\n                data: {\n                  fieldId: updatedField.secondaryId,\n                  fieldRecipientEmail: recipientEmail,\n                  fieldRecipientId: updatedField.recipientId,\n                  fieldType: updatedField.type,\n                  changes,\n                },\n              }),\n            });\n          }\n        }\n\n        return updatedField;\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/field/set-fields-for-template.ts",
+   "line": 111,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.upsert()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "linkedFields.map(async (field) => {\n      const parsedFieldMeta = field.fieldMeta\n        ? ZFieldMetaSchema.parse(field.fieldMeta)\n        : FIELD_META_DEFAULT_VALUES[field.type];\n\n      if (field.type === FieldType.TEXT && field.fieldMeta) {\n        const textFieldParsedMeta = ZTextFieldMeta.parse(field.fieldMeta);\n        const errors = validateTextField(textFieldParsedMeta.text || '', textFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.NUMBER && field.fieldMeta) {\n        const numberFieldParsedMeta = ZNumberFieldMeta.parse(field.fieldMeta);\n        const errors = validateNumberField(String(numberFieldParsedMeta.value || ''), numberFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.CHECKBOX) {\n        if (!field.fieldMeta) {\n          throw new Error('Checkbox field is missing required metadata');\n        }\n        const checkboxFieldParsedMeta = ZCheckboxFieldMeta.parse(field.fieldMeta);\n        const errors = validateCheckboxField(\n          checkboxFieldParsedMeta?.values?.map((item) => item.value) ?? [],\n          checkboxFieldParsedMeta,\n        );\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.RADIO) {\n        if (!field.fieldMeta) {\n          throw new Error('Radio field is missing required metadata');\n        }\n        const radioFieldParsedMeta = ZRadioFieldMeta.parse(field.fieldMeta);\n        const checkedRadioFieldValue = radioFieldParsedMeta.values?.find((option) => option.checked)?.value;\n        const errors = validateRadioField(checkedRadioFieldValue, radioFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join('. '));\n        }\n      }\n\n      if (field.type === FieldType.DROPDOWN) {\n        if (!field.fieldMeta) {\n          throw new Error('Dropdown field is missing required metadata');\n        }\n        const dropdownFieldParsedMeta = ZDropdownFieldMeta.parse(field.fieldMeta);\n        const errors = validateDropdownField(undefined, dropdownFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join('. '));\n        }\n      }\n\n      // Proceed with upsert operation\n      const upsertedField = await prisma.field.upsert({\n        where: {\n          id: field._persisted?.id ?? -1,\n          envelopeId: envelope.id,\n          envelopeItemId: field.envelopeItemId,\n        },\n        update: {\n          page: field.pageNumber,\n          positionX: field.pageX,\n          positionY: field.pageY,\n          width: field.pageWidth,\n          height: field.pageHeight,\n          fieldMeta: parsedFieldMeta,\n        },\n        create: {\n          type: field.type,\n          page: field.pageNumber,\n          positionX: field.pageX,\n          positionY: field.pageY,\n          width: field.pageWidth,\n          height: field.pageHeight,\n          customText: '',\n          inserted: false,\n          fieldMeta: parsedFieldMeta,\n          envelope: {\n            connect: {\n              id: envelope.id,\n            },\n          },\n          envelopeItem: {\n            connect: {\n              id: field.envelopeItemId,\n              envelopeId: envelope.id,\n            },\n          },\n          recipient: {\n            connect: {\n              id: field._recipient.id,\n              envelopeId: envelope.id,\n            },\n          },\n        },\n      });\n\n      return {\n        ...upsertedField,\n        formId: field.formId,\n      };\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 61.4,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: field",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for field and related data\n// Optimized: Single query with include\n\nconst fieldWithRelations = await prisma.field.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nlinkedFields.map(async (field) => {\n      const parsedFieldMeta = field.fieldMeta\n        ? ZFieldMetaSchema.parse(field.fieldMeta)\n        : FIELD_META_DEFAULT_VALUES[field.type];\n\n      if (field.type === FieldType.TEXT && field.fieldMeta) {\n        const textFieldParsedMeta = ZTextFieldMeta.parse(field.fieldMeta);\n        const errors = validateTextField(textFieldParsedMeta.text || '', textFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.NUMBER && field.fieldMeta) {\n        const numberFieldParsedMeta = ZNumberFieldMeta.parse(field.fieldMeta);\n        const errors = validateNumberField(String(numberFieldParsedMeta.value || ''), numberFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.CHECKBOX) {\n        if (!field.fieldMeta) {\n          throw new Error('Checkbox field is missing required metadata');\n        }\n        const checkboxFieldParsedMeta = ZCheckboxFieldMeta.parse(field.fieldMeta);\n        const errors = validateCheckboxField(\n          checkboxFieldParsedMeta?.values?.map((item) => item.value) ?? [],\n          checkboxFieldParsedMeta,\n        );\n        if (errors.length > 0) {\n          throw new Error(errors.join(', '));\n        }\n      }\n\n      if (field.type === FieldType.RADIO) {\n        if (!field.fieldMeta) {\n          throw new Error('Radio field is missing required metadata');\n        }\n        const radioFieldParsedMeta = ZRadioFieldMeta.parse(field.fieldMeta);\n        const checkedRadioFieldValue = radioFieldParsedMeta.values?.find((option) => option.checked)?.value;\n        const errors = validateRadioField(checkedRadioFieldValue, radioFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join('. '));\n        }\n      }\n\n      if (field.type === FieldType.DROPDOWN) {\n        if (!field.fieldMeta) {\n          throw new Error('Dropdown field is missing required metadata');\n        }\n        const dropdownFieldParsedMeta = ZDropdownFieldMeta.parse(field.fieldMeta);\n        const errors = validateDropdownField(undefined, dropdownFieldParsedMeta);\n        if (errors.length > 0) {\n          throw new Error(errors.join('. '));\n        }\n      }\n\n      // Proceed with upsert operation\n      const upsertedField = await prisma.field.upsert({\n        where: {\n          id: field._persisted?.id ?? -1,\n          envelopeId: envelope.id,\n          envelopeItemId: field.envelopeItemId,\n        },\n        update: {\n          page: field.pageNumber,\n          positionX: field.pageX,\n          positionY: field.pageY,\n          width: field.pageWidth,\n          height: field.pageHeight,\n          fieldMeta: parsedFieldMeta,\n        },\n        create: {\n          type: field.type,\n          page: field.pageNumber,\n          positionX: field.pageX,\n          positionY: field.pageY,\n          width: field.pageWidth,\n          height: field.pageHeight,\n          customText: '',\n          inserted: false,\n          fieldMeta: parsedFieldMeta,\n          envelope: {\n            connect: {\n              id: envelope.id,\n            },\n          },\n          envelopeItem: {\n            connect: {\n              id: field.envelopeItemId,\n              envelopeId: envelope.id,\n            },\n          },\n          recipient: {\n            connect: {\n              id: field._recipient.id,\n              envelopeId: envelope.id,\n            },\n          },\n        },\n      });\n\n      return {\n        ...upsertedField,\n        formId: field.formId,\n      };\n    })\n*/\n\n// Access related data directly: fieldWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/field/set-fields-for-document.ts",
+   "line": 130,
+   "severity": "critical",
+   "description": "Found 3 database queries (Database.upsert(), Database.create(), Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "linkedFields.map(async (field) => {\n        const fieldSignerEmail = field._recipient.email.toLowerCase();\n\n        const parsedFieldMeta = field.fieldMeta\n          ? ZFieldMetaSchema.parse(field.fieldMeta)\n          : FIELD_META_DEFAULT_VALUES[field.type];\n\n        if (field.type === FieldType.TEXT && field.fieldMeta) {\n          const textFieldParsedMeta = ZTextFieldMeta.parse(field.fieldMeta);\n          const errors = validateTextField(textFieldParsedMeta.text || '', textFieldParsedMeta);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.NUMBER && field.fieldMeta) {\n          const numberFieldParsedMeta = ZNumberFieldMeta.parse(field.fieldMeta);\n\n          const errors = validateNumberField(String(numberFieldParsedMeta.value || ''), numberFieldParsedMeta, false);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.CHECKBOX) {\n          if (field.fieldMeta) {\n            const checkboxFieldParsedMeta = ZCheckboxFieldMeta.parse(field.fieldMeta);\n            const errors = validateCheckboxField(\n              checkboxFieldParsedMeta?.values?.map((item) => item.value) ?? [],\n              checkboxFieldParsedMeta,\n            );\n\n            if (errors.length > 0) {\n              throw new Error(errors.join(', '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Checkbox field');\n          }\n        }\n\n        if (field.type === FieldType.RADIO) {\n          if (field.fieldMeta) {\n            const radioFieldParsedMeta = ZRadioFieldMeta.parse(field.fieldMeta);\n            const checkedRadioFieldValue = radioFieldParsedMeta.values?.find((option) => option.checked)?.value;\n\n            const errors = validateRadioField(checkedRadioFieldValue, radioFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Radio field');\n          }\n        }\n\n        if (field.type === FieldType.DROPDOWN) {\n          if (field.fieldMeta) {\n            const dropdownFieldParsedMeta = ZDropdownFieldMeta.parse(field.fieldMeta);\n            const errors = validateDropdownField(undefined, dropdownFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Dropdown field');\n          }\n        }\n\n        const upsertedField = await tx.field.upsert({\n          where: {\n            id: field._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n            envelopeItemId: field.envelopeItemId,\n          },\n          update: {\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            fieldMeta: parsedFieldMeta,\n          },\n          create: {\n            type: field.type,\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            customText: '',\n            inserted: false,\n            fieldMeta: parsedFieldMeta,\n            envelope: {\n              connect: {\n                id: envelope.id,\n              },\n            },\n            envelopeItem: {\n              connect: {\n                id: field.envelopeItemId,\n                envelopeId: envelope.id,\n              },\n            },\n            recipient: {\n              connect: {\n                id: field._recipient.id,\n                envelopeId: envelope.id,\n              },\n            },\n          },\n        });\n\n        if (upsertedField.recipientId === null) {\n          throw new Error('Not possible');\n        }\n\n        const baseAuditLog = {\n          fieldId: upsertedField.secondaryId,\n          fieldRecipientEmail: fieldSignerEmail,\n          fieldRecipientId: upsertedField.recipientId,\n          fieldType: upsertedField.type,\n        };\n\n        const changes = field._persisted ? diffFieldChanges(field._persisted, upsertedField) : [];\n\n        // Handle field updated audit log.\n        if (field._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle field created audit log.\n        if (!field._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedField,\n          formId: field.formId,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 9,
+    "description": "301 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 301,
+     "queriesOptimal": 1,
+     "performanceGain": "301x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "memoization",
+     "rank": 1,
+     "fitnessScore": 48.9,
+     "reasoning": "Add memoization cache for repeated expensive calls\nPreserved: tx.documentAuditLog.create",
+     "code": "// OPTIMIZED: Memoization for repeated expensive calls\n// Found 1 repeated async call(s)\n\n// Memoize tx.documentAuditLog.create (called 2x)\nconst createCache = new Map();\nasync function memoizedCreate(key) {\n  if (createCache.has(key)) return createCache.get(key);\n  const result = await tx.documentAuditLog.create(key);\n  createCache.set(key, result);\n  return result;\n}\n\n// Original code (replace calls with memoized versions):\nlinkedFields.map(async (field) => {\n        const fieldSignerEmail = field._recipient.email.toLowerCase();\n\n        const parsedFieldMeta = field.fieldMeta\n          ? ZFieldMetaSchema.parse(field.fieldMeta)\n          : FIELD_META_DEFAULT_VALUES[field.type];\n\n        if (field.type === FieldType.TEXT && field.fieldMeta) {\n          const textFieldParsedMeta = ZTextFieldMeta.parse(field.fieldMeta);\n          const errors = validateTextField(textFieldParsedMeta.text || '', textFieldParsedMeta);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.NUMBER && field.fieldMeta) {\n          const numberFieldParsedMeta = ZNumberFieldMeta.parse(field.fieldMeta);\n\n          const errors = validateNumberField(String(numberFieldParsedMeta.value || ''), numberFieldParsedMeta, false);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.CHECKBOX) {\n          if (field.fieldMeta) {\n            const checkboxFieldParsedMeta = ZCheckboxFieldMeta.parse(field.fieldMeta);\n            const errors = validateCheckboxField(\n              checkboxFieldParsedMeta?.values?.map((item) => item.value) ?? [],\n              checkboxFieldParsedMeta,\n            );\n\n            if (errors.length > 0) {\n              throw new Error(errors.join(', '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Checkbox field');\n          }\n        }\n\n        if (field.type === FieldType.RADIO) {\n          if (field.fieldMeta) {\n            const radioFieldParsedMeta = ZRadioFieldMeta.parse(field.fieldMeta);\n            const checkedRadioFieldValue = radioFieldParsedMeta.values?.find((option) => option.checked)?.value;\n\n            const errors = validateRadioField(checkedRadioFieldValue, radioFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Radio field');\n          }\n        }\n\n        if (field.type === FieldType.DROPDOWN) {\n          if (field.fieldMeta) {\n            const dropdownFieldParsedMeta = ZDropdownFieldMeta.parse(field.fieldMeta);\n            const errors = validateDropdownField(undefined, dropdownFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Dropdown field');\n          }\n        }\n\n        const upsertedField = await tx.field.upsert({\n          where: {\n            id: field._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n            envelopeItemId: field.envelopeItemId,\n          },\n          update: {\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            fieldMeta: parsedFieldMeta,\n          },\n          create: {\n            type: field.type,\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            customText: '',\n            inserted: false,\n            fieldMeta: parsedFieldMeta,\n            envelope: {\n              connect: {\n                id: envelope.id,\n              },\n            },\n            envelopeItem: {\n              connect: {\n                id: field.envelopeItemId,\n                envelopeId: envelope.id,\n              },\n            },\n            recipient: {\n              connect: {\n                id: field._recipient.id,\n                envelopeId: envelope.id,\n              },\n            },\n          },\n        });\n\n        if (upsertedField.recipientId === null) {\n          throw new Error('Not possible');\n        }\n\n        const baseAuditLog = {\n          fieldId: upsertedField.secondaryId,\n          fieldRecipientEmail: fieldSignerEmail,\n          fieldRecipientId: upsertedField.recipientId,\n          fieldType: upsertedField.type,\n        };\n\n        const changes = field._persisted ? diffFieldChanges(field._persisted, upsertedField) : [];\n\n        // Handle field updated audit log.\n        if (field._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle field created audit log.\n        if (!field._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedField,\n          formId: field.formId,\n        };\n      })"
+    },
+    {
+     "type": "memoize",
+     "rank": 2,
+     "fitnessScore": 48.15,
+     "reasoning": "Added memoization for 1 repeated calls",
+     "code": "const createCache = new Map(); // Memoize tx.documentAuditLog.create\n\nlinkedFields.map(async (field) => {\n        const fieldSignerEmail = field._recipient.email.toLowerCase();\n\n        const parsedFieldMeta = field.fieldMeta\n          ? ZFieldMetaSchema.parse(field.fieldMeta)\n          : FIELD_META_DEFAULT_VALUES[field.type];\n\n        if (field.type === FieldType.TEXT && field.fieldMeta) {\n          const textFieldParsedMeta = ZTextFieldMeta.parse(field.fieldMeta);\n          const errors = validateTextField(textFieldParsedMeta.text || '', textFieldParsedMeta);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.NUMBER && field.fieldMeta) {\n          const numberFieldParsedMeta = ZNumberFieldMeta.parse(field.fieldMeta);\n\n          const errors = validateNumberField(String(numberFieldParsedMeta.value || ''), numberFieldParsedMeta, false);\n\n          if (errors.length > 0) {\n            throw new Error(errors.join(', '));\n          }\n        }\n\n        if (field.type === FieldType.CHECKBOX) {\n          if (field.fieldMeta) {\n            const checkboxFieldParsedMeta = ZCheckboxFieldMeta.parse(field.fieldMeta);\n            const errors = validateCheckboxField(\n              checkboxFieldParsedMeta?.values?.map((item) => item.value) ?? [],\n              checkboxFieldParsedMeta,\n            );\n\n            if (errors.length > 0) {\n              throw new Error(errors.join(', '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Checkbox field');\n          }\n        }\n\n        if (field.type === FieldType.RADIO) {\n          if (field.fieldMeta) {\n            const radioFieldParsedMeta = ZRadioFieldMeta.parse(field.fieldMeta);\n            const checkedRadioFieldValue = radioFieldParsedMeta.values?.find((option) => option.checked)?.value;\n\n            const errors = validateRadioField(checkedRadioFieldValue, radioFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Radio field');\n          }\n        }\n\n        if (field.type === FieldType.DROPDOWN) {\n          if (field.fieldMeta) {\n            const dropdownFieldParsedMeta = ZDropdownFieldMeta.parse(field.fieldMeta);\n            const errors = validateDropdownField(undefined, dropdownFieldParsedMeta);\n\n            if (errors.length > 0) {\n              throw new Error(errors.join('. '));\n            }\n          } else {\n            throw new Error('To proceed further, please set at least one value for the Dropdown field');\n          }\n        }\n\n        const upsertedField = await tx.field.upsert({\n          where: {\n            id: field._persisted?.id ?? -1,\n            envelopeId: envelope.id,\n            envelopeItemId: field.envelopeItemId,\n          },\n          update: {\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            fieldMeta: parsedFieldMeta,\n          },\n          create: {\n            type: field.type,\n            page: field.pageNumber,\n            positionX: field.pageX,\n            positionY: field.pageY,\n            width: field.pageWidth,\n            height: field.pageHeight,\n            customText: '',\n            inserted: false,\n            fieldMeta: parsedFieldMeta,\n            envelope: {\n              connect: {\n                id: envelope.id,\n              },\n            },\n            envelopeItem: {\n              connect: {\n                id: field.envelopeItemId,\n                envelopeId: envelope.id,\n              },\n            },\n            recipient: {\n              connect: {\n                id: field._recipient.id,\n                envelopeId: envelope.id,\n              },\n            },\n          },\n        });\n\n        if (upsertedField.recipientId === null) {\n          throw new Error('Not possible');\n        }\n\n        const baseAuditLog = {\n          fieldId: upsertedField.secondaryId,\n          fieldRecipientEmail: fieldSignerEmail,\n          fieldRecipientId: upsertedField.recipientId,\n          fieldType: upsertedField.type,\n        };\n\n        const changes = field._persisted ? diffFieldChanges(field._persisted, upsertedField) : [];\n\n        // Handle field updated audit log.\n        if (field._persisted && changes.length > 0) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_UPDATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                changes,\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        // Handle field created audit log.\n        if (!field._persisted) {\n          await tx.documentAuditLog.create({\n            data: createDocumentAuditLogData({\n              type: DOCUMENT_AUDIT_LOG_TYPE.FIELD_CREATED,\n              envelopeId: envelope.id,\n              metadata: requestMetadata,\n              data: {\n                ...baseAuditLog,\n              },\n            }),\n          });\n        }\n\n        return {\n          ...upsertedField,\n          formId: field.formId,\n        };\n      })"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/field/create-envelope-fields.ts",
+   "line": 295,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const [envelopeItemId, whiteouts] of placeholderWhiteouts) {\n    const pdfDoc = pdfCache.get(envelopeItemId);\n\n    if (!pdfDoc) {\n      continue;\n    }\n\n    whiteoutRegions(pdfDoc, whiteouts);\n\n    const modifiedPdfBytes = await pdfDoc.save();\n\n    const envelopeItem = envelope.envelopeItems.find((item) => item.id === envelopeItemId);\n\n    if (!envelopeItem) {\n      continue;\n    }\n\n    const { documentData: newDocumentData } = await putPdfFileServerSide({\n      name: 'document.pdf',\n      type: 'application/pdf',\n      arrayBuffer: async () => Promise.resolve(Buffer.from(modifiedPdfBytes)),\n    });\n\n    await prisma.envelopeItem.update({\n      where: { id: envelopeItemId },\n      data: { documentDataId: newDocumentData.id },\n    });\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 80.35,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , placeholderWhiteouts",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over placeholderWhiteouts\n// Problem: N+1 queries where N = placeholderWhiteouts.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = placeholderWhiteouts.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const [envelopeItemId, whiteouts] of placeholderWhiteouts) {\n    const pdfDoc = pdfCache.get(envelopeItemId);\n\n    if (!pdfDoc) {\n      continue;\n    }\n\n    whiteoutRegions(pdfDoc, whiteouts);\n\n    const modifiedPdfBytes = dataMap.get(.id);\n\n    const envelopeItem = envelope.envelopeItems.find((item) => item.id === envelopeItemId);\n\n    if (!envelopeItem) {\n      continue;\n    }\n\n    const { documentData: newDocumentData } = await putPdfFileServerSide({\n      name: 'document.pdf',\n      type: 'application/pdf',\n      arrayBuffer: async () => Promise.resolve(Buffer.from(modifiedPdfBytes)),\n    });\n\n    await prisma.envelopeItem.update({\n      where: { id: envelopeItemId },\n      data: { documentDataId: newDocumentData.id },\n    });\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: envelopeItem",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for envelopeItem and related data\n// Optimized: Single query with include\n\nconst envelopeItemWithRelations = await prisma.envelopeItem.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const [envelopeItemId, whiteouts] of placeholderWhiteouts) {\n    const pdfDoc = pdfCache.get(envelopeItemId);\n\n    if (!pdfDoc) {\n      continue;\n    }\n\n    whiteoutRegions(pdfDoc, whiteouts);\n\n    const modifiedPdfBytes = await pdfDoc.save();\n\n    const envelopeItem = envelope.envelopeItems.find((item) => item.id === envelopeItemId);\n\n    if (!envelopeItem) {\n      continue;\n    }\n\n    const { documentData: newDocumentData } = await putPdfFileServerSide({\n      name: 'document.pdf',\n      type: 'application/pdf',\n      arrayBuffer: async () => Promise.resolve(Buffer.from(modifiedPdfBytes)),\n    });\n\n    await prisma.envelopeItem.update({\n      where: { id: envelopeItemId },\n      data: { documentDataId: newDocumentData.id },\n    });\n  }\n*/\n\n// Access related data directly: envelopeItemWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope-item/update-envelope-items.ts",
+   "line": 32,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "data.map(async ({ envelopeItemId, order, title }) =>\n      prisma.envelopeItem.update({\n        where: {\n          envelopeId,\n          id: envelopeItemId,\n        },\n        data: {\n          order,\n          title,\n        },\n        select: {\n          id: true,\n          order: true,\n          title: true,\n          envelopeId: true,\n        },\n      }),\n    )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 81.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: envelopeItem",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for envelopeItem and related data\n// Optimized: Single query with include\n\nconst envelopeItemWithRelations = await prisma.envelopeItem.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ndata.map(async ({ envelopeItemId, order, title }) =>\n      prisma.envelopeItem.update({\n        where: {\n          envelopeId,\n          id: envelopeItemId,\n        },\n        data: {\n          order,\n          title,\n        },\n        select: {\n          id: true,\n          order: true,\n          title: true,\n          envelopeId: true,\n        },\n      }),\n    )\n*/\n\n// Access related data directly: envelopeItemWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope-item/create-envelope-items.ts",
+   "line": 124,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.createMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const uploadedItem of envelopeItemsToCreate) {\n        if (!uploadedItem.placeholders || uploadedItem.placeholders.length === 0) {\n          continue;\n        }\n\n        const createdItem = createdItems.find((ci) => ci.documentDataId === uploadedItem.documentDataId);\n\n        if (!createdItem) {\n          continue;\n        }\n\n        const fieldsToCreate = convertPlaceholdersToFieldInputs(\n          uploadedItem.placeholders,\n          (recipientPlaceholder, placeholder) =>\n            findRecipientByPlaceholder(recipientPlaceholder, placeholder, orderedRecipients, orderedRecipients),\n          createdItem.id,\n        );\n\n        if (fieldsToCreate.length > 0) {\n          await tx.field.createMany({\n            data: fieldsToCreate.map((field) => ({\n              envelopeId: envelope.id,\n              envelopeItemId: createdItem.id,\n              recipientId: field.recipientId,\n              type: field.type,\n              page: field.page,\n              positionX: field.positionX,\n              positionY: field.positionY,\n              width: field.width,\n              height: field.height,\n              customText: '',\n              inserted: false,\n              fieldMeta: field.fieldMeta || undefined,\n            })),\n          });\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.55,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: uploadedItem, envelopeItemsToCreate",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over envelopeItemsToCreate\n// Problem: N+1 queries where N = envelopeItemsToCreate.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = envelopeItemsToCreate.map(uploadedItem => uploadedItem.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const uploadedItem of envelopeItemsToCreate) {\n        if (!uploadedItem.placeholders || uploadedItem.placeholders.length === 0) {\n          continue;\n        }\n\n        const createdItem = createdItems.find((ci) => ci.documentDataId === uploadedItem.documentDataId);\n\n        if (!createdItem) {\n          continue;\n        }\n\n        const fieldsToCreate = convertPlaceholdersToFieldInputs(\n          uploadedItem.placeholders,\n          (recipientPlaceholder, placeholder) =>\n            findRecipientByPlaceholder(recipientPlaceholder, placeholder, orderedRecipients, orderedRecipients),\n          createdItem.id,\n        );\n\n        if (fieldsToCreate.length > 0) {\n          await tx.field.createMany({\n            data: fieldsToCreate.map((field) => ({\n              envelopeId: envelope.id,\n              envelopeItemId: createdItem.id,\n              recipientId: field.recipientId,\n              type: field.type,\n              page: field.page,\n              positionX: field.positionX,\n              positionY: field.positionY,\n              width: field.width,\n              height: field.height,\n              customText: '',\n              inserted: false,\n              fieldMeta: field.fieldMeta || undefined,\n            })),\n          });\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope/duplicate-envelope.ts",
+   "line": 160,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.create(), Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "envelope.envelopeItems.map(async (envelopeItem) => {\n      const duplicatedDocumentData = await prisma.documentData.create({\n        data: {\n          type: envelopeItem.documentData.type,\n          data: envelopeItem.documentData.initialData,\n          initialData: envelopeItem.documentData.initialData,\n        },\n      });\n\n      const duplicatedEnvelopeItem = await prisma.envelopeItem.create({\n        data: {\n          id: prefixedId('envelope_item'),\n          title: envelopeItem.title,\n          order: envelopeItem.order,\n          envelopeId: duplicatedEnvelope.id,\n          documentDataId: duplicatedDocumentData.id,\n        },\n      });\n\n      oldEnvelopeItemToNewEnvelopeItemIdMap[envelopeItem.id] = duplicatedEnvelopeItem.id;\n    })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 74.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: documentData",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for documentData and related data\n// Optimized: Single query with include\n\nconst documentDataWithRelations = await prisma.documentData.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nenvelope.envelopeItems.map(async (envelopeItem) => {\n      const duplicatedDocumentData = await prisma.documentData.create({\n        data: {\n          type: envelopeItem.documentData.type,\n          data: envelopeItem.documentData.initialData,\n          initialData: envelopeItem.documentData.initialData,\n        },\n      });\n\n      const duplicatedEnvelopeItem = await prisma.envelopeItem.create({\n        data: {\n          id: prefixedId('envelope_item'),\n          title: envelopeItem.title,\n          order: envelopeItem.order,\n          envelopeId: duplicatedEnvelope.id,\n          documentDataId: duplicatedDocumentData.id,\n        },\n      });\n\n      oldEnvelopeItemToNewEnvelopeItemIdMap[envelopeItem.id] = duplicatedEnvelopeItem.id;\n    })\n*/\n\n// Access related data directly: documentDataWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope/create-envelope.ts",
+   "line": 224,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findFirst()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "data.envelopeItems.map(async (item) => {\n        const documentData = await prisma.documentData.findFirst({\n          where: {\n            id: item.documentDataId,\n          },\n        });\n\n        if (!documentData) {\n          throw new AppError(AppErrorCode.NOT_FOUND, {\n            message: 'Document data not found',\n          });\n        }\n\n        const buffer = await getFileServerSide(documentData);\n\n        const normalizedPdf = await makeNormalizedPdf(Buffer.from(buffer), {\n          flattenForm: type !== EnvelopeType.TEMPLATE,\n        });\n\n        const titleToUse = item.title || title;\n\n        const { documentData: newDocumentData } = await putPdfFileServerSide({\n          name: titleToUse,\n          type: 'application/pdf',\n          arrayBuffer: async () => Promise.resolve(normalizedPdf),\n        });\n\n        return {\n          title: titleToUse.endsWith('.pdf') ? titleToUse.slice(0, -4) : titleToUse,\n          documentDataId: newDocumentData.id,\n          order: item.order,\n        };\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 84.5,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: documentData",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for documentData and related data\n// Optimized: Single query with include\n\nconst documentDataWithRelations = await prisma.documentData.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\ndata.envelopeItems.map(async (item) => {\n        const documentData = await prisma.documentData.findFirst({\n          where: {\n            id: item.documentDataId,\n          },\n        });\n\n        if (!documentData) {\n          throw new AppError(AppErrorCode.NOT_FOUND, {\n            message: 'Document data not found',\n          });\n        }\n\n        const buffer = await getFileServerSide(documentData);\n\n        const normalizedPdf = await makeNormalizedPdf(Buffer.from(buffer), {\n          flattenForm: type !== EnvelopeType.TEMPLATE,\n        });\n\n        const titleToUse = item.title || title;\n\n        const { documentData: newDocumentData } = await putPdfFileServerSide({\n          name: titleToUse,\n          type: 'application/pdf',\n          arrayBuffer: async () => Promise.resolve(normalizedPdf),\n        });\n\n        return {\n          title: titleToUse.endsWith('.pdf') ? titleToUse.slice(0, -4) : titleToUse,\n          documentDataId: newDocumentData.id,\n          order: item.order,\n        };\n      })\n*/\n\n// Access related data directly: documentDataWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope/create-envelope.ts",
+   "line": 420,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "allRecipients.map(async (recipient) => {\n        const recipientAuthOptions = createRecipientAuthOptions({\n          accessAuth: recipient.accessAuth ?? [],\n          actionAuth: recipient.actionAuth ?? [],\n        });\n\n        const recipientFieldsToCreate = (recipient.fields || []).map((field) => {\n          let envelopeItemId = firstEnvelopeItem.id;\n\n          if (field.documentDataId) {\n            const foundEnvelopeItem = envelope.envelopeItems.find(\n              (item) => item.documentDataId === field.documentDataId,\n            );\n\n            if (!foundEnvelopeItem) {\n              throw new AppError(AppErrorCode.NOT_FOUND, {\n                message: 'Document data not found',\n              });\n            }\n\n            envelopeItemId = foundEnvelopeItem.id;\n          }\n\n          return {\n            envelopeId: envelope.id,\n            envelopeItemId,\n            type: field.type,\n            page: field.page,\n            positionX: field.positionX,\n            positionY: field.positionY,\n            width: field.width,\n            height: field.height,\n            customText: '',\n            inserted: false,\n            fieldMeta: field.fieldMeta || undefined,\n          };\n        });\n\n        await tx.recipient.create({\n          data: {\n            envelopeId: envelope.id,\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions: recipientAuthOptions,\n            fields: {\n              createMany: {\n                data: recipientFieldsToCreate,\n              },\n            },\n          },\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 70.8,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: recipientAuthOptions, recipientFieldsToCreate, envelopeItemId, foundEnvelopeItem\n// Method calls: allRecipients.map(), recipient.fields || [].map(), envelope.envelopeItems.find(), tx.recipient.create()\n// Loop structure: none\n// Async calls: 1\n\n// Original code:\nallRecipients.map(async (recipient) => {\n        const recipientAuthOptions = createRecipientAuthOptions({\n          accessAuth: recipient.accessAuth ?? [],\n          actionAuth: recipient.actionAuth ?? [],\n        });\n\n        const recipientFieldsToCreate = (recipient.fields || []).map((field) => {\n          let envelopeItemId = firstEnvelopeItem.id;\n\n          if (field.documentDataId) {\n            const foundEnvelopeItem = envelope.envelopeItems.find(\n              (item) => item.documentDataId === field.documentDataId,\n            );\n\n            if (!foundEnvelopeItem) {\n              throw new AppError(AppErrorCode.NOT_FOUND, {\n                message: 'Document data not found',\n              });\n            }\n\n            envelopeItemId = foundEnvelopeItem.id;\n          }\n\n          return {\n            envelopeId: envelope.id,\n            envelopeItemId,\n            type: field.type,\n            page: field.page,\n            positionX: field.positionX,\n            positionY: field.positionY,\n            width: field.width,\n            height: field.height,\n            customText: '',\n            inserted: false,\n            fieldMeta: field.fieldMeta || undefined,\n          };\n        });\n\n        await tx.recipient.create({\n          data: {\n            envelopeId: envelope.id,\n            name: recipient.name,\n            email: recipient.email,\n            role: recipient.role,\n            signingOrder: recipient.signingOrder,\n            token: nanoid(),\n            sendStatus: recipient.role === RecipientRole.CC ? SendStatus.SENT : SendStatus.NOT_SENT,\n            signingStatus: recipient.role === RecipientRole.CC ? SigningStatus.SIGNED : SigningStatus.NOT_SIGNED,\n            authOptions: recipientAuthOptions,\n            fields: {\n              createMany: {\n                data: recipientFieldsToCreate,\n              },\n            },\n          },\n        });\n      })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/envelope/create-envelope.ts",
+   "line": 536,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.createMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const item of itemsWithPlaceholders) {\n        const envelopeItem = envelope.envelopeItems.find((ei) => ei.documentDataId === item.documentDataId);\n\n        if (!envelopeItem) {\n          continue;\n        }\n\n        const fieldsToCreate = convertPlaceholdersToFieldInputs(\n          item.placeholders ?? [],\n          (recipientPlaceholder, placeholder) =>\n            findRecipientByPlaceholder(\n              recipientPlaceholder,\n              placeholder,\n              data.recipients && data.recipients.length > 0\n                ? data.recipients.map((r) => {\n                    const found = availableRecipients.find((cr) => cr.email === r.email);\n\n                    if (!found) {\n                      throw new AppError(AppErrorCode.NOT_FOUND, {\n                        message: `Recipient not found for email: ${r.email}`,\n                      });\n                    }\n\n                    return found;\n                  })\n                : undefined,\n              availableRecipients,\n            ),\n          envelopeItem.id,\n        );\n\n        if (fieldsToCreate.length > 0) {\n          await tx.field.createMany({\n            data: fieldsToCreate.map((field) => ({\n              envelopeId: envelope.id,\n              envelopeItemId: envelopeItem.id,\n              recipientId: field.recipientId,\n              type: field.type,\n              page: field.page,\n              positionX: field.positionX,\n              positionY: field.positionY,\n              width: field.width,\n              height: field.height,\n              customText: '',\n              inserted: false,\n              fieldMeta: field.fieldMeta || undefined,\n            })),\n          });\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 74.75,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: item, itemsWithPlaceholders",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over itemsWithPlaceholders\n// Problem: N+1 queries where N = itemsWithPlaceholders.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = itemsWithPlaceholders.map(item => item.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const item of itemsWithPlaceholders) {\n        const envelopeItem = envelope.envelopeItems.find((ei) => ei.documentDataId === item.documentDataId);\n\n        if (!envelopeItem) {\n          continue;\n        }\n\n        const fieldsToCreate = convertPlaceholdersToFieldInputs(\n          item.placeholders ?? [],\n          (recipientPlaceholder, placeholder) =>\n            findRecipientByPlaceholder(\n              recipientPlaceholder,\n              placeholder,\n              data.recipients && data.recipients.length > 0\n                ? data.recipients.map((r) => {\n                    const found = availableRecipients.find((cr) => cr.email === r.email);\n\n                    if (!found) {\n                      throw new AppError(AppErrorCode.NOT_FOUND, {\n                        message: `Recipient not found for email: ${r.email}`,\n                      });\n                    }\n\n                    return found;\n                  })\n                : undefined,\n              availableRecipients,\n            ),\n          envelopeItem.id,\n        );\n\n        if (fieldsToCreate.length > 0) {\n          await tx.field.createMany({\n            data: fieldsToCreate.map((field) => ({\n              envelopeId: envelope.id,\n              envelopeItemId: envelopeItem.id,\n              recipientId: field.recipientId,\n              type: field.type,\n              page: field.page,\n              positionX: field.positionX,\n              positionY: field.positionY,\n              width: field.width,\n              height: field.height,\n              customText: '',\n              inserted: false,\n              fieldMeta: field.fieldMeta || undefined,\n            })),\n          });\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/document/send-document.ts",
+   "line": 269,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "fieldsToAutoInsert.map(async (field) => {\n          // Warning: Only auto-insert fields if the recipient has not been sent the document yet.\n          return await tx.field.update({\n            where: {\n              id: field.fieldId,\n            },\n            data: {\n              customText: field.customText,\n              inserted: true,\n            },\n          });\n        })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 85.4,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: fieldsToAutoInsert.map(), tx.field.update()\n// Loop structure: none\n// Async calls: 1\n\n// Original code:\nfieldsToAutoInsert.map(async (field) => {\n          // Warning: Only auto-insert fields if the recipient has not been sent the document yet.\n          return await tx.field.update({\n            where: {\n              id: field.fieldId,\n            },\n            data: {\n              customText: field.customText,\n              inserted: true,\n            },\n          });\n        })\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/document/resend-document.ts",
+   "line": 202,
+   "severity": "high",
+   "description": "Found 2 database queries (Prisma.updateMany(), Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "recipientsToRemind.map(async (recipient) => {\n      if (recipient.role === RecipientRole.CC || !isRecipientEmailValidForSending(recipient)) {\n        return;\n      }\n\n      const i18n = await getI18nInstance(emailLanguage);\n\n      const recipientEmailType = RECIPIENT_ROLE_TO_EMAIL_TYPE[recipient.role];\n\n      const { email, name } = recipient;\n      const selfSigner = email === user.email;\n\n      const recipientActionVerb = i18n._(RECIPIENT_ROLES_DESCRIPTION[recipient.role].actionVerb).toLowerCase();\n\n      let emailMessage = envelope.documentMeta.message || '';\n      let emailSubject = i18n._(msg`Reminder: Please ${recipientActionVerb} this document`);\n\n      if (selfSigner) {\n        emailMessage = i18n._(\n          msg`You have initiated the document ${`\"${envelope.title}\"`} that requires you to ${recipientActionVerb} it.`,\n        );\n        emailSubject = i18n._(msg`Reminder: Please ${recipientActionVerb} your document`);\n      }\n\n      if (organisationType === OrganisationType.ORGANISATION) {\n        emailSubject = i18n._(msg`Reminder: ${envelope.team.name} invited you to ${recipientActionVerb} a document`);\n        emailMessage =\n          envelope.documentMeta.message ||\n          i18n._(\n            msg`${user.name || user.email} on behalf of \"${envelope.team.name}\" has invited you to ${recipientActionVerb} the document \"${envelope.title}\".`,\n          );\n      }\n\n      const customEmailTemplate = {\n        'signer.name': name,\n        'signer.email': email,\n        'document.name': envelope.title,\n      };\n\n      const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';\n      const signDocumentLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}`;\n      const reportUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}`;\n\n      const template = createElement(DocumentInviteEmailTemplate, {\n        documentName: envelope.title,\n        inviterName: user.name || undefined,\n        inviterEmail:\n          organisationType === OrganisationType.ORGANISATION\n            ? envelope.team?.teamEmail?.email || user.email\n            : user.email,\n        assetBaseUrl,\n        signDocumentLink,\n        customBody: renderCustomEmailTemplate(emailMessage, customEmailTemplate),\n        role: recipient.role,\n        selfSigner,\n        organisationType,\n        teamName: envelope.team?.name,\n        reportUrl,\n      });\n\n      const [html, text] = await Promise.all([\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n        }),\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n          plainText: true,\n        }),\n      ]);\n\n      // Send email outside any transaction to avoid holding a connection\n      // open during network I/O.\n      await emailTransport.sendMail({\n        to: {\n          address: email,\n          name,\n        },\n        from: senderEmail,\n        replyTo: replyToEmail,\n        subject: envelope.documentMeta.subject\n          ? renderCustomEmailTemplate(i18n._(msg`Reminder: ${envelope.documentMeta.subject}`), customEmailTemplate)\n          : emailSubject,\n        html,\n        text,\n        headers: buildEnvelopeEmailHeaders({\n          userId: envelope.userId,\n          envelopeId: envelope.id,\n          teamId: envelope.teamId,\n        }),\n      });\n\n      // Mark the recipient as sent if they were not already sent.\n      await prisma.recipient.updateMany({\n        where: {\n          id: recipient.id,\n          sendStatus: SendStatus.NOT_SENT,\n        },\n        data: {\n          sendStatus: SendStatus.SENT,\n          sentAt: new Date(),\n        },\n      });\n\n      await prisma.documentAuditLog.create({\n        data: createDocumentAuditLogData({\n          type: DOCUMENT_AUDIT_LOG_TYPE.EMAIL_SENT,\n          envelopeId: envelope.id,\n          metadata: requestMetadata,\n          data: {\n            emailType: recipientEmailType,\n            recipientEmail: recipient.email,\n            recipientName: recipient.name,\n            recipientRole: recipient.role,\n            recipientId: recipient.id,\n            isResending: true,\n          },\n        }),\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 73,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: recipient",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for recipient and related data\n// Optimized: Single query with include\n\nconst recipientWithRelations = await prisma.recipient.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nrecipientsToRemind.map(async (recipient) => {\n      if (recipient.role === RecipientRole.CC || !isRecipientEmailValidForSending(recipient)) {\n        return;\n      }\n\n      const i18n = await getI18nInstance(emailLanguage);\n\n      const recipientEmailType = RECIPIENT_ROLE_TO_EMAIL_TYPE[recipient.role];\n\n      const { email, name } = recipient;\n      const selfSigner = email === user.email;\n\n      const recipientActionVerb = i18n._(RECIPIENT_ROLES_DESCRIPTION[recipient.role].actionVerb).toLowerCase();\n\n      let emailMessage = envelope.documentMeta.message || '';\n      let emailSubject = i18n._(msg`Reminder: Please ${recipientActionVerb} this document`);\n\n      if (selfSigner) {\n        emailMessage = i18n._(\n          msg`You have initiated the document ${`\"${envelope.title}\"`} that requires you to ${recipientActionVerb} it.`,\n        );\n        emailSubject = i18n._(msg`Reminder: Please ${recipientActionVerb} your document`);\n      }\n\n      if (organisationType === OrganisationType.ORGANISATION) {\n        emailSubject = i18n._(msg`Reminder: ${envelope.team.name} invited you to ${recipientActionVerb} a document`);\n        emailMessage =\n          envelope.documentMeta.message ||\n          i18n._(\n            msg`${user.name || user.email} on behalf of \"${envelope.team.name}\" has invited you to ${recipientActionVerb} the document \"${envelope.title}\".`,\n          );\n      }\n\n      const customEmailTemplate = {\n        'signer.name': name,\n        'signer.email': email,\n        'document.name': envelope.title,\n      };\n\n      const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';\n      const signDocumentLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}`;\n      const reportUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}`;\n\n      const template = createElement(DocumentInviteEmailTemplate, {\n        documentName: envelope.title,\n        inviterName: user.name || undefined,\n        inviterEmail:\n          organisationType === OrganisationType.ORGANISATION\n            ? envelope.team?.teamEmail?.email || user.email\n            : user.email,\n        assetBaseUrl,\n        signDocumentLink,\n        customBody: renderCustomEmailTemplate(emailMessage, customEmailTemplate),\n        role: recipient.role,\n        selfSigner,\n        organisationType,\n        teamName: envelope.team?.name,\n        reportUrl,\n      });\n\n      const [html, text] = await Promise.all([\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n        }),\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n          plainText: true,\n        }),\n      ]);\n\n      // Send email outside any transaction to avoid holding a connection\n      // open during network I/O.\n      await emailTransport.sendMail({\n        to: {\n          address: email,\n          name,\n        },\n        from: senderEmail,\n        replyTo: replyToEmail,\n        subject: envelope.documentMeta.subject\n          ? renderCustomEmailTemplate(i18n._(msg`Reminder: ${envelope.documentMeta.subject}`), customEmailTemplate)\n          : emailSubject,\n        html,\n        text,\n        headers: buildEnvelopeEmailHeaders({\n          userId: envelope.userId,\n          envelopeId: envelope.id,\n          teamId: envelope.teamId,\n        }),\n      });\n\n      // Mark the recipient as sent if they were not already sent.\n      await prisma.recipient.updateMany({\n        where: {\n          id: recipient.id,\n          sendStatus: SendStatus.NOT_SENT,\n        },\n        data: {\n          sendStatus: SendStatus.SENT,\n          sentAt: new Date(),\n        },\n      });\n\n      await prisma.documentAuditLog.create({\n        data: createDocumentAuditLogData({\n          type: DOCUMENT_AUDIT_LOG_TYPE.EMAIL_SENT,\n          envelopeId: envelope.id,\n          metadata: requestMetadata,\n          data: {\n            emailType: recipientEmailType,\n            recipientEmail: recipient.email,\n            recipientName: recipient.name,\n            recipientRole: recipient.role,\n            recipientId: recipient.id,\n            isResending: true,\n          },\n        }),\n      });\n    })\n*/\n\n// Access related data directly: recipientWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/jobs/client/local.ts",
+   "line": 118,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const cronJob of this._cronJobs) {\n      try {\n        const dueSlots = this.getDueCronSlots(cronJob);\n\n        cronJob.lastTickAt = new Date();\n\n        if (dueSlots.length === 0) {\n          continue;\n        }\n\n        // Only take the latest slot — sweep-style jobs don't need to catch up\n        // every missed slot after downtime, just the most recent one.\n        const scheduledFor = dueSlots[dueSlots.length - 1];\n        const deterministicId = createCronRunId(cronJob.definition.id, scheduledFor);\n\n        const pendingJob = await prisma.backgroundJob\n          .create({\n            data: {\n              id: deterministicId,\n              jobId: cronJob.definition.id,\n              name: cronJob.definition.name,\n              version: cronJob.definition.version,\n              payload: { scheduledFor: scheduledFor.toISOString() },\n            },\n          })\n          .catch((error: unknown) => {\n            // P2002 = unique constraint violation — another instance already enqueued this slot.\n            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {\n              return null;\n            }\n\n            throw error;\n          });\n\n        if (!pendingJob) {\n          continue;\n        }\n\n        await this.submitJobToEndpoint({\n          jobId: pendingJob.id,\n          jobDefinitionId: pendingJob.jobId,\n          data: {\n            name: cronJob.definition.trigger.name,\n            payload: { scheduledFor: scheduledFor.toISOString() },\n          },\n          isRetry: false,\n        });\n      } catch (error) {\n        console.error(`[JOBS]: Cron tick failed for ${cronJob.definition.id}`, error);\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.35,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: cronJob, this._cronJobs",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over this._cronJobs\n// Problem: N+1 queries where N = this._cronJobs.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = this._cronJobs.map(cronJob => cronJob.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const cronJob of this._cronJobs) {\n      try {\n        const dueSlots = this.getDueCronSlots(cronJob);\n\n        cronJob.lastTickAt = new Date();\n\n        if (dueSlots.length === 0) {\n          continue;\n        }\n\n        // Only take the latest slot — sweep-style jobs don't need to catch up\n        // every missed slot after downtime, just the most recent one.\n        const scheduledFor = dueSlots[dueSlots.length - 1];\n        const deterministicId = createCronRunId(cronJob.definition.id, scheduledFor);\n\n        const pendingJob = await prisma.backgroundJob\n          .create({\n            data: {\n              id: deterministicId,\n              jobId: cronJob.definition.id,\n              name: cronJob.definition.name,\n              version: cronJob.definition.version,\n              payload: { scheduledFor: scheduledFor.toISOString() },\n            },\n          })\n          .catch((error: unknown) => {\n            // P2002 = unique constraint violation — another instance already enqueued this slot.\n            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {\n              return null;\n            }\n\n            throw error;\n          });\n\n        if (!pendingJob) {\n          continue;\n        }\n\n        dataMap.get(cronJob.id) },\n          },\n          isRetry: false,\n        });\n      } catch (error) {\n        console.error(`[JOBS]: Cron tick failed for ${cronJob.definition.id}`, error);\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 78.7,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: model",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for model and related data\n// Optimized: Single query with include\n\nconst modelWithRelations = await prisma.model.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nfor (const cronJob of this._cronJobs) {\n      try {\n        const dueSlots = this.getDueCronSlots(cronJob);\n\n        cronJob.lastTickAt = new Date();\n\n        if (dueSlots.length === 0) {\n          continue;\n        }\n\n        // Only take the latest slot — sweep-style jobs don't need to catch up\n        // every missed slot after downtime, just the most recent one.\n        const scheduledFor = dueSlots[dueSlots.length - 1];\n        const deterministicId = createCronRunId(cronJob.definition.id, scheduledFor);\n\n        const pendingJob = await prisma.backgroundJob\n          .create({\n            data: {\n              id: deterministicId,\n              jobId: cronJob.definition.id,\n              name: cronJob.definition.name,\n              version: cronJob.definition.version,\n              payload: { scheduledFor: scheduledFor.toISOString() },\n            },\n          })\n          .catch((error: unknown) => {\n            // P2002 = unique constraint violation — another instance already enqueued this slot.\n            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {\n              return null;\n            }\n\n            throw error;\n          });\n\n        if (!pendingJob) {\n          continue;\n        }\n\n        await this.submitJobToEndpoint({\n          jobId: pendingJob.id,\n          jobDefinitionId: pendingJob.jobId,\n          data: {\n            name: cronJob.definition.trigger.name,\n            payload: { scheduledFor: scheduledFor.toISOString() },\n          },\n          isRetry: false,\n        });\n      } catch (error) {\n        console.error(`[JOBS]: Cron tick failed for ${cronJob.definition.id}`, error);\n      }\n    }\n*/\n\n// Access related data directly: modelWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/jobs/client/local.ts",
+   "line": 197,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "eligibleJobs.map(async (job) => {\n        // Ideally we will change this to a createMany with returning later once we upgrade Prisma\n        // @see: https://github.com/prisma/prisma/releases/tag/5.14.0\n        const pendingJob = await prisma.backgroundJob.create({\n          data: {\n            jobId: job.id,\n            name: job.name,\n            version: job.version,\n            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions\n            payload: options.payload as Prisma.InputJsonValue,\n          },\n        });\n\n        await this.submitJobToEndpoint({\n          jobId: pendingJob.id,\n          jobDefinitionId: pendingJob.jobId,\n          data: options,\n          isRetry: false,\n        });\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: backgroundJob",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for backgroundJob and related data\n// Optimized: Single query with include\n\nconst backgroundJobWithRelations = await prisma.backgroundJob.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\neligibleJobs.map(async (job) => {\n        // Ideally we will change this to a createMany with returning later once we upgrade Prisma\n        // @see: https://github.com/prisma/prisma/releases/tag/5.14.0\n        const pendingJob = await prisma.backgroundJob.create({\n          data: {\n            jobId: job.id,\n            name: job.name,\n            version: job.version,\n            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions\n            payload: options.payload as Prisma.InputJsonValue,\n          },\n        });\n\n        await this.submitJobToEndpoint({\n          jobId: pendingJob.id,\n          jobDefinitionId: pendingJob.jobId,\n          data: options,\n          isRetry: false,\n        });\n      })\n*/\n\n// Access related data directly: backgroundJobWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/jobs/client/bullmq.ts",
+   "line": 138,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "eligibleJobs.map(async (job) => {\n        const backgroundJob = await prisma.backgroundJob.create({\n          data: {\n            jobId: job.id,\n            name: job.name,\n            version: job.version,\n            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions\n            payload: options.payload as Prisma.InputJsonValue,\n          },\n        });\n\n        await this._queue.add(\n          job.id,\n          {\n            name: options.name,\n            payload: options.payload,\n            backgroundJobId: backgroundJob.id,\n          },\n          {\n            jobId: options.id,\n            attempts: DEFAULT_MAX_RETRIES,\n            backoff: {\n              type: 'exponential',\n              delay: DEFAULT_BACKOFF_DELAY,\n            },\n          },\n        );\n      })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 79.95,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: backgroundJob",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for backgroundJob and related data\n// Optimized: Single query with include\n\nconst backgroundJobWithRelations = await prisma.backgroundJob.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\neligibleJobs.map(async (job) => {\n        const backgroundJob = await prisma.backgroundJob.create({\n          data: {\n            jobId: job.id,\n            name: job.name,\n            version: job.version,\n            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions\n            payload: options.payload as Prisma.InputJsonValue,\n          },\n        });\n\n        await this._queue.add(\n          job.id,\n          {\n            name: options.name,\n            payload: options.payload,\n            backgroundJobId: backgroundJob.id,\n          },\n          {\n            jobId: options.id,\n            attempts: DEFAULT_MAX_RETRIES,\n            backoff: {\n              type: 'exponential',\n              delay: DEFAULT_BACKOFF_DELAY,\n            },\n          },\n        );\n      })\n*/\n\n// Access related data directly: backgroundJobWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/jobs/definitions/internal/seal-document.handler.ts",
+   "line": 292,
+   "severity": "medium",
+   "description": "Found 1 database query (Database.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { oldDocumentDataId, newDocumentDataId } of newDocumentData) {\n        await tx.envelopeItem.update({\n          where: {\n            envelopeId: envelope.id,\n            documentDataId: oldDocumentDataId,\n          },\n          data: {\n            documentDataId: newDocumentDataId,\n          },\n        });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , newDocumentData",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over newDocumentData\n// Problem: N+1 queries where N = newDocumentData.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = newDocumentData.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { oldDocumentDataId, newDocumentDataId } of newDocumentData) {\n        await tx.envelopeItem.update({\n          where: {\n            envelopeId: envelope.id,\n            documentDataId: oldDocumentDataId,\n          },\n          data: {\n            documentDataId: newDocumentDataId,\n          },\n        });\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/jobs/definitions/emails/send-document-completed-emails.handler.ts",
+   "line": 181,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "recipientsToNotify.map(async (recipient) => {\n      // A CC recipient never asked to be part of this document, so their completion\n      // email is effectively unsolicited. Meter it against the organisation email\n      // quota/stats so it is correctly logged.\n      if (recipient.role === RecipientRole.CC) {\n        try {\n          await assertOrganisationRatesAndLimits({\n            organisationId,\n            organisationClaim: claims,\n            type: 'email',\n            count: 1,\n          });\n        } catch (_err) {\n          io.logger.warn({\n            msg: 'CC completion email dropped: org email limit exceeded',\n            organisationId,\n            recipientId: recipient.id,\n            envelopeId: envelope.id,\n          });\n\n          // On rate/quota exceeded, early return to allow other recipients to be processed.\n          return;\n        }\n      }\n\n      const customEmailTemplate = {\n        'signer.name': recipient.name,\n        'signer.email': recipient.email,\n        'document.name': envelope.title,\n      };\n\n      const downloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}/complete`;\n      const reportUrl =\n        recipient.role === RecipientRole.CC ? `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}` : undefined;\n\n      const template = createElement(DocumentCompletedEmailTemplate, {\n        documentName: envelope.title,\n        assetBaseUrl,\n        downloadLink: recipient.email === owner.email ? documentOwnerDownloadLink : downloadLink,\n        customBody:\n          isDirectTemplate && envelope.documentMeta?.message\n            ? renderCustomEmailTemplate(envelope.documentMeta.message, customEmailTemplate)\n            : undefined,\n        reportUrl,\n      });\n\n      const [html, text] = await Promise.all([\n        renderEmailWithI18N(template, { lang: emailLanguage, branding }),\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n          plainText: true,\n        }),\n      ]);\n\n      const i18n = await getI18nInstance(emailLanguage);\n\n      await emailTransport.sendMail({\n        to: [\n          {\n            name: recipient.name,\n            address: recipient.email,\n          },\n        ],\n        from: senderEmail,\n        replyTo: replyToEmail,\n        subject:\n          isDirectTemplate && envelope.documentMeta?.subject\n            ? renderCustomEmailTemplate(envelope.documentMeta.subject, customEmailTemplate)\n            : i18n._(msg`Signing Complete!`),\n        html,\n        text,\n        attachments: completedDocumentEmailAttachments,\n      });\n\n      await prisma.documentAuditLog.create({\n        data: createDocumentAuditLogData({\n          type: DOCUMENT_AUDIT_LOG_TYPE.EMAIL_SENT,\n          envelopeId: envelope.id,\n          user: null,\n          requestMetadata,\n          data: {\n            emailType: 'DOCUMENT_COMPLETED',\n            recipientEmail: recipient.email,\n            recipientName: recipient.name,\n            recipientId: recipient.id,\n            recipientRole: recipient.role,\n            isResending: false,\n          },\n        }),\n      });\n    })",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "prisma-include",
+     "rank": 1,
+     "fitnessScore": 76,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: documentAuditLog",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for documentAuditLog and related data\n// Optimized: Single query with include\n\nconst documentAuditLogWithRelations = await prisma.documentAuditLog.findMany({\n  include: {\n    // Add relations here\n  }\n});\n\n// Original code reference:\n/*\nrecipientsToNotify.map(async (recipient) => {\n      // A CC recipient never asked to be part of this document, so their completion\n      // email is effectively unsolicited. Meter it against the organisation email\n      // quota/stats so it is correctly logged.\n      if (recipient.role === RecipientRole.CC) {\n        try {\n          await assertOrganisationRatesAndLimits({\n            organisationId,\n            organisationClaim: claims,\n            type: 'email',\n            count: 1,\n          });\n        } catch (_err) {\n          io.logger.warn({\n            msg: 'CC completion email dropped: org email limit exceeded',\n            organisationId,\n            recipientId: recipient.id,\n            envelopeId: envelope.id,\n          });\n\n          // On rate/quota exceeded, early return to allow other recipients to be processed.\n          return;\n        }\n      }\n\n      const customEmailTemplate = {\n        'signer.name': recipient.name,\n        'signer.email': recipient.email,\n        'document.name': envelope.title,\n      };\n\n      const downloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}/complete`;\n      const reportUrl =\n        recipient.role === RecipientRole.CC ? `${NEXT_PUBLIC_WEBAPP_URL()}/report/${recipient.token}` : undefined;\n\n      const template = createElement(DocumentCompletedEmailTemplate, {\n        documentName: envelope.title,\n        assetBaseUrl,\n        downloadLink: recipient.email === owner.email ? documentOwnerDownloadLink : downloadLink,\n        customBody:\n          isDirectTemplate && envelope.documentMeta?.message\n            ? renderCustomEmailTemplate(envelope.documentMeta.message, customEmailTemplate)\n            : undefined,\n        reportUrl,\n      });\n\n      const [html, text] = await Promise.all([\n        renderEmailWithI18N(template, { lang: emailLanguage, branding }),\n        renderEmailWithI18N(template, {\n          lang: emailLanguage,\n          branding,\n          plainText: true,\n        }),\n      ]);\n\n      const i18n = await getI18nInstance(emailLanguage);\n\n      await emailTransport.sendMail({\n        to: [\n          {\n            name: recipient.name,\n            address: recipient.email,\n          },\n        ],\n        from: senderEmail,\n        replyTo: replyToEmail,\n        subject:\n          isDirectTemplate && envelope.documentMeta?.subject\n            ? renderCustomEmailTemplate(envelope.documentMeta.subject, customEmailTemplate)\n            : i18n._(msg`Signing Complete!`),\n        html,\n        text,\n        attachments: completedDocumentEmailAttachments,\n      });\n\n      await prisma.documentAuditLog.create({\n        data: createDocumentAuditLogData({\n          type: DOCUMENT_AUDIT_LOG_TYPE.EMAIL_SENT,\n          envelopeId: envelope.id,\n          user: null,\n          requestMetadata,\n          data: {\n            emailType: 'DOCUMENT_COMPLETED',\n            recipientEmail: recipient.email,\n            recipientName: recipient.name,\n            recipientId: recipient.id,\n            recipientRole: recipient.role,\n            isResending: false,\n          },\n        }),\n      });\n    })\n*/\n\n// Access related data directly: documentAuditLogWithRelations[0].relation"
+    }
+   ]
+  },
+  {
+   "file": "packages/lib/server-only/ai/envelope/detect-fields/index.ts",
+   "line": 59,
+   "severity": "medium",
+   "description": "Found 1 database query (Prisma.findMany()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const item of envelope.envelopeItems) {\n    const existingFields = await prisma.field.findMany({\n      where: {\n        envelopeItemId: item.id,\n      },\n    });\n\n    const pdfBytes = await getFileServerSide(item.documentData);\n    const fields = await detectFieldsFromPdf({\n      pdfBytes,\n      existingFields,\n      recipients,\n      context,\n      onProgress,\n    });\n\n    // Resolve recipientKey to actual recipient and add context\n    const fieldsWithContext = await Promise.all(\n      fields.map(async (field) => {\n        const { recipientKey, ...fieldWithoutKey } = field;\n\n        let resolvedRecipient = resolveRecipientFromKey(recipientKey, recipients);\n\n        // If no recipients exist, create a blank recipient\n        if (!resolvedRecipient) {\n          const { recipients: createdRecipients } = await createEnvelopeRecipients({\n            id: {\n              id: envelope.id,\n              type: 'envelopeId',\n            },\n            recipients: [\n              {\n                name: '',\n                email: '',\n                role: RecipientRole.SIGNER,\n              },\n            ],\n            userId,\n            teamId,\n          });\n\n          resolvedRecipient = createdRecipients[0];\n        }\n\n        return {\n          ...fieldWithoutKey,\n          envelopeItemId: item.id,\n          recipientId: resolvedRecipient.id,\n        };\n      }),\n    );\n\n    allFields.push(...fieldsWithContext);\n  }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: item, envelope.envelopeItems",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 5 async call(s) inside loop over envelope.envelopeItems\n// Problem: N+1 queries where N = envelope.envelopeItems.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = envelope.envelopeItems.map(item => item.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const item of envelope.envelopeItems) {\n    const existingFields = await prisma.field.findMany({\n      where: {\n        envelopeItemId: item.id,\n      },\n    });\n\n    const pdfBytes = await getFileServerSide(item.documentData);\n    const fields = await detectFieldsFromPdf({\n      pdfBytes,\n      existingFields,\n      recipients,\n      context,\n      onProgress,\n    });\n\n    // Resolve recipientKey to actual recipient and add context\n    const fieldsWithContext = dataMap.get(item.id) => {\n        const { recipientKey, ...fieldWithoutKey } = field;\n\n        let resolvedRecipient = resolveRecipientFromKey(recipientKey, recipients);\n\n        // If no recipients exist, create a blank recipient\n        if (!resolvedRecipient) {\n          const { recipients: createdRecipients } = await createEnvelopeRecipients({\n            id: {\n              id: envelope.id,\n              type: 'envelopeId',\n            },\n            recipients: [\n              {\n                name: '',\n                email: '',\n                role: RecipientRole.SIGNER,\n              },\n            ],\n            userId,\n            teamId,\n          });\n\n          resolvedRecipient = createdRecipients[0];\n        }\n\n        return {\n          ...fieldWithoutKey,\n          envelopeItemId: item.id,\n          recipientId: resolvedRecipient.id,\n        };\n      }),\n    );\n\n    allFields.push(...fieldsWithContext);\n  }\n\n// Performance: 1 query instead of N queries"
+    },
+    {
+     "type": "prisma-include",
+     "rank": 2,
+     "fitnessScore": 86.69999999999999,
+     "reasoning": "Use Prisma include for eager loading related data\nPreserved: field, field",
+     "code": "// OPTIMIZED: Prisma eager loading with include\n// Original: Separate queries for field and field\n// Optimized: Single query with include\n\nconst fieldWithRelations = await prisma.field.findMany({\n  include: {\n    field: true, // Eager load field\n  }\n});\n\n// Original code reference:\n/*\nfor (const item of envelope.envelopeItems) {\n    const existingFields = await prisma.field.findMany({\n      where: {\n        envelopeItemId: item.id,\n      },\n    });\n\n    const pdfBytes = await getFileServerSide(item.documentData);\n    const fields = await detectFieldsFromPdf({\n      pdfBytes,\n      existingFields,\n      recipients,\n      context,\n      onProgress,\n    });\n\n    // Resolve recipientKey to actual recipient and add context\n    const fieldsWithContext = await Promise.all(\n      fields.map(async (field) => {\n        const { recipientKey, ...fieldWithoutKey } = field;\n\n        let resolvedRecipient = resolveRecipientFromKey(recipientKey, recipients);\n\n        // If no recipients exist, create a blank recipient\n        if (!resolvedRecipient) {\n          const { recipients: createdRecipients } = await createEnvelopeRecipients({\n            id: {\n              id: envelope.id,\n              type: 'envelopeId',\n            },\n            recipients: [\n              {\n                name: '',\n                email: '',\n                role: RecipientRole.SIGNER,\n              },\n            ],\n            userId,\n            teamId,\n          });\n\n          resolvedRecipient = createdRecipients[0];\n        }\n\n        return {\n          ...fieldWithoutKey,\n          envelopeItemId: item.id,\n          recipientId: resolvedRecipient.id,\n        };\n      }),\n    );\n\n    allFields.push(...fieldsWithContext);\n  }\n*/\n\n// Access related data directly: fieldWithRelations[0].field"
+    }
+   ]
+  }
+ ]
+}

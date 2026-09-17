@@ -1,0 +1,4 @@
+unix socket    median single-query round trip: 0.226ms
+tcp direct     median single-query round trip: 0.165ms
+proxy +0.5ms   median single-query round trip: 2.746ms
+proxy +2.5ms   median single-query round trip: 5.038ms

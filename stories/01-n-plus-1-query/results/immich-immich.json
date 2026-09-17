@@ -1,0 +1,230 @@
+{
+ "filesScanned": 172,
+ "n1Findings": 8,
+ "findings": [
+  {
+   "file": "server/src/services/person.service.ts",
+   "line": 155,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { ownerId, personGroupId } of changeFeaturePhoto) {\n      const assetFace = await this.personRepository.getRandomFace(personGroupId);\n\n      if (assetFace) {\n        await this.personRepository.update({ ownerId, personGroupId, faceAssetId: assetFace.id });\n        jobs.push({ name: JobName.PersonGenerateThumbnail, data: { ownerId, personGroupId } });\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 88.1,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , changeFeaturePhoto",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over changeFeaturePhoto\n// Problem: N+1 queries where N = changeFeaturePhoto.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = changeFeaturePhoto.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { ownerId, personGroupId } of changeFeaturePhoto) {\n      const assetFace = await this.personRepository.getRandomFace(personGroupId);\n\n      if (assetFace) {\n        await this.personRepository.update({ ownerId, personGroupId, faceAssetId: assetFace.id });\n        jobs.push({ name: JobName.PersonGenerateThumbnail, data: { ownerId, personGroupId } });\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/person.service.ts",
+   "line": 617,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const mergePerson of peopleMap[mergeId]) {\n        if (!targetPeople[mergePerson.ownerId]) {\n          targetPeople[mergePerson.ownerId] = mergePerson;\n          continue;\n        }\n\n        const targetPerson = targetPeople[mergePerson.ownerId];\n\n        if (\n          mergePerson.ownerId !== auth.user.id &&\n          ((targetPerson.name && mergePerson.name) || (targetPerson.birthDate && mergePerson.birthDate))\n        ) {\n          continue;\n        }\n\n        const changes: Updateable<Person> = omitBy(\n          {\n            name: mergePerson.name && !targetPerson.name ? mergePerson.name : undefined,\n            birthDate: mergePerson.birthDate && !targetPerson.birthDate ? mergePerson.birthDate : undefined,\n          },\n          isUndefined,\n        );\n\n        if (Object.keys(changes).length > 0) {\n          targetPeople[mergePerson.ownerId] = await this.personRepository.update({\n            ownerId: targetPerson.ownerId,\n            personGroupId: targetPerson.personGroupId,\n            ...changes,\n          });\n        }\n\n        const mergeName = mergePerson.name || mergePerson.personGroupId;\n        const mergeData: UpdateFacesData = {\n          oldPersonGroupId: mergeId,\n          newPersonGroupId: targetPerson.personGroupId,\n          ownerId: targetPerson.ownerId,\n        };\n        this.logger.log(`Merging ${mergeName} into ${targetPerson.name || targetPerson.personGroupId}`);\n\n        try {\n          await this.personRepository.reassignFaces(mergeData);\n          await this.removeAllPersonGroups([mergeId], targetPerson.ownerId);\n\n          this.logger.log(`Merged ${mergeName} into ${targetPerson.name || targetPerson.personGroupId}`);\n          results.push({ id: mergeId, success: true });\n        } catch (error: any) {\n          this.logger.error(`Unable to merge ${mergeId} into ${targetPerson.personGroupId}: ${error}`, error?.stack);\n          results.push({ id: mergeId, success: false, error: BulkIdErrorReason.UNKNOWN });\n        }\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 80.35,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: mergePerson, peopleMap[mergeId]",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over peopleMap[mergeId]\n// Problem: N+1 queries where N = peopleMap[mergeId].length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = peopleMap[mergeId].map(mergePerson => mergePerson.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const mergePerson of peopleMap[mergeId]) {\n        if (!targetPeople[mergePerson.ownerId]) {\n          targetPeople[mergePerson.ownerId] = mergePerson;\n          continue;\n        }\n\n        const targetPerson = targetPeople[mergePerson.ownerId];\n\n        if (\n          mergePerson.ownerId !== auth.user.id &&\n          ((targetPerson.name && mergePerson.name) || (targetPerson.birthDate && mergePerson.birthDate))\n        ) {\n          continue;\n        }\n\n        const changes: Updateable<Person> = omitBy(\n          {\n            name: mergePerson.name && !targetPerson.name ? mergePerson.name : undefined,\n            birthDate: mergePerson.birthDate && !targetPerson.birthDate ? mergePerson.birthDate : undefined,\n          },\n          isUndefined,\n        );\n\n        if (Object.keys(changes).length > 0) {\n          targetPeople[mergePerson.ownerId] = await this.personRepository.update({\n            ownerId: targetPerson.ownerId,\n            personGroupId: targetPerson.personGroupId,\n            ...changes,\n          });\n        }\n\n        const mergeName = mergePerson.name || mergePerson.personGroupId;\n        const mergeData: UpdateFacesData = {\n          oldPersonGroupId: mergeId,\n          newPersonGroupId: targetPerson.personGroupId,\n          ownerId: targetPerson.ownerId,\n        };\n        this.logger.log(`Merging ${mergeName} into ${targetPerson.name || targetPerson.personGroupId}`);\n\n        try {\n          await this.personRepository.reassignFaces(mergeData);\n          dataMap.get(mergePerson.id);\n\n          this.logger.log(`Merged ${mergeName} into ${targetPerson.name || targetPerson.personGroupId}`);\n          results.push({ id: mergeId, success: true });\n        } catch (error: any) {\n          this.logger.error(`Unable to merge ${mergeId} into ${targetPerson.personGroupId}: ${error}`, error?.stack);\n          results.push({ id: mergeId, success: false, error: BulkIdErrorReason.UNKNOWN });\n        }\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/memory.service.ts",
+   "line": 59,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.create()) inside a forEach loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "memories.map(({ year, assets }) =>\n        this.memoryRepository.create(\n          {\n            ownerId,\n            type: MemoryType.OnThisDay,\n            data: { year },\n            memoryAt: target.set({ year }).toISO()!,\n            showAt,\n            hideAt,\n          },\n          new Set(assets.map(({ id }) => id)),\n        ),\n      )",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "pattern-analysis",
+     "rank": 1,
+     "fitnessScore": 83.3,
+     "reasoning": "Pattern analysis for unknown with unknown framework",
+     "code": "// Analysis of original code:\n// Pattern type: unknown\n// ORM/Framework: unknown\n// Variables: none detected\n// Method calls: memories.map(), this.memoryRepository.create(), target.set({\n  year\n}).toISO(), target.set(), assets.map()\n// Loop structure: none\n// Async calls: 0\n\n// Original code:\nmemories.map(({ year, assets }) =>\n        this.memoryRepository.create(\n          {\n            ownerId,\n            type: MemoryType.OnThisDay,\n            data: { year },\n            memoryAt: target.set({ year }).toISO()!,\n            showAt,\n            hideAt,\n          },\n          new Set(assets.map(({ id }) => id)),\n        ),\n      )\n\n// Recommended optimizations based on pattern:\n"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/media.service.ts",
+   "line": 92,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const person of people) {\n        const { ownerId, personGroupId } = person;\n        if (!person.faceAssetId) {\n          const face = await this.personRepository.getRandomFace(personGroupId);\n          if (!face) {\n            continue;\n          }\n\n          await this.personRepository.update({ ownerId, personGroupId, faceAssetId: face.id });\n        }\n\n        jobs.push({ name: JobName.PersonGenerateThumbnail, data: { ownerId, personGroupId } });\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: person, people",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 2 async call(s) inside loop over people\n// Problem: N+1 queries where N = people.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = people.map(person => person.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const person of people) {\n        const { ownerId, personGroupId } = person;\n        if (!person.faceAssetId) {\n          const face = await this.personRepository.getRandomFace(personGroupId);\n          if (!face) {\n            continue;\n          }\n\n          await this.personRepository.update({ ownerId, personGroupId, faceAssetId: face.id });\n        }\n\n        jobs.push({ name: JobName.PersonGenerateThumbnail, data: { ownerId, personGroupId } });\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/album.service.ts",
+   "line": 104,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.get()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { userId } of albumUsers) {\n      const exists = await this.userRepository.get(userId, {});\n      if (!exists) {\n        this.logger.debug('Album creation failed: user not found');\n        throw new BadRequestException('Invalid user');\n      }\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , albumUsers",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over albumUsers\n// Problem: N+1 queries where N = albumUsers.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = albumUsers.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { userId } of albumUsers) {\n      const exists = await this.userRepository.get(userId, {});\n      if (!exists) {\n        this.logger.debug('Album creation failed: user not found');\n        throw new BadRequestException('Invalid user');\n      }\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/album.service.ts",
+   "line": 226,
+   "severity": "medium",
+   "description": "Found 1 database query (Repository.update()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const albumId of allowedAlbumIds) {\n      const existingAssetIds = await this.albumRepository.getAssetIds(albumId, [...allowedAssetIds]);\n      const notPresentAssetIds = [...allowedAssetIds.difference(existingAssetIds)];\n      if (notPresentAssetIds.length === 0) {\n        continue;\n      }\n      const album = await this.findOrFail(albumId, auth.user.id, { withAssets: false });\n      results.error = undefined;\n      results.success = true;\n\n      for (const assetId of notPresentAssetIds) {\n        albumAssetValues.push({ albumId, assetId });\n      }\n      await this.albumRepository.update(\n        albumId,\n        {\n          id: albumId,\n          updatedAt: new Date(),\n          albumThumbnailAssetId: album.albumThumbnailAssetId ?? notPresentAssetIds[0],\n        },\n        auth.user.id,\n      );\n      const userIds = album.albumUsers.map(({ user }) => user.id);\n      const recipientIds = userIds.filter((userId) => userId !== auth.user.id);\n      events.push({ id: albumId, userIds, recipientIds });\n    }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 83.5,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: assetId, notPresentAssetIds",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over notPresentAssetIds\n// Problem: N+1 queries where N = notPresentAssetIds.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = notPresentAssetIds.map(assetId => assetId.id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const albumId of allowedAlbumIds) {\n      const existingAssetIds = await this.albumRepository.getAssetIds(albumId, [...allowedAssetIds]);\n      const notPresentAssetIds = [...allowedAssetIds.difference(existingAssetIds)];\n      if (notPresentAssetIds.length === 0) {\n        continue;\n      }\n      const album = dataMap.get(assetId.id);\n      results.error = undefined;\n      results.success = true;\n\n      for (const assetId of notPresentAssetIds) {\n        albumAssetValues.push({ albumId, assetId });\n      }\n      await this.albumRepository.update(\n        albumId,\n        {\n          id: albumId,\n          updatedAt: new Date(),\n          albumThumbnailAssetId: album.albumThumbnailAssetId ?? notPresentAssetIds[0],\n        },\n        auth.user.id,\n      );\n      const userIds = album.albumUsers.map(({ user }) => user.id);\n      const recipientIds = userIds.filter((userId) => userId !== auth.user.id);\n      events.push({ id: albumId, userIds, recipientIds });\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/services/album.service.ts",
+   "line": 292,
+   "severity": "high",
+   "description": "Found 2 database queries (Repository.get(), Repository.create()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { userId, role } of albumUsers) {\n      if (role === AlbumUserRole.Owner) {\n        throw new BadRequestException('Cannot add another owner');\n      }\n\n      const exists = album.albumUsers.some(({ user: { id } }) => id === userId);\n      if (exists) {\n        continue;\n      }\n\n      const user = await this.userRepository.get(userId, {});\n      if (!user) {\n        this.logger.debug('Adding user to album failed: user not found');\n        throw new BadRequestException('Invalid user');\n      }\n\n      await this.albumUserRepository.create({ userId, albumId: id, role });\n      await this.eventRepository.emit('AlbumInvite', { id, userId, senderName: auth.user.name });\n    }",
+   "estimatedImpact": {
+    "severityScore": 7,
+    "description": "201 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 201,
+     "queriesOptimal": 1,
+     "performanceGain": "201x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 85.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , albumUsers",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 3 async call(s) inside loop over albumUsers\n// Problem: N+1 queries where N = albumUsers.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = albumUsers.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { userId, role } of albumUsers) {\n      if (role === AlbumUserRole.Owner) {\n        throw new BadRequestException('Cannot add another owner');\n      }\n\n      const exists = album.albumUsers.some(({ user: { id } }) => id === userId);\n      if (exists) {\n        continue;\n      }\n\n      const user = await this.userRepository.get(userId, {});\n      if (!user) {\n        this.logger.debug('Adding user to album failed: user not found');\n        throw new BadRequestException('Invalid user');\n      }\n\n      await this.albumUserRepository.create({ userId, albumId: id, role });\n      await this.eventRepository.emit('AlbumInvite', { id, userId, senderName: auth.user.name });\n    }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  },
+  {
+   "file": "server/src/repositories/asset.repository.ts",
+   "line": 441,
+   "severity": "medium",
+   "description": "Found 1 database query (SQL Builder.execute()) inside a for-of loop. This creates an N+1 query problem where each iteration makes a separate database call. Consider using eager loading or batch queries instead.",
+   "codeBefore": "for (const { assetId, key } of items) {\n        await tx.deleteFrom('asset_metadata').where('assetId', '=', assetId).where('key', '=', key).execute();\n      }",
+   "estimatedImpact": {
+    "severityScore": 5,
+    "description": "101 queries for 100 items vs 1 optimal query",
+    "confidenceScore": 85,
+    "category": "performance",
+    "fixDifficulty": "moderate",
+    "metrics": {
+     "queriesIfN100": 101,
+     "queriesOptimal": 1,
+     "performanceGain": "101x slower"
+    }
+   },
+   "solutions": [
+    {
+     "type": "batch-query-before-loop",
+     "rank": 1,
+     "fitnessScore": 84.6,
+     "reasoning": "Extract queries from loop and batch them before iteration\nPreserved: , items",
+     "code": "// OPTIMIZED: Batch query before loop\n// Original: 1 async call(s) inside loop over items\n// Problem: N+1 queries where N = items.length\n\n// Step 1: Collect all IDs/keys needed\nconst allIds = items.map( => .id);\n\n// Step 2: Batch query (single database call)\nconst allData = await batchQuery(allIds); // Replace with actual batch query\nconst dataMap = new Map(allData.map(d => [d.id, d]));\n\n// Step 3: Original loop (now uses cached data)\nfor (const { assetId, key } of items) {\n        dataMap.get(.id).where('assetId', '=', assetId).where('key', '=', key).execute();\n      }\n\n// Performance: 1 query instead of N queries"
+    }
+   ]
+  }
+ ]
+}

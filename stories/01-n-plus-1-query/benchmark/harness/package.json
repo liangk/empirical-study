@@ -1,0 +1,16 @@
+{
+  "name": "n1-cost-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Measures what an N+1 query costs, using outline's notification pipeline as the workload",
+  "scripts": {
+    "bench": "node bench.js",
+    "bench:concurrent": "node bench-concurrent.js",
+    "aggregate": "node aggregate.js",
+    "rtt": "node rtt-check.js"
+  },
+  "dependencies": {
+    "pg": "^8.23.0",
+    "sequelize": "^6.37.8"
+  }
+}

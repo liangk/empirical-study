@@ -1,0 +1,93 @@
+{
+  "_comment": "Ground truth from manual line-by-line verification against repository source. A location is 'genuine' when a real per-item database or repository call runs once per loop iteration. Locations verified and rejected are listed in 'rejected' with the reason. Locations added after the detector improvements surfaced them are marked in 'addedAfterBaseline'.",
+  "outline/outline": {
+    "base": "outline_outline/",
+    "genuine": [
+      "server/commands/groupsSyncer.ts:52",
+      "server/commands/documentPermanentDeleter.ts:28",
+      "server/queues/tasks/UploadAttachmentsForImportTask.ts:29",
+      "server/queues/tasks/RevokeUserNotificationsTask.ts:90",
+      "server/queues/tasks/RevisionCreatedNotificationsTask.ts:56",
+      "server/queues/tasks/RevisionCreatedNotificationsTask.ts:108",
+      "server/queues/tasks/RevisionCreatedNotificationsTask.ts:127",
+      "server/queues/tasks/InviteReminderTask.ts:23",
+      "server/queues/tasks/ExportJSONTask.ts:100",
+      "server/queues/tasks/DocumentPublishedNotificationsTask.ts:32",
+      "server/queues/tasks/DocumentPublishedNotificationsTask.ts:73",
+      "server/queues/tasks/DocumentPublishedNotificationsTask.ts:92",
+      "server/queues/tasks/CommentUpdatedNotificationsTask.ts:46",
+      "server/queues/tasks/CommentUpdatedNotificationsTask.ts:80",
+      "server/queues/tasks/CommentUpdatedNotificationsTask.ts:141",
+      "server/queues/tasks/CommentCreatedNotificationsTask.ts:53",
+      "server/queues/tasks/CommentCreatedNotificationsTask.ts:90",
+      "server/queues/processors/WebsocketsProcessor.ts:544",
+      "server/queues/processors/WebsocketsProcessor.ts:823",
+      "server/queues/processors/WebsocketsProcessor.ts:886",
+      "server/queues/processors/BacklinksProcessor.ts:27",
+      "server/queues/processors/BacklinksProcessor.ts:77",
+      "server/queues/processors/ImportsProcessor.ts:400",
+      "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts:505",
+      "server/queues/tasks/RollupWeeklyDocumentInsightsTask.ts:49",
+      "server/routes/api/documents/documents.ts:140",
+      "server/routes/api/groups/groups.ts:169"
+    ],
+    "addedAfterBaseline": [
+      "server/queues/processors/WebsocketsProcessor.ts:823",
+      "server/queues/processors/ImportsProcessor.ts:400",
+      "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts:505",
+      "server/queues/tasks/RollupWeeklyDocumentInsightsTask.ts:49",
+      "server/routes/api/groups/groups.ts:169"
+    ],
+    "rejected": {
+      "server/commands/teamCreator.ts:69": "for(;;) retry loop generating a unique subdomain - no collection to batch",
+      "server/commands/documentPermanentDeleter.ts:35": "artifact: .map() over the result of the findAll, the query itself runs in the outer loop at :28",
+      "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts:202": "while loop paginating with skip/take - intentional batching",
+      "server/queues/processors/ApiKeyCleanupProcessor.ts:19": "artifact: .map() over the result of a single findAll",
+      "server/routes/api/groups/groups.ts:167": "artifact: .map() over the awaited Promise.all result"
+    }
+  },
+  "calcom/cal.com": {
+    "base": "calcom_cal.com/packages/trpc/",
+    "genuine": [
+      "server/routers/viewer/bookings/get.handler.ts:748",
+      "server/routers/viewer/apps/toggle.handler.ts:122",
+      "server/routers/viewer/apps/queryForDependencies.handler.ts:21",
+      "server/routers/loggedInViewer/eventTypeOrder.handler.ts:56",
+      "server/routers/viewer/slots/reserveSlot.handler.ts:83",
+      "server/routers/viewer/me/updateProfile.handler.ts:369",
+      "server/routers/viewer/eventTypes/heavy/update.handler.ts:434"
+    ],
+    "addedAfterBaseline": [
+      "server/routers/loggedInViewer/eventTypeOrder.handler.ts:56",
+      "server/routers/viewer/slots/reserveSlot.handler.ts:83",
+      "server/routers/viewer/me/updateProfile.handler.ts:369",
+      "server/routers/viewer/eventTypes/heavy/update.handler.ts:434"
+    ]
+  },
+  "immich-app/immich": {
+    "base": "immich-app_immich/",
+    "altBases": ["immich_immich/"],
+    "genuine": [
+      "server/src/services/album.service.ts:104",
+      "server/src/repositories/asset.repository.ts:441",
+      "server/src/services/person.service.ts:155",
+      "server/src/services/person.service.ts:617",
+      "server/src/services/memory.service.ts:59",
+      "server/src/services/media.service.ts:92",
+      "server/src/services/album.service.ts:226",
+      "server/src/services/album.service.ts:292"
+    ],
+    "addedAfterBaseline": [
+      "server/src/services/person.service.ts:155",
+      "server/src/services/person.service.ts:617",
+      "server/src/services/memory.service.ts:59",
+      "server/src/services/media.service.ts:92",
+      "server/src/services/album.service.ts:226",
+      "server/src/services/album.service.ts:292"
+    ],
+    "rejected": {
+      "server/src/repositories/map.repository.ts:286": "buffered bulk flush - the insert takes the whole buffer array, not one row per iteration",
+      "server/src/services/media.service.ts:90": "outer loop over batched() pages - the per-item queries belong to the inner loop at :92"
+    }
+  }
+}
