@@ -1,4 +1,8 @@
 {
+ "repository": "outline/outline",
+ "commit": "1a0c7f47c8470aa972262558bc7409795e0ecc6b",
+ "scannedAt": "2026-09-17",
+ "scope": ["server/routes", "server/commands", "server/presenters", "server/queues", "server/policies", "server/services"],
  "filesScanned": 334,
  "n1Findings": 27,
  "findings": [

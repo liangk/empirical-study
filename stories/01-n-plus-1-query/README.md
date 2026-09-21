@@ -6,24 +6,27 @@ we fixed it. Everything here is reproducible with the **public**, free-tier buil
 of the product — the same one anyone can clone from the `code-evolution-lab`
 repository.
 
-The headline: the first run had a **60.3% false-positive rate**. Seven rounds of
-fixing the detector brought that to **0% across 28 repositories** — the three study
-repositories, five held-out ones, and the 20 candidates that had never been scanned
-properly — while also surfacing well over a hundred genuine N+1 patterns the
-original detector had missed entirely.
+The headline: the first run had a **60.3% false-positive rate** on the three study
+repositories, and 83.3% across the wider corpus. Seven rounds of fixing the
+detector brought that to **1 false positive in 213 findings across 28
+repositories** — the three study repositories, five held-out ones, and the 20
+candidates that had never been scanned properly — while also surfacing well over a
+hundred genuine N+1 patterns the original detector had missed entirely. The one
+remaining false positive is keystone's, documented in
+`results/expanded-corpus/README.md`.
 
-The final write-up is at `content/n-plus-1-query-application-report.md`. This
-README is the lab notebook behind it.
+The final write-up is published at
+`https://stackinsight.dev/blog/n-plus-1-query-detection-story.md`. This README is the
+lab notebook behind it.
 
 ## Step 0 — Build the CLI from source
 
-The N+1 Query Detector is one of four detectors in the free tier of Code Evolution
-Lab (the others are Inefficient Loop, Memory Leak, and Large Payload). It is a
+The N+1 Query Detector is one of eleven detectors in Code Evolution Lab. It is a
 standalone, offline static analyzer — it never sends your code anywhere, and it
 doesn't need a database or API server to run.
 
 ```bash
-git clone https://github.com/<org>/code-evolution-lab.git
+git clone https://github.com/liangk/code-evolution-lab.git
 cd code-evolution-lab/backend
 npm install
 npx tsc            # emits dist/cli.js — see note below
@@ -43,13 +46,22 @@ We had no existing repository list for N+1 Query, so we built one in two passes
 2. Added 5 repositories chosen to cover the ORMs the detector recognises but that
    corpus barely touched: Sequelize, TypeORM, Mongoose, and Kysely-style builders.
 
-45 candidates. 9 produced at least one finding.
+45 rows, of which 42 are distinct repositories — `twentyhq/twenty` and
+`novuhq/novu` appear in both batches (batch 1 found no `schema.prisma`; batch 2
+rescanned them on TypeORM and Mongoose), and `steven-tey/dub` is the same codebase
+as `dubinc/dub`. In that first pass 9 produced at least one finding. By the end of
+Step 6, 19 repositories had produced findings.
 
 ## Step 2 — Preliminary study: pick scopes that fit
 
 The scan scope is capped at roughly 500 JS/TS files, so every candidate needs a
 sub-package that stays under that ceiling while still containing real application
-logic. A purely mechanical rule ("walk up from the schema file to the nearest
+logic. The ceiling is a guideline the scan script enforces on the pre-filter file
+count; two scopes in this study went over it and were kept anyway, because
+narrowing them further would have cut out the server code we were there to scan:
+`toeverything/AFFiNE` at 540 files and `wasp-lang/wasp` at 525.
+
+A purely mechanical rule ("walk up from the schema file to the nearest
 `package.json`") lands on the smallest enclosing package — often the schema package
 itself. For every repository in the final report we inspected the directory tree
 (`git ls-tree`, no blob download needed) and picked the packages that hold
@@ -157,8 +169,14 @@ Details, per-repository results and the triage table are in
 | | Original detector | Fixed detector |
 |---|---:|---:|
 | Findings across 20 repositories (5,862 files) | 341 | 148 |
-| Confirmed genuine | — | 148 |
-| False positives | — | 0 |
+| Confirmed genuine | 39 | 147 |
+| False positives | 302 | 1 |
+| False-positive rate | 88.6% | 0.7% |
+
+The one false positive is `keystonejs/keystone`'s fallback chain over candidate
+database connections, analysed in `results/expanded-corpus/README.md`. It is kept
+in the raw JSON because that is what the scan reported, and excluded from the
+genuine count. The detector has since been given a rule that skips this shape.
 
 Scopes used:
 
@@ -185,11 +203,21 @@ Scopes used:
 | boxyhq/saas-starter-kit | `lib`, `pages` |
 | t3-oss/create-t3-app | `cli` |
 
-Nine repositories from the original pool were excluded at triage because they use
-an ORM the detector does not support (Drizzle: openstatus, uploadthing,
-AnswerOverflow, create-t3-turbo, lobe-chat) or are not JavaScript backends at all
-(plausible is Elixir, plane is Django, maybe is Rails). Reporting zero findings for
-those would have been misleading — the detector was never going to look at them.
+Twelve repositories from the original pool were never scanned. Reporting zero
+findings for any of them would have been misleading — the detector was never going
+to look at them.
+
+| Reason | Repositories |
+|---|---|
+| Drizzle, not a supported ORM | openstatusHQ/openstatus, unkeyed/unkey, t3-oss/create-t3-turbo, pingdotgg/uploadthing |
+| Not a JavaScript backend | plausible/analytics (Elixir), makeplane/plane (Django), maybe-finance/maybe (Rails) |
+| No ORM dependency at all | lucia-auth/lucia (docs-only now), nicoalbanese/kirimase (scaffolding CLI), AnswerOverflow/AnswerOverflow |
+| Clone unavailable | lobehub/lobe-chat, gitroomhq/gitroom (renamed) |
+
+`AnswerOverflow` is listed elsewhere in this study as a Drizzle codebase; the
+triage data in `results/expanded-corpus/orm-triage.tsv` records no ORM package at
+all for it, which is the reason used here. `lobe-chat`'s ORM was never verified,
+because the clone failed before triage could read its `package.json`.
 
 This third pass also drove three more rounds of fixes, because it surfaced
 false-positive classes the first eight repositories did not contain: bounded retry
@@ -207,21 +235,35 @@ it, and the detector shipped with four unit tests. So every classification made
 during this study is now a test case in the public repository, at
 `backend/src/__tests__/n1-query-detector.corpus.test.ts`:
 
-- **19 patterns that must be detected** — one per ORM and per shape: Prisma reads
+- **20 patterns that must be detected** — one per ORM and per shape: Prisma reads
   and writes, sequential transaction updates, Sequelize `findByPk` fan-out, a
   Kysely delete chain, repository calls, raw SQL as both a template literal and a
   concatenated string, Mongoose, TypeORM, seed-script inserts, a per-item query
-  inside a concurrency-limited batch, and a collection merely *named* `...Batches`.
-- **18 patterns that must not be reported** — every false-positive class that cost
+  inside a concurrency-limited batch, a collection merely *named* `...Batches`,
+  and an early `return` guard that must not be mistaken for a fallback chain.
+- **19 patterns that must not be reported** — every false-positive class that cost
   a round to kill: `Map.get()`, class-property Maps, `Array.find(callback)`,
   `Promise.all`, bounded and infinite retry loops, cursor pagination, flag-driven
   batch deletion, fixed-window paging, `in:`-clause chunking, the query that
   produces the collection, buffered bulk flushes, Firestore staged writes, a `Map`
-  named `repositories`, CQRS `usecase.execute()`, and Redis calls.
+  named `repositories`, CQRS `usecase.execute()`, Redis calls, and keystone's
+  fallback chain over candidate database connections.
 - Plus nested-loop attribution and severity escalation.
 
 Each case carries the repository and file it was reduced from, so the test file
-doubles as documentation of where each rule came from. 43 tests, all passing.
+doubles as documentation of where each rule came from. 41 cases in this file (20
+must-detect, 19 must-not-detect, plus nested-loop attribution and severity
+escalation), alongside the detector's four original unit tests — 45 in total, all
+passing.
+
+One caveat about the severity-escalation case. It asserts that three queries in one
+loop escalate to CRITICAL, and it is labelled as reduced from
+`RevisionCreatedNotificationsTask.ts:108`. The reduction flattens the real code:
+in Outline that file's three calls are spread across nested loops, so the detector
+assigns two of them to the innermost loop and reports that location as HIGH, not
+CRITICAL. The fixture is a valid test of severity escalation; it is not a faithful
+reduction of that line, and no finding in any of the 28 repositories is reported as
+CRITICAL.
 
 Writing them immediately paid for itself: the raw-SQL case failed, because the
 keyword list recognised `DROP TABLE` but not `DROP PUBLICATION`, and only matched
@@ -248,7 +290,7 @@ immich-app/immich's `asset.repository.ts` case needs no explanation: a method na
 
 ```bash
 # 1. Build the CLI (Step 0)
-git clone https://github.com/<org>/code-evolution-lab.git
+git clone https://github.com/liangk/code-evolution-lab.git
 cd code-evolution-lab/backend && npm install && npx tsc && cd ../..
 export CEL_CLI=./code-evolution-lab/backend/dist/cli.js
 
@@ -263,6 +305,21 @@ export CEL_CLI=./code-evolution-lab/backend/dist/cli.js
 node eval/score.js .            # point it at wherever the JSON landed
 ```
 
-If your counts differ from ours, the most likely reason is that these are living
-codebases and line numbers move. The unedited terminal output of our final run is
-in `logs/*.log` for line-by-line comparison.
+If your counts differ from ours, check the commit first. The three study
+repositories are pinned, and re-scanning at these commits reproduces the counts,
+file paths and line numbers exactly:
+
+| Repository | Commit |
+|---|---|
+| outline/outline | `1a0c7f47c8470aa972262558bc7409795e0ecc6b` |
+| calcom/cal.com | `6bc45298226f96ff79e0c070c8b2ce39727e8477` |
+| immich-app/immich | `efbbd32e55067eb02a51030c5c948ae617484f8b` |
+
+`scan-repo.sh` takes `CEL_COMMIT=<sha>` to pin the checkout. Without it the scan
+runs against today's HEAD, and these are living codebases — line numbers move and
+upstream fixes land. That is how the original run was done, and recovering these
+commits afterwards by date was the cost of it. The held-out and expanded-corpus
+results are still unpinned.
+
+The unedited terminal output of our final run is in `logs/*.log` for line-by-line
+comparison.

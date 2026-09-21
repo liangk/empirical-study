@@ -10,9 +10,21 @@
 # Usage:
 #   ./scan-repo.sh <owner/repo> <scope1> [scope2] [scope3] ...
 #
-# Example (reproduces the outline/outline scan):
-#   ./scan-repo.sh outline/outline server/routes server/commands server/presenters \
+# Pin a commit (recommended — see below):
+#   CEL_COMMIT=<sha> ./scan-repo.sh <owner/repo> <scope1> [scope2] ...
+#
+# Example (reproduces the outline/outline scan exactly):
+#   CEL_COMMIT=1a0c7f47c8470aa972262558bc7409795e0ecc6b \
+#     ./scan-repo.sh outline/outline server/routes server/commands server/presenters \
 #       server/queues server/policies server/services
+#
+# Without CEL_COMMIT the scan runs against whatever is HEAD today, which is how
+# the original results were produced and why they had to be pinned afterwards:
+# line numbers move, upstream fixes land, and the numbers stop matching. The
+# commits used for the three study repositories are recorded in each result
+# file's "commit" field. To find what HEAD was on a given date:
+#
+#   git rev-list -1 --before="2026-09-17T11:20:00Z" origin/HEAD
 #
 # Requirements: git, node >= 18, and a built copy of the Code Evolution Lab CLI.
 # See ../README.md "Step 0" for how to build the CLI from source.
@@ -26,6 +38,7 @@ fi
 
 REPO="$1"; shift
 SCOPES=("$@")
+COMMIT="${CEL_COMMIT:-}"
 
 CLI="${CEL_CLI:-./cel-backend/dist/cli.js}"
 if [ ! -f "$CLI" ]; then
@@ -39,21 +52,38 @@ trap 'rm -rf "$WORK"' EXIT
 SAFE=$(echo "$REPO" | tr '/' '_')
 DIR="$WORK/$SAFE"
 
-echo "### Cloning $REPO (blobless, no checkout yet)"
-git clone --depth 1 --filter=blob:none --no-checkout --quiet "https://github.com/$REPO.git" "$DIR"
+if [ -n "$COMMIT" ]; then
+  # A pinned commit needs history, so no --depth 1 here.
+  echo "### Cloning $REPO (blobless, full history, no checkout yet)"
+  git clone --filter=blob:none --no-checkout --quiet "https://github.com/$REPO.git" "$DIR"
+else
+  echo "### Cloning $REPO at today's HEAD (blobless, no checkout yet)"
+  echo "### NOTE: no commit pinned. Set CEL_COMMIT=<sha> to reproduce a recorded scan."
+  git clone --depth 1 --filter=blob:none --no-checkout --quiet "https://github.com/$REPO.git" "$DIR"
+fi
+
+if [ -n "$COMMIT" ]; then
+  if ! git -C "$DIR" cat-file -e "${COMMIT}^{commit}" 2>/dev/null; then
+    echo "!!! Commit $COMMIT not found in $REPO." >&2
+    exit 1
+  fi
+fi
 
 echo "### Narrowing checkout to: ${SCOPES[*]}"
 # NOTE: some older git builds reject "--quiet" on sparse-checkout subcommands.
 # Don't pass it there; sparse-checkout is already silent by default.
 git -C "$DIR" sparse-checkout init --cone
 git -C "$DIR" sparse-checkout set "${SCOPES[@]}"
-git -C "$DIR" checkout HEAD --quiet
+git -C "$DIR" checkout "${COMMIT:-HEAD}" --quiet
+
+RESOLVED=$(git -C "$DIR" rev-parse HEAD)
+echo "### Scanning commit: $RESOLVED"
 
 # IMPORTANT: `git ls-tree` reads the tree object directly, so it ignores
 # sparse-checkout — it lists the whole repository unless we filter by path
 # ourselves. Restrict the count to the requested scopes.
 SCOPE_REGEX=$(printf '^(%s)/' "$(IFS='|'; echo "${SCOPES[*]}")")
-FILE_COUNT=$(git -C "$DIR" ls-tree -r HEAD --name-only \
+FILE_COUNT=$(git -C "$DIR" ls-tree -r "$RESOLVED" --name-only \
   | grep -E "$SCOPE_REGEX" \
   | grep -E '\.(js|jsx|ts|tsx)$' \
   | grep -Ev '(^|/)(node_modules|dist|build|\.git)(/|$)' \

@@ -1,4 +1,8 @@
 {
+ "repository": "immich-app/immich",
+ "commit": "efbbd32e55067eb02a51030c5c948ae617484f8b",
+ "scannedAt": "2026-09-17",
+ "scope": ["server/src/services", "server/src/repositories", "server/src/controllers", "server/src/workers", "server/src/commands"],
  "filesScanned": 172,
  "n1Findings": 8,
  "findings": [

@@ -1,4 +1,8 @@
 {
+ "repository": "calcom/cal.com",
+ "commit": "6bc45298226f96ff79e0c070c8b2ce39727e8477",
+ "scannedAt": "2026-09-17",
+ "scope": ["packages/trpc"],
  "filesScanned": 398,
  "n1Findings": 7,
  "findings": [
