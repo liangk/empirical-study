@@ -27,7 +27,7 @@ const STORY = join(HERE, '..');
 const DATA = join(STORY, 'data');
 
 function readTsv(path) {
-  const [header, ...lines] = readFileSync(path, 'utf8').trim().split('\n');
+  const [header, ...lines] = readFileSync(path, 'utf8').trim().split(/\r?\n/);
   const columns = header.split('\t');
   return lines.filter(Boolean).map(line => {
     const cells = line.split('\t');
@@ -100,6 +100,20 @@ if (!existsSync(CROSSCHECK)) {
   console.error('data/crosscheck.tsv not found. Run scripts/crosscheck-prisma.mjs first.');
   process.exit(1);
 }
+
+/**
+ * Refuse to run without the schema files. This script overwrites
+ * results.tsv, unindexed-fks.tsv, exclusions.tsv and summary.json, and it
+ * used to skip a missing file and carry on — so running it after data/schemas/
+ * had been deleted replaced every result with an empty table and reported
+ * nothing wrong. Checked up front, before anything is written.
+ */
+const missingFiles = corpus.filter(entry => !existsSync(join(DATA, 'schemas', entry.file)));
+if (missingFiles.length > 0) {
+  console.error(`${missingFiles.length} of ${corpus.length} schema files are missing from data/schemas/.`);
+  console.error('Nothing has been written. Restore them with: node scripts/restore-schemas.mjs');
+  process.exit(1);
+}
 const prismaRejected = new Set(
   readTsv(CROSSCHECK).filter(row => row.status === 'prisma-rejected').map(row => row.repo),
 );
@@ -130,9 +144,10 @@ for (const entry of corpus) {
   let schema;
   try {
     schema = readFileSync(join(DATA, 'schemas', entry.file), 'utf8');
-  } catch {
-    console.error(`missing schema file for ${entry.repo}, skipping`);
-    continue;
+  } catch (err) {
+    // Checked for up front; reaching this means the file vanished mid-run.
+    console.error(`could not read schema for ${entry.repo}: ${err.message}`);
+    process.exit(1);
   }
 
   const models = parseSchema(schema);

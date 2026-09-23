@@ -50,7 +50,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DATA = join(HERE, '..', 'data');
 
 function readTsv(path) {
-  const [header, ...lines] = readFileSync(path, 'utf8').trim().split('\n');
+  const [header, ...lines] = readFileSync(path, 'utf8').trim().split(/\r?\n/);
   const columns = header.split('\t');
   return lines.filter(Boolean).map(line => {
     const cells = line.split('\t');

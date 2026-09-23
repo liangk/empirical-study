@@ -4,9 +4,13 @@ Prisma does not create indexes for foreign keys. Rails and Django do it
 automatically; Prisma leaves it to you. This study measures how often that
 default goes uncorrected in real schemas.
 
-**Across 2,890 public Prisma schemas and 88,281 foreign keys, the typical
-schema leaves 40% of its foreign keys unindexed.** 88.4% have at least one
-unindexed foreign key, and a quarter declare no `@@index` at all.
+**Across 2,720 public Prisma schemas and 82,476 foreign keys, the typical
+schema leaves 41% of its foreign keys unindexed.** 89.2% have at least one.
+
+Those figures cover every database where a missing `@@index` means a missing
+index in the database: PostgreSQL, SQLite, SQL Server, MongoDB, and MySQL
+without foreign-key constraints. MySQL *with* constraints is reported
+separately, because InnoDB creates the index itself.
 
 Every schema analysed was accepted by Prisma's own validator, and on every one
 of them the detector's parser reads exactly the models, foreign keys and
@@ -20,31 +24,32 @@ what an unindexed lookup costs; this one counts how many there are.
 
 ## Results
 
-| Schema size | Schemas | FKs | FKs per schema | Median unindexed per schema | Pooled unindexed % | No `@@index` at all |
-|---|---:|---:|---:|---:|---:|---:|
-| under 1 KB | 17 | 30 | 1.8 | 100% | 76.7% | 15 (88.2%) |
-| 1–2 KB | 255 | 696 | 2.7 | 100% | 70.8% | 187 (73.3%) |
-| 2–4 KB | 269 | 1,429 | 5.3 | 71.4% | 61.9% | 135 (50.2%) |
-| 4–8 KB | 509 | 5,403 | 10.6 | 58.3% | 53.8% | 193 (37.9%) |
-| 8–16 KB | 711 | 13,465 | 18.9 | 37.5% | 44.2% | 145 (20.4%) |
-| 16–32 KB | 565 | 19,730 | 34.9 | 29.6% | 38.8% | 46 (8.1%) |
-| over 32 KB | 564 | 47,528 | 84.3 | 27.4% | 33.6% | 10 (1.8%) |
-| **All** | **2,890** | **88,281** | **30.5** | **40%** | **38.4%** | **731 (25.3%)** |
+| Schema size | Schemas | FKs | FKs per schema | Median unindexed per schema | Pooled unindexed % |
+|---|---:|---:|---:|---:|---:|
+| under 1 KB | 14 | 23 | 1.6 | 100% | 91.3% |
+| 1–2 KB | 245 | 668 | 2.7 | 100% | 71.0% |
+| 2–4 KB | 256 | 1,362 | 5.3 | 72.1% | 62.1% |
+| 4–8 KB | 484 | 5,178 | 10.7 | 60.0% | 54.1% |
+| 8–16 KB | 667 | 12,718 | 19.1 | 38.1% | 44.2% |
+| 16–32 KB | 529 | 18,548 | 35.1 | 30.0% | 38.8% |
+| over 32 KB | 525 | 43,979 | 83.8 | 28.4% | 33.9% |
+| **All** | **2,720** | **82,476** | **30.3** | **41.0%** | **38.7%** |
 
-Of the 2,890 schemas, 2,554 have at least one unindexed foreign key and 336
+Of the 2,720 schemas, 2,425 have at least one unindexed foreign key and 295
 have none. Every schema in the corpus has at least one foreign key, so those
-two must sum to the total, and they do.
+two must sum to the total, and they do. Across the full 2,890 schemas
+including MySQL, 731 (25.3%) declare no `@@index` at all.
 
 **Median, not pooled, is the headline.** The two pooled figures are biased in
 opposite directions by schema size. The pooled foreign-key percentage is
-dominated by the largest schemas — the top bucket alone holds 54% of all
+dominated by the largest schemas — the top bucket alone holds 53% of the
 foreign keys. "Schemas with at least one" is inflated by them instead: a
 schema with 84 foreign keys almost certainly misses one. The median of each
 schema's own ratio gives every schema one vote.
 
 **The gradient is the finding.** The typical schema under 2 KB indexes none of
-its foreign keys; over 32 KB, the typical schema leaves 27% unindexed. Foreign
-key density rises the whole way (1.8 to 84 per schema) while the unindexed
+its foreign keys; over 32 KB, the typical schema leaves 28% unindexed. Foreign
+key density rises the whole way (1.6 to 84 per schema) while the unindexed
 share falls.
 
 That is a correlation across schemas, not a trajectory within one. It is
@@ -56,6 +61,46 @@ The small-bucket medians are coarse by construction. A schema with two
 foreign keys can only score 0%, 50% or 100%, so "median 100%" there means the
 typical small schema indexes none of them, not that the measurement is
 saturated.
+
+### By database
+
+| Provider | Schemas | FKs | Median unindexed | Pooled | ≥1 unindexed | Database creates the index |
+|---|---:|---:|---:|---:|---:|---|
+| PostgreSQL | 2,411 | 75,787 | 38.9% | 38.0% | 89.4% | no |
+| SQLite | 225 | 4,874 | 64.7% | 41.7% | 88.4% | no |
+| MySQL, `relationMode = "foreignKeys"` | 170 | 5,805 | 21.6% | 34.4% | 75.9% | **yes** |
+| MongoDB | 60 | 1,237 | 65.8% | 69.4% | 90.0% | no |
+| MySQL, `relationMode = "prisma"` | 11 | 265 | 0% | 20.8% | 36.4% | no |
+| SQL Server | 6 | 169 | 51.7% | 55.6% | 83.3% | no |
+| CockroachDB | 1 | 4 | 100% | 100% | 100% | uncertain |
+| Unavailable | 6 | 140 | 47.2% | 43.6% | 100% | — |
+
+PostgreSQL includes 5 schemas using Prisma's `postgres` alias. The schema
+and foreign-key counts combine both; the percentages are from the
+`postgresql` rows alone (2,406 schemas). "Unavailable" is 6 repositories deleted or made private between
+collection and the provider lookup; their foreign-key counts were recorded at
+collection and they stay in the headline, their provider is unknown.
+
+PostgreSQL is 83% of the corpus, so the headline is largely a PostgreSQL
+figure.
+
+**MySQL with foreign-key constraints is excluded from the headline.** InnoDB
+requires an index on every foreign-key column and creates one when the
+constraint is added, so a MySQL foreign key with no `@@index` is still indexed
+in the database. Counting it as unindexed would be a false positive on 170
+schemas.
+
+**MySQL under `relationMode = "prisma"` is included.** In that mode — common on
+PlanetScale — Prisma emulates relations and creates no constraint, so InnoDB
+never adds an index. It is also the one configuration where Prisma warns about
+missing foreign-key indexes, and its median is 0%. Eleven schemas is too few
+to lean on, but it points the obvious way: where Prisma tells people, they
+add the index.
+
+This distinction was missed in the first analysis. The parser cross-check
+could not have caught it: both parsers correctly read "no `@@index`". What it
+means depends on the database, which is a question about semantics, not
+syntax. See Caveats for the full list of those assumptions.
 
 ---
 
@@ -104,8 +149,7 @@ forks or archived repositories in the first place.
 
 The one-year filter did more than keep out abandoned projects. It also caught
 most copies of other people's projects that were pushed to a new repository
-rather than forked — several copies of cal.com among them — since a copy
-that is never updated goes stale.
+rather than forked, since a copy that is never updated goes stale.
 
 ### Analysis-stage exclusions
 
@@ -117,6 +161,8 @@ that is never updated goes stale.
 | Test fixture vendored from another project | 1 |
 | **Excluded** | **126** |
 | **Analysed** | **2,890** |
+| of which MySQL with foreign-key constraints, reported separately | 170 |
+| **In the headline** | **2,720** |
 
 Each schema falls into exactly one row. The checks run in the order listed,
 so a rejected schema's byte-identical copies are counted as rejected rather
@@ -203,13 +249,30 @@ foreign key turn out to be different things.
 - **Index**: `@id`, `@unique`, `@@id`, `@@unique` and `@@index` all count for
   coverage, since each creates a real index. `@@fulltext` does not; it is not
   a b-tree index and cannot serve a foreign-key lookup.
-- **Explicit index** (the "no `@@index` at all" column): `@@index` only.
-  Counting primary keys and unique constraints here would report eight indexes
-  for a schema with eight models whether or not anyone thought about indexing.
+- **Explicit index**: `@@index` only. Counting primary keys and unique
+  constraints here would report eight indexes for a schema with eight models
+  whether or not anyone thought about indexing.
 
 ---
 
 ## Caveats
+
+**"Unindexed in the schema" is not always "unindexed in the database".** The
+parser is verified against Prisma, but what the schema *means* for the
+database was not verified against a database. These are the assumptions:
+
+| Case | Does the database create the index? | Treatment |
+|---|---|---|
+| PostgreSQL, SQLite, SQL Server | No | counted |
+| MySQL with foreign-key constraints | Yes — InnoDB | excluded from the headline |
+| MySQL with `relationMode = "prisma"` | No — no constraint exists | counted |
+| MongoDB | No — no foreign-key constraints at all | counted |
+| Foreign key that is also the primary key, or leads `@@id` | Already a primary-key index | counted as covered |
+| Implicit many-to-many join tables | Yes — Prisma creates them indexed | not `@relation(fields:)`, never counted |
+| CockroachDB | Uncertain; behaviour differs across versions | 1 schema, counted |
+
+Applying each schema to a real database and reading `information_schema`
+would settle these directly. That was not done.
 
 **This is public GitHub, not production.** Between 79% and 89% of schemas in
 every size bucket have zero stars, so stars cannot tell learning projects from
@@ -259,12 +322,20 @@ npm install
 GITHUB_TOKEN=... node scripts/collect-schemas.mjs    # → data/corpus.tsv, data/excluded.tsv, data/schemas/
 node scripts/crosscheck-prisma.mjs                   # → data/crosscheck.tsv
 node scripts/analyse-schemas.mjs                     # → data/results.tsv, data/summary.json, data/exclusions.tsv
-node scripts/stratify.mjs                            # → data/by-size.tsv, the table above
+node scripts/stratify.mjs                            # → data/by-size.tsv (all 2,890)
+node scripts/fetch-providers.mjs                     # → data/providers.tsv
+node scripts/by-provider.mjs                         # → data/by-provider.tsv, the headline and tables above
 node scripts/sample-verify.mjs                       # → data/verification.md, for manual review
 ```
 
 `GITHUB_TOKEN` needs public repository read access only. Collection takes
 under an hour; everything after it runs in a few minutes.
+
+To reproduce from `corpus.tsv` without collecting again, `restore-schemas.mjs`
+fetches every schema at its recorded blob SHA. A blob SHA is a hash of the
+content, so the files come back byte-identical and the results reproduce
+exactly. `analyse-schemas.mjs` refuses to run if any schema file is missing,
+rather than writing results from a partial corpus.
 
 `package.json` depends on `@code-evolution/core-engine` 1.3.0 or later from
 npm, the first release with the parser fixes above. The figures in this README
@@ -272,7 +343,9 @@ were produced with 1.3.0.
 
 On Windows with Git Bash, call `node.exe` directly if `node` is aliased to
 `winpty node` — winpty refuses to run when output is redirected, and fails
-with nothing but `stdout is not a tty`.
+with nothing but `stdout is not a tty`. `.gitattributes` keeps the data files
+on LF endings: a CRLF checkout once turned the last column of `results.tsv`
+unreadable and the unindexed counts into zeros.
 
 ---
 
@@ -280,7 +353,7 @@ with nothing but `stdout is not a tty`.
 
 Committed: `corpus.tsv`, `excluded.tsv`, `exclusions.tsv`, `results.tsv`,
 `unindexed-fks.tsv`, `crosscheck.tsv`, `crosscheck-diffs.tsv`, `by-size.tsv`,
-`summary.json`.
+`providers.tsv`, `by-provider.tsv`, `summary.json`.
 
 Not committed: `data/schemas/` and `data/verification.md`. Those are other
 people's code, mostly unlicensed, so redistributing them is not ours to do.

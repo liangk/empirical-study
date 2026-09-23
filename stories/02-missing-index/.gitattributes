@@ -1,0 +1,10 @@
+# Data files keep LF line endings on every platform.
+#
+# Git for Windows converts LF to CRLF on checkout by default. A TSV read back
+# with CRLF endings gets a trailing \r on its last column's header, so a
+# lookup by that name finds nothing. That once turned the unindexed-foreign-
+# key column into a table of zeros. The scripts now split on \r?\n, but the
+# files should not change underneath them in the first place.
+*.tsv  text eol=lf
+*.json text eol=lf
+*.mjs  text eol=lf

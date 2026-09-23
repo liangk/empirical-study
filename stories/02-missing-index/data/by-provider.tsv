@@ -1,0 +1,10 @@
+provider	schemas	foreignKeys	unindexedInSchema	medianUnindexedPct	pooledUnindexedPct	schemasWithAnyPct	databaseCreatesIndex
+postgresql	2406	75637	28726	38.9	38	89.4	no
+sqlite	225	4874	2033	64.7	41.7	88.4	no
+mysql (relationMode foreignKeys)	170	5805	1999	21.6	34.4	75.9	yes
+mongodb	60	1237	858	65.8	69.4	90	no
+mysql (relationMode prisma)	11	265	55	0	20.8	36.4	no
+sqlserver	6	169	94	51.7	55.6	83.3	no
+unavailable	6	140	61	47.2	43.6	100	no
+postgres	5	150	59	33.3	39.3	100	no
+cockroachdb	1	4	4	100	100	100	no
