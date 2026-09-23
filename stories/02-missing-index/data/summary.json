@@ -1,0 +1,16 @@
+{
+  "schemasCollected": 3016,
+  "excludedAtAnalysis": 126,
+  "schemas": 2890,
+  "models": 68194,
+  "explicitIndexes": 87908,
+  "foreignKeys": 88281,
+  "foreignKeysIndexed": 54392,
+  "foreignKeysUnindexed": 33889,
+  "foreignKeysUnindexedPct": 38.4,
+  "schemasWithUnindexedForeignKey": 2554,
+  "schemasWithUnindexedForeignKeyPct": 88.4,
+  "schemasFullyIndexed": 336,
+  "schemasWithNoExplicitIndex": 731,
+  "schemasWithNoExplicitIndexPct": 25.3
+}

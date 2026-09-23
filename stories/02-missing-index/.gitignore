@@ -1,0 +1,21 @@
+# Third-party schema files. Do not commit.
+#
+# These are other people's code, mostly unlicensed, so redistributing them is
+# not ours to do. data/corpus.tsv records the repository and blob SHA of every
+# schema, so the corpus is reproducible without shipping the files:
+#   https://api.github.com/repos/<repo>/git/blobs/<sha>
+#
+# DELETE data/schemas/ when the study is finished and the article is published.
+data/schemas/
+
+# Copies whole model blocks out of those schemas for manual review. Record the
+# verdicts somewhere code-free (repo, sha, model, field, verdict, reason)
+# before deleting this.
+data/verification.md
+
+# Run logs.
+data/*.log
+
+# Prisma's schema validator, installed only for the cross-check.
+node_modules/
+package-lock.json
