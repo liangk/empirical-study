@@ -1,8 +1,10 @@
 # Large Payloads — Detector Study (Reproducible)
 
 This folder is the lab notebook for recalibrating Code Evolution Lab's payload
-rules (`payload/unbounded-query`, `payload/large-return`) against the same 300
-repositories Study 09 scanned, at the same commits.
+rules against the same 300 repositories Study 09 scanned, at the same commits.
+Stage 1 calibrated the two rules core-engine had (`payload/unbounded-query`,
+`payload/large-return`); Stage 2 added the rest of payload detection and a
+solution generator. The headline table below is Stage 1's.
 
 The headline, in one table:
 
@@ -23,7 +25,7 @@ repository alone (see Step 5).
 | Stage | Goal | Status |
 |---|---|---|
 | 1 | Reproduce Study 09 on its own corpus and commits, reconcile its numbers, and calibrate the two payload rules core-engine already had | Done (2026-09-24). Steps 0–5 below; results go in the report |
-| 2 | Bring core-engine's payload detection to full coverage: every pattern any of the three detectors claims, each calibrated the same way | In progress — item 1 done (2026-09-24) |
+| 2 | Bring core-engine's payload detection to full coverage: every pattern any of the three detectors claims, each calibrated the same way | Done (2026-10-02). Items 1–6 below |
 
 # Stage 1 — Reproduce Study 09
 
@@ -224,11 +226,17 @@ do:
 |---|---|---|---|
 | Collection query with no row limit | `unbounded_find_all` (uncorroborated) | `select_all_query` (uncorroborated) | `payload/unbounded-query` — calibrated in Stage 1 |
 | Unbounded query returned from a function | — | `large_return_payload` | `payload/large-return` — calibrated in Stage 1 |
-| Query result flows into an API response (`res.json`, handler return) with no limit or pagination | — | `large_api_payload` (data-flow tracked) | missing |
-| Include/populate nested three or more levels | `deep_nested_include` (fires on any nested object) | — | missing |
-| `SELECT *` sent to a database | `select_star` (fires on any string) | — | missing |
-| List endpoint with no pagination contract | declared, never implemented | — | missing |
-| GraphQL resolver returning an unbounded list | declared, never implemented | — | missing |
+| Query result flows into an API response (`res.json`, handler return) with no limit or pagination | — | `large_api_payload` (data-flow tracked) | `payload/api-response` — item 1 |
+| Include/populate nested three or more levels | `deep_nested_include` (fires on any nested object) | — | `payload/deep-include` — item 3 |
+| `SELECT *` sent to a database | `select_star` (fires on any string) | — | `payload/select-star` — item 4 |
+| List endpoint with no pagination contract | declared, never implemented | — | folded into `payload/api-response` — item 1 |
+| GraphQL resolver returning an unbounded list | declared, never implemented | — | `payload/unbounded-graphql` — item 5 |
+
+Query builders (knex, TypeORM's query builder, Kysely) are covered by the
+row-limit rules since item 2, and every row-limit finding has a suggested fix
+since item 6.
+
+The scope and method below are as planned on 2026-09-24, before the work.
 
 Scope, decided 2026-09-24, in the order the work is done:
 
@@ -321,7 +329,7 @@ The backend itself, scanned with these rules: three of its four unbounded
 queries now name the endpoint that sends them (`api/database.ts:203` →
 `api/routes/session.routes.ts:29`).
 
-## Item 2 — query builders (done 2026-09-25)
+## Item 2 — query builders (done 2026-09-24)
 
 **What was missing.** Stage 1's rules only knew ORM finders. Lightdash,
 directus and nocodb write their queries with knex and reported nothing. The
