@@ -1,0 +1,593 @@
+{
+ "note": "all 84 round-1 findings; fewer than 400, so no sampling",
+ "sample": [
+  {
+   "id": "D001",
+   "repo": "calcom/cal.com",
+   "file": "apps/api/v2/src/modules/booking-seat/booking-seat.repository.ts",
+   "line": 24,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D002",
+   "repo": "calcom/cal.com",
+   "file": "apps/web/lib/booking.ts",
+   "line": 21,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D003",
+   "repo": "calcom/cal.com",
+   "file": "apps/web/lib/reschedule/[uid]/getServerSideProps.ts",
+   "line": 44,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D004",
+   "repo": "calcom/cal.com",
+   "file": "packages/app-store/alby/api/webhook.ts",
+   "line": 50,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D005",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/lib/getBookingToDelete.ts",
+   "line": 5,
+   "title": "findUniqueOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D006",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/lib/payment/getBooking.ts",
+   "line": 35,
+   "title": "findUnique() loads relations 4 levels deep"
+  },
+  {
+   "id": "D007",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 382,
+   "title": "findUnique() loads relations 4 levels deep"
+  },
+  {
+   "id": "D008",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 482,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D009",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 530,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D010",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 897,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D011",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 1482,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D012",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/BookingRepository.ts",
+   "line": 1638,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D013",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/bookings/repositories/PrismaBookingPaymentRepository.ts",
+   "line": 18,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D014",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/eventtypes/repositories/eventTypeRepository.ts",
+   "line": 1142,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D015",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/eventtypes/repositories/eventTypeRepository.ts",
+   "line": 1242,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D016",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/eventtypes/repositories/eventTypeRepository.ts",
+   "line": 1386,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D017",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/eventtypes/repositories/eventTypeRepository.ts",
+   "line": 1719,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D018",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/hashedLink/lib/repository/HashedLinkRepository.ts",
+   "line": 209,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D019",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/membership/repositories/MembershipRepository.ts",
+   "line": 193,
+   "title": "findMany() loads relations 5 levels deep"
+  },
+  {
+   "id": "D020",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/tasker/tasks/triggerNoShow/getBooking.ts",
+   "line": 9,
+   "title": "findUniqueOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D021",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/users/repositories/UserRepository.ts",
+   "line": 961,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D022",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/users/repositories/UserRepository.ts",
+   "line": 1220,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D023",
+   "repo": "calcom/cal.com",
+   "file": "packages/features/webhooks/lib/repository/WebhookRepository.ts",
+   "line": 320,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D024",
+   "repo": "calcom/cal.com",
+   "file": "packages/trpc/server/routers/loggedInViewer/teamsAndUserProfilesQuery.handler.ts",
+   "line": 29,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D025",
+   "repo": "calcom/cal.com",
+   "file": "packages/trpc/server/routers/viewer/bookings/confirm.handler.ts",
+   "line": 62,
+   "title": "findUniqueOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D026",
+   "repo": "calcom/cal.com",
+   "file": "packages/trpc/server/routers/viewer/eventTypes/heavy/update.handler.ts",
+   "line": 98,
+   "title": "findUniqueOrThrow() loads relations 4 levels deep"
+  },
+  {
+   "id": "D027",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/jobs/definitions/internal/seal-document.handler.ts",
+   "line": 60,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D028",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/admin/get-entire-document.ts",
+   "line": 18,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D029",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/email/get-email-context.ts",
+   "line": 179,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D030",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/envelope/get-envelope-for-direct-template-signing.ts",
+   "line": 36,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D031",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/envelope/get-envelope-for-recipient-signing.ts",
+   "line": 168,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D032",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/public-api/get-api-token-by-token.ts",
+   "line": 9,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D033",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/team/delete-team.ts",
+   "line": 26,
+   "title": "findFirst() loads relations 5 levels deep"
+  },
+  {
+   "id": "D034",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/team/find-team-members.ts",
+   "line": 107,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D035",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/team/get-team-members.ts",
+   "line": 20,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D036",
+   "repo": "documenso/documenso",
+   "file": "packages/lib/server-only/user/delete-user.ts",
+   "line": 11,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D037",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/admin-router/get-admin-organisation.ts",
+   "line": 32,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D038",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/admin-router/get-admin-team.ts",
+   "line": 48,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D039",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/admin-router/promote-member-to-owner.ts",
+   "line": 28,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D040",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/admin-router/update-organisation-member-role.ts",
+   "line": 37,
+   "title": "findUnique() loads relations 3 levels deep"
+  },
+  {
+   "id": "D041",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/organisation-router/find-organisation-groups.ts",
+   "line": 96,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D042",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/organisation-router/get-organisation-session.ts",
+   "line": 27,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D043",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/organisation-router/update-organisation-members.ts",
+   "line": 34,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D044",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/team-router/create-team-groups.ts",
+   "line": 37,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D045",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/team-router/delete-team-member.ts",
+   "line": 30,
+   "title": "findFirst() loads relations 4 levels deep"
+  },
+  {
+   "id": "D046",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/team-router/find-team-groups.ts",
+   "line": 84,
+   "title": "findMany() loads relations 4 levels deep"
+  },
+  {
+   "id": "D047",
+   "repo": "documenso/documenso",
+   "file": "packages/trpc/server/team-router/update-team-member.ts",
+   "line": 32,
+   "title": "findFirst() loads relations 4 levels deep"
+  },
+  {
+   "id": "D048",
+   "repo": "getoutline/outline",
+   "file": "server/models/User.ts",
+   "line": 481,
+   "title": "findAll() loads relations 3 levels deep"
+  },
+  {
+   "id": "D049",
+   "repo": "n8n-io/n8n",
+   "file": "packages/@n8n/db/src/repositories/shared-credentials.repository.ts",
+   "line": 17,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D050",
+   "repo": "n8n-io/n8n",
+   "file": "packages/@n8n/db/src/repositories/shared-credentials.repository.ts",
+   "line": 118,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D051",
+   "repo": "n8n-io/n8n",
+   "file": "packages/@n8n/db/src/repositories/shared-workflow.repository.ts",
+   "line": 36,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D052",
+   "repo": "n8n-io/n8n",
+   "file": "packages/@n8n/db/src/repositories/shared-workflow.repository.ts",
+   "line": 192,
+   "title": "findOne() loads relations 3 levels deep"
+  },
+  {
+   "id": "D053",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/credentials/credentials-finder.service.ts",
+   "line": 146,
+   "title": "findOne() loads relations 3 levels deep"
+  },
+  {
+   "id": "D054",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/modules/source-control.ee/source-control-export.service.ee.ts",
+   "line": 275,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D055",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/modules/source-control.ee/source-control-import.service.ee.ts",
+   "line": 444,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D056",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/workflows/workflow-finder.service.ts",
+   "line": 162,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D057",
+   "repo": "strapi/strapi",
+   "file": "packages/core/admin/server/src/services/user.ts",
+   "line": 178,
+   "title": "findMany() loads relations 4 levels deep"
+  },
+  {
+   "id": "D058",
+   "repo": "strapi/strapi",
+   "file": "packages/core/content-releases/server/src/controllers/release.ts",
+   "line": 55,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D059",
+   "repo": "strapi/strapi",
+   "file": "packages/core/review-workflows/server/src/services/document-service-middleware.ts",
+   "line": 18,
+   "title": "findOne() loads relations 3 levels deep"
+  },
+  {
+   "id": "D060",
+   "repo": "tooljet/tooljet",
+   "file": "server/src/modules/versions/repository.ts",
+   "line": 128,
+   "title": "findOneOrFail() loads relations 3 levels deep"
+  },
+  {
+   "id": "D061",
+   "repo": "tooljet/tooljet",
+   "file": "server/src/modules/versions/repository.ts",
+   "line": 214,
+   "title": "find() loads relations 3 levels deep"
+  },
+  {
+   "id": "D062",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/ProjectPresenter.server.ts",
+   "line": 20,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D063",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/ApiBatchResultsPresenter.server.ts",
+   "line": 12,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D064",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/BatchListPresenter.server.ts",
+   "line": 57,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D065",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/BatchPresenter.server.ts",
+   "line": 16,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D066",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/DeploymentListPresenter.server.ts",
+   "line": 43,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D067",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/DeploymentPresenter.server.ts",
+   "line": 86,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D068",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/EditSchedulePresenter.server.ts",
+   "line": 34,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D069",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/RunPresenter.server.ts",
+   "line": 45,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D070",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/ScheduleListPresenter.server.ts",
+   "line": 66,
+   "title": "findFirstOrThrow() loads relations 3 levels deep"
+  },
+  {
+   "id": "D071",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/TaskPresenter.server.ts",
+   "line": 22,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D072",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/presenters/v3/ViewSchedulePresenter.server.ts",
+   "line": 24,
+   "title": "findFirst() loads relations 4 levels deep"
+  },
+  {
+   "id": "D073",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/routes/resources.runs.$runParam.ts",
+   "line": 17,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D074",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/routes/resources.taskruns.$runParam.replay.ts",
+   "line": 36,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D075",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/environmentVariables/environmentVariablesRepository.server.ts",
+   "line": 52,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D076",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/alerts/deliverAlert.server.ts",
+   "line": 105,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D077",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/cancelTaskAttemptDependencies.server.ts",
+   "line": 9,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D078",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/enqueueDelayedRun.server.ts",
+   "line": 35,
+   "title": "findFirst() loads relations 4 levels deep"
+  },
+  {
+   "id": "D079",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/restoreCheckpoint.server.ts",
+   "line": 16,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D080",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/resumeAttempt.server.ts",
+   "line": 35,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D081",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/resumeTaskDependency.server.ts",
+   "line": 9,
+   "title": "findFirst() loads relations 3 levels deep"
+  },
+  {
+   "id": "D082",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/upsertTaskSchedule.server.ts",
+   "line": 66,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D083",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "apps/webapp/app/v3/services/upsertTaskSchedule.server.ts",
+   "line": 138,
+   "title": "findMany() loads relations 3 levels deep"
+  },
+  {
+   "id": "D084",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "internal-packages/run-engine/src/engine/systems/dequeueSystem.ts",
+   "line": 1070,
+   "title": "findFirst() loads relations 3 levels deep"
+  }
+ ]
+}

@@ -1,0 +1,338 @@
+{
+ "D002": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D003": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D005": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D006": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D008": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D009": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D010": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D014": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D018": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D020": [
+  "tp",
+  "event type hosts/users: grow with the team, no take"
+ ],
+ "D007": [
+  "tp",
+  "event type hosts and booking attendees, no take"
+ ],
+ "D015": [
+  "tp",
+  "hosts and their availability per event type, no take"
+ ],
+ "D016": [
+  "tp",
+  "hosts and their availability per event type, no take"
+ ],
+ "D019": [
+  "tp",
+  "teams' members, event types, hosts, children; only one level has take"
+ ],
+ "D022": [
+  "tp",
+  "user's teams -> event types per team, no take"
+ ],
+ "D024": [
+  "tp",
+  "user's teams -> members per team, no take"
+ ],
+ "D026": [
+  "tp",
+  "host groups -> members -> event types, hosts, children; no take"
+ ],
+ "D001": [
+  "unsure",
+  "booking attendees for a seat reference; bounded by the event's seat count, which is configuration"
+ ],
+ "D004": [
+  "unsure",
+  "only to-many is the user's credentials, few by usage"
+ ],
+ "D013": [
+  "unsure",
+  "only to-many is the user's credentials, few by usage"
+ ],
+ "D011": [
+  "unsure",
+  "attendees, payments, references, profiles of one booking; few by usage"
+ ],
+ "D012": [
+  "unsure",
+  "attendees, payments, references, profiles of one booking; few by usage"
+ ],
+ "D025": [
+  "unsure",
+  "attendees, payments, references, profiles of one booking; few by usage"
+ ],
+ "D017": [
+  "unsure",
+  "only to-many is the owner's profiles, one per organisation"
+ ],
+ "D021": [
+  "unsure",
+  "a user's team memberships, few by usage"
+ ],
+ "D023": [
+  "unsure",
+  "a user's webhooks and teams' webhooks, configured items"
+ ],
+ "D027": [
+  "tp",
+  "envelope recipients -> fields (and items -> fields): fields grow with the document, no take"
+ ],
+ "D028": [
+  "tp",
+  "envelope recipients -> fields (and items -> fields): fields grow with the document, no take"
+ ],
+ "D030": [
+  "tp",
+  "envelope recipients -> fields (and items -> fields): fields grow with the document, no take"
+ ],
+ "D031": [
+  "tp",
+  "envelope recipients -> fields (and items -> fields): fields grow with the document, no take"
+ ],
+ "D029": [
+  "unsure",
+  "organisation email domains -> emails, configured items"
+ ],
+ "D032": [
+  "fp-to-one",
+  "token -> team -> organisation -> owner: every relation to-one"
+ ],
+ "D033": [
+  "tp",
+  "team groups -> organisation group members: grows with the organisation"
+ ],
+ "D045": [
+  "tp",
+  "team groups -> organisation group members: grows with the organisation"
+ ],
+ "D047": [
+  "tp",
+  "team groups -> organisation group members: grows with the organisation"
+ ],
+ "D034": [
+  "unsure",
+  "one member's group memberships -> team groups, few by usage (root list is a separate claim)"
+ ],
+ "D035": [
+  "unsure",
+  "one member's group memberships -> team groups, few by usage (root list is a separate claim)"
+ ],
+ "D038": [
+  "unsure",
+  "one member's group memberships -> team groups, few by usage (root list is a separate claim)"
+ ],
+ "D036": [
+  "unsure",
+  "a user's organisations -> teams, few by usage"
+ ],
+ "D037": [
+  "tp",
+  "organisation members -> group memberships: members grow, no take"
+ ],
+ "D039": [
+  "tp",
+  "organisation members -> group memberships: members grow, no take"
+ ],
+ "D040": [
+  "tp",
+  "organisation members -> group memberships: members grow, no take"
+ ],
+ "D043": [
+  "tp",
+  "organisation members -> group memberships: members grow, no take"
+ ],
+ "D041": [
+  "tp",
+  "group members per group, no take"
+ ],
+ "D046": [
+  "tp",
+  "group members per group, no take"
+ ],
+ "D042": [
+  "unsure",
+  "organisations/teams -> groups, configured items"
+ ],
+ "D044": [
+  "unsure",
+  "organisations/teams -> groups, configured items"
+ ],
+ "D062": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D064": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D066": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D068": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D070": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D074": [
+  "unsure",
+  "project environments, including preview branches; configured"
+ ],
+ "D063": [
+  "tp",
+  "batch items -> attempts: grows with batch size, no take"
+ ],
+ "D065": [
+  "tp",
+  "batch errors, grows with batch size, no take"
+ ],
+ "D067": [
+  "tp",
+  "deployment promotions -> worker tasks: grows with the project's tasks"
+ ],
+ "D069": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D071": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D073": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D078": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D079": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D081": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D082": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D083": [
+  "fp-to-one",
+  "every relation in the tree is to-one"
+ ],
+ "D072": [
+  "unsure",
+  "schedule instances, one per environment"
+ ],
+ "D075": [
+  "unsure",
+  "environment variables and their values per project, configured items"
+ ],
+ "D076": [
+  "tp",
+  "deployment worker tasks (and queues), grow with the project's tasks, no take"
+ ],
+ "D084": [
+  "tp",
+  "deployment worker tasks (and queues), grow with the project's tasks, no take"
+ ],
+ "D077": [
+  "tp",
+  "attempt dependencies -> batch -> run dependencies: grows with batch size"
+ ],
+ "D080": [
+  "tp",
+  "batch dependencies take 1, but their items (no take) -> attempts grow with batch size"
+ ],
+ "D048": [
+  "fp-to-one",
+  "joins for filtering only: attributes [] and every to-many filtered to this user"
+ ],
+ "D049": [
+  "tp",
+  "project -> projectRelations (members) -> user/role: grows with the team"
+ ],
+ "D051": [
+  "tp",
+  "project -> projectRelations (members) -> user/role: grows with the team"
+ ],
+ "D054": [
+  "tp",
+  "project -> projectRelations (members) -> user/role: grows with the team"
+ ],
+ "D055": [
+  "tp",
+  "project -> projectRelations (members) -> user/role: grows with the team"
+ ],
+ "D050": [
+  "unsure",
+  "credential/workflow -> shares -> project: shares per resource, few by usage"
+ ],
+ "D052": [
+  "unsure",
+  "credential/workflow -> shares -> project: shares per resource, few by usage"
+ ],
+ "D053": [
+  "unsure",
+  "credential/workflow -> shares -> project: shares per resource, few by usage"
+ ],
+ "D056": [
+  "unsure",
+  "credential/workflow -> shares -> project: shares per resource, few by usage"
+ ],
+ "D057": [
+  "fp-shallow",
+  "strapi populate options (where/code/$eq) counted as relations (rule bug); one relation"
+ ],
+ "D058": [
+  "fp-shallow",
+  "strapi populate options (fields/filters) counted as relations (rule bug); one relation"
+ ],
+ "D059": [
+  "fp-shallow",
+  "strapi nested populate key counted as a relation (rule bug); two relations"
+ ],
+ "D060": [
+  "tp",
+  "version data queries (grow with the app) -> plugins -> manifest file, no take"
+ ],
+ "D061": [
+  "tp",
+  "version data queries (grow with the app) -> plugins -> manifest file, no take"
+ ]
+}

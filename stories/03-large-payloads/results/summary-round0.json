@@ -1,0 +1,82 @@
+{
+  "scanned": 283,
+  "errors": [],
+  "reproduction": {
+    "exact": 273,
+    "differs": [],
+    "notInStudy09": [
+      {
+        "repo": "appsmith/appsmith",
+        "now": 933,
+        "oldErrors": 26
+      },
+      {
+        "repo": "breejs/bree",
+        "now": 5,
+        "oldErrors": 1
+      },
+      {
+        "repo": "browserless/browserless",
+        "now": 35,
+        "oldErrors": 1
+      },
+      {
+        "repo": "discordjs/discord.js",
+        "now": 53,
+        "oldErrors": 1
+      },
+      {
+        "repo": "evidence-dev/evidence",
+        "now": 28,
+        "oldErrors": 1
+      },
+      {
+        "repo": "gatsbyjs/gatsby",
+        "now": 278,
+        "oldErrors": 4
+      },
+      {
+        "repo": "huggingface/huggingface.js",
+        "now": 20,
+        "oldErrors": 20
+      },
+      {
+        "repo": "strapi/strapi",
+        "now": 374,
+        "oldErrors": 2
+      },
+      {
+        "repo": "vercel/pkg",
+        "now": 3,
+        "oldErrors": 2
+      },
+      {
+        "repo": "woocommerce/woocommerce",
+        "now": 1006,
+        "oldErrors": 1
+      }
+    ],
+    "differsCount": 0
+  },
+  "study09Detector": {
+    "files": 385952,
+    "findings": 51756,
+    "reposWithFindings": 184,
+    "fileErrors": 60,
+    "byPattern": {
+      "unbounded_find_all": 33127,
+      "deep_nested_include": 16428,
+      "select_star": 2201
+    }
+  },
+  "coreEngine": {
+    "files": 406061,
+    "findings": 3584,
+    "reposWithFindings": 37,
+    "byRule": {
+      "payload/unbounded-query": 2572,
+      "payload/large-return": 1012
+    },
+    "selectOnly": 143
+  }
+}

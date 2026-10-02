@@ -1,0 +1,15 @@
+{
+ "findings": 1198,
+ "withSolution": 1092,
+ "removed": 1092,
+ "notRemoved": [],
+ "noSolution": {
+  "find": 81,
+  "knex(": 2,
+  "other": 1,
+  "find(": 8,
+  "execute": 11,
+  "createQueryBuilder(": 3
+ },
+ "parseErrors": []
+}

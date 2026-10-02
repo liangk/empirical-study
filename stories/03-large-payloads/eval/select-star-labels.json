@@ -1,0 +1,606 @@
+{
+ "X001": [
+  "tp",
+  "agenda's Postgres backend reads job rows (with their JSON data) with SELECT *"
+ ],
+ "X002": [
+  "tp",
+  "agenda's Postgres backend reads job rows (with their JSON data) with SELECT *"
+ ],
+ "X003": [
+  "tp",
+  "agenda's Postgres backend reads job rows (with their JSON data) with SELECT *"
+ ],
+ "X004": [
+  "tp",
+  "agenda's Postgres backend reads job rows (with their JSON data) with SELECT *"
+ ],
+ "X005": [
+  "tp",
+  "agenda's Postgres backend reads job rows (with their JSON data) with SELECT *"
+ ],
+ "X006": [
+  "fp-not-served",
+  "Azure SDK samples-dev (rule bug: path not excluded)"
+ ],
+ "X007": [
+  "fp-not-served",
+  "Azure SDK samples-dev (rule bug: path not excluded)"
+ ],
+ "X008": [
+  "fp-not-a-query",
+  "Cosmos SDK's own readAll implementation (library source)"
+ ],
+ "X009": [
+  "tp",
+  "cube driver downloads a whole table with SELECT *"
+ ],
+ "X010": [
+  "fp-not-served",
+  "cubejs-testing-shared test helpers (rule bug: path not excluded)"
+ ],
+ "X011": [
+  "fp-not-served",
+  "cubejs-testing-shared test helpers (rule bug: path not excluded)"
+ ],
+ "X012": [
+  "fp-not-served",
+  "dev-build smoke query in a vite plugin"
+ ],
+ "X013": [
+  "fp-not-returned",
+  "SELECT * FROM unnest(...) inside a CTE: the ids array, not a table"
+ ],
+ "X014": [
+  "fp-not-returned",
+  "SELECT * FROM unnest(...) in an UPDATE ... FROM (rule bug: WITH ... UPDATE not treated as a write)"
+ ],
+ "X015": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X016": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X017": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X018": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X019": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X020": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X021": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X022": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X023": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X024": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X025": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X026": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X027": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X028": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X029": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X030": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X031": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X032": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X033": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X034": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X035": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X036": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X037": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X038": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X039": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X040": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X041": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X042": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X043": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X044": [
+  "fp-not-served",
+  "sentry e2e test applications (rule bug: e2e-tests/test-applications path not excluded)"
+ ],
+ "X045": [
+  "tp",
+  "sqlite_schema catalog read with SELECT * (catalog)"
+ ],
+ "X046": [
+  "tp",
+  "Cassandra keyspaces catalog read as a connection check (catalog)"
+ ],
+ "X047": [
+  "fp-not-returned",
+  "SELECT * over CTEs whose subqueries chose their columns"
+ ],
+ "X048": [
+  "fp-not-returned",
+  "SELECT * over CTEs whose subqueries chose their columns"
+ ],
+ "X049": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X050": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X051": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X052": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X053": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X054": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X055": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X056": [
+  "fp-not-served",
+  "logto .scripts/compare-database.js (rule bug: .scripts not excluded)"
+ ],
+ "X057": [
+  "fp-not-served",
+  "logto CLI"
+ ],
+ "X058": [
+  "tp",
+  "UPDATE ... RETURNING * then SELECT * from it: every column comes back"
+ ],
+ "X059": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X060": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X061": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X062": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X063": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X064": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X065": [
+  "tp",
+  "logto core queries: single rows by id/token with every column"
+ ],
+ "X066": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X067": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X068": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X069": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X070": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X071": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X072": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X073": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X074": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X075": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X076": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X077": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X078": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X079": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X080": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X081": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X082": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X083": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X084": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X085": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X086": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X087": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X088": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X089": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X090": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X091": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X092": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X093": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X094": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X095": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X096": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X097": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X098": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X099": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X100": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X101": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X102": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X103": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X104": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X105": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X106": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X107": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X108": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X109": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X110": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X111": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X112": [
+  "fp-not-served",
+  "logto schema alterations, i.e. migrations (rule bug: alterations/ not excluded)"
+ ],
+ "X113": [
+  "fp-not-served",
+  "create-medusa-app CLI"
+ ],
+ "X114": [
+  "fp-not-a-query",
+  "MikroORM's own driver source; also a SELECT * FROM (subquery) wrapper"
+ ],
+ "X115": [
+  "fp-not-served",
+  "n8n backend-test-utils (rule bug: path not excluded)"
+ ],
+ "X116": [
+  "unsure",
+  "n8n export/import services, used by CLI commands; whether a server path calls them is not visible"
+ ],
+ "X117": [
+  "unsure",
+  "n8n export/import services, used by CLI commands; whether a server path calls them is not visible"
+ ],
+ "X118": [
+  "fp-not-served",
+  "netlify CLI db init"
+ ],
+ "X119": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X120": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X121": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X122": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X123": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X124": [
+  "tp",
+  "nocodb Postgres client introspection with SELECT * on catalogs (catalog)"
+ ],
+ "X125": [
+  "tp",
+  "table existence check reads every row and column (no limit)"
+ ],
+ "X126": [
+  "tp",
+  "sqlite_master catalog read with SELECT * (catalog)"
+ ],
+ "X127": [
+  "tp",
+  "sqlite_master catalog read with SELECT * (catalog)"
+ ],
+ "X128": [
+  "tp",
+  "SELECT * ... LIMIT 1 existence check"
+ ],
+ "X129": [
+  "fp-not-a-query",
+  "payload's drizzle adapter building a subquery (library source)"
+ ],
+ "X130": [
+  "tp",
+  "posthog plugin server reads rows with SELECT *"
+ ],
+ "X131": [
+  "tp",
+  "posthog plugin server reads rows with SELECT *"
+ ],
+ "X132": [
+  "tp",
+  "posthog plugin server reads rows with SELECT *"
+ ],
+ "X133": [
+  "tp",
+  "posthog plugin server reads rows with SELECT *"
+ ],
+ "X134": [
+  "tp",
+  "INSERT ... RETURNING * then SELECT *: every column comes back"
+ ],
+ "X135": [
+  "fp-not-served",
+  "posthog test-helpers.ts (rule bug: file name not excluded)"
+ ],
+ "X136": [
+  "fp-not-served",
+  "posthog test-helpers.ts (rule bug: file name not excluded)"
+ ],
+ "X137": [
+  "tp",
+  "Oracle v$version read as a connection check (catalog)"
+ ],
+ "X138": [
+  "fp-not-returned",
+  "SELECT * FROM a set-returning function (replication slot), not a table"
+ ],
+ "X139": [
+  "fp-not-returned",
+  "SELECT * FROM graphile-worker's add_job/remove_job functions, not a table"
+ ],
+ "X140": [
+  "fp-not-returned",
+  "SELECT * FROM graphile-worker's add_job/remove_job functions, not a table"
+ ],
+ "X141": [
+  "fp-not-served",
+  "trigger.dev references/ example projects (rule bug: path not excluded)"
+ ],
+ "X142": [
+  "fp-not-served",
+  "trigger.dev references/ example projects (rule bug: path not excluded)"
+ ],
+ "X143": [
+  "fp-not-served",
+  "trigger.dev references/ example projects (rule bug: path not excluded)"
+ ],
+ "X144": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X145": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X146": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X147": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X148": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X149": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X150": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ],
+ "X151": [
+  "fp-not-a-query",
+  "TypeORM's own query runners (library source)"
+ ]
+}

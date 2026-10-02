@@ -1,0 +1,911 @@
+{
+ "note": "all round-1 findings; fewer than 400, so no sampling",
+ "sample": [
+  {
+   "id": "X001",
+   "repo": "agenda/agenda",
+   "file": "packages/postgres-backend/src/PostgresJobLogger.ts",
+   "line": 157
+  },
+  {
+   "id": "X002",
+   "repo": "agenda/agenda",
+   "file": "packages/postgres-backend/src/PostgresJobRepository.ts",
+   "line": 204
+  },
+  {
+   "id": "X003",
+   "repo": "agenda/agenda",
+   "file": "packages/postgres-backend/src/PostgresJobRepository.ts",
+   "line": 269
+  },
+  {
+   "id": "X004",
+   "repo": "agenda/agenda",
+   "file": "packages/postgres-backend/src/PostgresJobRepository.ts",
+   "line": 311
+  },
+  {
+   "id": "X005",
+   "repo": "agenda/agenda",
+   "file": "packages/postgres-backend/src/PostgresJobRepository.ts",
+   "line": 739
+  },
+  {
+   "id": "X006",
+   "repo": "Azure/azure-sdk-for-js",
+   "file": "sdk/cosmosdb/cosmos/samples-dev/Diagnostics.ts",
+   "line": 73
+  },
+  {
+   "id": "X007",
+   "repo": "Azure/azure-sdk-for-js",
+   "file": "sdk/cosmosdb/cosmos/samples-dev/IndexManagement.ts",
+   "line": 269
+  },
+  {
+   "id": "X008",
+   "repo": "Azure/azure-sdk-for-js",
+   "file": "sdk/cosmosdb/cosmos/src/client/Item/Items.ts",
+   "line": 481
+  },
+  {
+   "id": "X009",
+   "repo": "cube-js/cube",
+   "file": "packages/cubejs-base-driver/src/BaseDriver.ts",
+   "line": 557
+  },
+  {
+   "id": "X010",
+   "repo": "cube-js/cube",
+   "file": "packages/cubejs-testing-shared/src/query-test.abstract.ts",
+   "line": 184
+  },
+  {
+   "id": "X011",
+   "repo": "cube-js/cube",
+   "file": "packages/cubejs-testing-shared/src/query-test.abstract.ts",
+   "line": 193
+  },
+  {
+   "id": "X012",
+   "repo": "evidence-dev/evidence",
+   "file": "packages/lib/sdk/src/build-dev/vite/virtuals/initUsql.js",
+   "line": 21
+  },
+  {
+   "id": "X013",
+   "repo": "getoutline/outline",
+   "file": "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts",
+   "line": 310
+  },
+  {
+   "id": "X014",
+   "repo": "getoutline/outline",
+   "file": "server/queues/tasks/UpdateDocumentsPopularityScoreTask.ts",
+   "line": 392
+  },
+  {
+   "id": "X015",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 13
+  },
+  {
+   "id": "X016",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 27
+  },
+  {
+   "id": "X017",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 39
+  },
+  {
+   "id": "X018",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 65
+  },
+  {
+   "id": "X019",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 66
+  },
+  {
+   "id": "X020",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-multi-test.ts",
+   "line": 67
+  },
+  {
+   "id": "X021",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-test.ts",
+   "line": 12
+  },
+  {
+   "id": "X022",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-test.ts",
+   "line": 23
+  },
+  {
+   "id": "X023",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-test.ts",
+   "line": 41
+  },
+  {
+   "id": "X024",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-3/server/api/db-test.ts",
+   "line": 62
+  },
+  {
+   "id": "X025",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 13
+  },
+  {
+   "id": "X026",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 27
+  },
+  {
+   "id": "X027",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 39
+  },
+  {
+   "id": "X028",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 65
+  },
+  {
+   "id": "X029",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 66
+  },
+  {
+   "id": "X030",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-multi-test.ts",
+   "line": 67
+  },
+  {
+   "id": "X031",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-test.ts",
+   "line": 12
+  },
+  {
+   "id": "X032",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-test.ts",
+   "line": 23
+  },
+  {
+   "id": "X033",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-test.ts",
+   "line": 41
+  },
+  {
+   "id": "X034",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-4/server/api/db-test.ts",
+   "line": 62
+  },
+  {
+   "id": "X035",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 15
+  },
+  {
+   "id": "X036",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 29
+  },
+  {
+   "id": "X037",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 41
+  },
+  {
+   "id": "X038",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 67
+  },
+  {
+   "id": "X039",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 68
+  },
+  {
+   "id": "X040",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-multi-test.ts",
+   "line": 69
+  },
+  {
+   "id": "X041",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-test.ts",
+   "line": 14
+  },
+  {
+   "id": "X042",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-test.ts",
+   "line": 25
+  },
+  {
+   "id": "X043",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-test.ts",
+   "line": 43
+  },
+  {
+   "id": "X044",
+   "repo": "getsentry/sentry-javascript",
+   "file": "dev-packages/e2e-tests/test-applications/nuxt-5/server/api/db-test.ts",
+   "line": 64
+  },
+  {
+   "id": "X045",
+   "repo": "hasura/graphql-engine",
+   "file": "dc-agents/sqlite/src/schema.ts",
+   "line": 257
+  },
+  {
+   "id": "X046",
+   "repo": "infisical/infisical",
+   "file": "backend/src/ee/services/dynamic-secret/providers/cassandra.ts",
+   "line": 70
+  },
+  {
+   "id": "X047",
+   "repo": "lightdash/lightdash",
+   "file": "packages/backend/src/models/ValidationModel/ValidationModel.ts",
+   "line": 754
+  },
+  {
+   "id": "X048",
+   "repo": "lightdash/lightdash",
+   "file": "packages/backend/src/models/ValidationModel/ValidationModel.ts",
+   "line": 1012
+  },
+  {
+   "id": "X049",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 30
+  },
+  {
+   "id": "X050",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 37
+  },
+  {
+   "id": "X051",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 63
+  },
+  {
+   "id": "X052",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 95
+  },
+  {
+   "id": "X053",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 98
+  },
+  {
+   "id": "X054",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 100
+  },
+  {
+   "id": "X055",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 106
+  },
+  {
+   "id": "X056",
+   "repo": "logto-io/logto",
+   "file": ".scripts/compare-database.js",
+   "line": 256
+  },
+  {
+   "id": "X057",
+   "repo": "logto-io/logto",
+   "file": "packages/cli/src/queries/system.ts",
+   "line": 36
+  },
+  {
+   "id": "X058",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/custom-profile-fields.ts",
+   "line": 66
+  },
+  {
+   "id": "X059",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/one-time-tokens.ts",
+   "line": 43
+  },
+  {
+   "id": "X060",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/sso-connectors.ts",
+   "line": 75
+  },
+  {
+   "id": "X061",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/sso-connectors.ts",
+   "line": 82
+  },
+  {
+   "id": "X062",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/sso-connectors.ts",
+   "line": 101
+  },
+  {
+   "id": "X063",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/user-sso-identities.ts",
+   "line": 28
+  },
+  {
+   "id": "X064",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/user-sso-identities.ts",
+   "line": 38
+  },
+  {
+   "id": "X065",
+   "repo": "logto-io/logto",
+   "file": "packages/core/src/queries/verification-records.ts",
+   "line": 28
+  },
+  {
+   "id": "X066",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_beta.14-1665300135-sign-in-sign-up.ts",
+   "line": 102
+  },
+  {
+   "id": "X067",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_beta.18-1669702299-sign-up.ts",
+   "line": 114
+  },
+  {
+   "id": "X068",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_beta.18-1669702299-sign-up.ts",
+   "line": 119
+  },
+  {
+   "id": "X069",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_beta.18-1671080370-terms-of-use.ts",
+   "line": 58
+  },
+  {
+   "id": "X070",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_beta.18-1671080370-terms-of-use.ts",
+   "line": 72
+  },
+  {
+   "id": "X071",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1672815959-user-roles.ts",
+   "line": 14
+  },
+  {
+   "id": "X072",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1672815959-user-roles.ts",
+   "line": 17
+  },
+  {
+   "id": "X073",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1672815959-user-roles.ts",
+   "line": 49
+  },
+  {
+   "id": "X074",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1672815959-user-roles.ts",
+   "line": 52
+  },
+  {
+   "id": "X075",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673349501-sms-sign-in-identifier-to-phone.ts",
+   "line": 143
+  },
+  {
+   "id": "X076",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673349501-sms-sign-in-identifier-to-phone.ts",
+   "line": 164
+  },
+  {
+   "id": "X077",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673853579-ac-default-scope.ts",
+   "line": 16
+  },
+  {
+   "id": "X078",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673863835-ac-scope-role.ts",
+   "line": 12
+  },
+  {
+   "id": "X079",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673863835-ac-scope-role.ts",
+   "line": 26
+  },
+  {
+   "id": "X080",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673941897-application-roles.ts",
+   "line": 14
+  },
+  {
+   "id": "X081",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673941897-application-roles.ts",
+   "line": 17
+  },
+  {
+   "id": "X082",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673941897-application-roles.ts",
+   "line": 49
+  },
+  {
+   "id": "X083",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0_rc.0-1673941897-application-roles.ts",
+   "line": 52
+  },
+  {
+   "id": "X084",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1677208902-update-admin-console-config.ts",
+   "line": 96
+  },
+  {
+   "id": "X085",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1677208902-update-admin-console-config.ts",
+   "line": 102
+  },
+  {
+   "id": "X086",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678259693-remove-branding-style-config.ts",
+   "line": 100
+  },
+  {
+   "id": "X087",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678259693-remove-branding-style-config.ts",
+   "line": 106
+  },
+  {
+   "id": "X088",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678928481-remove-deprecated-logto-config-item.ts",
+   "line": 72
+  },
+  {
+   "id": "X089",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678928481-remove-deprecated-logto-config-item.ts",
+   "line": 78
+  },
+  {
+   "id": "X090",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678953179-update-get-started-task-config.ts",
+   "line": 90
+  },
+  {
+   "id": "X091",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.0.0-1678953179-update-get-started-task-config.ts",
+   "line": 96
+  },
+  {
+   "id": "X092",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.10.1-1695647183-update-private-key-type.ts",
+   "line": 42
+  },
+  {
+   "id": "X093",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.10.1-1695647183-update-private-key-type.ts",
+   "line": 86
+  },
+  {
+   "id": "X094",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.10.1-1695647183-update-private-key-type.ts",
+   "line": 98
+  },
+  {
+   "id": "X095",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.10.1-1698646271-add-organization-created-flag.ts",
+   "line": 63
+  },
+  {
+   "id": "X096",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.10.1-1698646271-add-organization-created-flag.ts",
+   "line": 69
+  },
+  {
+   "id": "X097",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1710223946-add-fetch-custom-jwt-cloud-scope.ts",
+   "line": 42
+  },
+  {
+   "id": "X098",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1710223946-add-fetch-custom-jwt-cloud-scope.ts",
+   "line": 49
+  },
+  {
+   "id": "X099",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1710223946-add-fetch-custom-jwt-cloud-scope.ts",
+   "line": 74
+  },
+  {
+   "id": "X100",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1711955211-organization-resource-scope.ts",
+   "line": 23
+  },
+  {
+   "id": "X101",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1712545011-fix-organization-resource-scope.ts",
+   "line": 15
+  },
+  {
+   "id": "X102",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.15.0-1712559358-fix-down-organization-resource-scope.ts",
+   "line": 15
+  },
+  {
+   "id": "X103",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.20.0-1724229102-add-report-sub-updates-cloud-scope.ts",
+   "line": 43
+  },
+  {
+   "id": "X104",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.20.0-1724229102-add-report-sub-updates-cloud-scope.ts",
+   "line": 54
+  },
+  {
+   "id": "X105",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.20.0-1724229102-add-report-sub-updates-cloud-scope.ts",
+   "line": 80
+  },
+  {
+   "id": "X106",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.3.0-1683292832-update-hooks.ts",
+   "line": 47
+  },
+  {
+   "id": "X107",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.7.0-1688375200-sync-cloud-m2m-to-logto-config.ts",
+   "line": 43
+  },
+  {
+   "id": "X108",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.7.0-1688375200-sync-cloud-m2m-to-logto-config.ts",
+   "line": 46
+  },
+  {
+   "id": "X109",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.9.0-1694484927-remove-deprecated-challenge-flag.ts",
+   "line": 88
+  },
+  {
+   "id": "X110",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.9.0-1694484927-remove-deprecated-challenge-flag.ts",
+   "line": 94
+  },
+  {
+   "id": "X111",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.9.2-1695198741-remove-m2m-app-admin-access-switch.ts",
+   "line": 77
+  },
+  {
+   "id": "X112",
+   "repo": "logto-io/logto",
+   "file": "packages/schemas/alterations/1.9.2-1695198741-remove-m2m-app-admin-access-switch.ts",
+   "line": 224
+  },
+  {
+   "id": "X113",
+   "repo": "medusajs/medusa",
+   "file": "packages/cli/create-medusa-app/src/utils/prepare-project.ts",
+   "line": 309
+  },
+  {
+   "id": "X114",
+   "repo": "mikro-orm/mikro-orm",
+   "file": "packages/sql/src/AbstractSqlDriver.ts",
+   "line": 2673
+  },
+  {
+   "id": "X115",
+   "repo": "n8n-io/n8n",
+   "file": "packages/@n8n/backend-test-utils/src/migration-test-helpers.ts",
+   "line": 142
+  },
+  {
+   "id": "X116",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/services/export.service.ts",
+   "line": 64
+  },
+  {
+   "id": "X117",
+   "repo": "n8n-io/n8n",
+   "file": "packages/cli/src/services/import.service.ts",
+   "line": 800
+  },
+  {
+   "id": "X118",
+   "repo": "netlify/cli",
+   "file": "src/commands/database/db-init.ts",
+   "line": 247
+  },
+  {
+   "id": "X119",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 149
+  },
+  {
+   "id": "X120",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 1496
+  },
+  {
+   "id": "X121",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 1542
+  },
+  {
+   "id": "X122",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 1597
+  },
+  {
+   "id": "X123",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 1641
+  },
+  {
+   "id": "X124",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/pg/PgClient.ts",
+   "line": 1761
+  },
+  {
+   "id": "X125",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts",
+   "line": 258
+  },
+  {
+   "id": "X126",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts",
+   "line": 791
+  },
+  {
+   "id": "X127",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts",
+   "line": 927
+  },
+  {
+   "id": "X128",
+   "repo": "nocodb/nocodb",
+   "file": "packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts",
+   "line": 1636
+  },
+  {
+   "id": "X129",
+   "repo": "payloadcms/payload",
+   "file": "packages/drizzle/src/find/traverseFields.ts",
+   "line": 637
+  },
+  {
+   "id": "X130",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/cdp/legacy-webhooks/action-manager.ts",
+   "line": 173
+  },
+  {
+   "id": "X131",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/cdp/services/legacy-plugin-executor.service.ts",
+   "line": 68
+  },
+  {
+   "id": "X132",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/cdp/services/legacy-plugin-executor.service.ts",
+   "line": 85
+  },
+  {
+   "id": "X133",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/worker/ingestion/groups/repositories/postgres-group-repository.ts",
+   "line": 41
+  },
+  {
+   "id": "X134",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/worker/ingestion/persons/repositories/postgres-person-repository.ts",
+   "line": 484
+  },
+  {
+   "id": "X135",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/worker/ingestion/persons/repositories/test-helpers.ts",
+   "line": 11
+  },
+  {
+   "id": "X136",
+   "repo": "posthog/posthog",
+   "file": "nodejs/src/worker/ingestion/persons/repositories/test-helpers.ts",
+   "line": 35
+  },
+  {
+   "id": "X137",
+   "repo": "tooljet/tooljet",
+   "file": "plugins/packages/oracledb/lib/index.ts",
+   "line": 61
+  },
+  {
+   "id": "X138",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "internal-packages/replication/src/client.ts",
+   "line": 582
+  },
+  {
+   "id": "X139",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "internal-packages/zod-worker/src/index.ts",
+   "line": 426
+  },
+  {
+   "id": "X140",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "internal-packages/zod-worker/src/index.ts",
+   "line": 468
+  },
+  {
+   "id": "X141",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "references/d3-chat/src/trigger/chat.ts",
+   "line": 161
+  },
+  {
+   "id": "X142",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "references/d3-openai-agents/src/trigger/approval.ts",
+   "line": 98
+  },
+  {
+   "id": "X143",
+   "repo": "triggerdotdev/trigger.dev",
+   "file": "references/hello-world/src/trigger/query.ts",
+   "line": 11
+  },
+  {
+   "id": "X144",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 261
+  },
+  {
+   "id": "X145",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 299
+  },
+  {
+   "id": "X146",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 321
+  },
+  {
+   "id": "X147",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 2249
+  },
+  {
+   "id": "X148",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 2252
+  },
+  {
+   "id": "X149",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+   "line": 2262
+  },
+  {
+   "id": "X150",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/oracle/OracleQueryRunner.ts",
+   "line": 2473
+  },
+  {
+   "id": "X151",
+   "repo": "typeorm/typeorm",
+   "file": "src/driver/oracle/OracleQueryRunner.ts",
+   "line": 2548
+  }
+ ]
+}

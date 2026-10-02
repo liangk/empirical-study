@@ -1,0 +1,382 @@
+{
+ "calcom/cal.com|apps/api/v2/src/modules/conferencing/repositories/conferencing.repository.ts|26": [
+  "unsure",
+  "a user's conferencing credentials; link controller -> service -> repository correct",
+  "A001"
+ ],
+ "calcom/cal.com|packages/features/flags/features.repository.ts|40": [
+  "fp-bounded-by-key",
+  "every feature flag; fixed catalog (cached 5 min)",
+  "A002"
+ ],
+ "calcom/cal.com|packages/features/host/repositories/HostRepository.ts|260": [
+  "tp",
+  "round-robin hosts of an event type; scales with team; link via export handler correct",
+  "A003"
+ ],
+ "calcom/cal.com|packages/features/oauth/repositories/OAuthClientRepository.ts|73": [
+  "unsure",
+  "a user's OAuth clients",
+  "A004"
+ ],
+ "calcom/cal.com|packages/features/oauth/repositories/OAuthClientRepository.ts|126": [
+  "tp",
+  "OAuth clients by status, admin list; link correct",
+  "A005"
+ ],
+ "calcom/cal.com|packages/trpc/server/routers/viewer/apiKeys/findKeyOfType.handler.ts|21": [
+  "unsure",
+  "a team/user's API keys for an app",
+  "A006"
+ ],
+ "calcom/cal.com|packages/trpc/server/routers/viewer/availability/schedule/getAllSchedulesByUserId.handler.ts|33": [
+  "unsure",
+  "a user's schedules",
+  "A007"
+ ],
+ "calcom/cal.com|packages/trpc/server/routers/viewer/oAuth/listClients.handler.ts|22": [
+  "fp-not-a-query",
+  "duplicate: handler's oAuthClientRepository.findAll() wraps OAuthClientRepository.ts:100 (S144), which stays large-return",
+  "A008"
+ ],
+ "calcom/cal.com|packages/trpc/server/routers/viewer/users/_router.ts|60": [
+  "tp",
+  "admin list of every user, with \"TODO: Add search, pagination\" beside it",
+  "A009"
+ ],
+ "documenso/documenso|packages/lib/server-only/envelope-attachment/find-attachments-by-envelope-id.ts|30": [
+  "unsure",
+  "attachments of one document",
+  "A010"
+ ],
+ "documenso/documenso|packages/lib/server-only/envelope/get-envelopes-by-ids.ts|58": [
+  "fp-bounded-by-key",
+  "envelopes by caller's id list",
+  "A011"
+ ],
+ "documenso/documenso|packages/lib/server-only/field/get-fields-for-token.ts|24": [
+  "unsure",
+  "fields for one recipient token",
+  "A012"
+ ],
+ "documenso/documenso|packages/lib/server-only/field/get-fields-for-token.ts|56": [
+  "unsure",
+  "fields for one recipient",
+  "A013"
+ ],
+ "documenso/documenso|packages/lib/server-only/public-api/get-api-tokens.ts|12": [
+  "unsure",
+  "a team's API tokens",
+  "A014"
+ ],
+ "documenso/documenso|packages/lib/server-only/team/get-team-members.ts|20": [
+  "tp",
+  "every member of a team",
+  "A015"
+ ],
+ "documenso/documenso|packages/lib/server-only/webhooks/get-webhooks-by-team-id.ts|4": [
+  "unsure",
+  "a team's webhooks",
+  "A016"
+ ],
+ "documenso/documenso|packages/trpc/server/admin-router/get-admin-team.ts|48": [
+  "tp",
+  "every organisation member, admin team view",
+  "A017"
+ ],
+ "documenso/documenso|packages/trpc/server/admin-router/get-admin-team.ts|94": [
+  "unsure",
+  "pending invites of an organisation",
+  "A018"
+ ],
+ "documenso/documenso|packages/trpc/server/document-router/get-documents-by-ids.ts|38": [
+  "fp-bounded-by-key",
+  "documents by caller's id list",
+  "A019"
+ ],
+ "documenso/documenso|packages/trpc/server/organisation-router/get-organisation-member-invites.ts|18": [
+  "unsure",
+  "invites for one email",
+  "A020"
+ ],
+ "documenso/documenso|packages/trpc/server/organisation-router/get-organisation-session.ts|27": [
+  "unsure",
+  "organisations a user belongs to",
+  "A021"
+ ],
+ "documenso/documenso|packages/trpc/server/organisation-router/get-organisations.ts|21": [
+  "unsure",
+  "organisations a user belongs to",
+  "A022"
+ ],
+ "documenso/documenso|packages/trpc/server/template-router/get-templates-by-ids.ts|40": [
+  "fp-bounded-by-key",
+  "templates by caller's id list",
+  "A023"
+ ],
+ "getoutline/outline|server/models/User.ts|451": [
+  "unsure",
+  "a user's groups in a team; link via Promise.all destructure correct",
+  "A024"
+ ],
+ "getoutline/outline|server/models/View.ts|107": [
+  "tp",
+  "every view of a document, with users; grows with readers",
+  "A025"
+ ],
+ "getoutline/outline|server/routes/api/documents/documents.ts|645": [
+  "unsure",
+  "daily insights of one document; range is caller-supplied (default 30 days) with no maximum",
+  "A026"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/ArchetypeModel.ts|90": [
+  "unsure",
+  "an organisation's archetypes",
+  "A027"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/DataSourceModel.ts|95": [
+  "unsure",
+  "an organisation's datasources",
+  "A028"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/EventWebhookModel.ts|409": [
+  "unsure",
+  "an organisation's event webhooks",
+  "A029"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/FactTableModel.ts|162": [
+  "tp",
+  "every fact table in an organisation; accumulate with use",
+  "A030"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/FeatureCodeRefs.ts|145": [
+  "tp",
+  "every code reference for a feature",
+  "A031"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/FeatureModel.ts|436": [
+  "tp",
+  "features of an organisation/project; accumulate with use",
+  "A032"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/FeatureModel.ts|2149": [
+  "tp",
+  "feature list with projection; accumulate with use",
+  "A033"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/OrganizationModel.ts|341": [
+  "unsure",
+  "organisations a user belongs to",
+  "A034"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/ReportModel.ts|139": [
+  "tp",
+  "every report of an experiment; accumulate with use",
+  "A035"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/SdkConnectionModel.ts|151": [
+  "unsure",
+  "an organisation's SDK connections",
+  "A036"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/SSOConnectionModel.ts|53": [
+  "tp",
+  "admin: every SSO connection across all organisations; link correct",
+  "A037"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/UserModel.ts|56": [
+  "tp",
+  "admin: every user loaded to compute orphaned users, filtered in memory",
+  "A038"
+ ],
+ "growthbook/growthbook|packages/back-end/src/models/VisualChangesetModel.ts|158": [
+  "unsure",
+  "visual changesets of one experiment",
+  "A039"
+ ],
+ "growthbook/growthbook|packages/back-end/src/services/ideas.ts|16": [
+  "tp",
+  "every idea in an organisation; accumulate with use",
+  "A040"
+ ],
+ "growthbook/growthbook|packages/back-end/src/services/ideas.ts|20": [
+  "tp",
+  "every idea using a segment; accumulate with use; link correct",
+  "A041"
+ ],
+ "growthbook/growthbook|packages/back-end/src/services/presentations.ts|17": [
+  "tp",
+  "every presentation in an organisation; accumulate with use",
+  "A042"
+ ],
+ "lightdash/lightdash|packages/backend/src/services/ProjectService/ProjectService.ts|6616": [
+  "tp",
+  "every chart in the spaces a user can see (S247)",
+  "A043"
+ ],
+ "lightdash/lightdash|packages/backend/src/services/ProjectService/ProjectService.ts|6827": [
+  "unsure",
+  "spaces of a project (S249)",
+  "A044"
+ ],
+ "n8n-io/n8n|packages/cli/src/credentials/credentials-finder.service.ts|107": [
+  "unsure",
+  "credentials usable in a workflow/project",
+  "A045"
+ ],
+ "n8n-io/n8n|packages/cli/src/evaluation.ee/test-runs.controller.ee.ts|76": [
+  "tp",
+  "every test-case execution of a run (S288)",
+  "A046"
+ ],
+ "n8n-io/n8n|packages/cli/src/modules/encryption-key-manager/key-manager.service.ts|94": [
+  "unsure",
+  "every encryption key; grows only with rotations",
+  "A047"
+ ],
+ "n8n-io/n8n|packages/cli/src/services/annotation-tag.service.ee.ts|50": [
+  "unsure",
+  "every annotation tag",
+  "A048"
+ ],
+ "n8n-io/n8n|packages/cli/src/services/role.service.ts|64": [
+  "fp-not-a-query",
+  "duplicate: roleRepository.findAll() is an app method wrapping role.repository.ts:15 (S273), which stays unbounded-query",
+  "A049"
+ ],
+ "nestjs/nest|integration/typeorm/src/photo/photo.service.ts|14": [
+  "fp-not-served",
+  "nest integration/ test app (S300)",
+  "A050"
+ ],
+ "novu-co/novu|apps/api/src/app/execution-details/usecases/get-execution-details/get-execution-details.usecase.ts|22": [
+  "unsure",
+  "execution details of one notification for one subscriber",
+  "A051"
+ ],
+ "strapi/strapi|packages/core/admin/ee/server/src/audit-logs/controllers/audit-logs.ts|11": [
+  "fp-bounded-elsewhere",
+  "auditLogs.findMany() is the app's own service method, paginated inside with findPage",
+  "A052"
+ ],
+ "strapi/strapi|packages/core/admin/server/src/services/role.ts|119": [
+  "unsure",
+  "every admin role",
+  "A053"
+ ],
+ "strapi/strapi|packages/core/core/src/services/webhook-store.ts|110": [
+  "unsure",
+  "every webhook (S365)",
+  "A054"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/models/member.server.ts|145": [
+  "unsure",
+  "invites for one email",
+  "A055"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/_app.orgs.$organizationSlug.settings.integrations.slack.tsx|68": [
+  "unsure",
+  "an organisation's Slack alert channels",
+  "A056"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/_app.orgs.$organizationSlug.settings.integrations.vercel.tsx|87": [
+  "unsure",
+  "an integration's connected projects (S380)",
+  "A057"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/_app.orgs.$organizationSlug/route.tsx|94": [
+  "unsure",
+  "an organisation's metrics dashboards",
+  "A058"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/admin.api.v1.workers.ts|31": [
+  "unsure",
+  "admin: every worker group (S391)",
+  "A059"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/admin.api.v2.orgs.$organizationId.feature-flags.ts|39": [
+  "unsure",
+  "every worker group, id and name",
+  "A060"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/admin.feature-flags.tsx|49": [
+  "unsure",
+  "every worker group, id and name",
+  "A061"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/api.v1.orgs.$orgParam.projects.ts|31": [
+  "unsure",
+  "projects of one organisation for a member",
+  "A062"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/api.v1.orgs.ts|14": [
+  "unsure",
+  "organisations a user belongs to",
+  "A063"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/api.v1.projects.$projectRef.$env.workers.$tagName.ts|66": [
+  "unsure",
+  "tasks of one deployed worker (S397)",
+  "A064"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/api.v1.projects.$projectRef.branches.ts|161": [
+  "unsure",
+  "open preview branches of a project",
+  "A065"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/api.v1.projects.ts|17": [
+  "unsure",
+  "every project in the user's organisations (S384)",
+  "A066"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/routes/vercel.onboarding.tsx|99": [
+  "unsure",
+  "organisations a user belongs to",
+  "A067"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/services/personalAccessToken.server.ts|26": [
+  "unsure",
+  "a user's personal access tokens",
+  "A068"
+ ],
+ "triggerdotdev/trigger.dev|apps/webapp/app/v3/services/worker/workerGroupService.server.ts|140": [
+  "unsure",
+  "worker groups for a project",
+  "A069"
+ ],
+ "umami-software/umami|src/queries/prisma/team.ts|88": [
+  "unsure",
+  "teams a user belongs to",
+  "A070"
+ ],
+ "webstudio-is/webstudio|apps/builder/app/services/workspace-router.server.ts|101": [
+  "unsure",
+  "a user's workspaces",
+  "A071"
+ ],
+ "webstudio-is/webstudio|packages/authorization-token/src/trpc/authorization-tokens-router.ts|29": [
+  "unsure",
+  "a project's authorization tokens",
+  "A072"
+ ],
+ "webstudio-is/webstudio|packages/dashboard/src/trpc/project-router.ts|21": [
+  "unsure",
+  "a user's projects in a workspace",
+  "A073"
+ ],
+ "webstudio-is/webstudio|packages/project/src/trpc/workspace-router.ts|60": [
+  "unsure",
+  "a user's workspaces",
+  "A074"
+ ],
+ "calcom/cal.com|packages/features/oauth/repositories/OAuthClientRepository.ts|100": [
+  "tp",
+  "admin: every OAuth client (S144); now linked through the handler after round 2",
+  "R2-1"
+ ],
+ "n8n-io/n8n|packages/@n8n/db/src/repositories/role.repository.ts|15": [
+  "unsure",
+  "every role with scopes (S273); now linked after round 2",
+  "R2-2"
+ ]
+}

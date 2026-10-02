@@ -1,0 +1,1598 @@
+{
+ "B001": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B002": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B003": [
+  "fp-not-a-query",
+  "TypeORM's own tree executor (library)"
+ ],
+ "B004": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B005": [
+  "fp-not-a-query",
+  "Bookshelf's own sync layer (library)"
+ ],
+ "B006": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B007": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B008": [
+  "fp-not-a-query",
+  "TypeORM's own EntityManager (library)"
+ ],
+ "B009": [
+  "fp-not-a-query",
+  "MikroORM's own driver (library)"
+ ],
+ "B010": [
+  "fp-not-a-query",
+  "knex's own type tests (library)"
+ ],
+ "B011": [
+  "fp-not-a-query",
+  "Azure Cosmos client.database(id).read(): a single-item SDK read, not knex (rule bug: any receiver's .database())"
+ ],
+ "B012": [
+  "fp-not-a-query",
+  "Azure Cosmos container.item().read(): single item (rule bug)"
+ ],
+ "B013": [
+  "fp-not-a-query",
+  "Azure Cosmos client.database(id).read() (rule bug)"
+ ],
+ "B014": [
+  "fp-not-a-query",
+  "Azure Cosmos container.item().read() (rule bug)"
+ ],
+ "B015": [
+  "not-builder",
+  "finder query mis-sampled (title query() from a large-return conversion); = A005"
+ ],
+ "B016": [
+  "not-builder",
+  "finder query mis-sampled; = A004"
+ ],
+ "B017": [
+  "not-builder",
+  "finder query mis-sampled; = A001"
+ ],
+ "B018": [
+  "not-builder",
+  "finder query mis-sampled; = A003"
+ ],
+ "B019": [
+  "tp",
+  "every active user (id, role), for the usage count"
+ ],
+ "B020": [
+  "tp",
+  "every row of a collection with no sort value, loaded to re-sort"
+ ],
+ "B021": [
+  "fp-bounded-by-key",
+  "collection IN caller's list (collection name is the key)"
+ ],
+ "B022": [
+  "tp",
+  "every revision of a collection, loaded before chunked delete"
+ ],
+ "B023": [
+  "fp-bounded-by-key",
+  "INFORMATION_SCHEMA tables: bounded by schema size, not data"
+ ],
+ "B024": [
+  "fp-bounded-by-key",
+  "sqlite_master catalog"
+ ],
+ "B025": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug: awaited variable)"
+ ],
+ "B026": [
+  "fp-bounded-by-key",
+  "INFORMATION_SCHEMA tables"
+ ],
+ "B027": [
+  "fp-bounded-by-key",
+  "pragma_function_list lookup by name"
+ ],
+ "B028": [
+  "unsure",
+  "every field definition, optionally one collection"
+ ],
+ "B029": [
+  "unsure",
+  "select(raw pg_database_size) with no from: one row (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B030": [
+  "unsure",
+  "fields of one collection"
+ ],
+ "B031": [
+  "unsure",
+  "permission rows of one collection matching a field"
+ ],
+ "B032": [
+  "unsure",
+  "every collection name"
+ ],
+ "B033": [
+  "fp-bounded-by-key",
+  "information_schema.tables catalog"
+ ],
+ "B034": [
+  "fp-bounded-by-key",
+  "INFORMATION_SCHEMA.COLUMNS catalog"
+ ],
+ "B035": [
+  "fp-bounded-by-key",
+  "raw SUM aggregate: one row; aggregate, rows per enum-like group"
+ ],
+ "B036": [
+  "fp-bounded-by-key",
+  "emails IN caller list via whereRaw"
+ ],
+ "B037": [
+  "unsure",
+  "fields of one collection"
+ ],
+ "B038": [
+  "fp-bounded-by-key",
+  "sqlite_master catalog"
+ ],
+ "B039": [
+  "fp-bounded-by-key",
+  "sqlite_master catalog"
+ ],
+ "B040": [
+  "fp-bounded-by-key",
+  "USER_TABLES catalog"
+ ],
+ "B041": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug: awaited variable)"
+ ],
+ "B042": [
+  "fp-bounded-by-key",
+  "sqlite_master catalog"
+ ],
+ "B043": [
+  "unsure",
+  "countQuery: count(*) inside a select callback, one row (rule bug); findQuery has .limit (few by usage, nothing in code caps it)"
+ ],
+ "B044": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug)"
+ ],
+ "B045": [
+  "fp-bounded-by-key",
+  "per-month aggregate: one row per month; aggregate, rows per enum-like group"
+ ],
+ "B046": [
+  "not-builder",
+  "finder query mis-sampled; = A013"
+ ],
+ "B047": [
+  "unsure",
+  "countQuery: count(*) inside a select callback (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B048": [
+  "unsure",
+  "countQuery: count(*) inside a select callback (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B049": [
+  "fp-bounded-by-key",
+  "per-month aggregate; aggregate, rows per enum-like group"
+ ],
+ "B050": [
+  "fp-bounded-by-key",
+  "per-month aggregate; aggregate, rows per enum-like group"
+ ],
+ "B051": [
+  "unsure",
+  "countQuery on the same line; teamsQuery has a limit (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B052": [
+  "not-builder",
+  "finder query mis-sampled; = A012"
+ ],
+ "B053": [
+  "fp-not-a-query",
+  "feathers this.connection(url): an HTTP fetch (rule bug: 'connection' handle)"
+ ],
+ "B054": [
+  "not-builder",
+  "finder query mis-sampled; = A025"
+ ],
+ "B055": [
+  "not-builder",
+  "finder query mis-sampled; = A042"
+ ],
+ "B056": [
+  "not-builder",
+  "finder query mis-sampled; = A041"
+ ],
+ "B057": [
+  "unsure",
+  "changes of a caller's commit list; per-commit count not capped"
+ ],
+ "B058": [
+  "unsure",
+  "organisations a user belongs to"
+ ],
+ "B059": [
+  "tp",
+  "every organisation name loaded only to count them (telemetry)"
+ ],
+ "B060": [
+  "unsure",
+  "sync builder factory: returns the builder, callers add limits (rule bug: non-async return) (few by usage, nothing in code caps it)"
+ ],
+ "B061": [
+  "unsure",
+  "sync builder factory (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B062": [
+  "tp",
+  "every group member of a project; scales with team"
+ ],
+ "B063": [
+  "unsure",
+  "COUNT grouped by auth method: a handful of rows (few by usage, nothing in code caps it)"
+ ],
+ "B064": [
+  "unsure",
+  "sync builder factory; caller counts and paginates (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B065": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug)"
+ ],
+ "B066": [
+  "tp",
+  "every member of an organisation"
+ ],
+ "B067": [
+  "tp",
+  "background job: every expired pending request id"
+ ],
+ "B068": [
+  "tp",
+  "every organisation member with a role"
+ ],
+ "B069": [
+  "fp-not-a-query",
+  "MongoDB db.command(): not knex (rule bug: any receiver's .db())"
+ ],
+ "B070": [
+  "unsure",
+  "sync builder factory (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B071": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug)"
+ ],
+ "B072": [
+  "unsure",
+  "sync builder factory (rule bug) (few by usage, nothing in code caps it)"
+ ],
+ "B073": [
+  "unsure",
+  "pending certificate requests of a project"
+ ],
+ "B074": [
+  "fp-not-a-query",
+  "MongoDB ping command (rule bug)"
+ ],
+ "B075": [
+  "fp-not-a-query",
+  "MongoDB db.command() (rule bug)"
+ ],
+ "B076": [
+  "fp-not-a-query",
+  "MongoDB ping command (rule bug)"
+ ],
+ "B077": [
+  "fp-not-a-query",
+  "MongoDB createUser command (rule bug)"
+ ],
+ "B078": [
+  "fp-bounded-by-key",
+  "accounts sharing one email"
+ ],
+ "B079": [
+  "unsure",
+  "SSH hosts a user can log into via groups"
+ ],
+ "B080": [
+  "unsure",
+  "installations of one certificate"
+ ],
+ "B081": [
+  "unsure",
+  "SSH hosts a user can log into directly"
+ ],
+ "B082": [
+  "unsure",
+  "effective org memberships under conditional wheres"
+ ],
+ "B083": [
+  "fp-not-a-query",
+  "MongoDB db.command() (rule bug)"
+ ],
+ "B084": [
+  "unsure",
+  "validations for a caller's chart list (foreign key)"
+ ],
+ "B085": [
+  "unsure",
+  "artifact versions for a caller's prompt list (foreign key)"
+ ],
+ "B086": [
+  "fp-bounded-by-key",
+  "const [row] = ...: Slack settings of one organisation"
+ ],
+ "B087": [
+  "fp-bounded-by-key",
+  "const [user] = ...: one user"
+ ],
+ "B088": [
+  "fp-bounded-by-key",
+  "const [row] = ...: refresh token of one user"
+ ],
+ "B089": [
+  "unsure",
+  "Slack targets of one scheduler"
+ ],
+ "B090": [
+  "fp-bounded-by-key",
+  "const [user] = ...: password login of one user"
+ ],
+ "B091": [
+  "fp-not-a-query",
+  "result array's .reduce() read as a builder chain (rule bug)"
+ ],
+ "B092": [
+  "tp",
+  "every dashboard in a space"
+ ],
+ "B093": [
+  "fp-not-a-query",
+  "result array's .map() read as a builder chain (rule bug)"
+ ],
+ "B094": [
+  "fp-bounded-by-key",
+  "const [row] = ...: primary email of one user"
+ ],
+ "B095": [
+  "unsure",
+  "pinned apps of one pinned list"
+ ],
+ "B096": [
+  "fp-not-a-query",
+  "result array's .map() (rule bug)"
+ ],
+ "B097": [
+  "fp-bounded-by-key",
+  "user_uuid IN caller list on the users table (table named by a constant)"
+ ],
+ "B098": [
+  "unsure",
+  "cached explores of a project"
+ ],
+ "B099": [
+  "unsure",
+  "email targets of a caller's scheduler list (foreign key)"
+ ],
+ "B100": [
+  "fp-not-a-query",
+  "result array's .map() (rule bug)"
+ ],
+ "B101": [
+  "fp-not-a-query",
+  "result array's .map() (rule bug)"
+ ],
+ "B102": [
+  "unsure",
+  "AI artifacts under a built query"
+ ],
+ "B103": [
+  "tp",
+  "every dashboard in a project's spaces"
+ ],
+ "B104": [
+  "tp",
+  "every tool result of a thread, loaded to clone it"
+ ],
+ "B105": [
+  "unsure",
+  "integrations of one agent"
+ ],
+ "B106": [
+  "fp-bounded-by-key",
+  "forUpdate lock on one project"
+ ],
+ "B107": [
+  "fp-not-a-query",
+  "result array's .map() (rule bug)"
+ ],
+ "B108": [
+  "fp-bounded-by-key",
+  "const [parameter] = ...: project + name"
+ ],
+ "B109": [
+  "unsure",
+  "root spaces of a project (S249)"
+ ],
+ "B110": [
+  "fp-bounded-by-key",
+  "space_uuid IN caller list on the spaces table (table named by a constant)"
+ ],
+ "B111": [
+  "unsure",
+  "color palettes per org, configured items (the query line; round 2 reports it here only)"
+ ],
+ "B112": [
+  "unsure",
+  "ai agents per project, configured items"
+ ],
+ "B113": [
+  "tp",
+  "charts in project via savedChartModel.find, accumulating"
+ ],
+ "B114": [
+  "fp-not-a-query",
+  "duplicate: same query as B184 reported twice (rule bug: large-return kept beside unbounded-query)"
+ ],
+ "B115": [
+  "fp-bounded-by-key",
+  "getByCode, where on code hash below the select (rule bug: where after select not read)"
+ ],
+ "B116": [
+  "tp",
+  "all projects loaded just to count"
+ ],
+ "B117": [
+  "fp-bounded-by-key",
+  "const [project] by project_uuid"
+ ],
+ "B118": [
+  "fp-bounded-by-key",
+  "whereIn own uuid list"
+ ],
+ "B119": [
+  "fp-bounded-by-key",
+  "whereIn uuids list input (rule bug: whereIn on own key)"
+ ],
+ "B120": [
+  "fp-not-a-query",
+  "returned builder factory, callers add where/first (rule bug: unexecuted builder)"
+ ],
+ "B121": [
+  "fp-bounded-by-key",
+  "const [org] by uuid"
+ ],
+ "B122": [
+  "fp-not-a-query",
+  "duplicate: same query as B240 reported twice (rule bug)"
+ ],
+ "B123": [
+  "unsure",
+  "apps in given spaces"
+ ],
+ "B124": [
+  "fp-bounded-by-key",
+  "openid identities per email, a handful; one identity per issuer type"
+ ],
+ "B125": [
+  "unsure",
+  "artifact refs per prompt"
+ ],
+ "B126": [
+  "fp-bounded-by-key",
+  "whereIn input timestamps"
+ ],
+ "B127": [
+  "unsure",
+  "agent user accesses for agents"
+ ],
+ "B128": [
+  "unsure",
+  "reasoning rows per prompt"
+ ],
+ "B129": [
+  "fp-bounded-by-key",
+  "const [project] by uuid"
+ ],
+ "B130": [
+  "unsure",
+  "slack channel mappings per org, configured"
+ ],
+ "B131": [
+  "tp",
+  "all orgs with slack installed, cron over whole table"
+ ],
+ "B132": [
+  "fp-not-a-query",
+  "builder factory returning Knex.QueryBuilder, not executed here (rule bug: unexecuted builder)"
+ ],
+ "B133": [
+  "fp-bounded-by-key",
+  "const [row] by channel_id"
+ ],
+ "B134": [
+  "fp-not-a-query",
+  "builder factory returning Knex.QueryBuilder (rule bug: unexecuted builder)"
+ ],
+ "B135": [
+  "unsure",
+  "group access per space, configured"
+ ],
+ "B136": [
+  "fp-bounded-by-key",
+  "const [palette] by uuid"
+ ],
+ "B137": [
+  "fp-not-a-query",
+  "duplicate: same query as B128 reported twice (rule bug: large-return kept beside api-response)"
+ ],
+ "B138": [
+  "unsure",
+  "pinned apps per list"
+ ],
+ "B139": [
+  "tp",
+  "all projects of org loaded to test existence"
+ ],
+ "B140": [
+  "fp-not-a-query",
+  "duplicate: same query as B239 reported twice (rule bug)"
+ ],
+ "B141": [
+  "unsure",
+  "parameters per project"
+ ],
+ "B142": [
+  "unsure",
+  "metric tree edges for given nodes"
+ ],
+ "B143": [
+  "unsure",
+  "tool calls per prompt"
+ ],
+ "B144": [
+  "unsure",
+  "copy of all space accesses, full copy intended"
+ ],
+ "B145": [
+  "unsure",
+  "copy of artifact versions, full copy intended"
+ ],
+ "B146": [
+  "unsure",
+  "personal access tokens per user, configured"
+ ],
+ "B147": [
+  "unsure",
+  "service accounts per org, configured"
+ ],
+ "B148": [
+  "fp-not-a-query",
+  "duplicate: same query as B207 reported twice (rule bug)"
+ ],
+ "B149": [
+  "tp",
+  "schedulers per project; reported on the reassignment line rather than the declaration (rule quirk)"
+ ],
+ "B150": [
+  "unsure",
+  "copy of dashboard tabs, full copy intended"
+ ],
+ "B151": [
+  "unsure",
+  "validations for given charts in project"
+ ],
+ "B152": [
+  "unsure",
+  "scheduler log rows of one job, a handful (few by usage, nothing in code caps it)"
+ ],
+ "B153": [
+  "tp",
+  "dashboard tabs matching a search across project, no limit"
+ ],
+ "B154": [
+  "fp-bounded-by-key",
+  "const [organization] by uuid"
+ ],
+ "B155": [
+  "unsure",
+  "copy of chart version content, full copy intended"
+ ],
+ "B156": [
+  "unsure",
+  "results of one eval run"
+ ],
+ "B157": [
+  "fp-bounded-by-key",
+  "ARRAY_AGG aggregate returns one row (rule bug: aggregate select); aggregate, rows per enum-like group"
+ ],
+ "B158": [
+  "unsure",
+  "const [row] of a user's memberships, one used (few by usage, nothing in code caps it)"
+ ],
+ "B159": [
+  "fp-bounded-by-key",
+  "const [row] by slack team id"
+ ],
+ "B160": [
+  "tp",
+  "project group access across org"
+ ],
+ "B161": [
+  "fp-bounded-by-key",
+  "whereIn given user uuids; sync builder factory (rule bug)"
+ ],
+ "B162": [
+  "unsure",
+  "orgs using a palette"
+ ],
+ "B163": [
+  "unsure",
+  "tags per project, configured"
+ ],
+ "B164": [
+  "unsure",
+  "node uuids of one metrics tree"
+ ],
+ "B165": [
+  "tp",
+  "validation errors per project, accumulate"
+ ],
+ "B166": [
+  "unsure",
+  "dashboards listed in an embed config"
+ ],
+ "B167": [
+  "fp-bounded-by-key",
+  "const [user] by uuid"
+ ],
+ "B168": [
+  "fp-bounded-by-key",
+  "const [row] by passcode"
+ ],
+ "B169": [
+  "unsure",
+  "user access per agent, configured"
+ ],
+ "B170": [
+  "unsure",
+  "copy of tool calls, full copy intended"
+ ],
+ "B171": [
+  "fp-not-a-query",
+  "duplicate: same query as B169 reported twice (rule bug)"
+ ],
+ "B172": [
+  "tp",
+  "project members with primary email"
+ ],
+ "B173": [
+  "fp-not-a-query",
+  "private builder factory (rule bug: unexecuted builder)"
+ ],
+ "B174": [
+  "fp-not-a-query",
+  "builder factory returning Knex.QueryBuilder (rule bug)"
+ ],
+ "B175": [
+  "unsure",
+  "artifact versions of one prompt"
+ ],
+ "B176": [
+  "unsure",
+  "group memberships of one user (few by usage, nothing in code caps it)"
+ ],
+ "B177": [
+  "tp",
+  "spaces across all org projects with default user spaces"
+ ],
+ "B178": [
+  "unsure",
+  "tool results per prompt"
+ ],
+ "B179": [
+  "fp-bounded-by-key",
+  "const [row] by job uuid"
+ ],
+ "B180": [
+  "fp-not-a-query",
+  "duplicate: same query as B146 reported twice (rule bug)"
+ ],
+ "B181": [
+  "unsure",
+  "pre-aggregate definitions"
+ ],
+ "B182": [
+  "fp-not-a-query",
+  "duplicate: same query as B229 reported twice (rule bug)"
+ ],
+ "B183": [
+  "unsure",
+  "scheduler log rows of one job (few by usage, nothing in code caps it)"
+ ],
+ "B184": [
+  "unsure",
+  "projects sharing a name"
+ ],
+ "B185": [
+  "tp",
+  "charts in project by explore via savedChartModel.find"
+ ],
+ "B186": [
+  "unsure",
+  "copy of dashboard views, full copy intended"
+ ],
+ "B187": [
+  "fp-bounded-by-key",
+  "const [space] by uuid"
+ ],
+ "B188": [
+  "unsure",
+  "apps in one space"
+ ],
+ "B189": [
+  "unsure",
+  "tool calls per prompt"
+ ],
+ "B190": [
+  "unsure",
+  "catalog items with icons per project"
+ ],
+ "B191": [
+  "unsure",
+  "copy of charts in dashboards, full copy intended"
+ ],
+ "B192": [
+  "fp-not-a-query",
+  "queryBuilder factory property (rule bug: unexecuted builder)"
+ ],
+ "B194": [
+  "unsure",
+  "pinned spaces per list"
+ ],
+ "B195": [
+  "unsure",
+  "catalog tables per project"
+ ],
+ "B196": [
+  "fp-bounded-by-key",
+  "const [embed] by project uuid"
+ ],
+ "B197": [
+  "fp-bounded-by-key",
+  "const [row] by user and org"
+ ],
+ "B198": [
+  "fp-not-a-query",
+  "duplicate: same query as B124 reported twice (rule bug)"
+ ],
+ "B199": [
+  "unsure",
+  "evals per agent"
+ ],
+ "B200": [
+  "unsure",
+  "oauth clients per org, configured"
+ ],
+ "B193": [
+  "fp-not-a-query",
+  "private builder factory getHydratedNodesQuery (rule bug: unexecuted builder)"
+ ],
+ "B201": [
+  "unsure",
+  "copy of dashboard tiles, full copy intended"
+ ],
+ "B202": [
+  "fp-bounded-by-key",
+  "const [palette] by uuid"
+ ],
+ "B203": [
+  "fp-bounded-by-key",
+  "const [row] slack token per org"
+ ],
+ "B204": [
+  "unsure",
+  "copy of saved sqls, full copy intended"
+ ],
+ "B205": [
+  "fp-bounded-by-key",
+  "const [email] by address"
+ ],
+ "B206": [
+  "fp-not-a-query",
+  "subquery builder factory (rule bug: unexecuted builder)"
+ ],
+ "B207": [
+  "tp",
+  "all enabled projects instance-wide"
+ ],
+ "B208": [
+  "fp-bounded-by-key",
+  "const [list], one pinned list per project"
+ ],
+ "B209": [
+  "fp-not-a-query",
+  "subquery builder factory (rule bug)"
+ ],
+ "B210": [
+  "tp",
+  "all default projects instance-wide"
+ ],
+ "B211": [
+  "unsure",
+  "space uuids"
+ ],
+ "B212": [
+  "unsure",
+  "metrics tree edges per project"
+ ],
+ "B213": [
+  "unsure",
+  "cached explore summaries per project"
+ ],
+ "B214": [
+  "fp-not-a-query",
+  "base select builder factory (rule bug)"
+ ],
+ "B215": [
+  "fp-bounded-by-key",
+  "project by uuid"
+ ],
+ "B216": [
+  "unsure",
+  "targets for listed schedulers"
+ ],
+ "B217": [
+  "tp",
+  "user attribute values across org members"
+ ],
+ "B218": [
+  "fp-bounded-by-key",
+  "whereIn uuids from a paginated page"
+ ],
+ "B219": [
+  "fp-bounded-by-key",
+  "const [row] by user uuid"
+ ],
+ "B220": [
+  "fp-bounded-by-key",
+  "whereIn input emails"
+ ],
+ "B221": [
+  "unsure",
+  "slugs sharing a prefix (few by usage, nothing in code caps it)"
+ ],
+ "B222": [
+  "unsure",
+  "prompts per thread, sync method returning builder"
+ ],
+ "B223": [
+  "unsure",
+  "copy of space group accesses, full copy intended"
+ ],
+ "B224": [
+  "unsure",
+  "charts summary"
+ ],
+ "B225": [
+  "unsure",
+  "child spaces of given parents"
+ ],
+ "B226": [
+  "unsure",
+  "orgs of one user (few by usage, nothing in code caps it)"
+ ],
+ "B227": [
+  "unsure",
+  "ms teams targets of one scheduler"
+ ],
+ "B228": [
+  "tp",
+  "validation errors per project, accumulate"
+ ],
+ "B229": [
+  "fp-bounded-by-key",
+  "whereIn input yaml references"
+ ],
+ "B230": [
+  "fp-not-a-query",
+  "duplicate: identical finding emitted twice for one query with .then (rule bug)"
+ ],
+ "B231": [
+  "unsure",
+  "distinct commenters per tile"
+ ],
+ "B232": [
+  "unsure",
+  "ancestors of one space, tree depth (few by usage, nothing in code caps it)"
+ ],
+ "B233": [
+  "unsure",
+  "users list"
+ ],
+ "B234": [
+  "fp-bounded-by-key",
+  "const [project] by uuid"
+ ],
+ "B235": [
+  "fp-not-a-query",
+  "duplicate: same query as B225 reported twice (rule bug)"
+ ],
+ "B236": [
+  "unsure",
+  "slugs sharing a prefix (few by usage, nothing in code caps it)"
+ ],
+ "B237": [
+  "unsure",
+  "changes in active changeset"
+ ],
+ "B238": [
+  "fp-bounded-by-key",
+  "const [org] by uuid"
+ ],
+ "B239": [
+  "unsure",
+  "favorites per user and project"
+ ],
+ "B240": [
+  "unsure",
+  "virtual explores per project"
+ ],
+ "B241": [
+  "fp-bounded-by-key",
+  "getByCode by code hash"
+ ],
+ "B242": [
+  "fp-bounded-by-key",
+  "whereIn input uuids"
+ ],
+ "B243": [
+  "fp-not-a-query",
+  "duplicate: same query as B257 reported twice (rule bug)"
+ ],
+ "B244": [
+  "unsure",
+  "managed agent actions, reported on reassignment line"
+ ],
+ "B245": [
+  "fp-not-a-query",
+  "duplicate: same query as B200 reported twice (rule bug)"
+ ],
+ "B246": [
+  "tp",
+  "table validation errors per project"
+ ],
+ "B247": [
+  "fp-not-a-query",
+  "duplicate: same query as B138 reported twice (rule bug)"
+ ],
+ "B248": [
+  "unsure",
+  "projects of an allowed email domain"
+ ],
+ "B249": [
+  "unsure",
+  "chart uuids in a space"
+ ],
+ "B250": [
+  "unsure",
+  "spaces find with filters"
+ ],
+ "B251": [
+  "unsure",
+  "artifact versions"
+ ],
+ "B252": [
+  "unsure",
+  "artifacts per thread"
+ ],
+ "B253": [
+  "unsure",
+  "log entries for one run (few by usage, nothing in code caps it)"
+ ],
+ "B254": [
+  "fp-bounded-by-key",
+  "whereIn uuids from a paginated page"
+ ],
+ "B255": [
+  "fp-bounded-by-key",
+  "const [validation] by id"
+ ],
+ "B256": [
+  "tp",
+  "all organizations loaded to test existence"
+ ],
+ "B257": [
+  "tp",
+  "all organization uuids instance-wide"
+ ],
+ "B258": [
+  "fp-bounded-by-key",
+  "whereIn input chart uuids"
+ ],
+ "B259": [
+  "unsure",
+  "attribute values per org"
+ ],
+ "B260": [
+  "unsure",
+  "group access per agent, configured"
+ ],
+ "B261": [
+  "unsure",
+  "yaml tags per project, configured"
+ ],
+ "B262": [
+  "fp-not-a-query",
+  "duplicate: same query as B143 reported twice (rule bug)"
+ ],
+ "B263": [
+  "fp-not-a-query",
+  "duplicate: same query as B210 reported twice (rule bug)"
+ ],
+ "B264": [
+  "unsure",
+  "google chat targets of one scheduler"
+ ],
+ "B265": [
+  "unsure",
+  "tags for given catalog items"
+ ],
+ "B266": [
+  "unsure",
+  "copy of saved sqls in dashboards, full copy intended"
+ ],
+ "B267": [
+  "unsure",
+  "yaml tags per project"
+ ],
+ "B268": [
+  "fp-not-a-query",
+  "duplicate: same query as B242 reported twice (rule bug)"
+ ],
+ "B269": [
+  "unsure",
+  "validation errors for given dashboards in project"
+ ],
+ "B270": [
+  "unsure",
+  "copy of spaces, full copy intended"
+ ],
+ "B271": [
+  "fp-not-a-query",
+  "duplicate: identical finding emitted twice for one query with .then (rule bug)"
+ ],
+ "B272": [
+  "unsure",
+  "steps of one job (few by usage, nothing in code caps it)"
+ ],
+ "B273": [
+  "unsure",
+  "verified dashboards"
+ ],
+ "B274": [
+  "fp-bounded-by-key",
+  "const [row] by nanoid"
+ ],
+ "B275": [
+  "fp-bounded-by-key",
+  "const [row] slack token per org"
+ ],
+ "B283": [
+  "fp-not-a-query",
+  "duplicate: return of the query at line 397 (B111) reported twice (rule bug, fixed round 2)"
+ ],
+ "B276": [
+  "fp-bounded-by-key",
+  "const [org] by uuid"
+ ],
+ "B277": [
+  "unsure",
+  "pre-aggregate definitions per project, configured"
+ ],
+ "B278": [
+  "fp-not-a-query",
+  "builder factory returning Knex.QueryBuilder (rule bug)"
+ ],
+ "B279": [
+  "unsure",
+  "catalog per project, reported on reassignment line"
+ ],
+ "B280": [
+  "fp-bounded-by-key",
+  "const [row] by slack team id"
+ ],
+ "B281": [
+  "fp-bounded-by-key",
+  "emails by address"
+ ],
+ "B282": [
+  "unsure",
+  "orgs allowing one email domain (few by usage, nothing in code caps it)"
+ ],
+ "B284": [
+  "unsure",
+  "slack targets of listed schedulers"
+ ],
+ "B285": [
+  "fp-bounded-by-key",
+  "orgs by uuid"
+ ],
+ "B286": [
+  "fp-bounded-by-key",
+  "orgs by uuid"
+ ],
+ "B287": [
+  "unsure",
+  "tiles of one dashboard version (few by usage, nothing in code caps it)"
+ ],
+ "B288": [
+  "unsure",
+  "direct child spaces"
+ ],
+ "B289": [
+  "fp-not-served",
+  "knex migration (rule bug: knex_migrations path not excluded)"
+ ],
+ "B290": [
+  "fp-not-served",
+  "knex migration (rule bug: knex_migrations path not excluded)"
+ ],
+ "B291": [
+  "fp-not-served",
+  "knex migration (rule bug: knex_migrations path not excluded)"
+ ],
+ "B292": [
+  "fp-not-served",
+  "migration script (rule bug: migration-scripts path not excluded)"
+ ],
+ "B293": [
+  "unsure",
+  "price calculation query builder"
+ ],
+ "B294": [
+  "fp-not-a-query",
+  "metadata.database(id) is an in-memory lookup (rule bug: handle on arbitrary receiver)"
+ ],
+ "B295": [
+  "unsure",
+  "projects a user has scopes in"
+ ],
+ "B296": [
+  "fp-not-a-query",
+  "updateOne is a write (rule bug: write terminal)"
+ ],
+ "B297": [
+  "fp-not-a-query",
+  "duplicate: same query as B325 reported twice (rule bug)"
+ ],
+ "B298": [
+  "fp-bounded-by-key",
+  "projects in given id list"
+ ],
+ "B299": [
+  "fp-not-a-query",
+  "duplicate: same query as B318 reported twice (rule bug)"
+ ],
+ "B300": [
+  "fp-not-a-query",
+  "duplicate: same query as B329 reported twice (rule bug)"
+ ],
+ "B301": [
+  "fp-bounded-by-key",
+  "groupBy count per role, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B302": [
+  "unsure",
+  "insights aggregated by period"
+ ],
+ "B303": [
+  "unsure",
+  "columns of one data table"
+ ],
+ "B304": [
+  "unsure",
+  "folder ids"
+ ],
+ "B305": [
+  "unsure",
+  "roles query builder"
+ ],
+ "B306": [
+  "fp-not-a-query",
+  "duplicate: same query as B312 reported twice (rule bug)"
+ ],
+ "B307": [
+  "unsure",
+  "deployment keys, a handful (few by usage, nothing in code caps it)"
+ ],
+ "B308": [
+  "fp-not-a-query",
+  "mongo updateSearchIndex (rule bug: write/admin terminal)"
+ ],
+ "B309": [
+  "unsure",
+  "distinct workflow versions per workflow"
+ ],
+ "B310": [
+  "fp-not-a-query",
+  "mongo insertMany (rule bug: write terminal)"
+ ],
+ "B311": [
+  "fp-not-a-query",
+  "mongo dropSearchIndex (rule bug: write/admin terminal)"
+ ],
+ "B312": [
+  "unsure",
+  "member counts per project for a role"
+ ],
+ "B313": [
+  "unsure",
+  "secrets provider connections"
+ ],
+ "B314": [
+  "unsure",
+  "workflow history in a date range"
+ ],
+ "B315": [
+  "fp-not-a-query",
+  "mongo deleteMany (rule bug: write terminal)"
+ ],
+ "B316": [
+  "fp-bounded-by-key",
+  "insights summary aggregate; aggregate, rows per enum-like group"
+ ],
+ "B317": [
+  "fp-not-served",
+  "CLI command"
+ ],
+ "B318": [
+  "fp-bounded-by-key",
+  "groupBy count per role, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B319": [
+  "unsure",
+  "tools per session"
+ ],
+ "B320": [
+  "fp-bounded-by-key",
+  "folder paths for given ids"
+ ],
+ "B321": [
+  "fp-not-served",
+  "CLI command"
+ ],
+ "B322": [
+  "tp",
+  "execution workflowData since a date, large JSON rows"
+ ],
+ "B323": [
+  "fp-not-a-query",
+  "duplicate: same query as B309 reported twice (rule bug)"
+ ],
+ "B324": [
+  "fp-bounded-by-key",
+  "groupBy count per role, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B325": [
+  "fp-bounded-by-key",
+  "groupBy count per role, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B326": [
+  "unsure",
+  "projects a user is authorized for"
+ ],
+ "B327": [
+  "unsure",
+  "provider keys"
+ ],
+ "B328": [
+  "fp-bounded-by-key",
+  "groupBy count per role, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B329": [
+  "unsure",
+  "tools per agent"
+ ],
+ "B330": [
+  "fp-not-a-query",
+  "mongo findOneAndUpdate (rule bug: write terminal)"
+ ],
+ "B331": [
+  "unsure",
+  "agents per user"
+ ],
+ "B332": [
+  "tp",
+  "all data tables with projects, instance-wide"
+ ],
+ "B333": [
+  "unsure",
+  "workflows query builder"
+ ],
+ "B334": [
+  "fp-not-served",
+  "integration test sample app"
+ ],
+ "B335": [
+  "tp",
+  "friends of a user, grows"
+ ],
+ "B336": [
+  "fp-not-served",
+  "migration job (rule bug: migration-jobs path not excluded)"
+ ],
+ "B337": [
+  "fp-not-a-query",
+  "duplicate: same query as B349 reported twice (rule bug)"
+ ],
+ "B338": [
+  "unsure",
+  "integrations list"
+ ],
+ "B339": [
+  "unsure",
+  "sources of an integration"
+ ],
+ "B340": [
+  "fp-not-served",
+  "migration job (rule bug: migration-jobs path not excluded)"
+ ],
+ "B341": [
+  "unsure",
+  "sources of an integration"
+ ],
+ "B342": [
+  "tp",
+  "comments on a row, accumulate"
+ ],
+ "B343": [
+  "fp-not-served",
+  "migration job (rule bug: migration-jobs path not excluded)"
+ ],
+ "B344": [
+  "unsure",
+  "base users list"
+ ],
+ "B345": [
+  "fp-not-a-query",
+  "duplicate: same query as B342 reported twice (rule bug)"
+ ],
+ "B346": [
+  "unsure",
+  "sources of an integration"
+ ],
+ "B347": [
+  "unsure",
+  "user-supplied SQL wrapped as a subquery"
+ ],
+ "B348": [
+  "unsure",
+  "integration links per base"
+ ],
+ "B349": [
+  "tp",
+  "comments on a doc, accumulate"
+ ],
+ "B350": [
+  "unsure",
+  "bases a user belongs to"
+ ],
+ "B351": [
+  "fp-not-served",
+  "startup check run once at boot"
+ ],
+ "B352": [
+  "unsure",
+  "execution details of one notification"
+ ],
+ "B353": [
+  "fp-bounded-by-key",
+  "count aggregate returns one row (rule bug: aggregate select); aggregate, rows per enum-like group"
+ ],
+ "B354": [
+  "unsure",
+  "join table cleanup"
+ ],
+ "B355": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework findMany, limit comes from params via init"
+ ],
+ "B356": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B357": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B358": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B359": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B360": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B361": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): distinct morph types, a handful (few by usage, nothing in code caps it)"
+ ],
+ "B362": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B363": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): builder ends in toSQL, never executed (rule bug)"
+ ],
+ "B364": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B365": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): where $in given relation ids"
+ ],
+ "B366": [
+  "fp-bounded-by-key",
+  "whereIn input source ids"
+ ],
+ "B367": [
+  "fp-bounded-by-key",
+  "whereIn input source ids"
+ ],
+ "B368": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): framework populate, init(populateValue) applies limits for given parents"
+ ],
+ "B369": [
+  "fp-not-a-query",
+  "library code (strapi ORM source): join rows for given referenced values"
+ ],
+ "B370": [
+  "fp-bounded-by-key",
+  "IN given data query ids"
+ ],
+ "B371": [
+  "unsure",
+  "schedules of one app (few by usage, nothing in code caps it)"
+ ],
+ "B372": [
+  "unsure",
+  "components of pages for export"
+ ],
+ "B373": [
+  "unsure",
+  "users with edit permissions per org, license count"
+ ],
+ "B374": [
+  "fp-not-a-query",
+  "spanner instance.database() is a handle (rule bug: handle on arbitrary receiver)"
+ ],
+ "B375": [
+  "fp-bounded-by-key",
+  "IN given group names"
+ ],
+ "B376": [
+  "tp",
+  "all apps of an org, accumulate"
+ ],
+ "B377": [
+  "unsure",
+  "users with permissions"
+ ],
+ "B378": [
+  "fp-bounded-by-key",
+  "IN given group names"
+ ],
+ "B379": [
+  "unsure",
+  "event handlers of one version, export needs all"
+ ],
+ "B380": [
+  "unsure",
+  "data queries of one version"
+ ],
+ "B381": [
+  "unsure",
+  "app versions for export"
+ ],
+ "B382": [
+  "unsure",
+  "data sources of given versions"
+ ],
+ "B383": [
+  "unsure",
+  "data queries of one app"
+ ],
+ "B384": [
+  "fp-bounded-by-key",
+  "IN given component ids"
+ ],
+ "B385": [
+  "fp-bounded-by-key",
+  "IN given component ids"
+ ],
+ "B386": [
+  "unsure",
+  "event handlers of versions, export needs all"
+ ],
+ "B387": [
+  "unsure",
+  "users of given groups"
+ ],
+ "B388": [
+  "unsure",
+  "groups per org"
+ ],
+ "B389": [
+  "unsure",
+  "data queries of one app"
+ ],
+ "B390": [
+  "fp-bounded-by-key",
+  "IN given version ids"
+ ],
+ "B391": [
+  "unsure",
+  "pages of versions for export"
+ ],
+ "B392": [
+  "fp-bounded-by-key",
+  "IN given group names"
+ ],
+ "B393": [
+  "unsure",
+  "environments per org, a handful (few by usage, nothing in code caps it)"
+ ],
+ "B394": [
+  "unsure",
+  "components of one page"
+ ],
+ "B395": [
+  "fp-bounded-by-key",
+  "groupBy count per kind, aggregate rows; aggregate, rows per enum-like group"
+ ],
+ "B396": [
+  "unsure",
+  "module components of one app"
+ ],
+ "B397": [
+  "fp-bounded-by-key",
+  "IN given environment and data source ids"
+ ],
+ "B398": [
+  "unsure",
+  "invites for one email (few by usage, nothing in code caps it)"
+ ],
+ "B399": [
+  "unsure",
+  "teams of one user (few by usage, nothing in code caps it)"
+ ]
+}

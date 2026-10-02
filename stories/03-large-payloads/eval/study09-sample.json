@@ -1,0 +1,3616 @@
+{
+ "seed": 20260924,
+ "population": 51756,
+ "byPattern": {
+  "unbounded_find_all": 33127,
+  "deep_nested_include": 16428,
+  "select_star": 2201
+ },
+ "allocation": {
+  "unbounded_find_all": 256,
+  "deep_nested_include": 127,
+  "select_star": 17
+ },
+ "sample": [
+  {
+   "repo": "braintree/braintree_node",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/integration/braintree/credit_card_gateway_spec.js",
+   "line": 1536,
+   "code": "assert.include(err.message, \"consumed\");",
+   "id": "O001"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/search/plugins/search_playground/server/routes.ts",
+   "line": 338,
+   "code": "router.post(",
+   "id": "O002"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/server/test/integration/http_requests_spec.js",
+   "line": 616,
+   "code": "expect(res.body).to.include(`console.log('includes')`)",
+   "id": "O003"
+  },
+  {
+   "repo": "novu-co/novu",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/api/src/app/contexts/e2e/update-context.e2e.ts",
+   "line": 72,
+   "code": "const response = await novuClient.contexts.update({",
+   "id": "O004"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/test/api_integration/apis/data_views/runtime_fields_crud/update_runtime_field/main.ts",
+   "line": 89,
+   "code": "const response4 = await supertest",
+   "id": "O005"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/bdd/bdd-nock-router.dev.ts",
+   "line": 69,
+   "code": "server.route({",
+   "id": "O006"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/plugin-ecommerce/src/payments/adapters/stripe/confirmOrder.ts",
+   "line": 61,
+   "code": "const transactionsResults = await payload.find({",
+   "id": "O007"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v2/user-router.ts",
+   "line": 195,
+   "code": "server.route({",
+   "id": "O008"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/integration-auth-router.ts",
+   "line": 976,
+   "code": "server.route({",
+   "id": "O009"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "templates/website/src/app/(frontend)/[slug]/page.tsx",
+   "line": 99,
+   "code": "const result = await payload.find({",
+   "id": "O010"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/fleet/server/routes/agent/index.ts",
+   "line": 310,
+   "code": "router.versioned",
+   "id": "O011"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/server/test/integration/http_requests_spec.js",
+   "line": 2342,
+   "code": "expect(res.headers['feature-policy']).to.include('camera *')",
+   "id": "O012"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/private/transform/server/routes/api/transforms_update/register_route.ts",
+   "line": 30,
+   "code": "router.versioned",
+   "id": "O013"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/triggers_actions_ui/server/data/routes/indices.ts",
+   "line": 35,
+   "code": "router.post(",
+   "id": "O014"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/private/rollup/server/routes/api/jobs/register_create_route.ts",
+   "line": 17,
+   "code": "router.put(",
+   "id": "O015"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/web/modules/bookings/hooks/useSlots.ts",
+   "line": 101,
+   "code": "const removeSelectedSlot = trpc.viewer.slots.removeSelectedSlotMark.useMutation({",
+   "id": "O016"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/commands/actions/scroll.cy.ts",
+   "line": 459,
+   "code": "expect(err.message).to.include('`cy.scrollTo()` can only be used to scroll 1 element, you tried to scroll 2 elements.')",
+   "id": "O017"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v2/gateway-router.ts",
+   "line": 138,
+   "code": "server.route({",
+   "id": "O018"
+  },
+  {
+   "repo": "shopware/shopware",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/Administration/Resources/app/administration/src/module/sw-cms/blocks/image/image-slider/index.ts",
+   "line": 16,
+   "code": "Shopware.Service('cmsService').registerCmsBlock({",
+   "id": "O019"
+  },
+  {
+   "repo": "hapijs/hapi",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/core.js",
+   "line": 367,
+   "code": "expect(event.error.message).to.include(['Cannot read prop', 'null', 'here']);",
+   "id": "O020"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/commands/net_stubbing.cy.ts",
+   "line": 1120,
+   "code": "expect(res.body).to.include('xhr fixture')",
+   "id": "O021"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/alerting/server/routes/rule/apis/list_types/external/get_rule_types_route.ts",
+   "line": 22,
+   "code": "router.get(",
+   "id": "O022"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/batching-compound/tests.ts",
+   "line": 85,
+   "code": "prisma.user.findUniqueOrThrow({",
+   "id": "O023"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/ml/server/routes/trained_models.ts",
+   "line": 667,
+   "code": "router.versioned",
+   "id": "O024"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/presenters/SelectBestEnvironmentPresenter.server.ts",
+   "line": 39,
+   "code": "const project = await this.#prismaClient.project.findFirst({",
+   "id": "O025"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/composites/recursive/tests.ts",
+   "line": 26,
+   "code": "expect(result).toMatchObject({",
+   "id": "O026"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/issues/17948-tx-client-extensions/tests.ts",
+   "line": 15,
+   "code": "const xprisma = prisma.$extends({",
+   "id": "O027"
+  },
+  {
+   "repo": "npm/cli",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "workspaces/arborist/test/arborist/reify.js",
+   "line": 3642,
+   "code": "const abbrevPackument4 = JSON.stringify({",
+   "id": "O028"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "frontend/src/scenes/userLogic.ts",
+   "line": 362,
+   "code": "actions.updateUser({",
+   "id": "O029"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/test/functional/apps/visualize/group6/_vega_chart.ts",
+   "line": 368,
+   "code": "const usermeta = JSON.stringify({ embedOptions: { loader: { target: '_blank' } } });",
+   "id": "O030"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/api/v2/src/platform/bookings/2024-08-13/controllers/e2e/add-guests.e2e-spec.ts",
+   "line": 121,
+   "code": "const guestUser = await userRepositoryFixture.create({",
+   "id": "O031"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/test/security_api_integration/tests/session_invalidate/invalidate.ts",
+   "line": 139,
+   "code": "await supertest",
+   "id": "O032"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/jake/jakelib/migrate-test.js",
+   "line": 443,
+   "code": "assert.include(stderr, `Migration \"${migrationFile1}\" not found.`);",
+   "id": "O033"
+  },
+  {
+   "repo": "nocodb/nocodb",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/nocodb/src/public/js/vuetify.2.x.min.js",
+   "line": 6,
+   "code": "!function(t,e){\"object\"==typeof exports&&\"object\"==typeof module?module.exports=e(require(\"vue\")):\"function\"==typeof define&&define.amd?define([\"vue\"],e):\"object\"==typeof exports?exports.Vuetify=e(req",
+   "id": "O034"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/security_solution/server/lib/siem_migrations/dashboards/api/evaluation/evaluate.ts",
+   "line": 36,
+   "code": "router.versioned",
+   "id": "O035"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/packages/shared/kbn-evals-suite-streams/evals/pattern_extraction/pattern_extraction_task.ts",
+   "line": 140,
+   "code": "const response = await kbnClient.request({",
+   "id": "O036"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/test/functional/services/ml/api.ts",
+   "line": 101,
+   "code": "const body = await es.search({",
+   "id": "O037"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/extensions/result.ts",
+   "line": 64,
+   "code": "await prisma.post.create({",
+   "id": "O038"
+  },
+  {
+   "repo": "novu-co/novu",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/api/src/app/translations/e2e/v2/translation-replacement.e2e-ee.ts",
+   "line": 702,
+   "code": "expect(preview.body).to.not.include('\\\\t');",
+   "id": "O039"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/fleet/server/routes/fleet_proxies/index.ts",
+   "line": 147,
+   "code": "router.versioned",
+   "id": "O040"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/security_solution/server/lib/siem_migrations/dashboards/api/resources/upsert.ts",
+   "line": 30,
+   "code": "router.versioned",
+   "id": "O041"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/features/selectedCalendar/repositories/SelectedCalendarRepository.ts",
+   "line": 246,
+   "code": "const nextBatch = await prisma.selectedCalendar.findMany({",
+   "id": "O042"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/v3/marqs/sharedQueueConsumer.server.ts",
+   "line": 1859,
+   "code": "await prisma.taskRunAttempt.update({",
+   "id": "O043"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/ml/server/routes/job_validation.ts",
+   "line": 182,
+   "code": "router.versioned",
+   "id": "O044"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/packages/shared/kbn-otel-demo/src/demos/rust_k8s_demo/manifests.ts",
+   "line": 123,
+   "code": "manifests.push({",
+   "id": "O045"
+  },
+  {
+   "repo": "node-red/node-red",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/unit/@node-red/runtime/lib/nodes/context/index_spec.js",
+   "line": 480,
+   "code": "Context.init({ contextStorage:{'abc-123':{module:testPlugin}}});",
+   "id": "O046"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/test/security_solution_api_integration/test_suites/genai/knowledge_base/entries/utils/helpers.ts",
+   "line": 56,
+   "code": "await es.inference.put({",
+   "id": "O047"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/security_solution/server/lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client/methods/fetch_tags_by_version.ts",
+   "line": 31,
+   "code": "const searchResult = await savedObjectsClient.search<",
+   "id": "O048"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/plugin-ecommerce/src/collections/variants/createVariantsCollection/hooks/validateOptions.ts",
+   "line": 25,
+   "code": "const product = await req.payload.findByID({",
+   "id": "O049"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/elastic_assistant/server/routes/prompts/find_route.ts",
+   "line": 22,
+   "code": "router.versioned",
+   "id": "O050"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/features/host/repositories/HostRepository.ts",
+   "line": 214,
+   "code": "const hosts = await this.prismaClient.host.findMany({",
+   "id": "O051"
+  },
+  {
+   "repo": "botpress/botpress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "integrations/docusign/src/docusign-api/auth-utils.ts",
+   "line": 13,
+   "code": "const { state } = await client.setState({",
+   "id": "O052"
+  },
+  {
+   "repo": "getsentry/sentry-javascript",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "dev-packages/node-core-integration-tests/suites/public-api/setExtras/multiple-extras/test.ts",
+   "line": 9,
+   "code": "await createRunner(__dirname, 'scenario.ts')",
+   "id": "O053"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/frontend/editor-ui/src/features/shared/commandBar/composables/useExecutionCommands.ts",
+   "line": 233,
+   "code": "commands.push({",
+   "id": "O054"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/test/api_integration/apis/security/roles_bulk.ts",
+   "line": 138,
+   "code": "expect(role).to.eql({",
+   "id": "O055"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/pam-session-router.ts",
+   "line": 131,
+   "code": "server.route({",
+   "id": "O056"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/identity-jwt-auth-router.ts",
+   "line": 239,
+   "code": "await server.services.auditLog.createAuditLog({",
+   "id": "O057"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/v3/services/enqueueDelayedRun.server.ts",
+   "line": 35,
+   "code": "const run = await this._prisma.taskRun.findFirst({",
+   "id": "O058"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/observability_ai_assistant/server/routes/knowledge_base/route.ts",
+   "line": 239,
+   "code": "return client.addKnowledgeBaseEntry({",
+   "id": "O059"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/routes/realtime.v1.streams.$runId.$target.$streamId.append.ts",
+   "line": 89,
+   "code": "await prisma.taskRun.update({",
+   "id": "O060"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/ml/server/routes/trained_models.ts",
+   "line": 462,
+   "code": "router.versioned",
+   "id": "O061"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/ssh-certificate-template-router.ts",
+   "line": 44,
+   "code": "await server.services.auditLog.createAuditLog({",
+   "id": "O062"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/launchpad/cypress/e2e/project-setup.cy.ts",
+   "line": 23,
+   "code": "expect(relativePath, `file index ${i}`).to.include(getPathForPlatform(expectedFileOrder[i])) // assert file order",
+   "id": "O063"
+  },
+  {
+   "repo": "getsentry/sentry-javascript",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "dev-packages/node-integration-tests/suites/pino/test.ts",
+   "line": 29,
+   "code": "await createRunner(__dirname, 'scenario.mjs')",
+   "id": "O064"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/pki-discovery-router.ts",
+   "line": 451,
+   "code": "server.route({",
+   "id": "O065"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/lib/server/avatar.ts",
+   "line": 11,
+   "code": "const existing = await prisma.avatar.findUnique({",
+   "id": "O066"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/test/security_solution_api_integration/test_suites/detections_response/user_roles/trial_license_complete_tier/read_privileges.ts",
+   "line": 117,
+   "code": "expect(body).to.eql({",
+   "id": "O067"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/evals/server/routes/datasets/delete_example.ts",
+   "line": 30,
+   "code": "router.versioned",
+   "id": "O068"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/v3/environmentVariables/environmentVariablesRepository.server.ts",
+   "line": 476,
+   "code": "await tx.environmentVariableValue.update({",
+   "id": "O069"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "public/app/plugins/datasource/loki/queryHints.ts",
+   "line": 58,
+   "code": "hints.push({",
+   "id": "O070"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "app/code/Magento/Ui/view/base/web/js/form/element/date.js",
+   "line": 17,
+   "code": "return Abstract.extend({",
+   "id": "O071"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v2/secret-rotation-v2-routers/secret-rotation-v2-endpoints.ts",
+   "line": 95,
+   "code": "await server.services.auditLog.createAuditLog({",
+   "id": "O072"
+  },
+  {
+   "repo": "Azure/azure-sdk-for-js",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "sdk/maps/maps-route-rest/samples-dev/matrix.ts",
+   "line": 38,
+   "code": "const routeMatrixResult = await client.path(\"/route/matrix/sync/{format}\", \"json\").post({",
+   "id": "O073"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/observability/test/api_integration_deployment_agnostic/services/alerting_api.ts",
+   "line": 1214,
+   "code": "? es.deleteByQuery({",
+   "id": "O074"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/core/packages/ui-settings/server-internal/src/routes/internal/set.ts",
+   "line": 83,
+   "code": "router.post(",
+   "id": "O075"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/features/users/repositories/UserRepository.ts",
+   "line": 1220,
+   "code": "const user = await this.prismaClient.user.findUnique({",
+   "id": "O076"
+  },
+  {
+   "repo": "documenso/documenso",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/prisma/seed/templates.ts",
+   "line": 61,
+   "code": "return await prisma.envelope.create({",
+   "id": "O077"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/packages/shared/kbn-search-connectors/lib/update_connector_service_type.ts",
+   "line": 19,
+   "code": "await client.transport.request<Result>({",
+   "id": "O078"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/spaces/server/routes/api/external/update_objects_spaces.ts",
+   "line": 41,
+   "code": "router.post(",
+   "id": "O079"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/test/security_solution_api_integration/test_suites/detections_response/rules_management/rule_bulk_actions/trial_license_complete_tier/perform_bulk_action.ts",
+   "line": 2651,
+   "code": "const { body } = await detectionsApi",
+   "id": "O080"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/security_solution/common/endpoint/data_loaders/index_endpoint_hosts.ts",
+   "line": 383,
+   "code": "response.policyResponses = await esClient",
+   "id": "O081"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/webkit.cy.ts",
+   "line": 14,
+   "code": "expect(err.message).to.include('`forceNetworkError` was passed, but it is not currently supported in experimental WebKit.')",
+   "id": "O082"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/features/credits/repositories/CreditsRepository.ts",
+   "line": 126,
+   "code": "return await prismaClient.creditBalance.findUnique({",
+   "id": "O083"
+  },
+  {
+   "repo": "getoutline/outline",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "server/queues/tasks/DetachDraftsFromCollectionTask.ts",
+   "line": 31,
+   "code": "const documents = await Document.scope(\"withDrafts\").findAll({",
+   "id": "O084"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/identity-tls-cert-auth-router.ts",
+   "line": 424,
+   "code": "await server.services.auditLog.createAuditLog({",
+   "id": "O085"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/cypress/cy.cy.js",
+   "line": 450,
+   "code": "expect(fn).to.throw().with.property('message')",
+   "id": "O086"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/api/v2/src/modules/auth/oauth2/controllers/oauth2.controller.e2e-spec.ts",
+   "line": 515,
+   "code": "membership = await membershipRepositoryFixture.create({",
+   "id": "O087"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/commands/actions/clear.cy.ts",
+   "line": 461,
+   "code": "expect(err.message).not.to.include('undefined')",
+   "id": "O088"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/osquery/server/routes/live_query/get_live_query_details_route.ts",
+   "line": 39,
+   "code": "router.versioned",
+   "id": "O089"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/agent_builder/server/routes/mcp.ts",
+   "line": 175,
+   "code": "return response.customError({",
+   "id": "O090"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/test/api_integration_deployment_agnostic/apis/alerting_v2/rule/create_rule.ts",
+   "line": 115,
+   "code": "const response = await supertestWithoutAuth",
+   "id": "O091"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/workplaceai/plugins/workplace_ai_app/server/routes/ears/revoke_token.ts",
+   "line": 31,
+   "code": "router.post(",
+   "id": "O092"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/commands/connectors.cy.js",
+   "line": 1515,
+   "code": "expect(err.message).to.include('`cy.its()` waited for the specified property `foo` to become accessible, but it never did.')",
+   "id": "O093"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/server/test/integration/http_requests_spec.js",
+   "line": 521,
+   "code": "expect(res.body).to.include('Cypress.action(\"spec:script:error\", {')",
+   "id": "O094"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/plugins/shared/controls/server/options_list/options_list_suggestions_route.ts",
+   "line": 28,
+   "code": "router.versioned",
+   "id": "O095"
+  },
+  {
+   "repo": "bookshelf/bookshelf",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/integration/model.js",
+   "line": 1134,
+   "code": "expect(fetchedBlog.attributes).to.include({name: 'A Cool Blog', site_id: 1});",
+   "id": "O096"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/identity-azure-auth-router.ts",
+   "line": 122,
+   "code": "server.route({",
+   "id": "O097"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/services/projectSettings.server.ts",
+   "line": 280,
+   "code": "this.#prismaClient.project.findFirst({",
+   "id": "O098"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/oidc-router.ts",
+   "line": 331,
+   "code": "server.route({",
+   "id": "O099"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/test/security_solution_api_integration/test_suites/entity_analytics/monitoring/trial_license_complete_tier/privileged_users/api.ts",
+   "line": 287,
+   "code": "await entityAnalyticsApi.createPrivMonUser({",
+   "id": "O100"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/issues/28151-broken-nested-set/tests.ts",
+   "line": 15,
+   "code": "const user = await prisma.user.create({",
+   "id": "O101"
+  },
+  {
+   "repo": "npm/cli",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "workspaces/arborist/test/arborist/build-ideal-tree.js",
+   "line": 2148,
+   "code": "const path = t.testdir({",
+   "id": "O102"
+  },
+  {
+   "repo": "npm/cli",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "workspaces/arborist/test/arborist/reify.js",
+   "line": 2625,
+   "code": "const path = t.testdir({",
+   "id": "O103"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/ai-mcp-endpoint-router.ts",
+   "line": 765,
+   "code": "server.route({",
+   "id": "O104"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/admin-router.ts",
+   "line": 556,
+   "code": "server.route({",
+   "id": "O105"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/routes/_app.orgs.$organizationSlug.settings.billing/route.tsx",
+   "line": 44,
+   "code": "const organization = await prisma.organization.findFirst({",
+   "id": "O106"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/test/serverless/api_integration/test_suites/index_management/datastreams/ds_common.ts",
+   "line": 59,
+   "code": "await es.cluster.putSettings({",
+   "id": "O107"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/optimistic-concurrency-control/tests.ts",
+   "line": 32,
+   "code": "await prisma.resource.updateMany({",
+   "id": "O108"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/server/test/integration/server_spec.js",
+   "line": 1302,
+   "code": "expect(res.body).to.include(`document.domain = \\'${superDomain}\\'`)",
+   "id": "O109"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/ee/routes/v1/ai-mcp-endpoint-router.ts",
+   "line": 196,
+   "code": "server.route({",
+   "id": "O110"
+  },
+  {
+   "repo": "hapijs/hapi",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "test/headers.js",
+   "line": 345,
+   "code": "const server = Hapi.server({ routes: { security: { xframe: true } } });",
+   "id": "O111"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/fleet/server/services/agents/actions.ts",
+   "line": 576,
+   "code": "const results = await esClient.search({",
+   "id": "O112"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/test/api_integration/apis/data_views/scripted_fields_crud/put_scripted_field/errors.ts",
+   "line": 34,
+   "code": "const response1 = await supertest.post('/api/index_patterns/index_pattern').send({",
+   "id": "O113"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "backend/src/server/routes/v1/project-router.ts",
+   "line": 555,
+   "code": "server.route({",
+   "id": "O114"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/security/plugins/security_solution/server/lib/entity_analytics/entity_details/routes/entity_details_highlight.ts",
+   "line": 33,
+   "code": "router.versioned",
+   "id": "O115"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/client/tests/functional/extended-where/findUnique.ts",
+   "line": 63,
+   "code": "const data = await prisma.user.findUnique({",
+   "id": "O116"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/observability/test/api_integration_deployment_agnostic/apis/alerting/custom_threshold/group_by_fired.ts",
+   "line": 120,
+   "code": "const createdRule = await alertingApi.createRule({",
+   "id": "O117"
+  },
+  {
+   "repo": "documenso/documenso",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/trpc/server/template-router/get-templates-by-ids.ts",
+   "line": 40,
+   "code": "const envelopes = await prisma.envelope.findMany({",
+   "id": "O118"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/solutions/observability/plugins/slo/server/services/get_preview_data.ts",
+   "line": 484,
+   "code": "const response = await this.esClient.search({",
+   "id": "O119"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "apps/webapp/app/services/metadata/updateMetadata.server.ts",
+   "line": 513,
+   "code": "await this._prisma.taskRun.update({",
+   "id": "O120"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/driver/cypress/e2e/commands/actions/type_errors.cy.ts",
+   "line": 63,
+   "code": "expect(err.message).to.include('Fix this problem, or use `{force: true}` to disable error checking.')",
+   "id": "O121"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "x-pack/platform/plugins/shared/alerting/server/saved_objects/index.ts",
+   "line": 275,
+   "code": "savedObjects.registerType({",
+   "id": "O122"
+  },
+  {
+   "repo": "npm/cli",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "workspaces/arborist/test/fixtures/reify-cases/dep-installed-without-bin-link.js",
+   "line": 3,
+   "code": "const path = t.testdir({",
+   "id": "O123"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "src/platform/plugins/shared/data/server/search/routes/search.ts",
+   "line": 29,
+   "code": "router.versioned",
+   "id": "O124"
+  },
+  {
+   "repo": "getoutline/outline",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "plugins/gitlab/server/api/gitlab.ts",
+   "line": 306,
+   "code": "const integration = await Integration.findOne({",
+   "id": "O125"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "packages/cli/src/public-api/v1/handlers/credentials/credentials.service.ts",
+   "line": 85,
+   "code": "return await Container.get(SharedCredentialsRepository).findOne({",
+   "id": "O126"
+  },
+  {
+   "repo": "handlebars-lang/handlebars.js",
+   "pattern": "deep_nested_include",
+   "severity": "medium",
+   "file": "spec/builtins.js",
+   "line": 471,
+   "code": "expectTemplate(",
+   "id": "O127"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 1105,
+   "code": "select * from [users] where not [first_name] = ? a...",
+   "id": "O128"
+  },
+  {
+   "repo": "Azure/azure-sdk-for-js",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "sdk/cosmosdb/cosmos/samples/v4/javascript/ClientSideEncryption.js",
+   "line": 129,
+   "code": "SELECT * FROM c WHERE c.salary = @salary...",
+   "id": "O129"
+  },
+  {
+   "repo": "Azure/azure-sdk-for-js",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "sdk/cosmosdb/cosmos/samples/v3/javascript/QueryThroughput.js",
+   "line": 22,
+   "code": "Select * from c order by c._ts...",
+   "id": "O130"
+  },
+  {
+   "repo": "Azure/azure-sdk-for-js",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js",
+   "line": 268,
+   "code": "SELECT * FROM r ORDER BY r.field, r.key...",
+   "id": "O131"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "backend/src/ee/services/dynamic-secret/providers/cassandra.ts",
+   "line": 70,
+   "code": "SELECT * FROM system_schema.keyspaces...",
+   "id": "O132"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 1713,
+   "code": "select * from [users] where [id] = ? or [id] in (?...",
+   "id": "O133"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "src/platform/packages/shared/kbn-synthtrace/src/scenarios/complete_trace.ts",
+   "line": 74,
+   "code": "SELECT * FROM orders...",
+   "id": "O134"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 4933,
+   "code": "select * from \"users\" inner join \"contacts\" on \"us...",
+   "id": "O135"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 10214,
+   "code": "with `withClause` as (select `foo` from `users`) i...",
+   "id": "O136"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/tape/raw.js",
+   "line": 136,
+   "code": "select * from users where id = ?...",
+   "id": "O137"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 3919,
+   "code": "select * from \"users\" having \"baz\" in (?, ?, ?) or...",
+   "id": "O138"
+  },
+  {
+   "repo": "logto-io/logto",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "packages/schemas/alterations/1.7.0-1688375200-sync-cloud-m2m-to-logto-config.ts",
+   "line": 46,
+   "code": "\n      select * from logto_configs where key = ...",
+   "id": "O139"
+  },
+  {
+   "repo": "cube-js/cube",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "packages/cubejs-schema-compiler/test/integration/utils/BaseDbRunner.ts",
+   "line": 95,
+   "code": "SELECT * FROM ...",
+   "id": "O140"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 1071,
+   "code": "select * from \"users\" where (\"id\" = ? or not \"id\" ...",
+   "id": "O141"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 2001,
+   "code": "select * from [users] where [id] = ? union select ...",
+   "id": "O142"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 2938,
+   "code": "select * from [users] where [id] in (select max([i...",
+   "id": "O143"
+  },
+  {
+   "repo": "knex/knex",
+   "pattern": "select_star",
+   "severity": "high",
+   "file": "test/unit/query/builder.js",
+   "line": 8155,
+   "code": "insert into \"votes\" select * from \"votes\" where \"i...",
+   "id": "O144"
+  },
+  {
+   "repo": "gatsbyjs/gatsby",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/gatsby-codemods/src/transforms/navigate-calls.js",
+   "line": 112,
+   "code": "j(el).find(j.CallExpression, {",
+   "id": "O145"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 1099,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(3) > td:nth-child(3)').text().trim(), 'aktiv', 'check row 3')",
+   "id": "O146"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/studio/components/grid/components/menu/ColumnMenu.tsx",
+   "line": 59,
+   "code": "const currentSort = sorts.find((s) => s.column === columnKey)",
+   "id": "O147"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/libs/console/legacy-ce/src/lib/features/BrowseRows/components/RunQuery/hooks/useTableSchema.ts",
+   "line": 8,
+   "code": "state.tables.allSchemas.find((schema: NormalizedTable) => {",
+   "id": "O148"
+  },
+  {
+   "repo": "documenso/documenso",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/ui/components/document/document-global-auth-access-select.tsx",
+   "line": 45,
+   "code": "?.map((val) => authOptions.find((option) => option.value === val))",
+   "id": "O149"
+  },
+  {
+   "repo": "typeorm/typeorm",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/query-builder/SelectQueryBuilder.ts",
+   "line": 4295,
+   "code": "const existJoin = this.joins.find(",
+   "id": "O150"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ce/src/assets/common/codegen/http4k-basic/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,t,n)=>{n.r(t),n.d(t,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O151"
+  },
+  {
+   "repo": "druid-io/druid",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "web-console/src/views/explore-view/components/filter-pane/filter-menu/filter-menu.tsx",
+   "line": 238,
+   "code": "const column = columns.find(({ name }) => name === columnName);",
+   "id": "O152"
+  },
+  {
+   "repo": "metabase/metabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e/support/helpers/e2e-datamodel-helpers.ts",
+   "line": 731,
+   "code": "return getTablePickerDatabase(databaseName).find('input[type=\"checkbox\"]');",
+   "id": "O153"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/core/src/execution-engine/node-execution-context/utils/validate-value-against-schema.ts",
+   "line": 44,
+   "code": "const schemaEntry = schema.find((s) => s.id === key);",
+   "id": "O154"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/libs/console/legacy-ce/src/lib/features/MetadataAPI/hooks/useLocalRelationships.ts",
+   "line": 55,
+   "code": "const destination = tableRlns.find(tr => {",
+   "id": "O155"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/observability/test/api_integration_deployment_agnostic/apis/synthetics/create_monitor_project_private_location.ts",
+   "line": 1440,
+   "code": "const packagePolicy = apiResponsePolicy.body.items.find(",
+   "id": "O156"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_object_attribute_options_context.js",
+   "line": 507,
+   "code": "assert.equal($row.find('td:first-child').text(), 'value_2', 'third option label should be value_2')",
+   "id": "O157"
+  },
+  {
+   "repo": "pocketbase/pocketbase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "ui/src/settings/sync/pageImportCollections.js",
+   "line": 38,
+   "code": "return data.isRawValid && !data.oldCollections.find((c) => c.id == newC.id);",
+   "id": "O158"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/docs/app/api/crawlers/route.ts",
+   "line": 47,
+   "code": "section = flattenedSections.find(",
+   "id": "O159"
+  },
+  {
+   "repo": "nexus/nexus",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "docs/src/utils/treeData.ts",
+   "line": 44,
+   "code": "let tmp = prevItems && prevItems.find(({ label }: any) => label == part)",
+   "id": "O160"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/admin/meta-boxes-order.js",
+   "line": 1054,
+   "code": "var refund_cost_fields = $row.find( '.refund input:not(.refund_order_item_qty)' );",
+   "id": "O161"
+  },
+  {
+   "repo": "gatsbyjs/gatsby",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/production-runtime/cypress/integration/static-query.js",
+   "line": 60,
+   "code": "cy.getTestElement(`use-static-query-destructuring`)",
+   "id": "O162"
+  },
+  {
+   "repo": "graphile/postgraphile",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "graphile-build/graphile-simplify-inflection/src/index.ts",
+   "line": 429,
+   "code": "const pk = (relation.remoteResource.uniques as PgResourceUnique[]).find(",
+   "id": "O163"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ce/src/assets/common/codegen/javascript-express/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,t,n)=>{n.r(t),n.d(t,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O164"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/test/security_solution_api_integration/test_suites/entity_analytics/risk_engine/trial_license_complete_tier/risk_engine_so_config.ts",
+   "line": 67,
+   "code": "const soId2 = await kibanaServer.savedObjects.find({",
+   "id": "O165"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/functional/services/monitoring/logstash_overview.js",
+   "line": 16,
+   "code": "const pageId = await retry.try(() => testSubjects.find(SUBJ_OVERVIEW_PAGE));",
+   "id": "O166"
+  },
+  {
+   "repo": "strapi/strapi",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/core/admin/admin/src/features/Widgets.tsx",
+   "line": 177,
+   "code": "const affectedRow = widgetRows.find(",
+   "id": "O167"
+  },
+  {
+   "repo": "DevExpress/testcafe",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/client/fixtures/automation/content-editable/regression-test/index-test.js",
+   "line": 99,
+   "code": "equal($('#2').find('p:first')[0].childNodes[0].nodeValue,",
+   "id": "O168"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/files_and_attachments/upload_files_spec.js",
+   "line": 402,
+   "code": "cy.get('@filePreviewModal').uiGetContentFilePreviewModal().find('img').should((img) => {",
+   "id": "O169"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/admin/wc-shipping-zone-methods.js",
+   "line": 585,
+   "code": "const innerTables = htmlContent.find( 'table.form-table' );",
+   "id": "O170"
+  },
+  {
+   "repo": "chatwoot/chatwoot",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/javascript/widget/helpers/availabilityHelpers.js",
+   "line": 127,
+   "code": "Array.from({ length: DAYS_IN_WEEK }, (_, i) => i + 1)",
+   "id": "O171"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/visual_builder_page.ts",
+   "line": 422,
+   "code": "const elements = await this.testSubjects.findAll('AddAddBtn');",
+   "id": "O172"
+  },
+  {
+   "repo": "nocodb/nocodb",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/nocodb/src/public/js/vuetify.2.x.min.js",
+   "line": 6,
+   "code": "!function(t,e){\"object\"==typeof exports&&\"object\"==typeof module?module.exports=e(require(\"vue\")):\"function\"==typeof define&&define.amd?define([\"vue\"],e):\"object\"==typeof exports?exports.Vuetify=e(req",
+   "id": "O173"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_ticket_selector_expert_conditions.js",
+   "line": 639,
+   "code": "assert.equal(el.find('.js-filterElement:nth-child(6) .js-shadow option:selected').text(), 'Org 1', 'Org 1 input value')",
+   "id": "O174"
+  },
+  {
+   "repo": "puppeteer/puppeteer",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "tools/doctest/src/doctest.ts",
+   "line": 194,
+   "code": "const {extracted, original} = positions.find(({extracted}) => {",
+   "id": "O175"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/cypress/e2e/Regression/ClientSide/Widgets/Iframe/IframeTest_spec.ts",
+   "line": 89,
+   "code": "getIframeBody(0)",
+   "id": "O176"
+  },
+  {
+   "repo": "metabase/metabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/metabase/visualizations/visualizations/Map/Map.jsx",
+   "line": 233,
+   "code": "return cols.find(isDimension)?.name;",
+   "id": "O177"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/packages/shared/kbn-elastic-assistant-common/impl/data_anonymization/helpers/index.ts",
+   "line": 20,
+   "code": "}): boolean => anonymizationFields.find((a) => a.field === field)?.allowed ?? false;",
+   "id": "O178"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/test/security_solution_cypress/cypress/e2e/detection_response/detection_engine/rule_creation/eql_rule.cy.ts",
+   "line": 168,
+   "code": "cy.get(RULES_CREATION_FORM).find(EQL_QUERY_INPUT).scrollIntoView();",
+   "id": "O179"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/observability/plugins/synthetics/server/alert_rules/status_rule/status_rule_executor.ts",
+   "line": 233,
+   "code": "const name = this.monitors.find((m) => m.id === configId)?.attributes.name ?? configId;",
+   "id": "O180"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "cypress-tests/cypress/e2e/happyPath/appbuilder/commonTestcases/components/datePickerHappyPath.cy.js",
+   "line": 352,
+   "code": "cy.get(commonWidgetSelector.draggableWidget(commonWidgetText.toggleswitch1))",
+   "id": "O181"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/src/widgets/CategorySliderWidget/widget/index.tsx",
+   "line": 236,
+   "code": "const selectedValue = sliderOptions.find(",
+   "id": "O182"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/observability/plugins/uptime/server/legacy_uptime/lib/alerts/status_check.ts",
+   "line": 475,
+   "code": "const downMonCount = downMonitorsByLocation.find(",
+   "id": "O183"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/AppBuilder/_stores/slices/environmentsAndVersionsSlice.js",
+   "line": 340,
+   "code": "const appVersionEnvironment = get().environments.find(",
+   "id": "O184"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/alerting_api_integration/spaces_only/tests/actions/connector_types/stack/webhook.ts",
+   "line": 28,
+   "code": "const connector = response.body.find((conn: { id: string }) => conn.id === connectorId);",
+   "id": "O185"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/apps/discover/context_awareness/extensions/_get_cell_renderers.ts",
+   "line": 129,
+   "code": "const logLevels = await testSubjects.findAll('exampleDataSourceProfileLogLevel');",
+   "id": "O186"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/chat/jquery-3.6.0.min.js",
+   "line": 2,
+   "code": "!function(e,t){\"use strict\";\"object\"==typeof module&&\"object\"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error(\"jQuery requires a window with a docum",
+   "id": "O187"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/frontend/add-to-cart.js",
+   "line": 205,
+   "code": "if ( fragments && ! wc_add_to_cart_params.is_cart && $button.parent().find( '.added_to_cart' ).length === 0 ) {",
+   "id": "O188"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/studio/lib/api/filterHelpers.ts",
+   "line": 77,
+   "code": "const property = properties.find((prop) => prop.name === condition.propertyName)",
+   "id": "O189"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_ticket_selector_expert_conditions.js",
+   "line": 258,
+   "code": "assert.notOk(el.find('.js-filterElement:nth-child(2) .filter-controls .js-remove').hasClass('is-disabled'), 'number condition is currently removable')",
+   "id": "O190"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/shared/data/server/query/route_handler_context.ts",
+   "line": 213,
+   "code": "await soClient.find<InternalSavedQueryAttributes>({",
+   "id": "O191"
+  },
+  {
+   "repo": "Automattic/mongoose",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "lib/document.js",
+   "line": 5196,
+   "code": "if (pathsToCheck.find(path => isPathExcluded(this.$__.isSelected, path))) {",
+   "id": "O192"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/private/monitoring/server/rules/thread_pool_rejections_rule_base.ts",
+   "line": 226,
+   "code": "const ccs = alertStates.find((state) => state.ccs)?.ccs;",
+   "id": "O193"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/assets/javascripts/app/lib/bootstrap/popover.js",
+   "line": 64,
+   "code": "$tip.find('.popover-title').text(title)",
+   "id": "O194"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_core_workflow.js",
+   "line": 45,
+   "code": "el.find('.js-add').trigger('click')",
+   "id": "O195"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/client/tests/functional/interactive-transactions/tests.ts",
+   "line": 966,
+   "code": "prisma.$transaction((tx) => tx.user.findMany()),",
+   "id": "O196"
+  },
+  {
+   "repo": "metabase/metabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/metabase/public/components/EmbedModal/StaticEmbedSetupPane/ServerEmbedCodePane.tsx",
+   "line": 127,
+   "code": "getEmbedServerCodeExampleOptions({",
+   "id": "O197"
+  },
+  {
+   "repo": "medusajs/medusa",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/admin/dashboard/src/routes/orders/order-create-exchange/components/exchange-create-form/exchange-inbound-section.tsx",
+   "line": 230,
+   "code": "const actionId = previewInboundItems",
+   "id": "O198"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/plugins/security_solution/public/assistant/content/prompt_contexts/use_find_prompt_contexts.tsx",
+   "line": 41,
+   "code": "prompts.find(({ promptId }) => promptId === 'alertEvaluation')?.prompt ??",
+   "id": "O199"
+  },
+  {
+   "repo": "feathersjs/feathers",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/adapter-tests/src/syntax.ts",
+   "line": 149,
+   "code": "const data = await service.find({",
+   "id": "O200"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/libs/console/legacy-ce/src/lib/dataSources/common/index.ts",
+   "line": 275,
+   "code": "const rolePermissions = tablePermissions.find(p => p.role_name === role);",
+   "id": "O201"
+  },
+  {
+   "repo": "gatsbyjs/gatsby",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/development-runtime/cypress/integration/hot-reloading/error-handling/compile-error.js",
+   "line": 33,
+   "code": "cy.getFastRefreshOverlay()",
+   "id": "O202"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/cypress/e2e/Regression/ClientSide/Widgets/Multiselect/MultiSelect2_spec.js",
+   "line": 123,
+   "code": "cy.get(formWidgetsPage.multiselectwidgetv2)",
+   "id": "O203"
+  },
+  {
+   "repo": "strapi/strapi",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/core/content-type-builder/admin/src/utils/conditions.ts",
+   "line": 57,
+   "code": "const dependsOnField = availableFields.find((field) => field.name === fieldVar.var);",
+   "id": "O204"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/next/src/views/List/handleServerFunction.tsx",
+   "line": 103,
+   "code": "globalConfig: payload.config.globals.find((global) => global.slug === collectionSlug),",
+   "id": "O205"
+  },
+  {
+   "repo": "microsoft/playwright",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "browser_patches/firefox/juggler/TargetRegistry.js",
+   "line": 455,
+   "code": "return helper.collectAllBrowsingContexts(this._linkedBrowser.browsingContext).find(bc => helper.browsingContextToFrameId(bc) === frameId);",
+   "id": "O206"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/reporter/cypress/e2e/commands.cy.ts",
+   "line": 466,
+   "code": "cy.contains('#doesnt-exist').closest('.command').find('.num-elements')",
+   "id": "O207"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/test/security_solution_cypress/cypress/tasks/create_new_rule.ts",
+   "line": 603,
+   "code": "cy.get(RULES_CREATION_FORM).find(EQL_QUERY_INPUT).should('be.visible');",
+   "id": "O208"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/test/insight-testing/interactions.ts",
+   "line": 104,
+   "code": "const dataset = (logic.values.indexedResults as IndexedTrendResult[]).find(",
+   "id": "O209"
+  },
+  {
+   "repo": "lightdash/lightdash",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/frontend/src/features/sourceCodeEditor/components/SourceCodeEditorContent.tsx",
+   "line": 194,
+   "code": "const readme = rootDirectory.entries.find(",
+   "id": "O210"
+  },
+  {
+   "repo": "druid-io/druid",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "web-console/src/views/explore-view/components/filter-pane/filter-menu/values-filter-control/values-filter-control.tsx",
+   "line": 84,
+   "code": "const showSearch = querySource.columns.find(c => c.name === column)?.sqlType !== 'BOOLEAN';",
+   "id": "O211"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 643,
+   "code": "assert.equal(el.find('table > thead > tr').length, 1, 'row count')",
+   "id": "O212"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/plugins/security_solution/public/timelines/components/timeline/body/renderers/get_row_renderer.ts",
+   "line": 25,
+   "code": "const renderer = rowRenderers.find((rowRenderer) => rowRenderer.isInstance(data)) ?? null;",
+   "id": "O213"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ee/src/assets/common/codegen/java-spring-boot/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,n,t)=>{t.r(n),t.d(n,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O214"
+  },
+  {
+   "repo": "vercel/vercel",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/cli/src/util/flags/rollout.ts",
+   "line": 254,
+   "code": "const variant = flag.variants.find(candidate => candidate.value === value);",
+   "id": "O215"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/ProductVideo/view/adminhtml/web/js/video-modal.js",
+   "line": 40,
+   "code": "this.element.prev().find('[data-role=\"add-video-button\"]').on('click', this.showModal.bind(this));",
+   "id": "O216"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/functional_with_es_ssl/apps/cases/group2/list_view.ts",
+   "line": 1038,
+   "code": "const input = await testSubjects.find('column-selection-popover-search');",
+   "id": "O217"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/libs/console/legacy-ce/src/lib/features/DataSource/postgres/introspection/getTableColumns.ts",
+   "line": 94,
+   "code": "introspectionResult.data.__schema.types.find(",
+   "id": "O218"
+  },
+  {
+   "repo": "pocketbase/pocketbase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "ui/src/settings/sync/pageImportCollections.js",
+   "line": 62,
+   "code": "const oldFieldByName = oldFields.find((f) => f.name == field.name);",
+   "id": "O219"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/shared/data_view_field_editor/public/components/field_editor/field_editor.tsx",
+   "line": 76,
+   "code": "const label = RUNTIME_FIELD_OPTIONS.find(({ value }) => value === type)?.label;",
+   "id": "O220"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/test/security_solution_cypress/cypress/e2e/detection_response/rule_management/rule_details/backfill_group.cy.ts",
+   "line": 73,
+   "code": "getBackfillsTableRows().eq(1).find(RULE_BACKFILLS_COLUMN_TOTAL).contains('1');",
+   "id": "O221"
+  },
+  {
+   "repo": "clickhouse/clickhouse",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "utils/trace-visualizer/js/bootstrap.min.js",
+   "line": 6,
+   "code": "!function(t,e){\"object\"==typeof exports&&\"undefined\"!=typeof module?module.exports=e():\"function\"==typeof define&&define.amd?define(e):(t=\"undefined\"!=typeof globalThis?globalThis:t||self).bootstrap=e",
+   "id": "O222"
+  },
+  {
+   "repo": "logto-io/logto",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/schemas/src/utils/oidc-private-key.ts",
+   "line": 85,
+   "code": "const currentKey = normalizeOidcPrivateKeys(privateKeys).find(",
+   "id": "O223"
+  },
+  {
+   "repo": "webstudio-is/webstudio",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/builder/app/builder/features/style-panel/sections/transforms/transform-utils.ts",
+   "line": 153,
+   "code": "const styleDecl = styles.find(",
+   "id": "O224"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/packages/shared/kbn-test-jest-helpers/src/testbed/testbed.ts",
+   "line": 273,
+   "code": "value: col.find('div.euiTableCellContent').text(),",
+   "id": "O225"
+  },
+  {
+   "repo": "calcom/cal.com",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/web/modules/event-types/components/tabs/advanced/EventAdvancedTab.tsx",
+   "line": 446,
+   "code": "const nameBookingField = formMethods.getValues().bookingFields.find((field) => field.name === \"name\");",
+   "id": "O226"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/fleet/public/applications/fleet/sections/agent_policy/create_package_policy_page/components/steps/components/dataset_component.tsx",
+   "line": 68,
+   "code": "const existingGenericStream = datasetOptions.find((ds) => ds.label === GENERIC_DATASET_NAME);",
+   "id": "O227"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/TooljetDatabase/Forms/EditColumnForm.jsx",
+   "line": 250,
+   "code": "const disabledDataType = dataTypes.find((e) => e.value === dataType);",
+   "id": "O228"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/app/cypress/e2e/runner/sessions.ui.cy.ts",
+   "line": 25,
+   "code": "cy.get('@setupSession').find('.command-alias').contains('runSetup')",
+   "id": "O229"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/AppBuilder/RightSideBar/Inspector/EventManager.jsx",
+   "line": 255,
+   "code": "const targetComponentMeta = componentTypes.find(",
+   "id": "O230"
+  },
+  {
+   "repo": "triggerdotdev/trigger.dev",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/webapp/app/components/metrics/SaveToDashboardDialog.tsx",
+   "line": 81,
+   "code": "const available = customDashboards.find((d) => d.widgetCount < widgetLimit);",
+   "id": "O231"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/enterprise/guest_accounts/guest_invitation_ui_spec.ts",
+   "line": 124,
+   "code": "cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite people to ${testTeam.display_name}`);",
+   "id": "O232"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/__helpers/shared/clearAndSeed/seed.ts",
+   "line": 135,
+   "code": "if (!uploadsDirCache[snapshotKey].find((cache) => cache.originalDir === dir)) {",
+   "id": "O233"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 650,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(1) > td:nth-child(3)').text().trim(), 'aktiv', 'check row 1')",
+   "id": "O234"
+  },
+  {
+   "repo": "dagster-io/dagster",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "js_modules/ui-core/src/dagstertype/DagsterType.tsx",
+   "line": 15,
+   "code": "const tableSchema = type.metadataEntries.find(gqlTypePredicate('TableSchemaMetadataEntry'));",
+   "id": "O235"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 990,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(2) > td').length, 0)",
+   "id": "O236"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/test/security_solution_endpoint/apps/integrations/policy_details.ts",
+   "line": 392,
+   "code": "await (await testSubjects.find('policyDetailsBackLink')).click();",
+   "id": "O237"
+  },
+  {
+   "repo": "apache/superset",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "superset-frontend/plugins/plugin-chart-echarts/src/Graph/EchartsGraph.tsx",
+   "line": 106,
+   "code": "const node = data.find(item => item.id === e.data.id);",
+   "id": "O238"
+  },
+  {
+   "repo": "novu-co/novu",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/dashboard/src/components/template-store/featured.ts",
+   "line": 26,
+   "code": "const match = items.find((item) => {",
+   "id": "O239"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/src/widgets/wds/WDSTableWidget/config/propertyPaneConfig/contentConfig.ts",
+   "line": 104,
+   "code": "!Object.values(props.primaryColumns).find(",
+   "id": "O240"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/scenes/billing/billingProductLogic.ts",
+   "line": 440,
+   "code": "const reasonObject = TRIAL_CANCEL_REASONS.find((r) => r.reason === reason)",
+   "id": "O241"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/@n8n/ai-workflow-builder.ee/src/tools/engines/node-search-engine.ts",
+   "line": 136,
+   "code": "const connectionResult = nodesWithConnectionType.find(",
+   "id": "O242"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ce/src/assets/common/codegen/javascript-express/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,t,n)=>{n.r(t),n.d(t,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O243"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form.js",
+   "line": 259,
+   "code": "assert.equal(el.find('[name=\"input2\"]').prop('required'), true, 'check input2 required')",
+   "id": "O244"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/reporter/cypress/e2e/suites.cy.ts",
+   "line": 90,
+   "code": "cy.get('@suiteWrapper')",
+   "id": "O245"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/actions/server/lib/task_runner_factory.ts",
+   "line": 290,
+   "code": "const sourceInReferences = references.find((ref) => ref.name === 'source');",
+   "id": "O246"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/client/tests/functional/extensions/result.ts",
+   "line": 224,
+   "code": "const post = await xprisma.post.findFirst({ include: { user: { select: { fullName: true } } } })",
+   "id": "O247"
+  },
+  {
+   "repo": "microsoft/botframework-sdk",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "parsers/LU/JS/packages/lu/src/parser/lufile/parseFileContents.js",
+   "line": 2040,
+   "code": "let entityMatch = (item.entities || []).find(entity => entity.entity == entityName)",
+   "id": "O248"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/vendor/flot/jquery.flot.js",
+   "line": 1321,
+   "code": "placeholder.find(\".flot-temp-elem\").remove();",
+   "id": "O249"
+  },
+  {
+   "repo": "nightwatch/nightwatch",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/bot/commands/ticket/suggestion.ts",
+   "line": 76,
+   "code": "const guild = await guildService.find(msg.guild.id).catch(() => guildService.create(msg.guild)).catch(() => null)",
+   "id": "O250"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/api_integration_deployment_agnostic/apis/streams/processing_simulate.ts",
+   "line": 878,
+   "code": "const timestampDetected = detected_fields.find(",
+   "id": "O251"
+  },
+  {
+   "repo": "aws/aws-sdk-js-v3",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "private/aws-restjson-server/src/protocols/Aws_restJson1.ts",
+   "line": 3897,
+   "code": "const contentTypeHeaderKey: string | undefined = Object.keys(output.headers).find(key => key.toLowerCase() === 'content-type');",
+   "id": "O252"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/fleet/cypress/e2e/input_packages_real.cy.ts",
+   "line": 224,
+   "code": "cy.get('[data-test-subj=\"packagePolicyDataStreamType\"')",
+   "id": "O253"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/status/status_dnd_1_spec.js",
+   "line": 140,
+   "code": "cy.get('.date-picker__popper').find('.rdp-day_today').next('.rdp-day').click();",
+   "id": "O254"
+  },
+  {
+   "repo": "metabase/metabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/metabase/nav/components/WhatsNewNotification/utils.ts",
+   "line": 49,
+   "code": "return eligibleVersions",
+   "id": "O255"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/src/sagas/TernSaga.ts",
+   "line": 52,
+   "code": "const action = jsActions.find((action) => action?.config?.id === id);",
+   "id": "O256"
+  },
+  {
+   "repo": "mattermost/focalboard",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "webapp/src/octoUtils.tsx",
+   "line": 75,
+   "code": "const newSourceRootBlock = newBlocks.find((block) => block.id === newSourceBlockId)!",
+   "id": "O257"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/apps/discover/tabs/_restorable_state.ts",
+   "line": 839,
+   "code": "const hideNullValuesSwitchTab1AfterSwitch = await testSubjects.find(",
+   "id": "O258"
+  },
+  {
+   "repo": "growthbook/growthbook",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/back-end/src/services/organizations.ts",
+   "line": 474,
+   "code": "if (organization.members.find((m) => m.id === userId)) {",
+   "id": "O259"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/visualize_page.ts",
+   "line": 301,
+   "code": "const selectPage = await this.testSubjects.findAll('visualizeSelectSearch');",
+   "id": "O260"
+  },
+  {
+   "repo": "mattermost/focalboard",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "webapp/src/components/kanban/kanbanColumnHeader.tsx",
+   "line": 88,
+   "code": "const calculationProperty = groupCalculation ? props.board.cardProperties.find((property) => property.id === groupCalculation.propertyId) || defaultProperty : defaultProperty",
+   "id": "O261"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_ticket_selector_expert_conditions.js",
+   "line": 820,
+   "code": "assert.equal(el.find('.js-filterElement:nth-child(51) .js-value select option:selected:nth-child(3)').text(), 'C', 'B value selected')",
+   "id": "O262"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/tests/performance/requests/shopper/search-product.js",
+   "line": 50,
+   "code": "const title_actual = r.html().find( 'head title' ).text();",
+   "id": "O263"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table.js",
+   "line": 323,
+   "code": "assert.equal(el.find('table > thead > tr > th:nth-child(2)').text().trim(), '#', 'check header')",
+   "id": "O264"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/selectWoo/selectWoo.js",
+   "line": 1489,
+   "code": "$this.find('*:focus').trigger( 'blur' );",
+   "id": "O265"
+  },
+  {
+   "repo": "microsoft/playwright",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/html-reporter/src/testFileView.tsx",
+   "line": 103,
+   "code": "const resultWithVideo = test.results.find(result => result.attachments.some(attachment => attachment.name === 'video'));",
+   "id": "O266"
+  },
+  {
+   "repo": "jitsi/jitsi-meet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "react/features/recording/functions.ts",
+   "line": 81,
+   "code": "return state['features/recording'].sessionDatas.find(",
+   "id": "O267"
+  },
+  {
+   "repo": "shopware/shopware",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/Administration/Resources/app/administration/eslint-rules/deprecation-rules/no-deprecated-component-usage-checks/mt-checkbox.check.js",
+   "line": 86,
+   "code": "const updateValueEvent = node.startTag.attributes.find((attr) => {",
+   "id": "O268"
+  },
+  {
+   "repo": "getsentry/sentry-javascript",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "dev-packages/browser-integration-tests/suites/tracing/browserTracingIntegration/linked-traces-streamed/consistent-sampling/tracesSampler-precedence/test.ts",
+   "line": 130,
+   "code": "const navigationSpan = envelope[1][0][1].items.find(s => getSpanOp(s) === 'navigation')!;",
+   "id": "O269"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/visual_builder_page.ts",
+   "line": 768,
+   "code": "const metricValue = await this.testSubjects.find('tsvbMetricValue');",
+   "id": "O270"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/grafana-runtime/src/utils/DataSourceWithBackend.ts",
+   "line": 304,
+   "code": "if (rsp.data?.length && rsp.data.find((f: DataFrame) => f.meta?.channel)) {",
+   "id": "O271"
+  },
+  {
+   "repo": "DevExpress/testcafe",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/client/fixtures/automation/content-editable/select-and-type-content-editable-test/index-test.js",
+   "line": 786,
+   "code": "const $typedElement = $parent.find('i:first');",
+   "id": "O272"
+  },
+  {
+   "repo": "DevExpress/testcafe",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/functional/fixtures/api/es-next/selector/testcafe-fixtures/selector-test.js",
+   "line": 785,
+   "code": ".expect(Selector('form').find('input').exists).ok()",
+   "id": "O273"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/Catalog/view/adminhtml/web/js/custom-options.js",
+   "line": 320,
+   "code": "this.element.find('[id^=product_option_][id$=_required]').each(function () {",
+   "id": "O274"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ce/src/assets/common/codegen/go-serve-mux/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,t,n)=>{n.r(t),n.d(t,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O275"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/model_ticket.js",
+   "line": 274,
+   "code": "ticket5 = App.Ticket.find(5);",
+   "id": "O276"
+  },
+  {
+   "repo": "apache/superset",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "superset-frontend/src/SqlLab/actions/sqlLab.ts",
+   "line": 756,
+   "code": "const activeQueryEditor = queryEditors.find(",
+   "id": "O277"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/Bundle/view/frontend/web/js/product-summary.js",
+   "line": 76,
+   "code": "template = this.element",
+   "id": "O278"
+  },
+  {
+   "repo": "spree/spree",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "spree/admin/vendor/javascript/@codemirror--view.js",
+   "line": 3,
+   "code": "import{Text as t,RangeValue as e,RangeSet as i,MapMode as s,findClusterBreak as o,EditorSelection as n,Facet as r,StateEffect as l,ChangeSet as a,findColumn as h,CharCategory as c,EditorState as d,Ann",
+   "id": "O279"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/assets/javascripts/app/lib/base/codemirror.js",
+   "line": 1504,
+   "code": "var aPos = a.find(), bPos = b.find();",
+   "id": "O280"
+  },
+  {
+   "repo": "nuxt/nuxt",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/nuxt/src/components/plugins/loader.ts",
+   "line": 180,
+   "code": "const component = components.find(component => id === component.pascalName && validModes.has(component.mode))",
+   "id": "O281"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/app/cypress/e2e/cypress-origin-communicator.cy.ts",
+   "line": 141,
+   "code": "cy.get('.command-name-origin').find('.command-name-log').should('have.length', 2)",
+   "id": "O282"
+  },
+  {
+   "repo": "nocodb/nocodb",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/nc-gui/composables/useFormViewStore.ts",
+   "line": 69,
+   "code": "return _meta.value.columns.find((c) => c.id === activeField.value?.fk_column_id) ?? null",
+   "id": "O283"
+  },
+  {
+   "repo": "growthbook/growthbook",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/back-end/src/services/discussions.ts",
+   "line": 80,
+   "code": "return await DiscussionModel.find({",
+   "id": "O284"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/cases_api_integration/security_and_spaces/tests/trial/connectors/cases/cases_connector.ts",
+   "line": 1084,
+   "code": "cases.cases.find((theCase) => theCase.id === firstCaseId)!",
+   "id": "O285"
+  },
+  {
+   "repo": "opstrace/opstrace",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/app/src/client/services/Command/CommandService.tsx",
+   "line": 48,
+   "code": "const cmd = state.commands.find(cmd => cmd.id === id);",
+   "id": "O286"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 1283,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(2) > td:nth-child(3)').text().trim(), 'aktiv', 'check row 2')",
+   "id": "O287"
+  },
+  {
+   "repo": "growthbook/growthbook",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/front-end/pages/attributes/[property].tsx",
+   "line": 42,
+   "code": "() => attributeSchema.find((a) => a.property === property),",
+   "id": "O288"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/ConfigurableProduct/view/frontend/web/js/catalog-add-to-cart-mixin.js",
+   "line": 19,
+   "code": "var isConfigurable = !!_.find(form.serializeArray(), function (item) {",
+   "id": "O289"
+  },
+  {
+   "repo": "payloadcms/payload",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/payload/src/collections/operations/findDistinct.ts",
+   "line": 153,
+   "code": "const field = currentFields.find((e) => e.name === segment)!",
+   "id": "O290"
+  },
+  {
+   "repo": "medusajs/medusa",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/core/core-flows/src/cart/workflows/add-to-cart.ts",
+   "line": 234,
+   "code": "const variant = (variants ?? []).find(",
+   "id": "O291"
+  },
+  {
+   "repo": "SeleniumHQ/selenium",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "common/src/web/js/jquery-ui-1.12.1.min.js",
+   "line": 7,
+   "code": "}}(t.fn.show),hide:function(t){return function(s){if(i(s))return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode=\"hide\",this.effect.call(this,n)}}(t.fn.hide),toggle:function(t){ret",
+   "id": "O292"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/client/tests/e2e/prisma-client-mutually-exclusive-options/src/adapter.ts",
+   "line": 12,
+   "code": "const user = await prisma.user.findFirst({",
+   "id": "O293"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "lib/web/chartjs/Chart.min.js",
+   "line": 13,
+   "code": "*/function _t(t){return t+.5|0}const yt=(t,e,i)=>Math.max(Math.min(t,i),e);function vt(t){return yt(_t(2.55*t),0,255)}function Mt(t){return yt(_t(255*t),0,255)}function wt(t){return yt(_t(t/2.55)/100,",
+   "id": "O294"
+  },
+  {
+   "repo": "microsoft/botframework-sdk",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "parsers/LU/JS/packages/lu/src/parser/lufile/parseFileContents.js",
+   "line": 874,
+   "code": "let compositeExists = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entity.entity);",
+   "id": "O295"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/lens/public/editor_frame_service/editor_frame/suggestion_helpers.ts",
+   "line": 224,
+   "code": "return suggestions.find((s) => s.datasourceId === LENS_DATASOURCE_ID.TEXT_BASED);",
+   "id": "O296"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/functional_with_es_ssl/apps/cases/group2/upgrade.ts",
+   "line": 317,
+   "code": "const status = await testSubjects.find('case-status-badge-open');",
+   "id": "O297"
+  },
+  {
+   "repo": "DevExpress/testcafe",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/functional/fixtures/api/es-next/selector/testcafe-fixtures/selector-test.js",
+   "line": 654,
+   "code": "label = Selector('#list').find('li').nth(1).find('label');",
+   "id": "O298"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/plugins/security_solution/public/management/cypress/e2e/policy/policy_details_mocked_data.cy.ts",
+   "line": 151,
+   "code": "cy.getByTestSubj(ransomwareTestSubj.protectionPreventRadio)",
+   "id": "O299"
+  },
+  {
+   "repo": "shopware/shopware",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/Administration/Resources/app/administration/eslint-rules/deprecation-rules/no-deprecated-component-usage-checks/mt-switch.check.js",
+   "line": 39,
+   "code": "const idAttribute = node.startTag.attributes.find((attr) => {",
+   "id": "O300"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_ticket_selector_expert_conditions.js",
+   "line": 789,
+   "code": "assert.equal(el.find('.js-filterElement:nth-child(44) select.js-value option:selected').text(), '9', '8 value selected')",
+   "id": "O301"
+  },
+  {
+   "repo": "shopware/shopware",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/Administration/Resources/app/administration/src/app/service/filter.service.js",
+   "line": 93,
+   "code": "const match = listCriteria.filters.find((el2) => {",
+   "id": "O302"
+  },
+  {
+   "repo": "metabase/metabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/metabase/notifications/channels/utils.ts",
+   "line": 11,
+   "code": "return options.find((o) => o.displayName === displayName)?.id;",
+   "id": "O303"
+  },
+  {
+   "repo": "dagster-io/dagster",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "js_modules/ui-core/src/partitions/PartitionStepStatus.tsx",
+   "line": 489,
+   "code": "const runStatus = [...runs].reverse().find((r) => r.status !== RunStatus.CANCELED)?.status;",
+   "id": "O304"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/assets/javascripts/app/lib/bootstrap/bootstrap-datepicker.js",
+   "line": 867,
+   "code": "this.picker.find('.datepicker-days thead').append(html);",
+   "id": "O305"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/serverless/functional/page_objects/svl_triggers_actions_ui_page.ts",
+   "line": 99,
+   "code": "actionType: $(row)",
+   "id": "O306"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/examples/data_view_field_editor_example/data_view_field_editor_example.ts",
+   "line": 36,
+   "code": "const controlWrapper = await testSubjects.find('preconfiguredControlWrapper');",
+   "id": "O307"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/server/lib/cloud/environment.ts",
+   "line": 60,
+   "code": "const foundPid = processBranch.find((pid) => pidEnvUrlMapping.get(pid))",
+   "id": "O308"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/admin/quick-edit.js",
+   "line": 31,
+   "code": "tax_status     = $wc_inline_data.find( '.tax_status' ).text(),",
+   "id": "O309"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/home_page.ts",
+   "line": 45,
+   "code": "const sampleDataCard = await this.testSubjects.find(`sampleDataSetCard${id}`, 500);",
+   "id": "O310"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/@n8n/task-runner/src/js-task-runner/errors/execution-error.ts",
+   "line": 75,
+   "code": "const topLevelLine = stackRows.find(",
+   "id": "O311"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/app/features/alerting/unified/components/rules/RulesGroup.tsx",
+   "line": 66,
+   "code": "const isDeleting = hasRuler && rulerRulesLoaded && !group.rules.find((rule) => !!rule.rulerRule);",
+   "id": "O312"
+  },
+  {
+   "repo": "typeorm/typeorm",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/driver/oracle/OracleQueryRunner.ts",
+   "line": 1095,
+   "code": ": table.columns.find((c) => c.name === oldTableColumnOrName)",
+   "id": "O313"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/client/tests/functional/issues/11974/tests.ts",
+   "line": 28,
+   "code": "const response = await prisma.comment.findMany({",
+   "id": "O314"
+  },
+  {
+   "repo": "litmuschaos/litmus",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "mkdocs/docs/graphql/v2.0.0/javascripts/spectacle.min.js",
+   "line": 1,
+   "code": "function Traverse(t,e){this.$element=t,this.options=$.extend({},Traverse.defaults,this.$element.data(),e),this._init()}$(function(){var i,s,a,n,t=$(\"#sidebar\");t.length&&($(\"#docs\"),new Traverse(i=t.f",
+   "id": "O315"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/interactive_dialog/scrollable_spec.js",
+   "line": 124,
+   "code": "cy.wrap(doc).find('.react-select__option').first().should('exist');",
+   "id": "O316"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/admin/meta-boxes-product-variation.js",
+   "line": 403,
+   "code": "var variation_id = $( this )",
+   "id": "O317"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/plugins/security_solution/public/resolver/data_access_layer/mocks/one_node_with_paginated_related_events.ts",
+   "line": 128,
+   "code": "return mockTree.events.find((event) => eventModel.eventID(event) === eventID) ?? null;",
+   "id": "O318"
+  },
+  {
+   "repo": "apache/superset",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts",
+   "line": 1073,
+   "code": "const seriesForKey = series.find(s => s.name === key);",
+   "id": "O319"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/@n8n/mcp-browser/src/tools/test-helpers.ts",
+   "line": 25,
+   "code": "const tool = tools.find((t) => t.name === name);",
+   "id": "O320"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/streams_app/public/hooks/use_document_expansion.tsx",
+   "line": 35,
+   "code": "const hit = hits.find((h) => h.index === currentDoc.index);",
+   "id": "O321"
+  },
+  {
+   "repo": "druid-io/druid",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "web-console/src/druid-models/time/time.ts",
+   "line": 90,
+   "code": "return ALL_FORMAT_VALUES.find(format => {",
+   "id": "O322"
+  },
+  {
+   "repo": "visionmedia/supertest",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "lib/cookies/assertion.js",
+   "line": 288,
+   "code": "const cookie = Assertion.find(expect.name, res.cookies);",
+   "id": "O323"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/components/v3/generic/DataGrid/data-grid-cell-variants.tsx",
+   "line": 922,
+   "code": "const displayLabel = options.find((opt) => opt.value === value)?.label ?? value;",
+   "id": "O324"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/dashboard_page.ts",
+   "line": 126,
+   "code": "return await this.testSubjects.find('exitFullScreenModeText');",
+   "id": "O325"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/plugin_functional/test_suites/panel_actions/panel_actions.ts",
+   "line": 26,
+   "code": "const actionElement = await testSubjects.find('embeddablePanelAction-samplePanelLink');",
+   "id": "O326"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/app/features/dashboard-scene/scene/layout-default/DefaultGridLayoutManager.tsx",
+   "line": 345,
+   "code": "const hasGridItem = children.find((child) => child instanceof DashboardGridItem);",
+   "id": "O327"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 1560,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(1) > td').length, 3, 'check row 3')",
+   "id": "O328"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/accessibility/accessibility_account_settings_spec.js",
+   "line": 157,
+   "code": "cy.wrap($el).find('.control-label').invoke('text').then((label) => {",
+   "id": "O329"
+  },
+  {
+   "repo": "medusajs/medusa",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/admin/admin-vite-plugin/src/custom-fields/generate-custom-field-forms.ts",
+   "line": 402,
+   "code": "const labelProperty = fieldObject.properties.find(",
+   "id": "O330"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/streams_app/public/components/stream_management/data_management/stream_detail_enrichment/steps/drag_drop_reorder_handler.ts",
+   "line": 32,
+   "code": "const targetStep = steps.find((s) => s.customIdentifier === targetStepId);",
+   "id": "O331"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/cypress/e2e/Regression/ClientSide/Widgets/ListV2/Listv2_BasicChildWidgetInteraction_spec.js",
+   "line": 152,
+   "code": "cy.get(publishLocators.checkboxGroupWidget)",
+   "id": "O332"
+  },
+  {
+   "repo": "documenso/documenso",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/ui/primitives/document-flow/add-signers.tsx",
+   "line": 147,
+   "code": "const recipientHasAuthOptions = recipients.find((recipient) => {",
+   "id": "O333"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/visualize_editor_page.ts",
+   "line": 247,
+   "code": "const checkbox = await this.testSubjects.find(selector);",
+   "id": "O334"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/www/components/Pricing/ComputePricingCalculator.tsx",
+   "line": 112,
+   "code": "const selected = STANDALONE_PLANS.find((p) => p.name === value)",
+   "id": "O335"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/shared/workflows_management/server/agent_builder/tools/workflow_edit_tools.ts",
+   "line": 83,
+   "code": "? activeAttachments.find(",
+   "id": "O336"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/form_timer.js",
+   "line": 18,
+   "code": "assert.equal('Run every Monday at 00:00 in UTC time', el.find('.js-timerResult').text())",
+   "id": "O337"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 701,
+   "code": "assert.equal(el.find('table > thead > tr').length, 1, 'row count')",
+   "id": "O338"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/integrations/outgoing_webhook/prompt_set_status_spec.js",
+   "line": 39,
+   "code": "cy.uiGetSetStatusButton().find('.icon-circle-outline');",
+   "id": "O339"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/interactive_dialog/multiselect_spec.js",
+   "line": 237,
+   "code": "cy.wrap(doc).find('.react-select__option').contains('Support').click();",
+   "id": "O340"
+  },
+  {
+   "repo": "novu-co/novu",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/api/src/app/inbox/e2e/session.e2e.ts",
+   "line": 1270,
+   "code": "const contextsAfter = await contextRepository.find({",
+   "id": "O341"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/studio/data/reports/api-report-query.ts",
+   "line": 61,
+   "code": "return prev.filter((f) => !toRemove.find((r) => isEqual(f, r)))",
+   "id": "O342"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/integrations/builtin_commands/common_commands_1_spec.js",
+   "line": 74,
+   "code": "cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);",
+   "id": "O343"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/scenes/experiments/Metrics/SharedMetricModal.tsx",
+   "line": 80,
+   "code": ".map((metricId) => compatibleSharedMetrics.find((m) => m.id === metricId))",
+   "id": "O344"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/scenes/surveys/wizard/surveyWizardLogic.ts",
+   "line": 375,
+   "code": "const matchedTemplate = defaultSurveyTemplates.find((t) => t.templateType === templateParam)",
+   "id": "O345"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/serverless/functional/test_suites/discover/group6/_sidebar.ts",
+   "line": 115,
+   "code": "const fieldSearch = await testSubjects.find('clearSearchButton');",
+   "id": "O346"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 950,
+   "code": "assert.equal(el.find('table > thead > tr').length, 1, 'row count')",
+   "id": "O347"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/security/plugins/security_solution/public/detections/components/alerts_kpis/chart_panels/chart_collapse/index.tsx",
+   "line": 101,
+   "code": "const obj = severityData.find((s) => s.key === severity);",
+   "id": "O348"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/shared/vis_types/timeseries/server/lib/vis_data/request_processors/table/pivot.ts",
+   "line": 42,
+   "code": "const series = panel.series.find((item) => item.id === sort.column);",
+   "id": "O349"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/examples/content_management/todo_app.ts",
+   "line": 49,
+   "code": "await (await testSubjects.find('newTodo')).pressKeys(Key.ENTER);",
+   "id": "O350"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/messaging/image_attachment_spec.js",
+   "line": 158,
+   "code": "cy.get('#advancedTextEditorCell').find('.file-preview').should(verifyExistence ? 'be.visible' : 'not.exist');",
+   "id": "O351"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "webapp/channels/src/components/admin_console/permission_policies/policy_details/permission_policy_details.tsx",
+   "line": 604,
+   "code": "const permDef = AVAILABLE_PERMISSIONS.find((p) => p.value === permValue);",
+   "id": "O352"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/cypress/e2e/Regression/ClientSide/Widgets/RTE/RichTextEditor_1_spec.js",
+   "line": 168,
+   "code": "const $body = $iframe.contents().find(\"body\");",
+   "id": "O353"
+  },
+  {
+   "repo": "hasura/graphql-engine",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/apps/console-ce/src/assets/common/codegen/javascript-js-doc-express/actions-codegen.js",
+   "line": 1,
+   "code": "(()=>{\"use strict\";var e={7561:(e,t,n)=>{n.r(t),n.d(t,{TemplateTag:()=>u,trimResultTransformer:()=>c,stripIndentTransformer:()=>l,replaceResultTransformer:()=>f,replaceSubstitutionTransformer:()=>d,re",
+   "id": "O354"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/form/form.js",
+   "line": 503,
+   "code": "_this.$form.find('button').prop('disabled', false)",
+   "id": "O355"
+  },
+  {
+   "repo": "newrelic/node-newrelic",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "lib/transaction/trace/index.js",
+   "line": 400,
+   "code": "const node = this.segments.find(id)",
+   "id": "O356"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "products/llm_analytics/frontend/evaluations/evaluationReportLogic.ts",
+   "line": 396,
+   "code": "const active = reports.find((r: EvaluationReport) => r.enabled && !r.deleted)",
+   "id": "O357"
+  },
+  {
+   "repo": "woocommerce/woocommerce",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "plugins/woocommerce/client/legacy/js/selectWoo/selectWoo.full.js",
+   "line": 1721,
+   "code": "this.$selection.find('.select2-selection__rendered').empty();",
+   "id": "O358"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/private/vis_types/vislib/public/vislib/lib/layout/splits/column_chart/chart_title_split.js",
+   "line": 36,
+   "code": "parent.find('.visAxis__splitTitles--x').remove();",
+   "id": "O359"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/settings/display/theme/custom_theme_sidebar_styles_spec.js",
+   "line": 101,
+   "code": "cy.uiGetSetStatusButton().find('svg').should('have.css', 'color', rgbArrayToString(themeRgbColor.awayIndicator));",
+   "id": "O360"
+  },
+  {
+   "repo": "supabase/supabase",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/studio/hooks/branches/useEdgeFunctionsDiff.ts",
+   "line": 204,
+   "code": "const mainFile = mainBody.files.find((f) => fileKey(f.name) === key)",
+   "id": "O361"
+  },
+  {
+   "repo": "infisical/infisical",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "backend/src/services/user/user-service.ts",
+   "line": 395,
+   "code": "const directMembership = orgMemberships.find((m) => m.actorUserId === userId);",
+   "id": "O362"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "server/migrations/1757488747540-AddOrganizationAICreditHistory.ts",
+   "line": 98,
+   "code": "const foreignKey = table.foreignKeys.find(",
+   "id": "O363"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "products/conversations/frontend/components/Assignee/assigneeSelectLogic.tsx",
+   "line": 63,
+   "code": "const assignedRole = roles.find((role) => String(role.id) === String(assignee.id))",
+   "id": "O364"
+  },
+  {
+   "repo": "mattermost/mattermost",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "e2e-tests/cypress/tests/integration/channels/custom_status/custom_status_expiry/custom_status_expiry_1_spec.ts",
+   "line": 97,
+   "code": "cy.uiGetProfileHeader().",
+   "id": "O365"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/plugins/shared/vis_types/timeseries/public/application/components/aggs/percentile_ui.js",
+   "line": 113,
+   "code": "const selectedModeOption = modeOptions.find((option) => {",
+   "id": "O366"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/streams_app/public/components/stream_management/data_management/content/objects_list/index.tsx",
+   "line": 49,
+   "code": "const root = objects.find(",
+   "id": "O367"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/assets/javascripts/app/lib/base/jquery.noty.js",
+   "line": 302,
+   "code": "this.$bar.find('.noty_text').html(text);",
+   "id": "O368"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/private/canvas/public/lib/aeroelastic/layout_functions.js",
+   "line": 1042,
+   "code": "shapes.find((s) => s.id === preexistingGroupParent.id).localTransformMatrix, // reinstate the group offset onto the child",
+   "id": "O369"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/Catalog/view/adminhtml/web/js/product-gallery.js",
+   "line": 433,
+   "code": "this.element.find(this.options.imageSelector).eq(newPosition)",
+   "id": "O370"
+  },
+  {
+   "repo": "posthog/posthog",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/lib/ui/ListBox/ListBox.tsx",
+   "line": 238,
+   "code": "const targetElement = elements.find((el) => el.getAttribute('data-focus-key') === key)",
+   "id": "O371"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/functional/services/cases/list.ts",
+   "line": 345,
+   "code": "const searchInput = await testSubjects.find(",
+   "id": "O372"
+  },
+  {
+   "repo": "chatwoot/chatwoot",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/javascript/dashboard/store/modules/conversations/index.js",
+   "line": 317,
+   "code": "const message = (chat.messages || []).find(",
+   "id": "O373"
+  },
+  {
+   "repo": "cypress-io/cypress",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "system-tests/test/record_spec.js",
+   "line": 2715,
+   "code": "const postResultsRequest = requests.find((r) => r.url === `POST /instances/${instanceId}/results`)",
+   "id": "O374"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/test/functional/page_objects/canvas_page.ts",
+   "line": 88,
+   "code": "const button = await testSubjects.find('create-workpad-button', 20000);",
+   "id": "O375"
+  },
+  {
+   "repo": "mikro-orm/mikro-orm",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/sql/src/query/CriteriaNode.ts",
+   "line": 33,
+   "code": "const meta = parent && metadata.find<T>(parent.entityName);",
+   "id": "O376"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "server/data-migrations/1639734070615-BackfillDataSourcesAndQueriesForAppVersions.ts",
+   "line": 35,
+   "code": "const apps = await entityManager.find(App, {",
+   "id": "O377"
+  },
+  {
+   "repo": "nextcloud/server",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "cypress/e2e/files/FilesUtils.ts",
+   "line": 40,
+   "code": ".then((menuId) => cy.get(`#${menuId}`)",
+   "id": "O378"
+  },
+  {
+   "repo": "documenso/documenso",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/lib/server-only/document/search-documents-with-keyword.ts",
+   "line": 144,
+   "code": "const signingToken = envelope.recipients.find((r) => r.email === user.email)?.token;",
+   "id": "O379"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/platform/plugins/shared/maps/public/content_management/duplicate_title_check.ts",
+   "line": 59,
+   "code": "const existing = hits.find((obj) => obj.attributes.title.toLowerCase() === title.toLowerCase());",
+   "id": "O380"
+  },
+  {
+   "repo": "microsoft/botframework-sdk",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "parsers/LU/JS/packages/lu/src/parser/lufile/parseFileContents.js",
+   "line": 1541,
+   "code": "let compositeEntity = (parsedContent.LUISJsonStructure.composites || []).find(item => item.name == entityName);",
+   "id": "O381"
+  },
+  {
+   "repo": "thanos-io/thanos",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "pkg/ui/static/react/static/js/main.ed1f5447.js",
+   "line": 2,
+   "code": "(()=>{var e={5709:e=>{e.exports=function(e){return e&&e.__esModule?e:{default:e}},e.exports.__esModule=!0,e.exports.default=e.exports},2207:(e,t,n)=>{e.exports=n(1987)},4694:()=>{window.jQuery.plot.pl",
+   "id": "O382"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/Editor/QueryManager/QueryEditors/TooljetDatabase/ToolJetDbOperations.jsx",
+   "line": 352,
+   "code": "const { error, data } = await tooljetDatabaseService.findAll(organizationId);",
+   "id": "O383"
+  },
+  {
+   "repo": "tooljet/tooljet",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "frontend/src/_stores/dataQueriesStore.js",
+   "line": 324,
+   "code": "const queryName = Object.keys(currentQueries).find((key) => currentQueries[key].id === id);",
+   "id": "O384"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/assets/javascripts/app/lib/base/jquery.textmodule.js",
+   "line": 781,
+   "code": "user = App.User.find(user_id)",
+   "id": "O385"
+  },
+  {
+   "repo": "n8n-io/n8n",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/nodes-base/nodes/WhatsApp/WhatsAppTrigger.node.ts",
+   "line": 194,
+   "code": "const subscription = webhooks.find(",
+   "id": "O386"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/management/saved_objects_page.ts",
+   "line": 370,
+   "code": "const table = await this.testSubjects.find('savedObjectsTable');",
+   "id": "O387"
+  },
+  {
+   "repo": "mattermost/focalboard",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "webapp/src/components/calendar/fullCalendar.tsx",
+   "line": 220,
+   "code": "const card = cards.find((o) => o.id === event.id)",
+   "id": "O388"
+  },
+  {
+   "repo": "DevExpress/testcafe",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "test/functional/fixtures/api/es-next/selector/testcafe-fixtures/selector-test.js",
+   "line": 646,
+   "code": "let label = Selector('#list').find('li').find('label');",
+   "id": "O389"
+  },
+  {
+   "repo": "nocodb/nocodb",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/nocodb/src/db/BaseModelSqlv2/delete.ts",
+   "line": 440,
+   "code": "const lmtCol = columns.find(",
+   "id": "O390"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "src/platform/test/functional/page_objects/visualize_chart_page.ts",
+   "line": 131,
+   "code": "const path = areas.find(({ name }) => name === dataLabel)?.path ?? '';",
+   "id": "O391"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table.js",
+   "line": 351,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(4) > td:nth-child(4)').text().trim(), 'firstname56 lastname56', 'check row 2')",
+   "id": "O392"
+  },
+  {
+   "repo": "zammad/zammad",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/assets/tests/qunit/table_extended.js",
+   "line": 1545,
+   "code": "assert.equal(el.find('tbody > tr:nth-child(2) > td:first').text().trim(), '2 normal', 'check row 2')",
+   "id": "O393"
+  },
+  {
+   "repo": "magento/magento2",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/code/Magento/Checkout/view/frontend/web/js/view/form/element/email.js",
+   "line": 114,
+   "code": "$(this.emailInputId).removeClass('mage-error').parent().find('.mage-error').remove();",
+   "id": "O394"
+  },
+  {
+   "repo": "grafana/grafana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "public/app/plugins/datasource/graphite/datasource.ts",
+   "line": 797,
+   "code": "const valueField = series.fields.find((f) => f.name === 'value');",
+   "id": "O395"
+  },
+  {
+   "repo": "lightdash/lightdash",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/common/src/visualizations/PieChartDataModel.ts",
+   "line": 186,
+   "code": "customMetricFieldOptions.find(",
+   "id": "O396"
+  },
+  {
+   "repo": "appsmith/appsmith",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "app/client/src/sagas/JSLibrarySaga.ts",
+   "line": 89,
+   "code": "const alreadyInstalledLibrary = installedLibraries.find(",
+   "id": "O397"
+  },
+  {
+   "repo": "elastic/kibana",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "x-pack/solutions/observability/plugins/infra/common/alerting/metrics/alert_link.ts",
+   "line": 159,
+   "code": "const supportedEntityId = groupBy.find((field) => !!entityTypeByEntityIdField[field]);",
+   "id": "O398"
+  },
+  {
+   "repo": "prisma/prisma",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "packages/client/tests/functional/relationMode-in-separate-gh-action/tests_m-to-n.ts",
+   "line": 342,
+   "code": "expect(await prisma[categoriesOnPostsModel].findMany({ orderBy: { categoryId: 'asc' } })).toEqual(",
+   "id": "O399"
+  },
+  {
+   "repo": "novu-co/novu",
+   "pattern": "unbounded_find_all",
+   "severity": "high",
+   "file": "apps/api/src/app/change/e2e/promote-changes.e2e.ts",
+   "line": 682,
+   "code": "const changes = await changeRepository.find(",
+   "id": "O400"
+  }
+ ]
+}

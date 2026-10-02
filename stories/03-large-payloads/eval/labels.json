@@ -1,0 +1,1602 @@
+{
+ "S001": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S002": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S003": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S004": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S005": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S006": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S007": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S008": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S009": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S010": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S011": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S012": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S013": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S014": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S015": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S016": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S017": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S018": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S019": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S020": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S021": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S022": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S023": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S024": [
+  "fp-not-a-query",
+  "UI test helper (testSubjects), test dir"
+ ],
+ "S025": [
+  "fp-not-served",
+  "test code"
+ ],
+ "S026": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S027": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S028": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S029": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S030": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S031": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S032": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S033": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S034": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S035": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S036": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S037": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S038": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S039": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S040": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S041": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S042": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S043": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S044": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S045": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S046": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S047": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S048": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S049": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S050": [
+  "fp-not-a-query",
+  "minified webpack bundle shipped as a frontend asset"
+ ],
+ "S051": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S052": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S053": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S054": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S055": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S056": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S057": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S058": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S059": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S060": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S061": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S062": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S063": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S064": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S065": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S066": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S067": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S068": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S069": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S070": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S071": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S072": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S073": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S074": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S075": [
+  "fp-not-served",
+  "migration / seed / one-off data script"
+ ],
+ "S076": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S077": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S078": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S079": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S080": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S081": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S082": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S083": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S084": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S085": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S086": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S087": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S088": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S089": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S090": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S091": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S092": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S093": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S094": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S095": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S096": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S097": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S098": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S099": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S100": [
+  "fp-not-served",
+  "sample / example / sandbox / benchmark code"
+ ],
+ "S101": [
+  "fp-not-a-query",
+  "vendored tinymce.min.js (formatted, so not caught by the line-length rule)"
+ ],
+ "S102": [
+  "fp-not-a-query",
+  "Asana SDK HTTP client"
+ ],
+ "S103": [
+  "fp-not-a-query",
+  "Braintree SDK HTTP gateway"
+ ],
+ "S104": [
+  "tp",
+  "all profiles of an organization; grows with members"
+ ],
+ "S105": [
+  "unsure",
+  "a user's accepted team memberships; nothing caps it, but does not grow with use"
+ ],
+ "S106": [
+  "tp",
+  "every credential for an app across all users"
+ ],
+ "S107": [
+  "tp",
+  "cron job: all pending bookings system-wide"
+ ],
+ "S108": [
+  "tp",
+  "audit log per watchlist entry, grows over time"
+ ],
+ "S109": [
+  "fp-bounded-by-key",
+  "username IN caller list"
+ ],
+ "S110": [
+  "unsure",
+  "a user's payment-app credentials"
+ ],
+ "S111": [
+  "fp-bounded-by-key",
+  "where built from caller's username list"
+ ],
+ "S112": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S113": [
+  "unsure",
+  "bookings for a set of users; sharedQuery not visible in window"
+ ],
+ "S114": [
+  "unsure",
+  "a team's event types incl. managed children"
+ ],
+ "S115": [
+  "unsure",
+  "a user's credentials for one app"
+ ],
+ "S116": [
+  "unsure",
+  "same line as S114 (reported by both rules)"
+ ],
+ "S117": [
+  "unsure",
+  "caller-supplied where; recurring-series cleanup"
+ ],
+ "S118": [
+  "tp",
+  "all memberships of a team; grows with members"
+ ],
+ "S119": [
+  "tp",
+  "hosts of an event type; subset of team members, grows with team"
+ ],
+ "S120": [
+  "fp-bounded-by-key",
+  "team feature flags; fixed feature catalog"
+ ],
+ "S121": [
+  "unsure",
+  "a team's event types with heavy includes"
+ ],
+ "S122": [
+  "fp-bounded-by-key",
+  "app catalog by category; fixed set"
+ ],
+ "S123": [
+  "tp",
+  "children of given managed event types; one row per team member"
+ ],
+ "S124": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S125": [
+  "unsure",
+  "bookings under a computed where; window not visible"
+ ],
+ "S126": [
+  "unsure",
+  "a user's personal event types"
+ ],
+ "S127": [
+  "tp",
+  "admin endpoint: all users in a lock state"
+ ],
+ "S128": [
+  "fp-bounded-by-key",
+  "userId IN caller list"
+ ],
+ "S129": [
+  "fp-not-served",
+  "scripts/seed-utils.ts; seed script the path rule missed"
+ ],
+ "S130": [
+  "fp-bounded-by-key",
+  "where id = teamId"
+ ],
+ "S131": [
+  "fp-not-served",
+  "scripts/seed-utils.ts"
+ ],
+ "S132": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S133": [
+  "tp",
+  "all members of the given teams"
+ ],
+ "S134": [
+  "unsure",
+  "bookings of one recurring series; recurrence cap not visible"
+ ],
+ "S135": [
+  "unsure",
+  "teams a user belongs to"
+ ],
+ "S136": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S137": [
+  "unsure",
+  "a user's credentials of one type"
+ ],
+ "S138": [
+  "unsure",
+  "all of a user's credentials"
+ ],
+ "S139": [
+  "unsure",
+  "attendees of one booking; seated events can be large"
+ ],
+ "S140": [
+  "tp",
+  "admin: all teams in a lock state"
+ ],
+ "S141": [
+  "tp",
+  "all memberships of a team"
+ ],
+ "S142": [
+  "fp-bounded-by-key",
+  "OR over caller's slot list"
+ ],
+ "S143": [
+  "tp",
+  "all platform-managed users on a subscription in a window"
+ ],
+ "S144": [
+  "tp",
+  "every OAuth client (admin list)"
+ ],
+ "S145": [
+  "unsure",
+  "same line as S139 (reported by both rules)"
+ ],
+ "S146": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S147": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S148": [
+  "tp",
+  "OAuth clients by status (admin list)"
+ ],
+ "S149": [
+  "unsure",
+  "today's bookings; rest of where not visible"
+ ],
+ "S150": [
+  "unsure",
+  "a team/user's API keys for an app"
+ ],
+ "S151": [
+  "unsure",
+  "event types under a computed where"
+ ],
+ "S152": [
+  "unsure",
+  "a team's event types incl. children"
+ ],
+ "S153": [
+  "unsure",
+  "a user's personal event types"
+ ],
+ "S154": [
+  "fp-bounded-by-key",
+  "relabelled: user+integration+externalId, effectively unique"
+ ],
+ "S155": [
+  "fp-not-served",
+  "*.integration-test.ts; engine test pattern misses it"
+ ],
+ "S156": [
+  "tp",
+  "child event types of a parent; one per team member"
+ ],
+ "S157": [
+  "tp",
+  "username substring search across users"
+ ],
+ "S158": [
+  "unsure",
+  "a user's selected calendars"
+ ],
+ "S159": [
+  "tp",
+  "every team with a feature enabled"
+ ],
+ "S160": [
+  "unsure",
+  "a user's memberships"
+ ],
+ "S161": [
+  "fp-bounded-by-key",
+  "where built from caller's username list"
+ ],
+ "S162": [
+  "unsure",
+  "a user/team's payment credentials"
+ ],
+ "S163": [
+  "unsure",
+  "a team's video credentials"
+ ],
+ "S164": [
+  "unsure",
+  "a user's admin memberships"
+ ],
+ "S165": [
+  "fp-bounded-by-key",
+  "holidays for one country and year"
+ ],
+ "S166": [
+  "unsure",
+  "attendees of one booking"
+ ],
+ "S167": [
+  "unsure",
+  "a user's schedules"
+ ],
+ "S168": [
+  "unsure",
+  "a user's credentials of one type"
+ ],
+ "S169": [
+  "unsure",
+  "a user's public event types"
+ ],
+ "S170": [
+  "unsure",
+  "sub-teams of an organization"
+ ],
+ "S171": [
+  "tp",
+  "username substring search across all users"
+ ],
+ "S172": [
+  "unsure",
+  "calendar cache events for given calendars in a time window"
+ ],
+ "S173": [
+  "unsure",
+  "a user's profiles"
+ ],
+ "S174": [
+  "unsure",
+  "subfolders of one folder"
+ ],
+ "S175": [
+  "fp-bounded-by-key",
+  "documents by caller's id list"
+ ],
+ "S176": [
+  "unsure",
+  "attachments of one document"
+ ],
+ "S177": [
+  "fp-bounded-by-key",
+  "envelopes by caller's id list"
+ ],
+ "S178": [
+  "unsure",
+  "items of one newly created envelope"
+ ],
+ "S179": [
+  "unsure",
+  "fields of one document"
+ ],
+ "S180": [
+  "unsure",
+  "fields for one recipient"
+ ],
+ "S181": [
+  "unsure",
+  "completed fields of one document"
+ ],
+ "S182": [
+  "fp-bounded-by-key",
+  "a user's auth accounts; one per provider"
+ ],
+ "S183": [
+  "fp-bounded-elsewhere",
+  "ids come from a paginated query above"
+ ],
+ "S184": [
+  "unsure",
+  "a user's active subscriptions"
+ ],
+ "S185": [
+  "unsure",
+  "fields beyond a page count in one document"
+ ],
+ "S186": [
+  "tp",
+  "full audit log of a document; grows over time"
+ ],
+ "S187": [
+  "unsure",
+  "invites for one email and status"
+ ],
+ "S188": [
+  "tp",
+  "every session of a user; grows with logins"
+ ],
+ "S189": [
+  "unsure",
+  "same line as S187 (reported by both rules)"
+ ],
+ "S190": [
+  "fp-not-a-query",
+  "browser-side object storage client"
+ ],
+ "S191": [
+  "fp-not-a-query",
+  "Selenium test_subjects service (test infra outside a test dir)"
+ ],
+ "S192": [
+  "fp-not-a-query",
+  "ES|QL AST Walker.findAll"
+ ],
+ "S193": [
+  "fp-not-a-query",
+  "Gatsby's own node-store implementation (library code)"
+ ],
+ "S194": [
+  "fp-not-a-query",
+  "vendored yarn release bundle"
+ ],
+ "S195": [
+  "unsure",
+  "unviewed notifications for one actor and comment"
+ ],
+ "S196": [
+  "tp",
+  "backlinks to a document; grows with linking documents"
+ ],
+ "S197": [
+  "tp",
+  "all non-admin users of a team"
+ ],
+ "S198": [
+  "fp-bounded-by-key",
+  "email IN caller list"
+ ],
+ "S199": [
+  "fp-bounded-by-key",
+  "findByIds: id IN caller list"
+ ],
+ "S200": [
+  "fp-bounded-by-key",
+  "id IN collaborator list"
+ ],
+ "S201": [
+  "unsure",
+  "collections created by one import"
+ ],
+ "S202": [
+  "tp",
+  "all comments in a collection"
+ ],
+ "S203": [
+  "tp",
+  "export job loads every collection with its document tree"
+ ],
+ "S204": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S205": [
+  "unsure",
+  "GitLab integrations matching one project"
+ ],
+ "S206": [
+  "unsure",
+  "teams sharing a user's email"
+ ],
+ "S207": [
+  "unsure",
+  "a user's passkeys"
+ ],
+ "S208": [
+  "fp-bounded-elsewhere",
+  "id IN a limited search page"
+ ],
+ "S209": [
+  "fp-bounded-elsewhere",
+  "id IN a limited search page"
+ ],
+ "S210": [
+  "fp-bounded-by-key",
+  "id IN event list"
+ ],
+ "S211": [
+  "fp-bounded-by-key",
+  "id IN signed-in team list"
+ ],
+ "S212": [
+  "fp-bounded-by-key",
+  "id IN import list"
+ ],
+ "S213": [
+  "tp",
+  "every trashed document across a user's collections"
+ ],
+ "S214": [
+  "fp-not-served",
+  "server/scripts one-off script"
+ ],
+ "S215": [
+  "tp",
+  "subscribers of a document; scales with team"
+ ],
+ "S216": [
+  "fp-bounded-by-key",
+  "id IN parsed attachment list"
+ ],
+ "S217": [
+  "tp",
+  "user memberships of a document; scales with team"
+ ],
+ "S218": [
+  "fp-not-served",
+  "dev-packages/node-integration-tests scenario (path rule missed)"
+ ],
+ "S219": [
+  "fp-bounded-by-key",
+  "$or over caller's feature list"
+ ],
+ "S220": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S221": [
+  "fp-bounded-by-key",
+  "fixed sample-metric set"
+ ],
+ "S222": [
+  "tp",
+  "all org discussions since a date; lower bound only"
+ ],
+ "S223": [
+  "tp",
+  "all metrics in a project (delete job); accumulate with use"
+ ],
+ "S224": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S225": [
+  "fp-bounded-elsewhere",
+  "chained .estimatedDocumentCount(): returns a count, no rows"
+ ],
+ "S226": [
+  "unsure",
+  "an org's Slack integrations"
+ ],
+ "S227": [
+  "fp-bounded-by-key",
+  "feature IN caller list"
+ ],
+ "S228": [
+  "fp-bounded-elsewhere",
+  "limit: 1 in the third (options) argument"
+ ],
+ "S229": [
+  "fp-bounded-by-key",
+  "identical query text within the cache TTL"
+ ],
+ "S230": [
+  "unsure",
+  "presentations containing one experiment"
+ ],
+ "S231": [
+  "tp",
+  "all experiments on a datasource; accumulate with use"
+ ],
+ "S232": [
+  "fp-bounded-elsewhere",
+  "chained .skip().limit()"
+ ],
+ "S233": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S234": [
+  "tp",
+  "all features in a project (delete job)"
+ ],
+ "S235": [
+  "fp-bounded-by-key",
+  "feature IN caller list"
+ ],
+ "S236": [
+  "tp",
+  "all fact tables in a project (delete job)"
+ ],
+ "S237": [
+  "unsure",
+  "datasources of a caller-supplied org list"
+ ],
+ "S238": [
+  "tp",
+  "generic BaseModel loads every matching doc, then paginates in memory with slice()"
+ ],
+ "S239": [
+  "fp-bounded-elsewhere",
+  "chained .limit(limit)"
+ ],
+ "S240": [
+  "tp",
+  "all features carrying a tag; accumulate with use"
+ ],
+ "S241": [
+  "unsure",
+  "orgs a user belongs to"
+ ],
+ "S242": [
+  "tp",
+  "every code reference for a repo and branch"
+ ],
+ "S243": [
+  "unsure",
+  "archetypes under a computed query"
+ ],
+ "S244": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S245": [
+  "unsure",
+  "an org's Slack integrations"
+ ],
+ "S246": [
+  "fp-not-served",
+  "RFC prototype script (and chained .limit)"
+ ],
+ "S247": [
+  "tp",
+  "relabelled: every chart for an explore in a project (knex, no limit)"
+ ],
+ "S248": [
+  "fp-bounded-by-key",
+  "relabelled: spaceUuids IN caller list"
+ ],
+ "S249": [
+  "unsure",
+  "relabelled: spaces of a project"
+ ],
+ "S250": [
+  "tp",
+  "relabelled: every dashboard in a project (rename job)"
+ ],
+ "S251": [
+  "unsure",
+  "relabelled: spaces of a project"
+ ],
+ "S252": [
+  "fp-bounded-by-key",
+  "relabelled: slugs IN caller list"
+ ],
+ "S253": [
+  "fp-bounded-by-key",
+  "relabelled: space by path; expects one"
+ ],
+ "S254": [
+  "fp-bounded-by-key",
+  "relabelled: spaceUuids IN caller list"
+ ],
+ "S255": [
+  "fp-bounded-by-key",
+  "relabelled: dashboard by slug"
+ ],
+ "S256": [
+  "fp-bounded-by-key",
+  "relabelled: space by slug"
+ ],
+ "S257": [
+  "fp-bounded-by-key",
+  "relabelled: spaceUuids IN computed list"
+ ],
+ "S258": [
+  "unsure",
+  "relabelled: spaces of a project"
+ ],
+ "S259": [
+  "fp-bounded-by-key",
+  "relabelled: spaceUuids IN ancestor list"
+ ],
+ "S260": [
+  "unsure",
+  "relabelled: every organization scope (slonik helper)"
+ ],
+ "S261": [
+  "unsure",
+  "all tags (redbean)"
+ ],
+ "S262": [
+  "unsure",
+  "all status pages (redbean)"
+ ],
+ "S263": [
+  "fp-not-a-query",
+  "Prototype.js enumerable findAll"
+ ],
+ "S264": [
+  "fp-not-a-query",
+  "jstree findAll"
+ ],
+ "S265": [
+  "fp-not-a-query",
+  "MikroORM's own EntityManager (library code)"
+ ],
+ "S266": [
+  "fp-not-a-query",
+  "MikroORM's own EntityManager (library code)"
+ ],
+ "S267": [
+  "tp",
+  "admin path: every project"
+ ],
+ "S268": [
+  "unsure",
+  "all credential resolvers"
+ ],
+ "S269": [
+  "unsure",
+  "all tags for a source-control export"
+ ],
+ "S270": [
+  "fp-not-a-query",
+  "app-defined repository method"
+ ],
+ "S271": [
+  "fp-bounded-by-key",
+  "projectId IN caller list"
+ ],
+ "S272": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S273": [
+  "unsure",
+  "every role with scopes"
+ ],
+ "S274": [
+  "unsure",
+  "role-mapping rules of one type"
+ ],
+ "S275": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S276": [
+  "fp-bounded-by-key",
+  "workflowId IN caller list"
+ ],
+ "S277": [
+  "tp",
+  "iteration log for a thread/task; grows"
+ ],
+ "S278": [
+  "unsure",
+  "every log-streaming destination"
+ ],
+ "S279": [
+  "unsure",
+  "projects a user owns or admins"
+ ],
+ "S280": [
+  "unsure",
+  "a user's project relations"
+ ],
+ "S281": [
+  "tp",
+  "every message in a chat session"
+ ],
+ "S282": [
+  "unsure",
+  "every trusted key"
+ ],
+ "S283": [
+  "tp",
+  "every annotation tag with all its mappings, to count usage"
+ ],
+ "S284": [
+  "tp",
+  "every workflow in a folder tree"
+ ],
+ "S285": [
+  "tp",
+  "all members of a project; scales with team"
+ ],
+ "S286": [
+  "unsure",
+  "a personal project's credentials"
+ ],
+ "S287": [
+  "fp-bounded-by-key",
+  "slug IN caller list"
+ ],
+ "S288": [
+  "tp",
+  "every test-case execution of a run"
+ ],
+ "S289": [
+  "unsure",
+  "role-mapping rules of one type"
+ ],
+ "S290": [
+  "fp-not-served",
+  "CLI command (list workflows)"
+ ],
+ "S291": [
+  "unsure",
+  "projects under a computed where"
+ ],
+ "S292": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S293": [
+  "tp",
+  "security audit loads every workflow with nodes and connections"
+ ],
+ "S294": [
+  "tp",
+  "every workflow-tag mapping in admin projects"
+ ],
+ "S295": [
+  "fp-bounded-by-key",
+  "id IN batch list"
+ ],
+ "S296": [
+  "unsure",
+  "every credential for source-control status"
+ ],
+ "S297": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S298": [
+  "unsure",
+  "a project's owned credentials"
+ ],
+ "S299": [
+  "unsure",
+  "shared credentials for a caller's user list"
+ ],
+ "S300": [
+  "fp-not-served",
+  "nest integration/ test app (path rule missed)"
+ ],
+ "S301": [
+  "fp-not-served",
+  "nest integration/ test app (path rule missed)"
+ ],
+ "S302": [
+  "unsure",
+  "guilds a user belongs to"
+ ],
+ "S303": [
+  "tp",
+  "every ban in a guild"
+ ],
+ "S304": [
+  "tp",
+  "every giveaway with items"
+ ],
+ "S305": [
+  "tp",
+  "a guild's whole playlist"
+ ],
+ "S306": [
+  "tp",
+  "every echo/bridge workflow in an environment"
+ ],
+ "S307": [
+  "unsure",
+  "an agent's integration links"
+ ],
+ "S308": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S309": [
+  "fp-bounded-elsewhere",
+  "base repository streams via cursor with batchSize"
+ ],
+ "S310": [
+  "fp-bounded-elsewhere",
+  "chained .skip().limit()"
+ ],
+ "S311": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S312": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S313": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S314": [
+  "fp-bounded-elsewhere",
+  "limit: 1 in the third (options) argument"
+ ],
+ "S315": [
+  "fp-bounded-elsewhere",
+  "chained .skip().limit()"
+ ],
+ "S316": [
+  "unsure",
+  "pending jobs of one transaction; topic fan-out can be large"
+ ],
+ "S317": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S318": [
+  "unsure",
+  "generic findWithTemplates under a caller query"
+ ],
+ "S319": [
+  "tp",
+  "every active member of an organization"
+ ],
+ "S320": [
+  "fp-bounded-by-key",
+  "identifier IN caller list"
+ ],
+ "S321": [
+  "fp-not-a-query",
+  "pass-through wrapper; each caller labelled on its own"
+ ],
+ "S322": [
+  "unsure",
+  "every integration in an environment"
+ ],
+ "S323": [
+  "fp-bounded-by-key",
+  "step runs of one workflow run; bounded by the workflow's steps"
+ ],
+ "S324": [
+  "fp-bounded-by-key",
+  "identifier IN caller list"
+ ],
+ "S325": [
+  "fp-bounded-by-key",
+  "key IN caller list"
+ ],
+ "S326": [
+  "tp",
+  "every event merged into a digest"
+ ],
+ "S327": [
+  "fp-bounded-by-key",
+  "step controls of one workflow"
+ ],
+ "S328": [
+  "fp-bounded-by-key",
+  "jobs of one notification for one subscriber; bounded by steps"
+ ],
+ "S329": [
+  "unsure",
+  "an agent's integration links"
+ ],
+ "S330": [
+  "fp-bounded-by-key",
+  "templateId IN caller list"
+ ],
+ "S331": [
+  "unsure",
+  "a participant's active conversations"
+ ],
+ "S332": [
+  "unsure",
+  "trace logs of one workflow run's steps"
+ ],
+ "S333": [
+  "tp",
+  "every step control value in an organization"
+ ],
+ "S334": [
+  "fp-bounded-by-key",
+  "templateId IN caller list"
+ ],
+ "S335": [
+  "fp-bounded-by-key",
+  "pending jobs of one transaction for one subscriber/template"
+ ],
+ "S336": [
+  "fp-bounded-by-key",
+  "identifier IN caller list"
+ ],
+ "S337": [
+  "unsure",
+  "an agent's integration links"
+ ],
+ "S338": [
+  "unsure",
+  "an environment's domains"
+ ],
+ "S339": [
+  "tp",
+  "every subscriber of a topic"
+ ],
+ "S340": [
+  "fp-bounded-by-key",
+  "_id IN caller list"
+ ],
+ "S341": [
+  "unsure",
+  "message templates of one feed"
+ ],
+ "S342": [
+  "unsure",
+  "same line as S341 (reported by both rules)"
+ ],
+ "S343": [
+  "fp-bounded-elsewhere",
+  "pass-through base repository with chained .limit()"
+ ],
+ "S344": [
+  "fp-not-served",
+  "predefined migration"
+ ],
+ "S345": [
+  "fp-not-served",
+  "predefined migration (limit in options, batched)"
+ ],
+ "S346": [
+  "fp-not-served",
+  "bundle-size fixture worker"
+ ],
+ "S347": [
+  "fp-not-a-query",
+  "Sequelize's own association code (library)"
+ ],
+ "S348": [
+  "fp-not-a-query",
+  "Sequelize's own model code (library)"
+ ],
+ "S349": [
+  "fp-not-a-query",
+  "Umzug's own storage code (library)"
+ ],
+ "S350": [
+  "fp-bounded-by-key",
+  "drafts of one document; one per locale"
+ ],
+ "S351": [
+  "unsure",
+  "unreleased releases containing one entry"
+ ],
+ "S352": [
+  "unsure",
+  "every users-permissions role"
+ ],
+ "S353": [
+  "tp",
+  "every file under the folders being deleted"
+ ],
+ "S354": [
+  "fp-bounded-by-key",
+  "permissions of one role; bounded by the action catalog"
+ ],
+ "S355": [
+  "tp",
+  "every admin user without a role"
+ ],
+ "S356": [
+  "unsure",
+  "audit-log service under a validated query; pagination not visible"
+ ],
+ "S357": [
+  "unsure",
+  "releases scheduled in the future"
+ ],
+ "S358": [
+  "fp-bounded-by-key",
+  "super-admin permissions; bounded by the action catalog"
+ ],
+ "S359": [
+  "fp-bounded-by-key",
+  "entries of one document; one per locale"
+ ],
+ "S360": [
+  "tp",
+  "admin media-library folder list, no default limit"
+ ],
+ "S361": [
+  "fp-not-a-query",
+  "pass-through entity repository"
+ ],
+ "S362": [
+  "unsure",
+  "every users-permissions permission"
+ ],
+ "S363": [
+  "fp-bounded-by-key",
+  "versions of one document under a locale list"
+ ],
+ "S364": [
+  "tp",
+  "users-permissions fetchAll: every end user, no default limit"
+ ],
+ "S365": [
+  "unsure",
+  "every webhook"
+ ],
+ "S366": [
+  "fp-not-served",
+  "data-transfer (CLI import/export)"
+ ],
+ "S367": [
+  "fp-bounded-by-key",
+  "documentId IN caller list"
+ ],
+ "S368": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S369": [
+  "fp-bounded-by-key",
+  "published versions of one document"
+ ],
+ "S370": [
+  "fp-not-a-query",
+  "React Query cache findAll"
+ ],
+ "S371": [
+  "fp-bounded-by-key",
+  "singleton metadata table"
+ ],
+ "S372": [
+  "fp-bounded-elsewhere",
+  "query-runner plugin; limit comes in the user's own options"
+ ],
+ "S373": [
+  "fp-not-a-query",
+  "frontend HTTP service"
+ ],
+ "S374": [
+  "fp-not-served",
+  "server/scripts key rotation"
+ ],
+ "S375": [
+  "unsure",
+  "installed plugins via service wrapper"
+ ],
+ "S376": [
+  "fp-not-a-query",
+  "frontend HTTP service"
+ ],
+ "S377": [
+  "fp-not-a-query",
+  "frontend HTTP service"
+ ],
+ "S378": [
+  "fp-bounded-by-key",
+  "id IN a page slice"
+ ],
+ "S379": [
+  "tp",
+  "admin: every V3 environment in an organization"
+ ],
+ "S380": [
+  "unsure",
+  "an integration's connected projects"
+ ],
+ "S381": [
+  "unsure",
+  "environments under a where below the window"
+ ],
+ "S382": [
+  "unsure",
+  "every task identifier in an environment"
+ ],
+ "S383": [
+  "fp-bounded-by-key",
+  "id IN batch list"
+ ],
+ "S384": [
+  "unsure",
+  "every project in the user's organizations"
+ ],
+ "S385": [
+  "fp-bounded-by-key",
+  "key IN caller list"
+ ],
+ "S386": [
+  "fp-bounded-by-key",
+  "idempotencyKey IN caller list"
+ ],
+ "S387": [
+  "unsure",
+  "batch items of one run"
+ ],
+ "S388": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S389": [
+  "unsure",
+  "every project in an organization"
+ ],
+ "S390": [
+  "unsure",
+  "an organization's access tokens"
+ ],
+ "S391": [
+  "unsure",
+  "worker groups"
+ ],
+ "S392": [
+  "fp-bounded-by-key",
+  "id IN caller list"
+ ],
+ "S393": [
+  "unsure",
+  "a project's alert channels"
+ ],
+ "S394": [
+  "unsure",
+  "an organization's Vercel project integrations"
+ ],
+ "S395": [
+  "fp-bounded-by-key",
+  "instances of one schedule; one per environment"
+ ],
+ "S396": [
+  "unsure",
+  "matching alert channels of a project"
+ ],
+ "S397": [
+  "unsure",
+  "tasks of one deployed worker"
+ ],
+ "S398": [
+  "unsure",
+  "organizations a user belongs to"
+ ],
+ "S399": [
+  "fp-bounded-by-key",
+  "entityId IN caller list"
+ ],
+ "S400": [
+  "unsure",
+  "a user's workspaces via wrapper"
+ ]
+}
