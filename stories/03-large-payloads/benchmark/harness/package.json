@@ -1,0 +1,16 @@
+{
+  "name": "payload-cost-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Measures what an unbounded list endpoint costs, using cal.com's admin user list as the workload",
+  "dependencies": {
+    "@prisma/adapter-pg": "^6.16.1",
+    "@prisma/client": "^6.16.1",
+    "pg": "^8.23.1",
+    "prisma": "^6.16.1",
+    "superjson": "^1.9.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}

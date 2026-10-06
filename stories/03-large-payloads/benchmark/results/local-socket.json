@@ -1,0 +1,523 @@
+{
+ "label": "local-socket",
+ "node": "v22.22.2",
+ "config": {
+  "host": "/tmp",
+  "port": 5433,
+  "seedPort": 5433,
+  "sizes": [
+   1000,
+   10000,
+   50000
+  ],
+  "repeats": 7,
+  "warmups": 2,
+  "label": "local-socket"
+ },
+ "runs": [
+  {
+   "size": 1000,
+   "strategy": "as-found",
+   "rows": 1000,
+   "bytes": 1427224,
+   "gzipBytes": 129686,
+   "queryMs": 50.480645,
+   "serializeMs": 75.505848,
+   "parseMs": 27.885399,
+   "serverMs": 126.250775,
+   "heapDeltaMB": 22.726600646972656,
+   "samples": [
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 50.480645,
+     "serializeMs": 73.64202,
+     "parseMs": 27.03858,
+     "serverMs": 124.122665,
+     "heapDeltaMB": 22.703529357910156
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 45.665404,
+     "serializeMs": 80.585371,
+     "parseMs": 28.234715,
+     "serverMs": 126.250775,
+     "heapDeltaMB": 22.726600646972656
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 61.474024,
+     "serializeMs": 75.505848,
+     "parseMs": 26.566845,
+     "serverMs": 136.979872,
+     "heapDeltaMB": 22.71881103515625
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 44.453993,
+     "serializeMs": 72.70603,
+     "parseMs": 30.50767,
+     "serverMs": 117.160023,
+     "heapDeltaMB": 22.742759704589844
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 50.060379,
+     "serializeMs": 73.014862,
+     "parseMs": 27.129831,
+     "serverMs": 123.075241,
+     "heapDeltaMB": 22.655616760253906
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 51.539345,
+     "serializeMs": 79.073622,
+     "parseMs": 30.213894,
+     "serverMs": 130.612967,
+     "heapDeltaMB": 22.80487823486328
+    },
+    {
+     "rows": 1000,
+     "bytes": 1427224,
+     "gzipBytes": 129686,
+     "queryMs": 53.495573,
+     "serializeMs": 75.728419,
+     "parseMs": 27.885399,
+     "serverMs": 129.223992,
+     "heapDeltaMB": 23.441917419433594
+    }
+   ]
+  },
+  {
+   "size": 1000,
+   "strategy": "suggested",
+   "rows": 100,
+   "bytes": 141928,
+   "gzipBytes": 13996,
+   "queryMs": 7.394453,
+   "serializeMs": 6.800437,
+   "parseMs": 2.48195,
+   "serverMs": 15.068311,
+   "heapDeltaMB": 11.616661071777344,
+   "samples": [
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 8.267874,
+     "serializeMs": 6.800437,
+     "parseMs": 2.497793,
+     "serverMs": 15.068311,
+     "heapDeltaMB": 11.632575988769531
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 10.298967,
+     "serializeMs": 7.273811,
+     "parseMs": 2.303253,
+     "serverMs": 17.572778,
+     "heapDeltaMB": 11.626564025878906
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 7.394453,
+     "serializeMs": 7.411754,
+     "parseMs": 2.612148,
+     "serverMs": 14.806207,
+     "heapDeltaMB": 11.616661071777344
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.380892,
+     "serializeMs": 6.758701,
+     "parseMs": 2.058303,
+     "serverMs": 13.139593,
+     "heapDeltaMB": 11.629653930664062
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.28011,
+     "serializeMs": 6.732359,
+     "parseMs": 2.48195,
+     "serverMs": 13.012469,
+     "heapDeltaMB": 11.61651611328125
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 11.19232,
+     "serializeMs": 5.867768,
+     "parseMs": 2.004988,
+     "serverMs": 17.060088,
+     "heapDeltaMB": 11.480415344238281
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 7.196071,
+     "serializeMs": 12.542861,
+     "parseMs": 2.489328,
+     "serverMs": 19.738932,
+     "heapDeltaMB": 11.591987609863281
+    }
+   ]
+  },
+  {
+   "size": 10000,
+   "strategy": "as-found",
+   "rows": 10000,
+   "bytes": 14355730,
+   "gzipBytes": 1278017,
+   "queryMs": 437.077815,
+   "serializeMs": 743.881467,
+   "parseMs": 284.211083,
+   "serverMs": 1155.059786,
+   "heapDeltaMB": 159.66661834716797,
+   "samples": [
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 437.077815,
+     "serializeMs": 676.022673,
+     "parseMs": 327.979712,
+     "serverMs": 1113.100488,
+     "heapDeltaMB": 159.66661834716797
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 428.859638,
+     "serializeMs": 650.327395,
+     "parseMs": 283.628743,
+     "serverMs": 1079.187033,
+     "heapDeltaMB": 159.66453552246094
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 411.178319,
+     "serializeMs": 743.881467,
+     "parseMs": 284.211083,
+     "serverMs": 1155.059786,
+     "heapDeltaMB": 160.9038543701172
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 456.069789,
+     "serializeMs": 747.775224,
+     "parseMs": 272.178772,
+     "serverMs": 1203.845013,
+     "heapDeltaMB": 162.0533676147461
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 474.089978,
+     "serializeMs": 811.263798,
+     "parseMs": 287.340395,
+     "serverMs": 1285.353776,
+     "heapDeltaMB": 159.42198944091797
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 423.032091,
+     "serializeMs": 697.075633,
+     "parseMs": 286.828757,
+     "serverMs": 1120.107724,
+     "heapDeltaMB": 159.50100708007812
+    },
+    {
+     "rows": 10000,
+     "bytes": 14355730,
+     "gzipBytes": 1278017,
+     "queryMs": 450.539045,
+     "serializeMs": 769.97898,
+     "parseMs": 257.423322,
+     "serverMs": 1220.518025,
+     "heapDeltaMB": 159.81929779052734
+    }
+   ]
+  },
+  {
+   "size": 10000,
+   "strategy": "suggested",
+   "rows": 100,
+   "bytes": 141928,
+   "gzipBytes": 13996,
+   "queryMs": 8.62148,
+   "serializeMs": 7.07825,
+   "parseMs": 2.449027,
+   "serverMs": 15.679516,
+   "heapDeltaMB": 11.614898681640625,
+   "samples": [
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.985831,
+     "serializeMs": 6.921924,
+     "parseMs": 2.500909,
+     "serverMs": 13.907755,
+     "heapDeltaMB": 11.610946655273438
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 11.047174,
+     "serializeMs": 8.882719,
+     "parseMs": 4.357382,
+     "serverMs": 19.929893,
+     "heapDeltaMB": 11.614898681640625
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 8.807821,
+     "serializeMs": 6.871695,
+     "parseMs": 2.447149,
+     "serverMs": 15.679516,
+     "heapDeltaMB": 11.614898681640625
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.745394,
+     "serializeMs": 7.07825,
+     "parseMs": 2.03606,
+     "serverMs": 13.823644,
+     "heapDeltaMB": 11.454292297363281
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 7.22914,
+     "serializeMs": 13.012438,
+     "parseMs": 2.449027,
+     "serverMs": 20.241578,
+     "heapDeltaMB": 11.635345458984375
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 8.62148,
+     "serializeMs": 6.699229,
+     "parseMs": 2.057015,
+     "serverMs": 15.320709,
+     "heapDeltaMB": 11.619583129882812
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 12.914545,
+     "serializeMs": 12.525862,
+     "parseMs": 2.5542,
+     "serverMs": 25.440407,
+     "heapDeltaMB": 11.612342834472656
+    }
+   ]
+  },
+  {
+   "size": 50000,
+   "strategy": "as-found",
+   "rows": 50000,
+   "bytes": 72151730,
+   "gzipBytes": 6372705,
+   "queryMs": 2543.982909,
+   "serializeMs": 4217.087148,
+   "parseMs": 1654.698184,
+   "serverMs": 6724.485732,
+   "heapDeltaMB": 789.5209197998047,
+   "samples": [
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2359.398961,
+     "serializeMs": 4032.406254,
+     "parseMs": 1551.413087,
+     "serverMs": 6391.805215,
+     "heapDeltaMB": 788.3662261962891
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2452.423954,
+     "serializeMs": 4272.061778,
+     "parseMs": 1617.719877,
+     "serverMs": 6724.485732,
+     "heapDeltaMB": 767.8014068603516
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2781.039049,
+     "serializeMs": 4218.605585,
+     "parseMs": 1733.954882,
+     "serverMs": 6999.644634,
+     "heapDeltaMB": 789.5209197998047
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2571.001548,
+     "serializeMs": 4307.974072,
+     "parseMs": 1654.698184,
+     "serverMs": 6878.97562,
+     "heapDeltaMB": 787.2040405273438
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2543.982909,
+     "serializeMs": 4063.084972,
+     "parseMs": 1593.864091,
+     "serverMs": 6607.067881,
+     "heapDeltaMB": 796.4398651123047
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2552.876507,
+     "serializeMs": 3988.472622,
+     "parseMs": 1717.866141,
+     "serverMs": 6541.349129,
+     "heapDeltaMB": 792.2876586914062
+    },
+    {
+     "rows": 50000,
+     "bytes": 72151730,
+     "gzipBytes": 6372705,
+     "queryMs": 2531.838167,
+     "serializeMs": 4217.087148,
+     "parseMs": 1698.114885,
+     "serverMs": 6748.925315,
+     "heapDeltaMB": 792.5773544311523
+    }
+   ]
+  },
+  {
+   "size": 50000,
+   "strategy": "suggested",
+   "rows": 100,
+   "bytes": 141928,
+   "gzipBytes": 13996,
+   "queryMs": 9.060692,
+   "serializeMs": 6.798467,
+   "parseMs": 2.595572,
+   "serverMs": 15.848763,
+   "heapDeltaMB": 11.605911254882812,
+   "samples": [
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 14.430326,
+     "serializeMs": 18.401055,
+     "parseMs": 5.272267,
+     "serverMs": 32.831381,
+     "heapDeltaMB": 11.605911254882812
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 11.15345,
+     "serializeMs": 12.53356,
+     "parseMs": 3.707954,
+     "serverMs": 23.68701,
+     "heapDeltaMB": 11.604118347167969
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.390695,
+     "serializeMs": 6.798467,
+     "parseMs": 2.595572,
+     "serverMs": 13.189162,
+     "heapDeltaMB": 11.607566833496094
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 6.569166,
+     "serializeMs": 6.72887,
+     "parseMs": 2.147652,
+     "serverMs": 13.298036,
+     "heapDeltaMB": 11.607566833496094
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 7.178553,
+     "serializeMs": 5.838713,
+     "parseMs": 2.553349,
+     "serverMs": 13.017266,
+     "heapDeltaMB": 11.452171325683594
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 9.060692,
+     "serializeMs": 6.788071,
+     "parseMs": 2.054013,
+     "serverMs": 15.848763,
+     "heapDeltaMB": 11.630317687988281
+    },
+    {
+     "rows": 100,
+     "bytes": 141928,
+     "gzipBytes": 13996,
+     "queryMs": 10.959794,
+     "serializeMs": 9.130104,
+     "parseMs": 6.194088,
+     "serverMs": 20.089898,
+     "heapDeltaMB": 11.458442687988281
+    }
+   ]
+  }
+ ]
+}

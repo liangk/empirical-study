@@ -1,0 +1,4 @@
+node_modules/
+prisma/generated/
+prisma/schema.prisma
+prisma/users.sql
