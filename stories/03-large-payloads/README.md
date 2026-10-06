@@ -26,6 +26,7 @@ repository alone (see Step 5).
 |---|---|---|
 | 1 | Reproduce Study 09 on its own corpus and commits, reconcile its numbers, and calibrate the two payload rules core-engine already had | Done (2026-09-24). Steps 0–5 below; results go in the report |
 | 2 | Bring core-engine's payload detection to full coverage: every pattern any of the three detectors claims, each calibrated the same way | Done (2026-10-02). Items 1–6 below |
+| 3 | Publish the research report on stackinsight.dev | Done (2026-10-06). Benchmark in `benchmark/`, draft in `content/large-payloads-detection-story.md`, published as `astro-blog/src/content/blog/large-payloads-detection-story.md` |
 
 # Stage 1 — Reproduce Study 09
 
