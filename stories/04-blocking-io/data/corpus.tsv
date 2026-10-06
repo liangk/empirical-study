@@ -1,0 +1,251 @@
+index	repo	url	category	study02_files	study02_findings	duplicate_of
+1	expressjs/express	https://github.com/expressjs/express	Web Frameworks & HTTP Servers	48	3	
+2	fastify/fastify	https://github.com/fastify/fastify	Web Frameworks & HTTP Servers	69	4	
+3	koajs/koa	https://github.com/koajs/koa	Web Frameworks & HTTP Servers	9	0	
+4	hapijs/hapi	https://github.com/hapijs/hapi	Web Frameworks & HTTP Servers	38	0	
+5	nestjs/nest	https://github.com/nestjs/nest	Web Frameworks & HTTP Servers	1346	9	
+6	trpc/trpc	https://github.com/trpc/trpc	Web Frameworks & HTTP Servers	573	35	
+7	feathersjs/feathers	https://github.com/feathersjs/feathers	Web Frameworks & HTTP Servers	170	4	
+8	adonisjs/core	https://github.com/adonisjs/core	Web Frameworks & HTTP Servers	121	4	
+9	moleculerjs/moleculer	https://github.com/moleculerjs/moleculer	Web Frameworks & HTTP Servers	275	20	
+10	total-typescript/ts-reset	https://github.com/total-typescript/ts-reset	Web Frameworks & HTTP Servers	16	2	
+11	TryGhost/Ghost	https://github.com/TryGhost/Ghost	CMS & Headless CMS	3162	57	
+12	strapi/strapi	https://github.com/strapi/strapi	CMS & Headless CMS	3135	174	
+13	keystonejs/keystone	https://github.com/keystonejs/keystone	CMS & Headless CMS	745	11	
+14	payloadcms/payload	https://github.com/payloadcms/payload	CMS & Headless CMS	4524	240	
+15	directus/directus	https://github.com/directus/directus	CMS & Headless CMS	2429	18	
+16	apostrophecms/apostrophe	https://github.com/apostrophecms/apostrophe	CMS & Headless CMS	506	133	
+17	Putaitu/hashbrown-cms	https://github.com/Putaitu/hashbrown-cms	CMS & Headless CMS	268	10	
+18	gilbitron/Raneto	https://github.com/gilbitron/Raneto	CMS & Headless CMS	33	1	
+19	getgrav/grav	https://github.com/getgrav/grav	CMS & Headless CMS	4	0	
+20	webiny/webiny-js	https://github.com/webiny/webiny-js	CMS & Headless CMS	8666	203	
+21	sahat/hackathon-starter	https://github.com/sahat/hackathon-starter	Full-Stack Application Boilerplates	16	14	
+22	hagopj13/node-express-boilerplate	https://github.com/hagopj13/node-express-boilerplate	Full-Stack Application Boilerplates	40	9	
+23	santiq/bulletproof-nodejs	https://github.com/santiq/bulletproof-nodejs	Full-Stack Application Boilerplates	28	0	
+24	danielfsousa/express-rest-boilerplate	https://github.com/danielfsousa/express-rest-boilerplate	Full-Stack Application Boilerplates	23	0	
+25	madhums/node-express-mongoose	https://github.com/madhums/node-express-mongoose	Full-Stack Application Boilerplates	12	1	
+26	w3tecch/express-typescript-boilerplate	https://github.com/w3tecch/express-typescript-boilerplate	Full-Stack Application Boilerplates	63	0	
+27	edwinhern/express-typescript	https://github.com/edwinhern/express-typescript	Full-Stack Application Boilerplates	18	0	
+28	kunalkapadia/express-mongoose-es6-rest-api	https://github.com/kunalkapadia/express-mongoose-es6-rest-api	Full-Stack Application Boilerplates	14	0	
+29	maitraysuthar/rest-api-nodejs-mongodb	https://github.com/maitraysuthar/rest-api-nodejs-mongodb	Full-Stack Application Boilerplates	14	0	
+30	kriasoft/react-starter-kit	https://github.com/kriasoft/react-starter-kit	Full-Stack Application Boilerplates	118	4	
+31	react-boilerplate/react-boilerplate	https://github.com/react-boilerplate/react-boilerplate	Full-Stack Application Boilerplates	145	10	
+32	talyssonoc/node-api-boilerplate	https://github.com/talyssonoc/node-api-boilerplate	Full-Stack Application Boilerplates	84	1	
+33	gothinkster/node-express-realworld-example-app	https://github.com/gothinkster/node-express-realworld-example-app	Full-Stack Application Boilerplates	28	0	
+34	gothinkster/koa-knex-realworld-example	https://github.com/gothinkster/koa-knex-realworld-example	Full-Stack Application Boilerplates	37	1	
+35	linnovate/mean	https://github.com/linnovate/mean	Full-Stack Application Boilerplates	48	0	
+36	RocketChat/Rocket.Chat	https://github.com/RocketChat/Rocket.Chat	Real-World Production Applications	7592	49	
+37	wekan/wekan	https://github.com/wekan/wekan	Real-World Production Applications	404	13	
+38	outline/outline	https://github.com/outline/outline	Real-World Production Applications	2036	42	
+39	medusajs/medusa	https://github.com/medusajs/medusa	Real-World Production Applications	6999	103	
+40	calcom/cal.com	https://github.com/calcom/cal.com	Real-World Production Applications	7205	98	
+41	nocodb/nocodb	https://github.com/nocodb/nocodb	Real-World Production Applications	1701	51	
+42	n8n-io/n8n	https://github.com/n8n-io/n8n	Real-World Production Applications	8138	429	
+43	appwrite/appwrite	https://github.com/appwrite/appwrite	Real-World Production Applications	1	0	
+44	verdaccio/verdaccio	https://github.com/verdaccio/verdaccio	Real-World Production Applications	604	25	
+45	ether/etherpad-lite	https://github.com/ether/etherpad-lite	Real-World Production Applications	152	60	
+46	NodeBB/NodeBB	https://github.com/NodeBB/NodeBB	Real-World Production Applications	605	40	
+47	parse-community/parse-server	https://github.com/parse-community/parse-server	Real-World Production Applications	366	18	
+48	Countly/countly-server	https://github.com/Countly/countly-server	Real-World Production Applications	737	165	
+49	umami-software/umami	https://github.com/umami-software/umami	Real-World Production Applications	665	14	
+50	ToolJet/ToolJet	https://github.com/ToolJet/ToolJet	Real-World Production Applications	4459	94	
+51	twentyhq/twenty	https://github.com/twentyhq/twenty	Real-World Production Applications	9789	41	
+52	hoppscotch/hoppscotch	https://github.com/hoppscotch/hoppscotch	Real-World Production Applications	914	16	
+53	Budibase/budibase	https://github.com/Budibase/budibase	Real-World Production Applications	1838	217	
+54	ever-co/ever-gauzy	https://github.com/ever-co/ever-gauzy	Real-World Production Applications	783	101	
+55	invoiceninja/invoiceninja	https://github.com/invoiceninja/invoiceninja	Real-World Production Applications	62	0	
+56	wojtekmaj/react-pdf	https://github.com/wojtekmaj/react-pdf	Real-World Production Applications	67	0	
+57	lobehub/lobe-chat	https://github.com/lobehub/lobe-chat	Real-World Production Applications	5289	121	
+58	immich-app/immich	https://github.com/immich-app/immich	Real-World Production Applications	856	35	
+59	maybe-finance/maybe	https://github.com/maybe-finance/maybe	Real-World Production Applications	50	0	
+60	documenso/documenso	https://github.com/documenso/documenso	Real-World Production Applications	1622	27	
+61	vercel/next.js	https://github.com/vercel/next.js	SSR Frameworks & Meta-Frameworks	5294	515	
+62	nuxt/nuxt	https://github.com/nuxt/nuxt	SSR Frameworks & Meta-Frameworks	342	61	
+63	sveltejs/kit	https://github.com/sveltejs/kit	SSR Frameworks & Meta-Frameworks	253	209	
+64	remix-run/remix	https://github.com/remix-run/remix	SSR Frameworks & Meta-Frameworks	501	91	
+65	withastro/astro	https://github.com/withastro/astro	SSR Frameworks & Meta-Frameworks	875	147	
+66	gatsbyjs/gatsby	https://github.com/gatsbyjs/gatsby	SSR Frameworks & Meta-Frameworks	3415	326	
+67	redwoodjs/redwood	https://github.com/redwoodjs/redwood	SSR Frameworks & Meta-Frameworks	1785	747	
+68	blitz-js/blitz	https://github.com/blitz-js/blitz	SSR Frameworks & Meta-Frameworks	631	131	
+69	hexojs/hexo	https://github.com/hexojs/hexo	SSR Frameworks & Meta-Frameworks	149	9	
+70	11ty/eleventy	https://github.com/11ty/eleventy	SSR Frameworks & Meta-Frameworks	178	31	
+71	webpack/webpack	https://github.com/webpack/webpack	Build Tools & Bundlers	1108	30	
+72	vitejs/vite	https://github.com/vitejs/vite	Build Tools & Bundlers	1066	121	
+73	parcel-bundler/parcel	https://github.com/parcel-bundler/parcel	Build Tools & Bundlers	564	90	
+74	evanw/esbuild	https://github.com/evanw/esbuild	Build Tools & Bundlers	43	259	
+75	rollup/rollup	https://github.com/rollup/rollup	Build Tools & Bundlers	390	11	
+76	swc-project/swc	https://github.com/swc-project/swc	Build Tools & Bundlers	348	64	
+77	babel/babel	https://github.com/babel/babel	Build Tools & Bundlers	900	318	
+78	vercel/turbo	https://github.com/vercel/turbo	Build Tools & Bundlers	942	164	
+79	biomejs/biome	https://github.com/biomejs/biome	Build Tools & Bundlers	48	41	
+80	eslint/eslint	https://github.com/eslint/eslint	Build Tools & Bundlers	476	33	
+81	google/zx	https://github.com/google/zx	CLI Tools & DevOps	37	25	
+82	shelljs/shelljs	https://github.com/shelljs/shelljs	CLI Tools & DevOps	40	112	
+83	lerna/lerna	https://github.com/lerna/lerna	CLI Tools & DevOps	481	106	
+84	changesets/changesets	https://github.com/changesets/changesets	CLI Tools & DevOps	99	8	
+85	semantic-release/semantic-release	https://github.com/semantic-release/semantic-release	CLI Tools & DevOps	28	0	
+86	commitizen/cz-cli	https://github.com/commitizen/cz-cli	CLI Tools & DevOps	32	20	
+87	typicode/husky	https://github.com/typicode/husky	CLI Tools & DevOps	4	6	
+88	lint-staged/lint-staged	https://github.com/lint-staged/lint-staged	CLI Tools & DevOps	41	0	
+89	vercel/pkg	https://github.com/vercel/pkg	CLI Tools & DevOps	254	67	
+90	tj/commander.js	https://github.com/tj/commander.js	CLI Tools & DevOps	50	4	
+91	yargs/yargs	https://github.com/yargs/yargs	CLI Tools & DevOps	57	3	
+92	enquirer/enquirer	https://github.com/enquirer/enquirer	CLI Tools & DevOps	235	6	
+93	SBoudrias/Inquirer.js	https://github.com/SBoudrias/Inquirer.js	CLI Tools & DevOps	106	8	
+94	sindresorhus/execa	https://github.com/sindresorhus/execa	CLI Tools & DevOps	252	7	
+95	pnpm/pnpm	https://github.com/pnpm/pnpm	CLI Tools & DevOps	699	184	
+96	npm/cli	https://github.com/npm/cli	CLI Tools & DevOps	266	24	
+97	yarnpkg/berry	https://github.com/yarnpkg/berry	CLI Tools & DevOps	781	583	
+98	volta-cli/volta	https://github.com/volta-cli/volta	CLI Tools & DevOps	0	0	
+99	nvm-sh/nvm	https://github.com/nvm-sh/nvm	CLI Tools & DevOps	0	0	
+100	Schniz/fnm	https://github.com/Schniz/fnm	CLI Tools & DevOps	7	4	
+101	jestjs/jest	https://github.com/jestjs/jest	Testing Frameworks & Tools	472	85	
+102	mochajs/mocha	https://github.com/mochajs/mocha	Testing Frameworks & Tools	76	26	
+103	avajs/ava	https://github.com/avajs/ava	Testing Frameworks & Tools	262	49	
+104	cypress-io/cypress	https://github.com/cypress-io/cypress	Testing Frameworks & Tools	2704	158	
+105	playwright-community/jest-playwright	https://github.com/playwright-community/jest-playwright	Testing Frameworks & Tools	18	3	
+106	vitest-dev/vitest	https://github.com/vitest-dev/vitest	Testing Frameworks & Tools	614	100	
+107	stryker-mutator/stryker-js	https://github.com/stryker-mutator/stryker-js	Testing Frameworks & Tools	629	45	
+108	nock/nock	https://github.com/nock/nock	Testing Frameworks & Tools	28	13	
+109	ladjs/supertest	https://github.com/ladjs/supertest	Testing Frameworks & Tools	7	1	
+110	sinonjs/sinon	https://github.com/sinonjs/sinon	Testing Frameworks & Tools	82	8	
+111	jaredhanson/passport	https://github.com/jaredhanson/passport	Authentication & Security Libraries	9	0	
+112	jaredhanson/passport-local	https://github.com/jaredhanson/passport-local	Authentication & Security Libraries	3	0	
+113	auth0/node-jsonwebtoken	https://github.com/auth0/node-jsonwebtoken	Authentication & Security Libraries	12	0	
+114	kelektiv/node.bcrypt.js	https://github.com/kelektiv/node.bcrypt.js	Authentication & Security Libraries	4	0	
+115	dcodeIO/bcrypt.js	https://github.com/dcodeIO/bcrypt.js	Authentication & Security Libraries	6	3	
+116	panva/jose	https://github.com/panva/jose	Authentication & Security Libraries	100	36	
+117	lucia-auth/lucia	https://github.com/lucia-auth/lucia	Authentication & Security Libraries	0	0	
+118	nextauthjs/next-auth	https://github.com/nextauthjs/next-auth	Authentication & Security Libraries	499	12	
+119	supertokens/supertokens-node	https://github.com/supertokens/supertokens-node	Authentication & Security Libraries	594	4	
+120	ory/kratos	https://github.com/ory/kratos	Authentication & Security Libraries	1	0	
+121	typicode/json-server	https://github.com/typicode/json-server	API & Backend Services	6	5	
+122	mongo-express/mongo-express	https://github.com/mongo-express/mongo-express	API & Backend Services	29	7	
+123	node-red/node-red	https://github.com/node-red/node-red	API & Backend Services	7	7	
+124	graphql/graphql-js	https://github.com/graphql/graphql-js	API & Backend Services	185	43	
+125	apollographql/apollo-server	https://github.com/apollographql/apollo-server	API & Backend Services	85	5	
+126	prisma/prisma	https://github.com/prisma/prisma	API & Backend Services	1048	84	
+127	sequelize/sequelize	https://github.com/sequelize/sequelize	API & Backend Services	372	4	
+128	typeorm/typeorm	https://github.com/typeorm/typeorm	API & Backend Services	683	6	
+129	knex/knex	https://github.com/knex/knex	API & Backend Services	190	13	
+130	Automattic/mongoose	https://github.com/Automattic/mongoose	API & Backend Services	326	21	
+131	agenda/agenda	https://github.com/agenda/agenda	API & Backend Services	99	0	
+132	OptimalBits/bull	https://github.com/OptimalBits/bull	API & Backend Services	22	6	
+133	taskforcesh/bullmq	https://github.com/taskforcesh/bullmq	API & Backend Services	102	9	
+134	bee-queue/bee-queue	https://github.com/bee-queue/bee-queue	API & Backend Services	21	1	
+135	helmetjs/helmet	https://github.com/helmetjs/helmet	API & Backend Services	16	0	
+136	expressjs/multer	https://github.com/expressjs/multer	File Upload / Processing / Media	8	1	
+137	lovell/sharp	https://github.com/lovell/sharp	File Upload / Processing / Media	22	11	
+138	nodemailer/nodemailer	https://github.com/nodemailer/nodemailer	File Upload / Processing / Media	51	0	
+139	Automattic/juice	https://github.com/Automattic/juice	File Upload / Processing / Media	11	0	
+140	gethomepage/homepage	https://github.com/gethomepage/homepage	File Upload / Processing / Media	1021	19	
+141	foliojs/pdfkit	https://github.com/foliojs/pdfkit	File Upload / Processing / Media	80	38	
+142	bpampuch/pdfmake	https://github.com/bpampuch/pdfmake	File Upload / Processing / Media	82	36	
+143	SheetJS/sheetjs	https://github.com/SheetJS/sheetjs	File Upload / Processing / Media	1	0	
+144	exceljs/exceljs	https://github.com/exceljs/exceljs	File Upload / Processing / Media	342	27	
+145	paulmillr/chokidar	https://github.com/paulmillr/chokidar	File Upload / Processing / Media	4	0	
+146	winstonjs/winston	https://github.com/winstonjs/winston	Logging, Config & Utilities	47	5	
+147	pinojs/pino	https://github.com/pinojs/pino	Logging, Config & Utilities	40	3	
+148	log4js-node/log4js-node	https://github.com/log4js-node/log4js-node	Logging, Config & Utilities	55	11	
+149	motdotla/dotenv	https://github.com/motdotla/dotenv	Logging, Config & Utilities	6	3	
+150	node-config/node-config	https://github.com/node-config/node-config	Logging, Config & Utilities	12	4	
+151	mozilla/node-convict	https://github.com/mozilla/node-convict	Logging, Config & Utilities	6	1	
+152	cosmiconfig/cosmiconfig	https://github.com/cosmiconfig/cosmiconfig	Logging, Config & Utilities	12	6	
+153	davidtheclark/cosmiconfig	https://github.com/davidtheclark/cosmiconfig	Logging, Config & Utilities	12	6	
+154	mrmlnc/fast-glob	https://github.com/mrmlnc/fast-glob	Logging, Config & Utilities	78	0	
+155	isaacs/node-glob	https://github.com/isaacs/node-glob	Logging, Config & Utilities	11	8	
+156	expressjs/morgan	https://github.com/expressjs/morgan	Middleware & Express Ecosystem	1	0	
+157	expressjs/cors	https://github.com/expressjs/cors	Middleware & Express Ecosystem	1	0	
+158	expressjs/body-parser	https://github.com/expressjs/body-parser	Middleware & Express Ecosystem	7	0	
+159	expressjs/session	https://github.com/expressjs/session	Middleware & Express Ecosystem	7	3	
+160	expressjs/serve-static	https://github.com/expressjs/serve-static	Middleware & Express Ecosystem	2	2	
+161	expressjs/compression	https://github.com/expressjs/compression	Middleware & Express Ecosystem	1	0	
+162	http-party/node-http-proxy	https://github.com/http-party/node-http-proxy	Middleware & Express Ecosystem	33	4	
+163	chimurai/http-proxy-middleware	https://github.com/chimurai/http-proxy-middleware	Middleware & Express Ecosystem	45	0	
+164	express-rate-limit/express-rate-limit	https://github.com/express-rate-limit/express-rate-limit	Middleware & Express Ecosystem	8	0	
+165	expressjs/cookie-parser	https://github.com/expressjs/cookie-parser	Middleware & Express Ecosystem	1	0	
+166	facebook/docusaurus	https://github.com/facebook/docusaurus	Static Site Generators & Blog Platforms	840	4	
+167	vuejs/vitepress	https://github.com/vuejs/vitepress	Static Site Generators & Blog Platforms	100	19	
+168	docsifyjs/docsify	https://github.com/docsifyjs/docsify	Static Site Generators & Blog Platforms	69	0	
+169	jsdoc/jsdoc	https://github.com/jsdoc/jsdoc	Static Site Generators & Blog Platforms	72	14	
+170	TypeStrong/typedoc	https://github.com/TypeStrong/typedoc	Static Site Generators & Blog Platforms	228	58	
+171	middleman/middleman	https://github.com/middleman/middleman	Static Site Generators & Blog Platforms	3	0	
+172	metalsmith/metalsmith	https://github.com/metalsmith/metalsmith	Static Site Generators & Blog Platforms	15	2	
+173	assemble/assemble	https://github.com/assemble/assemble	Static Site Generators & Blog Platforms	39	4	
+174	gridsome/gridsome	https://github.com/gridsome/gridsome	Static Site Generators & Blog Platforms	196	32	
+175	DimitriMikadze/Mean-Blog	https://github.com/DimitriMikadze/Mean-Blog	Static Site Generators & Blog Platforms	11	0	
+176	socketio/socket.io	https://github.com/socketio/socket.io	Real-Time & WebSocket	251	12	
+177	websockets/ws	https://github.com/websockets/ws	Real-Time & WebSocket	23	3	
+178	primus/primus	https://github.com/primus/primus	Real-Time & WebSocket	47	7	
+179	uNetworking/uWebSockets.js	https://github.com/uNetworking/uWebSockets.js	Real-Time & WebSocket	31	5	
+180	socketio/engine.io	https://github.com/socketio/engine.io	Real-Time & WebSocket	0	0	
+181	gulpjs/gulp	https://github.com/gulpjs/gulp	Task Runners & Automation	3	0	
+182	gruntjs/grunt	https://github.com/gruntjs/grunt	Task Runners & Automation	13	17	
+183	open-cli-tools/concurrently	https://github.com/open-cli-tools/concurrently	Task Runners & Automation	68	8	
+184	mysticatea/npm-run-all	https://github.com/mysticatea/npm-run-all	Task Runners & Automation	38	1	
+185	remy/nodemon	https://github.com/remy/nodemon	Task Runners & Automation	30	13	
+186	facebook/create-react-app	https://github.com/facebook/create-react-app	Scaffolding & Code Generation	127	103	
+187	vuejs/create-vue	https://github.com/vuejs/create-vue	Scaffolding & Code Generation	51	57	
+188	angular/angular-cli	https://github.com/angular/angular-cli	Scaffolding & Code Generation	720	122	
+189	yeoman/yo	https://github.com/yeoman/yo	Scaffolding & Code Generation	17	4	
+190	plopjs/plop	https://github.com/plopjs/plop	Scaffolding & Code Generation	32	10	
+191	clinicjs/node-clinic	https://github.com/clinicjs/node-clinic	Monitoring, Profiling & Debugging	8	1	
+192	davidmarkclements/0x	https://github.com/davidmarkclements/0x	Monitoring, Profiling & Debugging	36	16	
+193	Unitech/pm2	https://github.com/Unitech/pm2	Monitoring, Profiling & Debugging	200	157	
+194	nock/nock	https://github.com/nock/nock	Testing Frameworks & Tools	28	13	108
+195	mcollina/autocannon	https://github.com/mcollina/autocannon	Monitoring, Profiling & Debugging	44	11	
+196	microsoft/vscode	https://github.com/microsoft/vscode	Desktop & Electron Apps	5140	108	
+197	atom/atom	https://github.com/atom/atom	Desktop & Electron Apps	352	435	
+198	jgraph/drawio-desktop	https://github.com/jgraph/drawio-desktop	Desktop & Electron Apps	5	28	
+199	notable/notable	https://github.com/notable/notable	Desktop & Electron Apps	1	0	
+200	marktext/marktext	https://github.com/marktext/marktext	Desktop & Electron Apps	301	38	
+201	Zettlr/Zettlr	https://github.com/Zettlr/Zettlr	Desktop & Electron Apps	390	24	
+202	bitwarden/clients	https://github.com/bitwarden/clients	Desktop & Electron Apps	4959	76	
+203	standardnotes/app	https://github.com/standardnotes/app	Desktop & Electron Apps	2313	28	
+204	desktop/desktop	https://github.com/desktop/desktop	Desktop & Electron Apps	863	44	
+205	GitSquared/edex-ui	https://github.com/GitSquared/edex-ui	Desktop & Electron Apps	24	49	
+206	Automattic/wp-calypso	https://github.com/Automattic/wp-calypso	Miscellaneous Node.js Applications	13626	167	
+207	reactioncommerce/reaction	https://github.com/reactioncommerce/reaction	Miscellaneous Node.js Applications	1747	3	
+208	HabitRPG/habitica	https://github.com/HabitRPG/habitica	Miscellaneous Node.js Applications	754	26	
+209	timeoff-management/application	https://github.com/timeoff-management/application	Miscellaneous Node.js Applications	151	1	
+210	coderaiser/cloudcmd	https://github.com/coderaiser/cloudcmd	Miscellaneous Node.js Applications	168	21	
+211	nasa/openmct	https://github.com/nasa/openmct	Miscellaneous Node.js Applications	606	4	
+212	badges/shields	https://github.com/badges/shields	Miscellaneous Node.js Applications	1369	6	
+213	typicode/lowdb	https://github.com/typicode/lowdb	Miscellaneous Node.js Applications	22	5	
+214	louislam/uptime-kuma	https://github.com/louislam/uptime-kuma	Miscellaneous Node.js Applications	286	98	
+215	coollabsio/coolify	https://github.com/coollabsio/coolify	Miscellaneous Node.js Applications	5	0	
+216	dani-garcia/vaultwarden	https://github.com/dani-garcia/vaultwarden	Miscellaneous Node.js Applications	3	9	
+217	portainer/portainer	https://github.com/portainer/portainer	Miscellaneous Node.js Applications	3313	0	
+218	gethomepage/homepage	https://github.com/gethomepage/homepage	File Upload / Processing / Media	1021	19	140
+219	subnub/myDrive	https://github.com/subnub/myDrive	Miscellaneous Node.js Applications	251	4	
+220	IMA-WorldHealth/bhima	https://github.com/IMA-WorldHealth/bhima	Miscellaneous Node.js Applications	1124	12	
+221	pugjs/pug	https://github.com/pugjs/pug	Template & Rendering Engines	39	32	
+222	handlebars-lang/handlebars.js	https://github.com/handlebars-lang/handlebars.js	Template & Rendering Engines	86	12	
+223	mozilla/nunjucks	https://github.com/mozilla/nunjucks	Template & Rendering Engines	67	21	
+224	mde/ejs	https://github.com/mde/ejs	Template & Rendering Engines	13	11	
+225	marko-js/marko	https://github.com/marko-js/marko	Template & Rendering Engines	419	48	
+226	janl/mustache.js	https://github.com/janl/mustache.js	Template & Rendering Engines	2	0	
+227	harttle/liquidjs	https://github.com/harttle/liquidjs	Template & Rendering Engines	193	17	
+228	eta-dev/eta	https://github.com/eta-dev/eta	Template & Rendering Engines	15	1	
+229	bradtraversy/node_passport_login	https://github.com/bradtraversy/node_passport_login	Server-Side Rendering Examples & Tutorials	7	0	
+230	bradtraversy/storybooks	https://github.com/bradtraversy/storybooks	Server-Side Rendering Examples & Tutorials	11	0	
+231	bradtraversy/devconnector_2.0	https://github.com/bradtraversy/devconnector_2.0	Server-Side Rendering Examples & Tutorials	56	0	
+232	academind/node-restful-api-tutorial	https://github.com/academind/node-restful-api-tutorial	Server-Side Rendering Examples & Tutorials	2	0	
+233	john-smilga/node-express-course	https://github.com/john-smilga/node-express-course	Server-Side Rendering Examples & Tutorials	488	9	
+234	WebDevSimplified/Nodejs-Passport-Login	https://github.com/WebDevSimplified/Nodejs-Passport-Login	Server-Side Rendering Examples & Tutorials	2	0	
+235	azat-co/proexpressjs	https://github.com/azat-co/proexpressjs	Server-Side Rendering Examples & Tutorials	119	3	
+236	bezkoder/node-js-jwt-auth	https://github.com/bezkoder/node-js-jwt-auth	Server-Side Rendering Examples & Tutorials	13	0	
+237	trulymittal/Nodejs-REST-API	https://github.com/trulymittal/Nodejs-REST-API	Server-Side Rendering Examples & Tutorials	5	0	
+238	hoangvvo/nextjs-mongodb-app	https://github.com/hoangvvo/nextjs-mongodb-app	Server-Side Rendering Examples & Tutorials	90	0	
+239	FiloSottile/mkcert	https://github.com/FiloSottile/mkcert	HTTPS / TLS / SSL Examples	0	0	
+240	davewasmer/devcert	https://github.com/davewasmer/devcert	HTTPS / TLS / SSL Examples	12	1	
+241	therootcompany/greenlock-express.js	https://github.com/therootcompany/greenlock-express.js	HTTPS / TLS / SSL Examples	24	0	
+242	mattermost/mattermost	https://github.com/mattermost/mattermost	Additional Production Apps & Services	3930	27	
+243	jitsi/jitsi-meet	https://github.com/jitsi/jitsi-meet	Additional Production Apps & Services	1881	34	
+244	excalidraw/excalidraw	https://github.com/excalidraw/excalidraw	Additional Production Apps & Services	511	32	
+245	PostHog/posthog	https://github.com/PostHog/posthog	Additional Production Apps & Services	5495	131	
+246	apitable/apitable	https://github.com/apitable/apitable	Additional Production Apps & Services	4887	45	
+247	requarks/wiki	https://github.com/requarks/wiki	Additional Production Apps & Services	266	19	
+248	plausible/analytics	https://github.com/plausible/analytics	Additional Production Apps & Services	200	16	
+249	directus/directus	https://github.com/directus/directus	CMS & Headless CMS	2429	18	15
+250	minio/minio	https://github.com/minio/minio	Additional Production Apps & Services	1	0	
