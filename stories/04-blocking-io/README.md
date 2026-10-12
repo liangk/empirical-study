@@ -242,6 +242,18 @@ matter for what the change does to users:
 applications (a `vendor/` module of routes), not only third-party code. B is
 the variant that skips only directories that are unambiguously tests.
 
+**Decided 2026-10-12: variant B goes into core-engine's walker** (1.5.0,
+`packages/core-engine/src/engine.ts`, with tests and a changelog entry). From
+here on, round 0 means core-engine with the 1.5.0 walker. `summarize.js`
+applies it by path to the 1.4.1 scans (`WALKER=1.4.1` for the old numbers):
+
+| | 1.4.1 walker | 1.5.0 walker |
+|---|---|---|
+| core-engine findings | 16,103 in 193 repositories | **10,861 in 184** |
+| Same file and line as a Study 02 finding | 9,440 | 9,390 |
+| core-engine only | 6,663 | 1,471 (953 not yet explained, 361 `randomBytes` and database, 157 in `vendor/`, `public/`, `static/`) |
+| Study 02 only | 611 | 661 (+50 under `__fixtures__/`, `cypress/`, `integration-tests/`, which Study 02 scanned) |
+
 ## Step 4 — Label, before changing any rule
 
 `eval/criteria.md` written 2026-10-08, while the Step 1 scan was running and

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T10:31:39.728Z",
+  "generatedAt": "2026-10-12T05:18:43.184Z",
   "corpus": {
     "rows": 250,
     "distinct": 247,
@@ -293,28 +293,26 @@
     ]
   },
   "coreEngineRound0": {
-    "findings": 16103,
-    "repos": 193,
+    "walker": "1.5.0",
+    "findings": 10861,
+    "repos": 184,
     "byRule": {
-      "blocking-io/sync-file-operation": 14696,
-      "blocking-io/sync-child-process": 905,
-      "blocking-io/sync-crypto-operation": 456,
-      "blocking-io/sync-database-operation": 46
+      "blocking-io/sync-file-operation": 9623,
+      "blocking-io/sync-child-process": 820,
+      "blocking-io/sync-crypto-operation": 382,
+      "blocking-io/sync-database-operation": 36
     },
-    "sameFileLineMoreThanOneCall": 1130,
-    "sameFileLineAsStudy02": 9440,
-    "coreEngineOnly": 6663,
+    "sameFileLineMoreThanOneCall": 1099,
+    "sameFileLineAsStudy02": 9390,
+    "coreEngineOnly": 1471,
     "coreEngineOnlyWhy": {
-      "under test/ (Study 02 skips it)": 4187,
       "randomBytes (not in Study 02)": 325,
       "sync database rule (not in Study 02)": 36,
       "under static/ (Study 02 skips it)": 15,
-      "under tests/ (Study 02 skips it)": 991,
       "under public/ (Study 02 skips it)": 42,
-      "under fixtures/ (Study 02 skips it)": 14,
       "same directories, other cause": 953,
       "under vendor/ (Study 02 skips it)": 100
     },
-    "study02Only": 611
+    "study02Only": 661
   }
 }

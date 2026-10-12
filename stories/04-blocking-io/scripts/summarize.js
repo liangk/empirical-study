@@ -59,6 +59,14 @@ const withFinding = usable.filter((r) => r.old.findings.length > 0).length;
 const denom = usable.filter((r) => r.old.files > 0).length;
 
 // core-engine round 0, on pinned repositories only.
+// core-engine 1.5.0's walker also skips these directories. The scans ran on
+// 1.4.1; a skipped directory drops exactly the findings under it, so filtering
+// by path gives what 1.5.0 would report without rescanning. WALKER=1.4.1
+// reports the unfiltered numbers.
+const WALKER_150 = /(^|\/)(test|tests|fixtures|__fixtures__|cypress|integration-tests)\//;
+const walker = process.env.WALKER || '1.5.0';
+const inScope = (f) => walker === '1.4.1' || !WALKER_150.test(f.file.replace(/\\/g, '/'));
+for (const r of usable) r.new.findings = r.new.findings.filter(inScope);
 const ruleCount = {};
 let sameLine = 0, overlap = 0, newOnly = 0, oldOnly = 0;
 const SKIP02 = new Set(['node_modules', '.git', 'dist', 'build', 'coverage', '.next', '.nuxt', 'vendor', '__pycache__', '.cache', '.output', 'out', 'public', 'static', 'test', 'tests', '__tests__', '__mocks__', 'fixtures', 'e2e']);
@@ -98,7 +106,7 @@ const summary = {
     superset: superset.map((r) => ({ repo: r.repo, expected: r.expected, atCandidate: r.attempts[0], extraSample: r.diff?.extra })), notPinned: notPinned.map((r) => ({ repo: r.repo, expected: r.expected, best: r.attempts.reduce((a, b) => (a.missing + a.extra <= b.missing + b.extra ? a : b)) })), errors: errors.map((r) => ({ repo: r.repo, error: r.error })) },
   reconcile,
   study02OnUsable: { repos: usable.length, findings: sum(usable, (r) => r.old.findings.length), files: sum(usable, (r) => r.old.files), parseErrors: sum(usable, (r) => r.old.parseErrors), reposWithFinding: withFinding, reposWithFiles: denom, zeroFileRowsInPublishedDenominator: zeroFile },
-  coreEngineRound0: { findings: newTotal, repos: newRepos, byRule: ruleCount, sameFileLineMoreThanOneCall: sameLine, sameFileLineAsStudy02: overlap, coreEngineOnly: newOnly, coreEngineOnlyWhy: newOnlyWhy, study02Only: oldOnly },
+  coreEngineRound0: { walker, findings: newTotal, repos: newRepos, byRule: ruleCount, sameFileLineMoreThanOneCall: sameLine, sameFileLineAsStudy02: overlap, coreEngineOnly: newOnly, coreEngineOnlyWhy: newOnlyWhy, study02Only: oldOnly },
 };
 fs.writeFileSync(path.join(ROOT, 'results', 'summary-step1.json'), JSON.stringify(summary, null, 2));
 
@@ -116,7 +124,7 @@ console.log(`Study 02 detector on usable: ${s.findings} findings, ${s.files} fil
 console.log(`  repositories with a finding ${s.reposWithFinding} of ${usable.length} (${(100 * s.reposWithFinding / usable.length).toFixed(1)}%), of ${s.reposWithFiles} with any file (${(100 * s.reposWithFinding / s.reposWithFiles).toFixed(1)}%)`);
 console.log(`  zero-file rows in the published denominator: ${zeroFile.join(', ')}`);
 const c = summary.coreEngineRound0;
-console.log(`\ncore-engine round 0 on usable: ${c.findings} findings in ${c.repos} repositories`, c.byRule);
+console.log(`\ncore-engine round 0 on usable (walker ${walker}): ${c.findings} findings in ${c.repos} repositories`, c.byRule);
 console.log(`  same file:line as a Study 02 finding ${c.sameFileLineAsStudy02}, core-engine only ${c.coreEngineOnly}, Study 02 only ${c.study02Only}`);
 console.log('  core-engine only, why:', c.coreEngineOnlyWhy);
 console.log(`  more than one call on the same line (mostly minified files): ${c.sameFileLineMoreThanOneCall}`);
