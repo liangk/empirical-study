@@ -165,10 +165,32 @@ directories.
 
 ## Step 2 — How many Study 02 findings are a blocking call that matters
 
-Stratified sample of Study 02's findings, labelled with one question first:
-does this call run where it blocks other work (a request, a job, a listener),
-or only at startup, in tooling or in a test? Pay particular attention to the
-`unknown_path` 60%, since that is where the published 7% estimate came from.
+Samples drawn 2026-10-12 by `scripts/sample.js` (seed 20261012), from the 237
+usable repositories, under `eval/criteria.md`. Allocation is not
+proportional: each stratum gets a floor so small strata can be estimated, and
+estimates are weighted back by stratum size.
+
+| Study 02 `context` | Population | Sampled | Weight |
+|---|---|---|---|
+| `unknown_path` | 6,033 | 160 | 37.7 |
+| `tooling_path` | 1,972 | 70 | 28.2 |
+| `startup_path` | 1,281 | 70 | 18.3 |
+| `request_path` | 633 | 70 | 9.0 |
+| `background_path` | 139 | 30 | 4.6 |
+| **Total** | **10,058** | **400** | |
+
+| core-engine severity (1.5.0 walker) | Population | Sampled | Weight |
+|---|---|---|---|
+| critical | 39 | 39 | 1.0 |
+| high | 167 | 80 | 2.1 |
+| medium | 3,008 | 140 | 21.5 |
+| low | 7,647 | 141 | 54.2 |
+| **Total** | **10,861** | **400** | |
+
+A location both detectors report is labelled once: `eval/to-label.json` holds
+772 distinct locations (22 drawn into both samples), each with a permalink to
+the line at its commit. 374 of the 400 Study 02 items are also core-engine
+findings, and 311 of the 400 core-engine items are also Study 02 findings.
 
 ## Step 3 — core-engine, round 0
 
