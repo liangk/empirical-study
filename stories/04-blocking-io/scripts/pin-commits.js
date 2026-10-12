@@ -7,7 +7,9 @@
  * The scan started at 2026-02-13T22:29:31Z (first finding id in
  * scan-2026-02-13T22-35-21-741Z.json is 1771021771639). The clones were made
  * at or before that, so each repository's candidate is the last commit on its
- * default branch committed before the cutoff.
+ * default branch's first-parent line committed before the cutoff. Without
+ * --first-parent, rev-list picks by date across every ancestor and can land on
+ * a side-branch commit merged later (nestjs/nest did, 2026-10-06).
  *
  * This is a candidate, not a pin. Committer date is not push date, a default
  * branch can be renamed, and history can be rewritten. Step 1 confirms each
@@ -18,7 +20,8 @@
  *   node scripts/pin-commits.js [--limit N] [--parallel N]
  *
  * Env:
- *   WORK   scratch directory for blobless bare clones (default /tmp/b02-pin)
+ *   PIN_WORK  directory for the blobless bare clones, shared with scan-repo.js
+ *             (falls back to WORK, then <os tmpdir>/b02-pin)
  *
  * Writes data/study02-commits.tsv:
  *   repo, branch, candidate_commit, committed_at, commits_after_cutoff, status
@@ -31,7 +34,7 @@ const { promisify } = require('util');
 const run = promisify(execFile);
 
 const CUTOFF = '2026-02-13T22:29:31Z';
-const WORK = process.env.WORK || '/tmp/b02-pin';
+const WORK = process.env.PIN_WORK || process.env.WORK || path.join(require('os').tmpdir(), 'b02-pin');
 const CORPUS = path.join(__dirname, '..', 'data', 'corpus.tsv');
 const OUT = path.join(__dirname, '..', 'data', 'study02-commits.tsv');
 
@@ -40,7 +43,7 @@ const opt = (name, dflt) => { const i = args.indexOf(name); return i >= 0 ? Numb
 const LIMIT = opt('--limit', Infinity);
 const PARALLEL = opt('--parallel', 4);
 
-const [header, ...lines] = fs.readFileSync(CORPUS, 'utf8').trim().split('\n');
+const [header, ...lines] = fs.readFileSync(CORPUS, 'utf8').trim().split(/\r?\n/);
 const cols = header.split('\t');
 const corpus = lines.map((l) => Object.fromEntries(l.split('\t').map((v, i) => [cols[i], v])))
   .filter((r) => !r.duplicate_of)
@@ -55,10 +58,10 @@ async function pin(row) {
       await run('git', ['clone', '-q', '--bare', '--filter=blob:none', '--single-branch', row.url, dir], { maxBuffer: 1 << 26 });
     }
     const branch = await git(dir, 'symbolic-ref', '--short', 'HEAD');
-    const commit = await git(dir, 'rev-list', '-1', `--before=${CUTOFF}`, 'HEAD');
+    const commit = await git(dir, 'rev-list', '-1', '--first-parent', `--before=${CUTOFF}`, 'HEAD');
     if (!commit) return [row.repo, branch, '', '', '', 'no_commit_before_cutoff'];
     const at = await git(dir, 'log', '-1', '--format=%cI', commit);
-    const after = await git(dir, 'rev-list', '--count', `${commit}..HEAD`);
+    const after = await git(dir, 'rev-list', '--count', '--first-parent', `${commit}..HEAD`);
     return [row.repo, branch, commit, at, after, 'candidate'];
   } catch (e) {
     const msg = String(e.stderr || e.message).split('\n')[0].slice(0, 120);

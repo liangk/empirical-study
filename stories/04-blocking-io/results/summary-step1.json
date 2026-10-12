@@ -1,0 +1,320 @@
+{
+  "generatedAt": "2026-10-08T10:31:39.728Z",
+  "corpus": {
+    "rows": 250,
+    "distinct": 247,
+    "scanned": 247,
+    "missingRaw": []
+  },
+  "pinning": {
+    "pinned": 232,
+    "how": {
+      "candidate": 223,
+      "before 3": 2,
+      "before 1": 4,
+      "before 5": 2,
+      "after 1": 1
+    },
+    "findingsExact": [
+      {
+        "repo": "PostHog/posthog",
+        "expected": {
+          "files": 5495,
+          "findings": 131
+        },
+        "files": 5498
+      },
+      {
+        "repo": "gethomepage/homepage",
+        "expected": {
+          "files": 1021,
+          "findings": 19
+        },
+        "files": 1017
+      },
+      {
+        "repo": "lobehub/lobe-chat",
+        "expected": {
+          "files": 5289,
+          "findings": 121
+        },
+        "files": 5283
+      },
+      {
+        "repo": "microsoft/vscode",
+        "expected": {
+          "files": 5140,
+          "findings": 108
+        },
+        "files": 5141
+      },
+      {
+        "repo": "webiny/webiny-js",
+        "expected": {
+          "files": 8666,
+          "findings": 203
+        },
+        "files": 8667
+      }
+    ],
+    "superset": [
+      {
+        "repo": "ever-co/ever-gauzy",
+        "expected": {
+          "files": 783,
+          "findings": 101
+        },
+        "atCandidate": {
+          "commit": "29d37f5f6314f545a21a6400e8847a829604719e",
+          "side": "candidate",
+          "step": 0,
+          "files": 7881,
+          "findings": 190,
+          "missing": 0,
+          "extra": 89,
+          "exact": false
+        },
+        "extraSample": [
+          "ever-co/ever-gauzy/apps/server-mcp/electron-start.js:17:readFileSync",
+          "ever-co/ever-gauzy/apps/server-mcp/electron-start.js:26:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:227:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:230:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:239:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:241:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:256:existsSync",
+          "ever-co/ever-gauzy/apps/server-mcp/src/electron-main.ts:257:existsSync",
+          "ever-co/ever-gauzy/decorate-angular-cli.js:52:existsSync",
+          "ever-co/ever-gauzy/decorate-angular-cli.js:53:writeFileSync",
+          "ever-co/ever-gauzy/decorate-angular-cli.js:55:readFileSync",
+          "ever-co/ever-gauzy/decorate-angular-cli.js:60:execSync",
+          "ever-co/ever-gauzy/packages/auth/src/lib/mcp/server/oauth-token-manager.ts:380:generateKeyPairSync",
+          "ever-co/ever-gauzy/packages/auth/src/lib/mcp/server/oauth-token-manager.ts:401:generateKeyPairSync",
+          "ever-co/ever-gauzy/packages/config/scripts/replace-env-files.ts:13:copyFileSync",
+          "ever-co/ever-gauzy/packages/core/src/lib/accounting-template/accounting-template.seed.ts:27:existsSync",
+          "ever-co/ever-gauzy/packages/core/src/lib/accounting-template/accounting-template.seed.ts:40:readdirSync",
+          "ever-co/ever-gauzy/packages/core/src/lib/accounting-template/accounting-template.seed.ts:44:lstatSync",
+          "ever-co/ever-gauzy/packages/core/src/lib/accounting-template/accounting-template.seed.ts:84:readFileSync",
+          "ever-co/ever-gauzy/packages/core/src/lib/bootstrap/index.ts:485:existsSync"
+        ]
+      },
+      {
+        "repo": "medusajs/medusa",
+        "expected": {
+          "files": 6999,
+          "findings": 103
+        },
+        "atCandidate": {
+          "commit": "d902a79b9554c8d82658753b407c3f98ba2fff1a",
+          "side": "candidate",
+          "step": 0,
+          "files": 8967,
+          "findings": 196,
+          "missing": 0,
+          "extra": 93,
+          "exact": false
+        }
+      }
+    ],
+    "notPinned": [
+      {
+        "repo": "NodeBB/NodeBB",
+        "expected": {
+          "files": 605,
+          "findings": 40
+        },
+        "best": {
+          "commit": "1ca9841ce5c1283b68b4f3a5acb93efa33bdc657",
+          "side": "candidate",
+          "step": 0,
+          "files": 608,
+          "findings": 40,
+          "missing": 12,
+          "extra": 12,
+          "exact": false
+        }
+      },
+      {
+        "repo": "ToolJet/ToolJet",
+        "expected": {
+          "files": 4459,
+          "findings": 94
+        },
+        "best": {
+          "commit": "b21dc95a5614311cca9c0f5572f2b3b935529348",
+          "side": "candidate",
+          "step": 0,
+          "files": 4024,
+          "findings": 95,
+          "missing": 7,
+          "extra": 8,
+          "exact": false
+        }
+      },
+      {
+        "repo": "adonisjs/core",
+        "expected": {
+          "files": 121,
+          "findings": 4
+        },
+        "best": {
+          "commit": "cfa5e88cf69d80bc28c21f640caab5b4853bd856",
+          "side": "candidate",
+          "step": 0,
+          "files": 132,
+          "findings": 0,
+          "missing": 4,
+          "extra": 0,
+          "exact": false
+        }
+      },
+      {
+        "repo": "lovell/sharp",
+        "expected": {
+          "files": 22,
+          "findings": 11
+        },
+        "best": {
+          "commit": "6d18c6fdc6a1a7dbdaeb2776cda9b6f44b6d2e56",
+          "side": "candidate",
+          "step": 0,
+          "files": 21,
+          "findings": 12,
+          "missing": 4,
+          "extra": 5,
+          "exact": false
+        }
+      },
+      {
+        "repo": "prisma/prisma",
+        "expected": {
+          "files": 1048,
+          "findings": 84
+        },
+        "best": {
+          "commit": "fb7a5ac8d10087faa30432b81c35ef8a9603f4de",
+          "side": "candidate",
+          "step": 0,
+          "files": 405,
+          "findings": 34,
+          "missing": 84,
+          "extra": 34,
+          "exact": false
+        }
+      },
+      {
+        "repo": "requarks/wiki",
+        "expected": {
+          "files": 266,
+          "findings": 19
+        },
+        "best": {
+          "commit": "dc25db1139dd1cfb009f0f0a7793ecfa820dfb03",
+          "side": "candidate",
+          "step": 0,
+          "files": 188,
+          "findings": 7,
+          "missing": 19,
+          "extra": 7,
+          "exact": false
+        }
+      },
+      {
+        "repo": "tj/commander.js",
+        "expected": {
+          "files": 50,
+          "findings": 4
+        },
+        "best": {
+          "commit": "b51c0ea3d012ea165d7e50bb375f4db67b9d8e75",
+          "side": "candidate",
+          "step": 0,
+          "files": 50,
+          "findings": 4,
+          "missing": 4,
+          "extra": 4,
+          "exact": false
+        }
+      },
+      {
+        "repo": "twentyhq/twenty",
+        "expected": {
+          "files": 9789,
+          "findings": 41
+        },
+        "best": {
+          "commit": "d54b7132640ebc989f8c856f331e3f88f8df29cf",
+          "side": "candidate",
+          "step": 0,
+          "files": 11745,
+          "findings": 63,
+          "missing": 12,
+          "extra": 34,
+          "exact": false
+        }
+      }
+    ],
+    "errors": []
+  },
+  "reconcile": [
+    [
+      "Study 02, published",
+      10609,
+      10609
+    ],
+    [
+      "Repositories listed twice, scanned and counted twice (nock/nock, gethomepage/homepage, directus/directus)",
+      -50,
+      10559
+    ],
+    [
+      "Superset at the candidate (every finding present, Study 02 saw far fewer files)",
+      -204,
+      10355
+    ],
+    [
+      "Not reproducible at any tried commit, or scan error",
+      -297,
+      10058
+    ]
+  ],
+  "study02OnUsable": {
+    "repos": 237,
+    "findings": 10058,
+    "files": 159635,
+    "parseErrors": 951,
+    "reposWithFinding": 178,
+    "reposWithFiles": 232,
+    "zeroFileRowsInPublishedDenominator": [
+      "volta-cli/volta",
+      "nvm-sh/nvm",
+      "lucia-auth/lucia",
+      "socketio/engine.io",
+      "FiloSottile/mkcert"
+    ]
+  },
+  "coreEngineRound0": {
+    "findings": 16103,
+    "repos": 193,
+    "byRule": {
+      "blocking-io/sync-file-operation": 14696,
+      "blocking-io/sync-child-process": 905,
+      "blocking-io/sync-crypto-operation": 456,
+      "blocking-io/sync-database-operation": 46
+    },
+    "sameFileLineMoreThanOneCall": 1130,
+    "sameFileLineAsStudy02": 9440,
+    "coreEngineOnly": 6663,
+    "coreEngineOnlyWhy": {
+      "under test/ (Study 02 skips it)": 4187,
+      "randomBytes (not in Study 02)": 325,
+      "sync database rule (not in Study 02)": 36,
+      "under static/ (Study 02 skips it)": 15,
+      "under tests/ (Study 02 skips it)": 991,
+      "under public/ (Study 02 skips it)": 42,
+      "under fixtures/ (Study 02 skips it)": 14,
+      "same directories, other cause": 953,
+      "under vendor/ (Study 02 skips it)": 100
+    },
+    "study02Only": 611
+  }
+}

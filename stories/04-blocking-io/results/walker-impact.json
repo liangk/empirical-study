@@ -1,0 +1,251 @@
+{
+  "generatedAt": "2026-10-11T01:51:26.195Z",
+  "variants": {
+    "A": "test/, tests/",
+    "B": "A + fixtures/, __fixtures__/, cypress/, integration-tests/",
+    "C": "B + vendor/, *.min.js"
+  },
+  "n1": {
+    "published (outline, cal.com, immich, after fixes)": {
+      "findings": 42,
+      "repos": 3,
+      "A": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      },
+      "B": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      },
+      "C": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      }
+    },
+    "baseline": {
+      "findings": 78,
+      "repos": 3,
+      "A": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      },
+      "B": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      },
+      "C": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 3,
+        "examples": []
+      }
+    },
+    "held-out": {
+      "findings": 23,
+      "repos": 4,
+      "A": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 4,
+        "examples": []
+      },
+      "B": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 4,
+        "examples": []
+      },
+      "C": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 4,
+        "examples": []
+      }
+    },
+    "expanded corpus": {
+      "findings": 148,
+      "repos": 12,
+      "A": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 12,
+        "examples": []
+      },
+      "B": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 12,
+        "examples": []
+      },
+      "C": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 12,
+        "examples": []
+      }
+    }
+  },
+  "missingIndex": {
+    "unmatchedPaths": 0,
+    "published": {
+      "schemas": 2890,
+      "foreignKeys": 88281,
+      "unindexed": 33889,
+      "unindexedPct": "38.4%",
+      "schemasWithUnindexed": 2554,
+      "schemasWithUnindexedPct": "88.4%"
+    },
+    "A": {
+      "droppedSchemas": 0,
+      "droppedExamples": [],
+      "after": {
+        "schemas": 2890,
+        "foreignKeys": 88281,
+        "unindexed": 33889,
+        "unindexedPct": "38.4%",
+        "schemasWithUnindexed": 2554,
+        "schemasWithUnindexedPct": "88.4%"
+      }
+    },
+    "B": {
+      "droppedSchemas": 0,
+      "droppedExamples": [],
+      "after": {
+        "schemas": 2890,
+        "foreignKeys": 88281,
+        "unindexed": 33889,
+        "unindexedPct": "38.4%",
+        "schemasWithUnindexed": 2554,
+        "schemasWithUnindexedPct": "88.4%"
+      }
+    },
+    "C": {
+      "droppedSchemas": 0,
+      "droppedExamples": [],
+      "after": {
+        "schemas": 2890,
+        "foreignKeys": 88281,
+        "unindexed": 33889,
+        "unindexedPct": "38.4%",
+        "schemasWithUnindexed": 2554,
+        "schemasWithUnindexedPct": "88.4%"
+      }
+    }
+  },
+  "payload": {
+    "round0": {
+      "findings": 3584,
+      "repos": 37,
+      "A": {
+        "dropped": 1128,
+        "reposAffected": 14,
+        "reposLeftWithFindings": 33,
+        "examples": [
+          "elastic/kibana: src/platform/test/functional/page_objects/dashboard_page.ts",
+          "elastic/kibana: src/platform/test/functional/services/data_grid.ts",
+          "elastic/kibana: src/platform/test/functional/services/visualizations/pie_chart.ts",
+          "elastic/kibana: x-pack/platform/test/functional/page_objects/index_lifecycle_management_page.ts",
+          "elastic/kibana: x-pack/platform/test/functional/services/ml/anomalies_table.ts"
+        ]
+      },
+      "B": {
+        "dropped": 1136,
+        "reposAffected": 15,
+        "reposLeftWithFindings": 33,
+        "examples": [
+          "elastic/kibana: src/platform/test/functional/page_objects/dashboard_page.ts",
+          "elastic/kibana: src/platform/test/functional/services/data_grid.ts",
+          "elastic/kibana: src/platform/test/functional/services/visualizations/pie_chart.ts",
+          "elastic/kibana: x-pack/platform/test/functional/page_objects/index_lifecycle_management_page.ts",
+          "elastic/kibana: x-pack/platform/test/functional/services/ml/anomalies_table.ts"
+        ]
+      },
+      "C": {
+        "dropped": 1140,
+        "reposAffected": 17,
+        "reposLeftWithFindings": 32,
+        "examples": [
+          "elastic/kibana: src/platform/test/functional/page_objects/dashboard_page.ts",
+          "elastic/kibana: src/platform/test/functional/services/data_grid.ts",
+          "elastic/kibana: src/platform/test/functional/services/visualizations/pie_chart.ts",
+          "elastic/kibana: x-pack/platform/test/functional/page_objects/index_lifecycle_management_page.ts",
+          "elastic/kibana: x-pack/platform/test/functional/services/ml/anomalies_table.ts"
+        ]
+      }
+    },
+    "final": {
+      "findings": 923,
+      "repos": 25,
+      "A": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 25,
+        "examples": []
+      },
+      "B": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 25,
+        "examples": []
+      },
+      "C": {
+        "dropped": 0,
+        "reposAffected": 0,
+        "reposLeftWithFindings": 25,
+        "examples": []
+      }
+    }
+  },
+  "blockingIo": {
+    "core-engine round 0, 237 usable repositories": {
+      "findings": 16103,
+      "repos": 193,
+      "A": {
+        "dropped": 5178,
+        "reposAffected": 103,
+        "reposLeftWithFindings": 184,
+        "examples": [
+          "11ty/eleventy: test/stubs-3807/Issue3807test.js",
+          "11ty/eleventy: test/TemplatePassthroughManagerTest.js",
+          "11ty/eleventy: test/TemplateWriterTest.js",
+          "11ty/eleventy: test/EleventyTest.js",
+          "11ty/eleventy: test/EleventyVirtualTemplatesTest.js"
+        ]
+      },
+      "B": {
+        "dropped": 5242,
+        "reposAffected": 109,
+        "reposLeftWithFindings": 184,
+        "examples": [
+          "11ty/eleventy: test/stubs-3807/Issue3807test.js",
+          "11ty/eleventy: test/TemplatePassthroughManagerTest.js",
+          "11ty/eleventy: test/TemplateWriterTest.js",
+          "11ty/eleventy: test/EleventyTest.js",
+          "11ty/eleventy: test/EleventyVirtualTemplatesTest.js"
+        ]
+      },
+      "C": {
+        "dropped": 5360,
+        "reposAffected": 110,
+        "reposLeftWithFindings": 184,
+        "examples": [
+          "11ty/eleventy: test/stubs-3807/Issue3807test.js",
+          "11ty/eleventy: test/TemplatePassthroughManagerTest.js",
+          "11ty/eleventy: test/TemplateWriterTest.js",
+          "11ty/eleventy: test/EleventyTest.js",
+          "11ty/eleventy: test/EleventyVirtualTemplatesTest.js"
+        ]
+      }
+    }
+  }
+}
