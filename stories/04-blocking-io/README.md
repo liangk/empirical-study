@@ -192,6 +192,95 @@ A location both detectors report is labelled once: `eval/to-label.json` holds
 the line at its commit. 374 of the 400 Study 02 items are also core-engine
 findings, and 311 of the 400 core-engine items are also Study 02 findings.
 
+### Step 2 results: first labelling pass (2026-10-12)
+
+All 400 Study 02 sample items (398 distinct locations) labelled by Claude
+from the source at the scanned commit, under `eval/criteria.md`, one line of
+reason per label in `eval/labels.tsv`. Source excerpts come from
+`scripts/fetch-context.js` (`eval/context/`, gitignored). Estimates from
+`scripts/estimate.js` (`results/estimate-study02.json`). **Not yet reviewed
+by a second reader**: the 31 `tp` and 18 `unsure` labels in particular need
+a check before any number is published.
+
+| Study 02 `context` | N | n | tp | fp-startup | fp-once | fp-tooling | fp-not-blocking | unsure | tp rate | est. tp | context agrees |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `unknown_path` | 6,033 | 160 | 8 | 6 | 1 | 133 | 2 | 10 | 5.0% | 302 | — |
+| `tooling_path` | 1,972 | 70 | 0 | 0 | 0 | 70 | 0 | 0 | 0.0% | 0 | 70/70 |
+| `startup_path` | 1,281 | 70 | 2 | 5 | 2 | 58 | 1 | 2 | 2.9% | 37 | 7/70 |
+| `request_path` | 633 | 70 | 19 | 10 | 1 | 33 | 1 | 6 | 27.1% | 172 | 19/70 |
+| `background_path` | 139 | 30 | 2 | 1 | 0 | 27 | 0 | 0 | 6.7% | 9 | 2/30 |
+
+**Estimated Study 02 findings that block concurrent work: about 519 of
+10,058 (5.2%), 95% CI 303–736; 987 if every `unsure` is `tp`.**
+
+What this says about the published "about 7% in request paths":
+
+- The share is close (5.2% against 6.8%), but it is not the same findings.
+  Of the 633 `request_path` findings, an estimated 27% block anything; the
+  rest are CLIs, tests and startup code whose file paths look like routes or
+  controllers. More of the real ones, an estimated 302, sit in
+  `unknown_path`, which the article could not count.
+- `tooling_path` is the classifier's one reliable bucket (70 of 70).
+  `startup_path` is mostly tooling as well (58 of 70), not startup.
+- About four in five findings in every stratum except `request_path` are
+  tooling: CLIs, build and release scripts, codemods, generators, tests.
+  Study 02 skips test directories but not `*.test.*` and `*.spec.*` files,
+  nor `e2e-tests/` or `__fixtures__/`.
+- The real ones cluster: Countly's data-migration plugin and dashboard
+  routes, pdfkit's synchronous deflate and image reads, Electron apps'
+  filesystem helpers, Next.js's PBKDF2 in `decryptWithSecret`, Redwood's job
+  loader.
+
+### Step 2 results: second pass, entry point rule (2026-10-13)
+
+`eval/criteria.md` gained the entry point rule (amendment 2026-10-13) before
+any label was revisited: every label names an entry point, callers are traced
+with `git grep` up to two levels at the scanned commit, and library code its
+own repository never calls from an entry point is `unsure`. 186 labels whose
+file path is its own entry point (`scripts/`, `bin/`, `*.test.*`, codemods,
+CLI command modules) were kept and marked "entry: path". The other 212 were
+traced in depth-1 checkouts of the 69 repositories involved (in the cloud
+workspace, not on the local machine). Every chain is in `eval/labels.tsv`;
+the before/after for each is in `eval/relabel-2026-10-13.tsv`.
+
+16 of the 212 changed:
+
+| Change | Count | Examples |
+|---|---|---|
+| tp -> unsure | 4 | typeorm FileLogger, pdfkit deflate and image reads (x3): library APIs whose own repos reach them only from tests and examples |
+| tp -> fp-startup | 1 | Reaction's sample-data image loader runs from the plugin's `startup` hook, not a mutation as first assumed |
+| unsure -> tp | 1 | Directus `requireText`: called inside the AI system-prompt tool handler on every call |
+| unsure -> fp-startup | 2 | n8n event-bus recovery check (in `initialize()` at start), Habitica `buildManifest` (module top level) |
+| unsure -> fp-tooling | 2 | Next.js debug logger (defined only with `NEXT_DEBUG_IMMEDIATES=1`), encryption key cache (dev server and build) |
+| fp-tooling -> unsure | 3 | shelljs `touch`, shelljs `grep`, nock recorder: libraries, by the same rule |
+| fp-startup -> fp-tooling | 2 | Fastify `examples/https.js`; Blitz `readBlitzConfig`, called only by the CLI |
+| fp-startup -> unsure | 1 | VS Code git extension `dispose()`, too generic to trace |
+
+| Study 02 `context` | N | n | tp | fp-startup | fp-once | fp-tooling | fp-not-blocking | unsure | tp rate | est. tp |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `unknown_path` | 6,033 | 160 | 3 | 6 | 1 | 132 | 2 | 16 | 1.9% | 113 |
+| `tooling_path` | 1,972 | 70 | 0 | 0 | 0 | 70 | 0 | 0 | 0.0% | 0 |
+| `startup_path` | 1,281 | 70 | 2 | 4 | 2 | 59 | 1 | 2 | 2.9% | 37 |
+| `request_path` | 633 | 70 | 20 | 11 | 1 | 35 | 1 | 2 | 28.6% | 181 |
+| `background_path` | 139 | 30 | 2 | 1 | 0 | 26 | 0 | 1 | 6.7% | 9 |
+
+| | First pass | Entry point rule |
+|---|---|---|
+| tp labels | 31 | 27 |
+| unsure labels | 18 | 21 |
+| Estimated findings that block concurrent work | 519 (5.2%), 95% CI 303–736 | **340 (3.4%), 95% CI 191–489** |
+| Upper bound, every unsure as tp | 987 | 1,002 |
+
+The estimate falls by a third, almost all of it in `unknown_path`, where each
+labelled item weighs 37.7: five of its eight first-pass `tp` were inferences
+about libraries or a misread startup hook. The upper bound barely moves,
+because those items became `unsure` rather than disappearing; what the rule
+changes is how much of the estimate rests on evidence. The `request_path`
+figure is the steadiest (19 to 20 tp).
+
+`results/estimate-study02-pass1.json` keeps the first-pass estimate;
+`results/estimate-study02.json` is the current one.
+
 ## Step 3 — core-engine, round 0
 
 core-engine 1.4.x's four rules as shipped: `sync-file-operation`,

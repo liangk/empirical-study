@@ -45,6 +45,31 @@ Every finding gets exactly one.
   once is `fp-once`, not `tp`.
 - **Loops** multiply cost but do not change the label.
 
+### Amendment 2026-10-13: entry point rule
+
+Added after the first labelling pass (2026-10-12), before any label was
+revisited. The first pass read 15 lines either side of the call plus the
+nearest enclosing-scope lines, did not follow callers into other files, and
+labelled library code by its usual use. That made some `tp` labels inferences
+rather than findings.
+
+- **Every label names an entry point**: a route or middleware registration, a
+  job or queue handler, an event listener or timer registration, startup code
+  before `listen`, a CLI `bin` or script, or a test file. The `note` records
+  it.
+- **A path can be the entry point.** A file under `scripts/`, `bin/`,
+  `tasks/`, a `*.test.*` or `*.spec.*` file, a codemod or a CLI command
+  module is its own entry point; the note says so ("entry: path").
+- **Otherwise trace callers** in the repository at the scanned commit with
+  `git grep`, up to two levels, and label by the entry point reached. The
+  note records the chain as `file:line -> file:line`.
+- **No entry point within two levels: `unsure`.** Usual use is no longer
+  evidence. Library code whose own repository never calls it from an entry
+  point is `unsure`, however it is usually used.
+
+Which first-pass labels were revisited, and what changed, is recorded in
+`eval/relabel-2026-10-13.tsv`; both estimates are kept in the README.
+
 ## Study 02's context classifier
 
 For each Study 02 finding in the sample, record whether its `context`

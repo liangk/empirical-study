@@ -1,0 +1,98 @@
+{
+  "seed": 20261012,
+  "strata": {
+    "unknown_path": {
+      "population": 6033,
+      "sampled": 160,
+      "counts": {
+        "tp": 8,
+        "fp-startup": 6,
+        "fp-once": 1,
+        "fp-tooling": 133,
+        "fp-not-blocking": 2,
+        "unsure": 10
+      },
+      "tpRate": 0.05,
+      "tpEstimate": 301.65000000000003,
+      "tpEstimateUpper": 678.7125,
+      "contextAgrees": null,
+      "contextAgreesRate": null
+    },
+    "tooling_path": {
+      "population": 1972,
+      "sampled": 70,
+      "counts": {
+        "tp": 0,
+        "fp-startup": 0,
+        "fp-once": 0,
+        "fp-tooling": 70,
+        "fp-not-blocking": 0,
+        "unsure": 0
+      },
+      "tpRate": 0,
+      "tpEstimate": 0,
+      "tpEstimateUpper": 0,
+      "contextAgrees": 70,
+      "contextAgreesRate": 1
+    },
+    "startup_path": {
+      "population": 1281,
+      "sampled": 70,
+      "counts": {
+        "tp": 2,
+        "fp-startup": 5,
+        "fp-once": 2,
+        "fp-tooling": 58,
+        "fp-not-blocking": 1,
+        "unsure": 2
+      },
+      "tpRate": 0.02857142857142857,
+      "tpEstimate": 36.6,
+      "tpEstimateUpper": 73.2,
+      "contextAgrees": 7,
+      "contextAgreesRate": 0.1
+    },
+    "request_path": {
+      "population": 633,
+      "sampled": 70,
+      "counts": {
+        "tp": 19,
+        "fp-startup": 10,
+        "fp-once": 1,
+        "fp-tooling": 33,
+        "fp-not-blocking": 1,
+        "unsure": 6
+      },
+      "tpRate": 0.2714285714285714,
+      "tpEstimate": 171.8142857142857,
+      "tpEstimateUpper": 226.07142857142858,
+      "contextAgrees": 19,
+      "contextAgreesRate": 0.2714285714285714
+    },
+    "background_path": {
+      "population": 139,
+      "sampled": 30,
+      "counts": {
+        "tp": 2,
+        "fp-startup": 1,
+        "fp-once": 0,
+        "fp-tooling": 27,
+        "fp-not-blocking": 0,
+        "unsure": 0
+      },
+      "tpRate": 0.06666666666666667,
+      "tpEstimate": 9.266666666666666,
+      "tpEstimateUpper": 9.266666666666666,
+      "contextAgrees": 2,
+      "contextAgreesRate": 0.06666666666666667
+    }
+  },
+  "overall": {
+    "population": 10058,
+    "tpEstimate": 519.3309523809525,
+    "tpLow": 303.08930882373465,
+    "tpHigh": 735.5725959381703,
+    "tpEstimateUpperUnsureAsTp": 987.2505952380952,
+    "tpShare": 0.05163362024069919
+  }
+}
