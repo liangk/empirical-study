@@ -10,7 +10,7 @@ check every fix against the labels.
 
 | Stage | Goal | Status |
 |---|---|---|
-| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | In progress. Steps 0–1 done 2026-10-08; Step 2 next |
+| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | In progress. Steps 0–1 done 2026-10-08; Step 2 labelled 2026-10-13; core-engine sample labelled 2026-10-14 |
 | 2 | Bring core-engine's blocking I/O detection to full coverage (every pattern Study 02's scanner or the backend detector claims) and add a Blocking I/O solution generator | Not started |
 | 3 | Publish the research report on stackinsight.dev | Not started |
 
@@ -369,6 +369,61 @@ applies it by path to the 1.4.1 scans (`WALKER=1.4.1` for the old numbers):
 
 `eval/criteria.md` written 2026-10-08, while the Step 1 scan was running and
 before any of its findings were read. Samples and labels go in `eval/`.
+
+### core-engine sample, labelled (2026-10-14)
+
+The 400 core-engine items (396 locations; 22 shared with the Study 02 sample
+keep that label) labelled under the entry point rule from the start, from
+depth-1 checkouts at the pinned commits, with callers traced by grep.
+`node scripts/estimate.js --core` writes `results/estimate-core-engine.json`.
+The `tp` and `unsure` labels are in `eval/review-core-tp-unsure.md`.
+
+| Severity | N | n | tp | fp-startup | fp-once | fp-tooling | fp-not-blocking | unsure | tp rate | Est. tp |
+|---|---|---|---|---|---|---|---|---|---|---|
+| critical | 39 | 39 | 9 | 1 | 3 | 6 | 19 | 1 | 23.1% | 9 |
+| high | 167 | 80 | 6 | 14 | 0 | 60 | 0 | 0 | 7.5% | 13 |
+| medium | 3,008 | 140 | 6 | 9 | 1 | 117 | 2 | 5 | 4.3% | 129 |
+| low | 7,647 | 141 | 8 | 5 | 1 | 121 | 2 | 4 | 5.7% | 434 |
+
+**Estimated core-engine round-0 findings that block concurrent work: 584 of
+10,861 (5.4%), 95% CI 279–890; 910 if every unsure is tp.** Study 02's figure
+under the same rule is 340 of 10,058 (3.4%). The intervals overlap; the two
+detectors find about the same number of real problems inside about the same
+amount of noise.
+
+By rule (sample counts, unweighted):
+
+| Rule | n | tp | fp-tooling | fp-startup / once | fp-not-blocking | unsure |
+|---|---|---|---|---|---|---|
+| `sync-file-operation` | 303 | 17 | 247 | 26 | 4 | 9 |
+| `sync-child-process` | 54 | 0 | 51 | 3 | 0 | 0 |
+| `sync-database-operation` | 36 | 6 | 6 | 4 | 19 | 1 |
+| `sync-crypto-operation` | 7 | 6 | 0 | 1 | 0 | 0 |
+
+What this says for Step 5, before any rule is touched:
+
+- **Severity does not rank anything.** high, medium and low have tp rates of
+  7.5%, 4.3% and 5.7%. critical is higher only because of isolated-vm (below).
+  The severity tiers are not a usable signal as shipped.
+- **Tooling is the noise.** 285 of 400 are `fp-tooling`: vendored yarn
+  bundles (29 items in `vendor/` and `.yarn/releases/`), `scripts/`, `bin/`,
+  CLI packages, compiled build tools, dev servers. Path-level exclusion would
+  remove most of it without touching a single `tp`.
+- **`sync-database-operation` matches names, not calls.** 19 of its 36 are
+  user-defined methods that happen to be called `runSync` or `getSync`
+  (sequelize hooks, directus's in-memory store, liquidjs scope lookup, async
+  HTTP calls in bitwarden, an async LDAP sync in n8n). Its 6 `tp` are
+  isolated-vm `runSync` in Budibase, which does block, but runs a script, not
+  a database query.
+- **`sync-child-process` found nothing that matters.** 0 of 54; every one is
+  a CLI, a script or a startup check.
+- **`sync-crypto-operation` is the best rule.** 6 of 7 `tp`: `scryptSync` and
+  `randomBytes` in auth handlers (Redwood dbAuth, hackathon-starter, Outline
+  passkeys, webiny), `generateKeyPairSync` behind an n8n REST route.
+- **Criteria gaps found:** a sync write in a dedicated `worker_threads`
+  log writer (n8n, L750) and a serverless handler (webiny, L769). L750 is
+  `unsure`; L769 is `tp` as a request handler. Neither moves the estimate
+  much, but the criteria should say which way they go.
 
 ## Step 5 — Fix, and check every fix against the labels
 

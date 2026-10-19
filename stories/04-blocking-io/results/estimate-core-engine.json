@@ -1,0 +1,115 @@
+{
+  "seed": 20261012,
+  "strata": {
+    "critical": {
+      "population": 39,
+      "sampled": 39,
+      "counts": {
+        "tp": 9,
+        "fp-startup": 1,
+        "fp-once": 3,
+        "fp-tooling": 6,
+        "fp-not-blocking": 19,
+        "unsure": 1
+      },
+      "tpRate": 0.23076923076923078,
+      "tpEstimate": 9,
+      "tpEstimateUpper": 10,
+      "contextAgrees": null,
+      "contextAgreesRate": null
+    },
+    "high": {
+      "population": 167,
+      "sampled": 80,
+      "counts": {
+        "tp": 6,
+        "fp-startup": 14,
+        "fp-once": 0,
+        "fp-tooling": 60,
+        "fp-not-blocking": 0,
+        "unsure": 0
+      },
+      "tpRate": 0.075,
+      "tpEstimate": 12.525,
+      "tpEstimateUpper": 12.525,
+      "contextAgrees": null,
+      "contextAgreesRate": null
+    },
+    "medium": {
+      "population": 3008,
+      "sampled": 140,
+      "counts": {
+        "tp": 6,
+        "fp-startup": 9,
+        "fp-once": 1,
+        "fp-tooling": 117,
+        "fp-not-blocking": 2,
+        "unsure": 5
+      },
+      "tpRate": 0.04285714285714286,
+      "tpEstimate": 128.9142857142857,
+      "tpEstimateUpper": 236.34285714285713,
+      "contextAgrees": null,
+      "contextAgreesRate": null
+    },
+    "low": {
+      "population": 7647,
+      "sampled": 141,
+      "counts": {
+        "tp": 8,
+        "fp-startup": 5,
+        "fp-once": 1,
+        "fp-tooling": 121,
+        "fp-not-blocking": 2,
+        "unsure": 4
+      },
+      "tpRate": 0.05673758865248227,
+      "tpEstimate": 433.8723404255319,
+      "tpEstimateUpper": 650.8085106382979,
+      "contextAgrees": null,
+      "contextAgreesRate": null
+    }
+  },
+  "sampleByRule": {
+    "blocking-io/sync-database-operation": {
+      "tp": 6,
+      "fp-startup": 1,
+      "fp-once": 3,
+      "fp-tooling": 6,
+      "fp-not-blocking": 19,
+      "unsure": 1
+    },
+    "blocking-io/sync-file-operation": {
+      "tp": 17,
+      "fp-startup": 24,
+      "fp-once": 2,
+      "fp-tooling": 247,
+      "fp-not-blocking": 4,
+      "unsure": 9
+    },
+    "blocking-io/sync-child-process": {
+      "tp": 0,
+      "fp-startup": 3,
+      "fp-once": 0,
+      "fp-tooling": 51,
+      "fp-not-blocking": 0,
+      "unsure": 0
+    },
+    "blocking-io/sync-crypto-operation": {
+      "tp": 6,
+      "fp-startup": 1,
+      "fp-once": 0,
+      "fp-tooling": 0,
+      "fp-not-blocking": 0,
+      "unsure": 0
+    }
+  },
+  "overall": {
+    "population": 10861,
+    "tpEstimate": 584.3116261398176,
+    "tpLow": 278.61041785707215,
+    "tpHigh": 890.012834422563,
+    "tpEstimateUpperUnsureAsTp": 909.676367781155,
+    "tpShare": 0.05379906326671739
+  }
+}
