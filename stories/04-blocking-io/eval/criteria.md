@@ -108,3 +108,22 @@ was counted.
 - **Electron reloads.** A call that runs at startup and again on a later user
   action or file change (theme reload, stylesheet reload) is `tp`, as the
   Electron rule already says for anything after startup.
+
+### Amendment 2026-10-19 (Stage 2): new patterns
+
+Written before the Stage 2 coverage findings were read.
+
+- zlib `*Sync`, `randomFillSync` and isolated-vm's synchronous calls are
+  labelled like every other call: by where they run, under the entry point
+  rule. Cost does not change the label.
+- The zlib names also match fflate, a pure-JavaScript library with the same
+  function names. Its calls are synchronous CPU work too. In browser code they
+  are `fp-not-blocking`, like any browser API. In Node they are labelled by
+  where they run.
+- isolated-vm's `runSync` and its kin block the calling thread until the
+  isolate returns, so they are blocking calls, not `fp-not-blocking`. This is
+  unlike a user-defined `*Sync` method.
+
+The Stage 2 findings are labelled in full rather than sampled, because there
+are few of them. The labels are in `eval/s2-coverage-labels.tsv`, with ids
+N01–N45 for coverage and I01–I25 for isolated-vm.

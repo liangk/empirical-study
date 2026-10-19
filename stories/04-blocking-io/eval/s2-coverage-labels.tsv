@@ -1,0 +1,71 @@
+id	repo	file	line	rule	severity	label	note
+N01	PostHog/posthog	frontend/src/scenes/session-recordings/player/snapshot-processing/decompress.ts	18	blocking-io/sync-zlib-operation	low	fp-not-blocking	fflate in browser code (frontend/, client/); no Node event loop
+N02	PostHog/posthog	services/mcp/src/resources/index.ts	42	blocking-io/sync-zlib-operation	low	fp-once	fflate unzipSync on fetched resources, cached in cachedResources (index.ts:44)
+N03	RocketChat/Rocket.Chat	apps/meteor/client/views/marketplace/lib/getManifestFromZippedApp.ts	17	blocking-io/sync-zlib-operation	low	fp-not-blocking	fflate in browser code (frontend/, client/); no Node event loop
+N04	avajs/ava	lib/snapshot-manager.js	188	blocking-io/sync-zlib-operation	low	fp-tooling	ava snapshot manager (test runner)
+N05	avajs/ava	lib/snapshot-manager.js	235	blocking-io/sync-zlib-operation	low	fp-tooling	ava snapshot manager (test runner)
+N06	badges/shields	services/endpoint/endpoint.tester.js	312	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. *.tester.js service test
+N07	evanw/esbuild	lib/npm/node-install.ts	80	blocking-io/sync-zlib-operation	low	fp-tooling	esbuild npm install script
+N08	excalidraw/excalidraw	packages/excalidraw/env.cjs	5	blocking-io/sync-file-operation	low	fp-tooling	entry: path. env.cjs build-time env loader
+N09	foliojs/pdfkit	lib/crypto/random.js	7	blocking-io/sync-crypto-operation	low	unsure	library runtime API: pdfkit random; its own repo reaches it only from tests and examples (consistent with L081)
+N10	foliojs/pdfkit	lib/image/png.js	145	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit PNG embedding; its own repo reaches it only from tests and examples (consistent with L081, L125)
+N11	foliojs/pdfkit	lib/image/png.js	146	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit PNG embedding; its own repo reaches it only from tests and examples (consistent with L081, L125)
+N12	foliojs/pdfkit	lib/image/png.js	164	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit PNG embedding; its own repo reaches it only from tests and examples (consistent with L081, L125)
+N13	foliojs/pdfkit	lib/image/png.js	167	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit PNG embedding; its own repo reaches it only from tests and examples (consistent with L081, L125)
+N14	foliojs/pdfkit	lib/image/png.js	174	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit PNG embedding; its own repo reaches it only from tests and examples (consistent with L081, L125)
+N15	foliojs/pdfkit	lib/reference.js	55	blocking-io/sync-zlib-operation	low	unsure	library runtime API: pdfkit reference compression; no entry point in its own repo
+N16	jgraph/drawio-desktop	src/main/electron.js	1436	blocking-io/sync-zlib-operation	high	tp	electron.js:1425 writePngWithText <- exportDiagram (electron.js:1618) <- ipcMain.on('export', exportDiagram) at :1894; Electron main at runtime
+N17	jgraph/drawio-desktop	sync.cjs	7	blocking-io/sync-file-operation	low	fp-tooling	entry: path. sync.cjs build script
+N18	jgraph/drawio-desktop	sync.cjs	14	blocking-io/sync-file-operation	low	fp-tooling	entry: path. sync.cjs build script
+N19	jgraph/drawio-desktop	sync.cjs	16	blocking-io/sync-file-operation	low	fp-tooling	entry: path. sync.cjs build script
+N20	marktext/marktext	src/muya/lib/parser/render/plantuml.js	42	blocking-io/sync-zlib-operation	low	unsure	muya plantuml encoder in the Electron renderer; no registered entry point within two levels
+N21	n8n-io/n8n	packages/@n8n/json-schema-to-zod/postcjs.cjs	1	blocking-io/sync-file-operation	low	fp-tooling	entry: path. postcjs/postesm build scripts
+N22	n8n-io/n8n	packages/@n8n/json-schema-to-zod/postesm.cjs	1	blocking-io/sync-file-operation	low	fp-tooling	entry: path. postcjs/postesm build scripts
+N23	nock/nock	lib/playback_interceptor.js	15	blocking-io/sync-zlib-operation	low	fp-tooling	nock is a test-only HTTP mocking library (consistent with L381)
+N24	nock/nock	lib/playback_interceptor.js	17	blocking-io/sync-zlib-operation	low	fp-tooling	nock is a test-only HTTP mocking library (consistent with L381)
+N25	nock/nock	lib/recorder.js	245	blocking-io/sync-zlib-operation	low	fp-tooling	nock is a test-only HTTP mocking library (consistent with L381)
+N26	nock/nock	lib/recorder.js	247	blocking-io/sync-zlib-operation	low	fp-tooling	nock is a test-only HTTP mocking library (consistent with L381)
+N27	nock/nock	lib/recorder.js	249	blocking-io/sync-zlib-operation	low	fp-tooling	nock is a test-only HTTP mocking library (consistent with L381)
+N28	pnpm/pnpm	store/cafs/src/addFilesFromTarball.ts	19	blocking-io/sync-zlib-operation	low	fp-tooling	pnpm CLI (cafs)
+N29	sinonjs/sinon	build.cjs	17	blocking-io/sync-file-operation	low	fp-tooling	entry: path. build.cjs
+N30	sinonjs/sinon	build.cjs	69	blocking-io/sync-file-operation	low	fp-tooling	entry: path. build.cjs
+N31	sinonjs/sinon	build.cjs	81	blocking-io/sync-file-operation	low	fp-tooling	entry: path. build.cjs
+N32	sinonjs/sinon	build.cjs	99	blocking-io/sync-file-operation	low	fp-tooling	entry: path. build.cjs
+N33	socketio/socket.io	packages/engine.io-client/support/bundle-size.js	24	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. support/bundle-size.js
+N34	socketio/socket.io	packages/engine.io-client/support/bundle-size.js	25	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. support/bundle-size.js
+N35	socketio/socket.io	packages/socket.io-client/support/bundle-size.js	24	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. support/bundle-size.js
+N36	socketio/socket.io	packages/socket.io-client/support/bundle-size.js	25	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. support/bundle-size.js
+N37	vercel/next.js	packages/next/src/server/resume-data-cache/resume-data-cache.ts	139	blocking-io/sync-zlib-operation	high	unsure	stringifyResumeDataCache <- postponed-state.ts:92 <- app-render prerender; build or background revalidation, entry beyond two levels (engine reached next export, build time)
+N38	vercel/next.js	packages/next/src/server/resume-data-cache/resume-data-cache.ts	223	blocking-io/sync-zlib-operation	high	unsure	createRenderResumeDataCache <- postponed-state.ts:137 parse <- app-render resume; per request with PPR but the entry is beyond two levels
+N39	vercel/pkg	prelude/bootstrap.js	560	blocking-io/sync-zlib-operation	low	fp-startup	pkg prelude: decompress a packaged file during require, at load (consistent with L546)
+N40	vercel/pkg	prelude/bootstrap.js	564	blocking-io/sync-zlib-operation	low	fp-startup	pkg prelude: decompress a packaged file during require, at load (consistent with L546)
+N41	vercel/pkg	prelude/bootstrap.js	730	blocking-io/sync-zlib-operation	low	fp-startup	pkg prelude: decompress a packaged file during require, at load (consistent with L546)
+N42	vercel/turbo	packages/turbo-releaser/cli/index.cjs	12	blocking-io/sync-child-process	low	fp-tooling	entry: path. turbo-releaser cli/index.cjs
+N43	websockets/ws	lib/sender.js	98	blocking-io/sync-crypto-operation	low	unsure	library runtime API: ws mask pool refill in sender.js; ws's own repo reaches it only from tests and examples
+N44	yarnpkg/berry	packages/plugin-compat/extra/createPatch.js	5	blocking-io/sync-zlib-operation	low	fp-tooling	entry: path. plugin-compat extra/ patch generator
+N45	yarnpkg/berry	packages/yarnpkg-libzip/sources/ZipFS.ts	879	blocking-io/sync-zlib-operation	low	fp-tooling	@yarnpkg/libzip ZipFS, used by the yarn CLI
+I01	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	44	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I02	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	46	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I03	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	90	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I04	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	109	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I05	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	124	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I06	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	166	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I07	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	196	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I08	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	241	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I09	Budibase/budibase	packages/server/src/jsRunner/vm/isolated-vm.ts	252	blocking-io/sync-isolate-execution	low	unsure	Budibase IsolatedVM class used by jsRunner for JS bindings; request entry beyond two levels (consistent with L402, L432)
+I10	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/buildSandbox.ts	114	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I11	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/buildSandbox.ts	115	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I12	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/buildSandbox.ts	117	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I13	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/buildSandbox.ts	118	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I14	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/buildSandbox.ts	120	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I15	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/isolated-vm.ts	21	blocking-io/sync-isolate-execution	low	unsure	Rocket.Chat callScriptFunction applySync, run per integration event through a function reference; entry beyond two levels
+I16	RocketChat/Rocket.Chat	apps/meteor/app/integrations/server/lib/isolated-vm/isolated-vm.ts	65	blocking-io/sync-isolate-execution	low	fp-once	Rocket.Chat integration sandbox setup in getIntegrationScript, cached per integration _updatedAt (consistent with L421)
+I17	directus/directus	api/src/extensions/manager.ts	592	blocking-io/sync-isolate-execution	low	fp-startup	directus API extension sandbox setup when extensions load
+I18	directus/directus	api/src/operations/exec/index.ts	29	blocking-io/sync-isolate-execution	low	unsure	directus flow exec operation; run by the flow engine, entry beyond two levels
+I19	directus/directus	api/src/operations/exec/index.ts	31	blocking-io/sync-isolate-execution	low	unsure	directus flow exec operation; run by the flow engine, entry beyond two levels
+I20	directus/directus	api/src/operations/exec/index.ts	32	blocking-io/sync-isolate-execution	low	unsure	directus flow exec operation; run by the flow engine, entry beyond two levels
+I21	directus/directus	api/src/operations/exec/index.ts	33	blocking-io/sync-isolate-execution	low	unsure	directus flow exec operation; run by the flow engine, entry beyond two levels
+I22	directus/directus	api/src/operations/exec/index.ts	35	blocking-io/sync-isolate-execution	low	unsure	directus flow exec operation; run by the flow engine, entry beyond two levels
+I23	hoppscotch/hoppscotch	packages/hoppscotch-js-sandbox/src/node/pre-request/legacy.ts	33	blocking-io/sync-isolate-execution	low	unsure	hoppscotch js-sandbox node pre-request runner, a library; no entry point within two levels in the repo
+I24	hoppscotch/hoppscotch	packages/hoppscotch-js-sandbox/src/node/pre-request/legacy.ts	36	blocking-io/sync-isolate-execution	low	unsure	hoppscotch js-sandbox node pre-request runner, a library; no entry point within two levels in the repo
+I25	hoppscotch/hoppscotch	packages/hoppscotch-js-sandbox/src/node/pre-request/legacy.ts	37	blocking-io/sync-isolate-execution	low	unsure	hoppscotch js-sandbox node pre-request runner, a library; no entry point within two levels in the repo

@@ -10,8 +10,8 @@ check every fix against the labels.
 
 | Stage | Goal | Status |
 |---|---|---|
-| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | In progress. Steps 0–4 done; Step 5 rounds 1–2 done 2026-10-19 |
-| 2 | Bring core-engine's blocking I/O detection to full coverage (every pattern Study 02's scanner or the backend detector claims) and add a Blocking I/O solution generator | Not started |
+| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | Done 2026-10-19 (Steps 0–5; rounds 1–2) |
+| 2 | Bring core-engine's blocking I/O detection to full coverage (every pattern Study 02's scanner or the backend detector claims) and add a Blocking I/O solution generator | Done 2026-10-19 (items 1–4) |
 | 3 | Publish the research report on stackinsight.dev | Not started |
 
 ## What is known going in
@@ -531,6 +531,29 @@ severity in every repository (`results/rounds/round-0.json`, 2026-10-19).
 - It lists every labelled location the round dropped. The hard check is that
   all 40 `tp` locations from either sample are still reported.
 
+### The 953 unexplained core-engine-only findings, explained (2026-10-19)
+
+Step 3 left 953 round-0 findings that only core-engine reported, with no
+directory or rule reason. All 953 are in 13 files larger than 500 KB:
+
+| Files | Findings |
+|---|---|
+| berry's bundled yarn CLIs (`packages/*/bin/*.js`) | 758 |
+| `compiled/` and `.yarn/` bundles (Next.js, yarn releases) | 118 |
+| other minified bundles | 77 |
+
+Study 02's walker skips any file over 500,000 bytes (`MAX_FILE_SIZE` in
+`scan-repo.js`). core-engine has no size limit. None of these files is code
+anyone wrote, and round 1 removes all 953 (path exclusion and
+`looksMinified`).
+
+After round 2, 292 findings are still core-engine only, each for a known
+reason:
+
+- 268 `randomBytes` without a callback, which Study 02 did not look for.
+- 23 under `public/` or `static/`, which Study 02 skips.
+- 1 driver `querySync`, from the database rule Study 02 did not have.
+
 ### Round 1 (2026-10-19)
 
 Three changes, each decided from the Step 4 labels:
@@ -629,6 +652,264 @@ Not changed, for Stage 2:
 - Koa- and Strapi-style handlers that take `ctx` (see the trial above).
 - Next.js `pages/api` route files as handlers.
 - zlib, `randomFillSync` and `.cjs` files.
+
+# Stage 2 — Full blocking I/O detection
+
+Stage 1 left core-engine with two kinds of gap. **Coverage**: patterns Study
+02 or the backend detector find that core-engine does not. **Ranking**: 7 of
+the 18 sampled `tp` sit at low severity, because the handler that makes them
+matter is one or two calls away.
+
+Scope, decided 2026-10-19 before the work. Items are done in this order, and
+core-engine 1.5.0 is released after all of them:
+
+1. **Reachability.** A call raises to high when its enclosing function is
+   called from a request handler within two levels: in the same file, or
+   through an imported binding in another file. This is the labelling's entry
+   point rule, run by the engine. It is a `finalize()` step over a per-file
+   call index.
+
+   "Handler" grows from `(req, res)` functions to:
+   - callbacks registered with `app`/`router` methods;
+   - Next.js `pages/api` default exports and App Router `route` handlers;
+   - Koa and Strapi controller methods taking `ctx`, but only under
+     `controllers/`, after the round-2 trial;
+   - Electron `ipcMain` handlers.
+
+   It is scored on the existing labels, so no new labelling is needed.
+2. **Coverage.** These patterns are added:
+   - zlib `*Sync` (9 methods; Study 02 reported 59);
+   - `randomFillSync`;
+   - `.cjs` files.
+
+   `.cjs` is a walker change, so it is measured against every published study
+   first, as the 1.5.0 walker change was. New findings are sampled and
+   labelled under `eval/criteria.md`.
+3. **isolated-vm.** A rule of its own for synchronous isolate execution
+   (`runSync`, `evalSync`, `applySync` and the like on isolated-vm objects).
+   It blocks, but it was miscounted as a database call.
+4. **A blocking I/O solution generator**, held to the Missing Index standard:
+   the suggestion, applied, removes its own finding and the file still parses.
+   The async replacement (`fs.promises`, `util.promisify`) is offered only
+   where it can be awaited.
+
+Out of scope, recorded as limitations:
+
+- **Recall.** It is not measured: no sample of files without findings was
+  searched for missed blocking calls.
+- **`createHash` / `createHmac`** stay out; they do no work at construction.
+
+Every change goes through the Stage 1 method:
+
+1. Criteria are written first.
+2. Each change is a rescan of the 237 pruned trees (`keep-trees.js`,
+   `rescan.js`).
+3. Each rescan is scored with `eval-round.js`. No labelled `tp` may be lost.
+4. Every `tp` a change nearly lost becomes a regression test.
+
+## Item 1 — reachability (done 2026-10-19)
+
+core-engine now runs the labelling's entry point rule itself
+(`core-engine/src/rules/blocking-io-reach.ts`). While each file is scanned,
+it indexes:
+
+- the file's functions, and which of them are handlers;
+- the calls each function makes;
+- the file's imports.
+
+After the scan, `finalize()` takes each finding outside a handler and walks
+the callers of its function, up to two levels. Callers are looked for in the
+same file, and in other files through an imported binding, including
+`x = new Imported()` instances. Functions are never linked across files by
+name alone. If a handler is reached, the finding gets the severity it would
+have inside one, and the description names the handler and how far up it is.
+
+What counts as a handler:
+
+- a function taking `(req, res)`, `(request, reply)` or `(request, response)`;
+- a callback registered with `app`/`router` methods, with `createServer`, with
+  `ipcMain`, or under a URL path (`plugins.register('/o/export', fn)`),
+  whether inline or by name;
+- a Next.js `pages/api` default export, or an App Router `route` handler;
+- a method under `controllers/` taking `ctx`. The round-2 trial showed that
+  `ctx` alone also matches CLI task contexts, so the directory is required.
+
+Measured in four steps, each a rescan of the 237 trees
+(`results/rounds/s2-reach-{1,2,3}.json`). Each step kept the same 5,924
+findings and all 40 `tp`:
+
+| | Findings above low | Labelled `tp` above low (of 40) |
+|---|---|---|
+| Round 0 (as shipped) | 3,214 | 19 |
+| Round 2 (handler context only) | 68 | 14 |
+| Reach 1: same-file and imported callers | 171 | 18 |
+| Reach 2: `createServer`, URL-path callbacks, `(request, reply)` | 216 | 23 |
+| **Reach 3: instances of imported constructors** | **258** | **30** |
+
+In the core-engine sample, above low is now 16 `tp` out of 24, against 11
+out of 17 after round 2. Low holds 2 sampled `tp`, down from 7.
+
+Reach also promoted 5 labelled locations that are not `tp`:
+
+- a memoised call (`fp-once`);
+- two startup paths that a handler also reaches (`fp-startup`);
+- the drawio CLI export branch, behind an `ipcMain.once` (`fp-tooling`);
+- one `unsure`.
+
+The 10 `tp` still at low, and why reach cannot see them:
+
+| Locations | Entry point | Why not reached |
+|---|---|---|
+| L037, L281, L285, L726 | Electron renderer and menu actions | Menu clicks and Vue component methods are not handlers here |
+| L752 | pm2 daemon RPC | The daemon's RPC table is built dynamically |
+| L028 | apostrophe `apiRoutes` object | Routes are object keys (`post: { generate }`), not registrations |
+| L351 | directus `defineTool({ handler })` | Framework-specific registration |
+| L137, L378 | Budibase, apostrophe | The caller imports the module by package name, not by relative path |
+| L392 | Redwood jobs worker | A job handler, not a request handler |
+
+Package-name imports inside a monorepo are the one gap that is general rather
+than framework-specific. Resolving them needs each package's `package.json`,
+which the per-file rule does not see. That is left for a later version.
+
+## Item 2 — coverage: zlib, `randomFillSync`, `.cjs` (done 2026-10-19)
+
+- **New rule `blocking-io/sync-zlib-operation`.** It covers the nine zlib
+  `*Sync` methods.
+- **`randomFillSync`** joins `sync-crypto-operation`.
+- **`.cjs` files** are read by the blocking-io rules. The walker collects
+  them, but a `.cjs` file that no active rule reads is dropped before
+  counting. A scan for N+1, Missing Index or Payload therefore sees exactly
+  the files it saw before, and no published figure can change (tested in
+  `engine.test.ts`).
+
+The rescan (`results/rounds/s2-coverage.json`) added 45 findings and lost
+none:
+
+| Source | Findings |
+|---|---|
+| zlib `*Sync` | 32 |
+| `.cjs` files | 11 |
+| `randomFillSync` | 2 |
+
+Study 02 reported 59 zlib calls. The difference is the 1.5.0 walker and the
+round-1 path exclusions: most of Study 02's were in tests and scripts.
+
+All 45 are labelled under the criteria amendment
+(`eval/s2-coverage-labels.tsv`, N01–N45):
+
+| Label | Count |
+|---|---|
+| `fp-tooling` | 27 |
+| `unsure` | 11 |
+| `fp-startup` | 3 |
+| `fp-not-blocking` | 2 |
+| `fp-once` | 1 |
+| `tp` | 1 |
+
+The one `tp` is drawio's PNG export: `deflateRawSync` in `exportDiagram`,
+registered with `ipcMain.on('export')`, in the Electron main process. Reach
+raises it to high. The `unsure` are pdfkit and ws library internals, and two
+Next.js resume-data-cache calls whose request entry is beyond two levels. The
+zlib names also match fflate. Two of those calls are in browser code
+(`fp-not-blocking`).
+
+## Item 3 — isolated-vm (done 2026-10-19)
+
+New rule `blocking-io/sync-isolate-execution` covers `runSync`, `applySync`,
+`evalSync`, `getSync`, `createContextSync` and their kin. It applies only in
+files that import isolated-vm, because `runSync` and `getSync` are common
+method names.
+
+It reports 32 findings (`results/rounds/s2-isolate.json`):
+
+- in Budibase's JS runner, Rocket.Chat's integration sandbox, directus'
+  exec operation and extension sandbox, and hoppscotch's script sandbox;
+- 7 of them are round-0 locations already labelled; the 25 new ones are
+  labelled I01–I25.
+
+| Label | Count |
+|---|---|
+| `unsure` | 24 |
+| `fp-once` | 7 |
+| `fp-startup` | 1 |
+| `tp` | 0 |
+
+The calls do block, but every request entry is three or more levels away:
+Budibase's runner is called through the string-template engine, and
+Rocket.Chat's through a table of script functions. Under the strict rule they
+stay `unsure`, and reach leaves them at low.
+
+In a file that does import isolated-vm, an unrelated method that happens to be
+named `runSync` is still matched. A regression test records this.
+
+## Item 4 — blocking I/O solution generator (done 2026-10-19)
+
+`core-engine/src/solutions/blocking-io-generator.ts` follows the Missing Index
+standard: paste the suggestion over the call, and the finding is gone and the
+file still parses. The rules put the call in `codeBefore` only when its
+function is already async, so the `await` in every suggestion is legal where
+it goes.
+
+| Call | Suggestion |
+|---|---|
+| fs (20 methods) | `(await fs.promises.readFile(p, 'utf8'))`: same arguments, same value |
+| `existsSync` | `(await fs.promises.access(p).then(() => true, () => false))` |
+| crypto, zlib | `(await new Promise((resolve, reject) => crypto.scrypt(pw, salt, 64, (err, key) => (err ? reject(err) : resolve(key)))))` |
+| isolated-vm | `(await script.run(ctx, opts))`: the async twin takes the same arguments |
+
+The suggestions use a promise wrapper rather than `util.promisify`, so they
+need no import and are complete as pasted. A parenthesised receiver keeps its
+parentheses (`(require('crypto') as ...).randomBytes`), a bug found on the
+corpus that now has a test.
+
+There is no suggestion, on purpose, for:
+
+- **fd-based fs calls** (`openSync`, `closeSync`): the async API returns a
+  FileHandle, so every later use of the descriptor changes.
+- **Child processes:** `execSync` returns stdout and throws on a non-zero
+  exit, and `stdio: 'inherit'` behaves differently once async. None of the 54
+  sampled was a real problem.
+- **Database `querySync`:** drivers differ in their async form.
+- **A bare `pbkdf2Sync(...)` or `gzipSync(...)` imported by name:** the async
+  name is not in scope.
+- **A call in a sync function:** making the function async changes every
+  caller, which is a refactor, not a replacement.
+
+**Checked on the corpus** with `scripts/check-solutions.js`, which applies
+every suggestion to the real file, parses it and scans it again
+(`results/rounds/s2-solutions.json`):
+
+| blocking-io findings | In an async function | With a suggestion | Finding gone after applying it | Still reported | New parse errors |
+|---|---|---|---|---|---|
+| 6,001 | 1,544 | 1,165 | 1,162 | 0 | 0 |
+
+The other three are in files this parser cannot read as they stand (Flow
+types, import assertions), so they are counted apart.
+
+**On the labelled true positives, 12 of 40 get a suggestion.** 27 are in sync
+functions, mostly callback-style handlers (Countly, Electron main) and
+`(req, res)` callbacks that were never made async. Payload reached 104 of 109,
+because a row limit fits anywhere. A synchronous call in sync code can only be
+fixed by changing the function, and that is the honest limit of a drop-in
+suggestion.
+
+## Stage 2 result
+
+| | Stage 1 start (round 0) | Stage 1 end (round 2) | Stage 2 end |
+|---|---|---|---|
+| Findings | 10,861 | 5,924 | 6,001 |
+| Rules | 4 | 4 | 6 |
+| Estimated `tp` (core-engine sample) | 405 (3.7%) | 405 (about 7%) | 405 + 1 new (about 7%) |
+| Labelled `tp` still reported | 40 of 40 | 40 of 40 | 40 of 40 |
+| Findings above low | 3,214 | 68 | 261 |
+| Labelled `tp` above low | 19 of 40 | 14 of 40 | 30 of 40 |
+| `tp` with a drop-in fix | — | — | 12 of 40 |
+
+Precision over everything stays near 7%: most findings are synchronous calls
+in code that serves nothing. What Stage 2 changes is the top of the list.
+Above low, there are 261 findings and they hold three quarters of the
+labelled real problems. In the sample, two thirds of the findings above low
+are `tp`.
 
 ## Reproduce
 

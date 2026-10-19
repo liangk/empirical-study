@@ -1,0 +1,45 @@
+{
+  "round": "results/rounds/s2-reach-2.json",
+  "findings": 5924,
+  "newUnlabelled": 0,
+  "keptEstimate": 5808.405205167173,
+  "tpEstimate": 405.3863981762918,
+  "tpEstimateRound0": 405.3863981762918,
+  "precision": 0.06979306433643075,
+  "upperUnsureAsTp": 827.9566109422492,
+  "tpDropped": [],
+  "gapVsStudy02": [],
+  "droppedByLabel": {
+    "fp-tooling": 303,
+    "fp-startup": 2,
+    "unsure": 8,
+    "fp-not-blocking": 21,
+    "fp-once": 4
+  },
+  "bySeverity": {
+    "critical": {
+      "est": 9.2625,
+      "estTp": 7.175,
+      "n": 6,
+      "tp": 5
+    },
+    "medium": {
+      "est": 228.15927051671733,
+      "estTp": 205.67355623100303,
+      "n": 7,
+      "tp": 5
+    },
+    "high": {
+      "est": 92.41975683890577,
+      "estTp": 29.835714285714282,
+      "n": 10,
+      "tp": 5
+    },
+    "low": {
+      "est": 5478.56367781155,
+      "estTp": 162.70212765957447,
+      "n": 169,
+      "tp": 3
+    }
+  }
+}

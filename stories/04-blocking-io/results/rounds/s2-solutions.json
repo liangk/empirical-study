@@ -1,0 +1,53 @@
+{
+  "engine": "Stage 2 end: items 1-4",
+  "checkedAt": "2026-10-19T05:36:12.217Z",
+  "totals": {
+    "findings": 6001,
+    "withCodeBefore": 1544,
+    "withSuggestion": 1165,
+    "gone": 1162,
+    "still": 0,
+    "parseErrors": 0,
+    "misplaced": 0,
+    "originalUnparseable": 3
+  },
+  "byRule": {
+    "blocking-io/sync-file-operation": {
+      "findings": 5332,
+      "awaitable": 1366,
+      "suggested": 1044,
+      "gone": 1041
+    },
+    "blocking-io/sync-child-process": {
+      "findings": 314,
+      "awaitable": 46,
+      "suggested": 0,
+      "gone": 0
+    },
+    "blocking-io/sync-crypto-operation": {
+      "findings": 290,
+      "awaitable": 111,
+      "suggested": 109,
+      "gone": 109
+    },
+    "blocking-io/sync-isolate-execution": {
+      "findings": 32,
+      "awaitable": 11,
+      "suggested": 11,
+      "gone": 11
+    },
+    "blocking-io/sync-zlib-operation": {
+      "findings": 32,
+      "awaitable": 10,
+      "suggested": 1,
+      "gone": 1
+    },
+    "blocking-io/sync-database-operation": {
+      "findings": 1,
+      "awaitable": 0,
+      "suggested": 0,
+      "gone": 0
+    }
+  },
+  "failures": []
+}

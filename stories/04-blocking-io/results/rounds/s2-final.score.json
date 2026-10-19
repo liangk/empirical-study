@@ -1,0 +1,45 @@
+{
+  "round": "results/rounds/s2-final.json",
+  "findings": 6001,
+  "newUnlabelled": 70,
+  "keptEstimate": 5815.405205167173,
+  "tpEstimate": 405.3863981762918,
+  "tpEstimateRound0": 405.3863981762918,
+  "precision": 0.06970905446383908,
+  "upperUnsureAsTp": 833.9566109422492,
+  "tpDropped": [],
+  "gapVsStudy02": [],
+  "droppedByLabel": {
+    "fp-tooling": 303,
+    "fp-startup": 2,
+    "unsure": 2,
+    "fp-not-blocking": 21,
+    "fp-once": 3
+  },
+  "bySeverity": {
+    "low": {
+      "est": 5431.329635258358,
+      "estTp": 108.46808510638297,
+      "n": 175,
+      "tp": 2
+    },
+    "critical": {
+      "est": 9.2625,
+      "estTp": 7.175,
+      "n": 6,
+      "tp": 5
+    },
+    "medium": {
+      "est": 228.15927051671733,
+      "estTp": 205.67355623100303,
+      "n": 7,
+      "tp": 5
+    },
+    "high": {
+      "est": 146.65379939209726,
+      "estTp": 84.06975683890576,
+      "n": 11,
+      "tp": 6
+    }
+  }
+}
