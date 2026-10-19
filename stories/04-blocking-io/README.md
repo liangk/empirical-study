@@ -886,12 +886,34 @@ every suggestion to the real file, parses it and scans it again
 The other three are in files this parser cannot read as they stand (Flow
 types, import assertions), so they are counted apart.
 
-**On the labelled true positives, 12 of 40 get a suggestion.** 27 are in sync
-functions, mostly callback-style handlers (Countly, Electron main) and
-`(req, res)` callbacks that were never made async. Payload reached 104 of 109,
-because a row limit fits anywhere. A synchronous call in sync code can only be
-fixed by changing the function, and that is the honest limit of a drop-in
-suggestion.
+**On the labelled true positives, 12 of 40 get a drop-in suggestion.** Payload
+reached 104 of 109, because a row limit fits anywhere. Most real blocking
+calls here sit in synchronous code: callback-style handlers (Countly,
+Electron main) and `(req, res)` callbacks that were never made async. There,
+the fix is to change the function, which a drop-in suggestion cannot do.
+
+**Refactor notes for the rest (decided 2026-10-19: labelled as refactors, not
+forced into drop-ins).** Where the call cannot be awaited, the recommendation
+starts with `Refactor, not a drop-in fix:` and says what to change. The
+generator returns that note as a `blocking-io-refactor` solution with risk
+high and no code. `check-solutions.js` counts these notes but never applies
+them.
+
+| Where the call is | The note says |
+|---|---|
+| A named sync function | Make `'loadConfig'` async, await `fs.promises.readFile`, then await `'loadConfig'` where it is called (`src/routes.js:2`, up to three callers named), up to a caller that is already async |
+| A sync callback (`forEach`, `map`, a callback API) | Turn it into a `for...of` loop (or an async callback whose promise the caller awaits) inside an async function, and await there |
+| Module level | Usually startup and harmless; if loaded lazily while serving, move the work into an async initialiser |
+
+On the corpus, 4,087 findings get a refactor note. Child-process,
+database and fd-based calls get neither a drop-in nor a note.
+
+| Labelled `tp` (40) | Count |
+|---|---|
+| Drop-in suggestion | 12 |
+| Refactor note: named sync function | 12 |
+| Refactor note: inside a sync callback | 14 |
+| Neither: L637 `generateKeyPairSync` imported by name in an async function; L307 `openSync` (fd-based) | 2 |
 
 ## Stage 2 result
 
@@ -904,6 +926,7 @@ suggestion.
 | Findings above low | 3,214 | 68 | 261 |
 | Labelled `tp` above low | 19 of 40 | 14 of 40 | 30 of 40 |
 | `tp` with a drop-in fix | — | — | 12 of 40 |
+| `tp` with a refactor note | — | — | 26 of 40 |
 
 Precision over everything stays near 7%: most findings are synchronous calls
 in code that serves nothing. What Stage 2 changes is the top of the list.

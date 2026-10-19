@@ -11,6 +11,8 @@
  *   - the finding is gone: the file has one fewer finding with that title.
  *
  * This is the Missing Index standard the payload generator was held to.
+ * Refactor notes (`blocking-io-refactor`: make the function async, await it
+ * at its callers) are counted but not applied; they are advice, not code.
  * ONLY=<regex> limits it to matching repositories. Run it in a cloud
  * workspace, like rescan.js.
  */
@@ -55,10 +57,14 @@ function offsetOf(content, line, column) {
       totals.findings++;
       const b = (byRule[issue.rule] ||= { findings: 0, awaitable: 0, suggested: 0, gone: 0 });
       b.findings++;
-      if (!issue.codeBefore) continue;
+      if (!issue.codeBefore) {
+        // A refactor note is advice, not a replacement: counted, never applied.
+        if (issue.recommendation?.startsWith('Refactor, not a drop-in fix:')) { totals.refactorNotes = (totals.refactorNotes || 0) + 1; b.refactor = (b.refactor || 0) + 1; }
+        continue;
+      }
       totals.withCodeBefore++; b.awaitable++;
       const [sol] = await ce.generateSolutionsFor(issue);
-      if (!sol) continue;
+      if (!sol || sol.type !== 'blocking-io-async') continue;
       totals.withSuggestion++; b.suggested++;
       const content = fs.readFileSync(path.join(dir, issue.file), 'utf8');
       const at = offsetOf(content, issue.line, issue.column ?? 0);
