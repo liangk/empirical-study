@@ -901,6 +901,7 @@ them.
 
 | Where the call is | The note says |
 |---|---|
+| A sync handler (`app.get('/r', (req, res) => ...)`) | Make the handler async; the framework awaits it, so nothing else changes |
 | A named sync function | Make `'loadConfig'` async, await `fs.promises.readFile`, then await `'loadConfig'` where it is called (`src/routes.js:2`, up to three callers named), up to a caller that is already async |
 | A sync callback (`forEach`, `map`, a callback API) | Turn it into a `for...of` loop (or an async callback whose promise the caller awaits) inside an async function, and await there |
 | Module level | Usually startup and harmless; if loaded lazily while serving, move the work into an async initialiser |
@@ -911,8 +912,9 @@ database and fd-based calls get neither a drop-in nor a note.
 | Labelled `tp` (40) | Count |
 |---|---|
 | Drop-in suggestion | 12 |
+| Refactor note: sync handler | 2 |
 | Refactor note: named sync function | 12 |
-| Refactor note: inside a sync callback | 14 |
+| Refactor note: inside a sync callback | 12 |
 | Neither: L637 `generateKeyPairSync` imported by name in an async function; L307 `openSync` (fd-based) | 2 |
 
 ## Stage 2 result
