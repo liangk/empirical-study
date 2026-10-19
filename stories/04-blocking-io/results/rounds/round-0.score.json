@@ -1,0 +1,39 @@
+{
+  "round": "results/rounds/round-0.json",
+  "findings": 10861,
+  "newUnlabelled": 0,
+  "keptEstimate": 10861,
+  "tpEstimate": 405.3863981762918,
+  "tpEstimateRound0": 405.3863981762918,
+  "precision": 0.03732496070125143,
+  "upperUnsureAsTp": 833.9566109422492,
+  "tpDropped": [],
+  "gapVsStudy02": [],
+  "droppedByLabel": {},
+  "bySeverity": {
+    "critical": {
+      "est": 39,
+      "estTp": 3,
+      "n": 39,
+      "tp": 3
+    },
+    "high": {
+      "est": 209.97142857142856,
+      "estTp": 12.525,
+      "n": 82,
+      "tp": 6
+    },
+    "medium": {
+      "est": 3344.666869300912,
+      "estTp": 64.45714285714286,
+      "n": 145,
+      "tp": 3
+    },
+    "low": {
+      "est": 7267.36170212766,
+      "estTp": 325.40425531914894,
+      "n": 134,
+      "tp": 6
+    }
+  }
+}

@@ -10,7 +10,7 @@ check every fix against the labels.
 
 | Stage | Goal | Status |
 |---|---|---|
-| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | In progress. Steps 0–1 done 2026-10-08; Step 2 labelled 2026-10-13; core-engine sample labelled 2026-10-14 |
+| 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | In progress. Steps 0–4 done; Step 5 rounds 1–2 done 2026-10-19 |
 | 2 | Bring core-engine's blocking I/O detection to full coverage (every pattern Study 02's scanner or the backend detector claims) and add a Blocking I/O solution generator | Not started |
 | 3 | Publish the research report on stackinsight.dev | Not started |
 
@@ -505,8 +505,130 @@ sharper:
 
 ## Step 5 — Fix, and check every fix against the labels
 
-Rounds in `results/rounds/`, scored with an `eval-round.js` like the payload
-story's.
+Each round is a rescan of all 237 repositories at their commits, scored
+against the labels. A fix may drop no `tp` location.
+
+How a round is run (Node only; run in a cloud workspace, not on a laptop):
+
+```bash
+node scripts/usable.js                                   # results/raw/_usable.json
+KEEP=<dir> node scripts/keep-trees.js --parallel 2       # 237 checkouts, pruned to 2.7 GB
+CORE_ENGINE=<core-engine>/dist/index.js KEEP=<dir> \
+  node scripts/rescan.js results/rounds/round-N.json --parallel 2
+node scripts/eval-round.js results/rounds/round-N.json --list
+```
+
+The pruned trees keep only what the walker reads. A rescan of round 0 from
+them reproduced all 10,861 findings, with identical file, line, rule and
+severity in every repository (`results/rounds/round-0.json`, 2026-10-19).
+
+`eval-round.js` scores a round from the core-engine sample:
+
+- A sampled finding counts as kept if the round still reports its file and
+  line.
+- Strata are weighted as in Step 2, which gives the round-0 findings kept, the
+  `tp` among them, and precision as their ratio.
+- It lists every labelled location the round dropped. The hard check is that
+  all 40 `tp` locations from either sample are still reported.
+
+### Round 1 (2026-10-19)
+
+Three changes, each decided from the Step 4 labels:
+
+- **Path exclusion.** The rule skips:
+  - scripts and `bin/`
+  - examples, demos and playgrounds
+  - benchmarks, codemods, migrations and seeds
+  - build configuration
+  - `compiled/` and `.yarn/`, plus yarn release bundles by file name
+  - test-helper directories the walker misses
+  - minified files
+  
+  `tools/`, `tasks/` and `docs/` count only at a repository or package root,
+  because `ai/tools/` is server code in directus. `vendor/` is left out
+  because it is a domain word.
+- **`sync-database-operation` keeps only driver names.** That is `querySync`,
+  `executeSync` and `prepareSync`. `runSync`, `getSync` and `allSync` are
+  gone.
+- **Severity from request-handler context only.** A call in a handler is high
+  (critical in a loop). Anywhere else it is low: a server import in the file
+  no longer raises it, because medium findings were 2.2% tp against 4.2% for
+  low. `randomBytes` in a handler is medium.
+
+| | Round 0 | Round 1 |
+|---|---|---|
+| Findings | 10,861 | **5,924** |
+| Labelled `tp` locations still reported | 40 of 40 | **40 of 40** |
+| Estimated `tp` among them | 405 | 405 |
+| Precision (estimated `tp` / findings) | 3.7% | **about 7%** |
+| Upper bound, unsure as tp | 834 | 828 |
+
+Where the 4,937 findings went:
+
+| Cause | Findings |
+|---|---|
+| Path exclusion | 4,762 |
+| Minified bundles outside those paths | 140 |
+| Database rule narrowed (35 of 36) | 35 |
+
+The labelled locations dropped were 303 `fp-tooling`, 21 `fp-not-blocking`,
+4 `fp-once`, 2 `fp-startup` and 8 `unsure`: the generated PnP loader and six
+isolated-vm calls through the database rule.
+
+### Round 2 (2026-10-19)
+
+- **Handlers written as arrow functions or methods.** The request-handler
+  check only recognised `function` declarations and expressions taking
+  `(req, res)`. `exports.postSignup = async (req, res) => {}` and class or
+  object methods were missed. This is a bug fix: the findings are the same
+  5,924, and only their severity changes.
+
+### Severity after round 2
+
+Severity now ranks. Counts are the round's actual findings; tp is from the
+labelled sample:
+
+| Round 2 severity | Findings | Sampled | tp in sample |
+|---|---|---|---|
+| critical | 3 | 3 | 3 |
+| high | 35 | 8 | 4 |
+| medium | 30 | 6 | 4 |
+| low | 5,856 | 175 | 7 |
+
+Before round 1, high, medium and low had tp rates of 7.5%, 2.1% and 4.3%. Now
+11 of the 17 sampled findings above low are tp. The cost is that low still
+holds 7 of the 18 sampled `tp`, and with them most of the estimated real
+problems:
+
+- `randomBytes` in a model method called from auth routes
+- Electron main-process writes
+- the pm2 daemon
+- a Countly data-migration cleanup
+- Koa-style controllers that take `ctx`
+
+None of these sits in a function that takes `(req, res)`. This is the
+reachability problem from Step 4: a handler two calls up is invisible to a
+per-function check.
+
+**Tried and not kept: `ctx` as a handler parameter.** Treating a function
+whose first parameter is `ctx` as a handler promoted 40 findings. The two
+sampled ones were `tp` (Budibase and Strapi controllers). Reading the other
+38, about half are Koa, Strapi, Budibase and Outline handlers. The other half
+are CLI task contexts: Redwood's Listr tasks, pnpm, hexo, create-astro and
+nuxt modules. That is no better than the current high tier, so it is left
+for Stage 2, where reachability can separate them.
+
+`sync-child-process` keeps 313 findings, all low; none of the 54 sampled was
+`tp`. It stays as a low-severity rule rather than being removed, since a
+child process in a handler would still be high.
+
+Not changed, for Stage 2:
+
+- An `isolated-vm` rule. Its `runSync` does block, but it is not a database
+  call.
+- Koa- and Strapi-style handlers that take `ctx` (see the trial above).
+- Next.js `pages/api` route files as handlers.
+- zlib, `randomFillSync` and `.cjs` files.
 
 ## Reproduce
 
