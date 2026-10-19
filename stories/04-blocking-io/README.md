@@ -372,6 +372,10 @@ before any of its findings were read. Samples and labels go in `eval/`.
 
 ### core-engine sample, labelled (2026-10-14)
 
+Figures in this section are as labelled on 2026-10-14. The current figures,
+after the blind second labeller and the 2026-10-19 rule decisions, are in the
+next section.
+
 The 400 core-engine items (396 locations; 22 shared with the Study 02 sample
 keep that label) labelled under the entry point rule from the start, from
 depth-1 checkouts at the pinned commits, with callers traced by grep.
@@ -424,6 +428,80 @@ What this says for Step 5, before any rule is touched:
   log writer (n8n, L750) and a serverless handler (webiny, L769). L750 is
   `unsure`; L769 is `tp` as a request handler. Neither moves the estimate
   much, but the criteria should say which way they go.
+
+### Blind second labeller and the 2026-10-19 revision
+
+To check the labels without grading my own work, a second labeller relabelled
+144 locations blind. The set was every `tp` and `unsure` location (84) plus
+60 drawn at random from the rest. The labeller saw the code and the criteria
+only: no labels, notes, Study 02 context or severity. Details and all 26
+disagreements are in `eval/blind-relabel-2026-10-19.md`; its labels are in
+`eval/second-labeller-2026-10-19.tsv`.
+
+| Level | Agreement | Cohen's kappa |
+|---|---|---|
+| Six labels | 81.3% | 0.73 |
+| tp / unsure / fp | 81.9% | 0.71 |
+| tp vs not tp | 93.8% | 0.86 |
+
+None of the 60 random fp locations came back `tp`. The set over-represents
+`tp` by design, so these figures describe the hard cases, not the population.
+
+What changed (decided 2026-10-19, written into `eval/criteria.md`):
+
+- **7 labels adopted from the second labeller**, where it traced further. One
+  was a first-pass `tp` error: the documenso signer is memoised (L603, now
+  `fp-once`).
+- **The two-level rule is counted strictly.** The entry point must be the
+  containing function, its caller, or its caller's caller. 13 `tp` labels
+  needed three or more levels and are now `unsure`. These are six Countly
+  data-migration chains, six Budibase isolated-vm calls, n8n source control
+  (L634) and webiny mailer settings (L769).
+- **Sync I/O in a dedicated `worker_threads` thread is `fp-not-blocking`**
+  (L750).
+- **An Electron reload after startup stays `tp`** (L037).
+
+| | Study 02 | core-engine |
+|---|---|---|
+| 2026-10-13 / 10-14 | 340 (3.4%), CI 191–489, upper 1,002 | 584 (5.4%), CI 279–890, upper 910 |
+| **2026-10-19** | **313 (3.1%), CI 165–460, upper 877** | **405 (3.7%), CI 143–668, upper 834** |
+
+Study 02 by context, current:
+
+| `context` | N | n | tp | fp-startup | fp-once | fp-tooling | fp-not-blocking | unsure | tp rate | Est. tp |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `unknown_path` | 6,033 | 160 | 3 | 6 | 2 | 133 | 2 | 14 | 1.9% | 113 |
+| `tooling_path` | 1,972 | 70 | 0 | 0 | 0 | 70 | 0 | 0 | 0.0% | 0 |
+| `startup_path` | 1,281 | 70 | 2 | 4 | 2 | 60 | 2 | 0 | 2.9% | 37 |
+| `request_path` | 633 | 70 | 17 | 11 | 1 | 35 | 2 | 4 | 24.3% | 154 |
+| `background_path` | 139 | 30 | 2 | 1 | 0 | 27 | 0 | 0 | 6.7% | 9 |
+
+core-engine by severity, current:
+
+| Severity | N | n | tp | fp-startup | fp-once | fp-tooling | fp-not-blocking | unsure | tp rate | Est. tp |
+|---|---|---|---|---|---|---|---|---|---|---|
+| critical | 39 | 39 | 3 | 1 | 3 | 6 | 19 | 7 | 7.7% | 3 |
+| high | 167 | 80 | 6 | 14 | 0 | 60 | 0 | 0 | 7.5% | 13 |
+| medium | 3,008 | 140 | 3 | 9 | 2 | 117 | 2 | 7 | 2.1% | 64 |
+| low | 7,647 | 141 | 6 | 5 | 1 | 121 | 3 | 5 | 4.3% | 325 |
+
+core-engine by rule, current (sample counts, unweighted):
+
+| Rule | n | tp | fp-tooling | fp-startup / once | fp-not-blocking | unsure |
+|---|---|---|---|---|---|---|
+| `sync-file-operation` | 303 | 13 | 247 | 27 | 5 | 11 |
+| `sync-child-process` | 54 | 0 | 51 | 3 | 0 | 0 |
+| `sync-database-operation` | 36 | 0 | 6 | 4 | 19 | 7 |
+| `sync-crypto-operation` | 7 | 5 | 0 | 1 | 0 | 1 |
+
+The findings in "What this says for Step 5" hold, and two of them get
+sharper:
+
+- critical's higher `tp` rate came from isolated-vm alone. Under the strict
+  rule it is 7.7%, the same as high. No severity tier ranks anything.
+- `sync-database-operation` now has no `tp` at all.
+
+`request_path` agreement with the labels falls from 28.6% to 24.3%.
 
 ## Step 5 — Fix, and check every fix against the labels
 

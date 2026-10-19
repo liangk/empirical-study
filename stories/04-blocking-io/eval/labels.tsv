@@ -35,7 +35,7 @@ L033	fp-tooling	entry: path build-script/
 L034	unsure	library runtime API: execa's sync stdio handlers, reached only through execaSync; consumers decide
 L035	fp-tooling	@redwoodjs/cli-helpers updateTomlConfig <- updateTomlConfigTask, used by CLI setup commands
 L036	fp-tooling	entry: path. boilerplate bin/createNodejsApp.js
-L037	tp	style-manager.js:215 <- style-manager.js:150 addStyleSheet <- theme-manager.js:259,363 (user stylesheet and theme loading, also on file change); Electron renderer at runtime
+L037	tp	style-manager.js:215 <- style-manager.js:150 addStyleSheet <- theme-manager.js:259,363 (user stylesheet and theme loading, also on file change); Electron renderer at runtime (2026-10-19: kept tp, theme reload after startup)
 L038	fp-tooling	entry: path. *.test.js acceptance test
 L039	fp-tooling	entry: path. install script
 L040	fp-tooling	pnpm reviewing package getPkgInfo, used by pnpm list/licenses commands (pnpm CLI)
@@ -58,7 +58,7 @@ L056	fp-tooling	entry: path. *.spec.js file
 L057	fp-tooling	@vitest/mocker resolver.ts:160 <- resolver.ts:32, inside the Vitest test runner
 L058	fp-tooling	@yarnpkg/plugin-pnp hasBindingGyp <- plugin-nm/plugin-pnpm linkers during install (yarn CLI)
 L059	fp-tooling	entry: path. Budibase CLI config
-L060	unsure	dev.ts:24 getOfflineLicense <- licenses.ts:23 getLicense fallback; who calls getLicense, and whether it is cached, not resolved within two levels
+L060	fp-once	dev.ts:24 getOfflineLicense <- licenses.ts:23 getLicense <- licensing/cache/cache.ts:37, cached (corrected 2026-10-19, second labeller)
 L061	fp-tooling	entry: path. spec/ file (Atom)
 L062	fp-not-blocking	@yarnpkg/libzip ZipFS ftruncateSync, operating on the in-memory zip archive
 L063	fp-tooling	entry: path. tasks/ test-project script
@@ -77,7 +77,7 @@ L075	fp-tooling	@angular-devkit/build-angular extract-i18n builder (ng extract-i
 L076	fp-tooling	entry: path. Redwood CLI setup command
 L077	fp-tooling	entry: path. *.test.ts file
 L078	fp-tooling	entry: path. tasks/ test-project script
-L079	unsure	which.js:39 checkPath <- which() <- Common.js:155,458,484 app config preparation; whether the daemon or only the CLI runs it not resolved
+L079	fp-tooling	which.js:39 checkPath <- which() <- Common.js:155 prepareAppConf <- lib/API.js, the pm2 CLI client (corrected 2026-10-19, second labeller)
 L080	fp-tooling	entry: path. minified Makefile.js build script
 L081	unsure	library runtime API: png.js:167 <- png.js:83 embed; pdfkit's own repo reaches it only from tests and examples
 L082	fp-tooling	entry: path. Vite docs data loader
@@ -241,7 +241,7 @@ L239	fp-tooling	entry: CompaniesUsing.script.ts, a script that generates Compani
 L240	fp-tooling	nc-integration-scaffolder main(), a scaffolding CLI
 L241	fp-tooling	entry: path. pug example script
 L242	fp-tooling	lerna import command execSync wrapper (lerna CLI)
-L243	unsure	Next.js compiled tar bundle, one minified line; no traceable caller
+L243	fp-tooling	compiled tar used by lib/download-swc.ts, swc binary download in build/CLI (corrected 2026-10-19, second labeller)
 L244	fp-tooling	refreshOnRestart route is registered only when options.refreshOnRestart and NODE_ENV !== 'production' (asset/index.js:783)
 L245	fp-tooling	yarn editor SDK wrapper for TypeScript (.yarn/sdks)
 L246	fp-tooling	jest-runtime getExportsOfCjs, inside the Jest test runner
@@ -263,7 +263,7 @@ L261	fp-tooling	nc-integration-scaffolder generateFormBoilerplate <- main() (sca
 L262	fp-tooling	@pnpm/prepare-package safeJoinPath <- index.ts:30, preparing git-hosted packages during install (pnpm CLI)
 L263	fp-tooling	entry: path. plop generators
 L264	fp-tooling	gatsby checkLocalPlugin <- bootstrap/load-plugins/resolve-plugin.ts:29 (gatsby build/develop bootstrap)
-L265	unsure	Next.js compiled image-size bundle, one minified line; no traceable caller
+L265	fp-not-blocking	compiled image-size file-path branch; next calls imageSizeOf(buffer) (image-optimizer.ts:1212), so the sync read is unreachable (corrected 2026-10-19, second labeller)
 L266	fp-tooling	@sveltejs/adapter-cloudflare adapt() <- kit/src/exports/vite/index.js:1335 at the end of vite build
 L267	fp-not-blocking	pdfmake browser build: addVirtualFileSystem <- addFontContainer, writing into its virtual fs
 L268	fp-tooling	entry: react-native-sdk/prepare_sdk.js, a top-level packaging script
@@ -330,13 +330,13 @@ L328	fp-tooling	fast-set-immediate.external.ts:813 inside `debug`, defined only 
 L329	tp	entry in view: plugins.register('/o/datamigration/getmyexports') at api.js:445
 L330	fp-tooling	@pnpm/cache.api cacheListRegistries <- cache/commands cache.cmd.ts:70 (pnpm cache list)
 L331	tp	api.js:1306 fetchAndCacheTraktImage <- api.js:1363 fetchTraktTrendingMovies <- api.js:1445 exports.getTrakt, registered at app.js:281 app.get('/api/trakt')
-L332	unsure	Budibase isolated-vm helpers bundle, generated; no traceable caller
+L332	fp-not-blocking	uuid rng in index-helpers.ivm.bundle.js runs inside the isolated-vm sandbox with a bundled crypto shim, not Node crypto (corrected 2026-10-19, second labeller)
 L333	fp-tooling	entry: path. *.spec.js file
 L334	tp	shared.ts:252 legacyHashPassword <- DbAuthHandler.ts:711 (login) and :1386, the class that handles each auth request
 L335	fp-startup	generate-swagger.ts:32 generateSwaggerForApp <- main.ts:71 bootstrap (and a script); development only
 L336	fp-tooling	@parcel/resolver-repl-runtimes module top level (bundler plugin)
 L337	fp-startup	app.common.ts:62 configureExpress <- workers/api.ts:17 at API worker startup
-L338	tp	helper.js:724 import_app_icons <- helper.js:1466 import_process <- import_data <- api.js:223 (import API route)
+L338	unsure	helper.js:724 import_app_icons <- helper.js:1466 import_process <- import_data <- api.js:223 (import API route) (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L339	tp	helper.js:1517 import_data <- api.js:223 (import API route)
 L340	fp-tooling	entry: path. *.spec.ts file
 L341	tp	helper.js:295 clean_up_data <- api.js:306,358 (delete export/import API routes)
@@ -358,9 +358,9 @@ L356	fp-startup	lib/middleware.js:12 middleware <- app.js:45, once when the app 
 L357	fp-tooling	SvelteKit vite dev server middleware (exports/vite/dev), development only
 L358	fp-startup	entry: server/utils/environment.ts module top level, loading .env files on import
 L359	fp-tooling	@redwoodjs/cli-helpers auth setup Listr task
-L360	tp	helper.js:844 copy_sybolication_file <- helper.js:883 import_symbolication_files <- import_process <- api.js:223 (import API route)
+L360	unsure	helper.js:844 copy_sybolication_file <- helper.js:883 import_symbolication_files <- import_process <- api.js:223 (import API route) (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L361	fp-tooling	entry: path. extra/download-dist.js install script
-L362	tp	helper.js:346 log_me <- helper.js:361,1014,1022 run_command and export command steps <- api.js:832,223 (export/import API routes)
+L362	unsure	helper.js:346 log_me <- helper.js:361,1014,1022 run_command and export command steps <- api.js:832,223 (export/import API routes) (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L363	tp	helper.js:1443 importExistingData <- api.js:239 (import API route)
 L364	tp	helper.js:1275 export_data <- api.js:832 (export API route)
 L365	fp-tooling	entry: path. *.spec.js file
@@ -379,7 +379,7 @@ L377	fp-tooling	entry: path. test-tap integration test
 L378	tp	uploadfs azure.js:447 (copyOut, azure.js:392) <- apostrophe http/lib/big-upload-middleware.js:178 ufs.copyOut, per chunked upload request
 L379	fp-tooling	entry: path. create-react-app CLI
 L380	fp-tooling	entry: path. Gatsby example createPages, build time
-L381	unsure	library runtime API: nock recorder; nock's own repo reaches it only from tests
+L381	fp-tooling	nock recorder; nock is a test-only HTTP mocking library (corrected 2026-10-19, second labeller)
 L382	fp-tooling	gridsome processImage <- lib/server/middlewares/assets.js:51 (gridsome develop server) and build workers
 L383	fp-startup	tcp.js:195 loadUrls <- tcp.js:120 connect, when the transporter connects at broker start
 L384	fp-tooling	gatsby-plugin-offline onPostBuild service worker generation
@@ -400,20 +400,20 @@ L398	fp-tooling	entry: path. Redwood CLI setup jobs command
 L399	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L400	fp-tooling	pm2 Configuration.getSync (readFileSync of conf) in moduleExistInLocalDB <- NPM.js:166 module install (pm2 CLI)
 L401	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
-L402	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
+L402	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L403	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L404	fp-tooling	pm2 Configuration.getSync in Modularizer launchTARModules <- Modularizer.js:63,68 module launch (pm2 CLI)
 L405	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L406	fp-tooling	pm2 Configuration.getSync in pm2-ls listing (pm2 CLI ls)
 L407	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
-L408	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
+L408	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L409	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L410	fp-startup	pm2 Configuration.getSync in God.init, daemon start
 L411	fp-not-blocking	directus memory synchronization: getSync reads this.store, in-memory
 L412	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L413	fp-not-blocking	gridsome Plugins.runSync: user-defined hook runner
 L414	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
-L415	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
+L415	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L416	fp-not-blocking	liquidjs Context.getSync: in-memory scope lookup
 L417	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L418	fp-not-blocking	n8n ldapService.runSync is an async user-defined method (awaited)
@@ -424,13 +424,13 @@ L422	fp-not-blocking	directus memory synchronization: getSync reads this.store, 
 L423	tp	entry: path. Next.js pages/api route (homepage api/hash)
 L424	fp-not-blocking	bitwarden apiService.getSync is an async HTTP call (sync endpoint)
 L425	fp-not-blocking	bitwarden apiService.getSync is an async HTTP call (sync endpoint)
-L426	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
-L427	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
+L426	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
+L427	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L428	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
 L429	fp-tooling	pm2 Configuration.getSync in TAR module start (pm2 CLI module commands)
 L430	fp-not-blocking	n8n ldapService.runSync is an async user-defined method (awaited)
 L431	fp-not-blocking	sequelize hooks.runSync: in-memory hook runner (user-defined *Sync), no I/O
-L432	tp	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests
+L432	unsure	isolated-vm runSync/getSync (synchronous isolate execution, not I/O; rule category wrong) <- jsRunner/index.ts:32,45 vm.execute, run for JS bindings while serving requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L433	fp-once	hashbrown ConfigService.getSync, cached by section name (ConfigService.js:140)
 L434	tp	app.js:916 renderDashboard <- app.js:1148,1194 dashboard route handlers, readdirSync per plugin per render
 L435	fp-tooling	pm2 Configuration.getSync in API constructor, the pm2 CLI client
@@ -559,7 +559,7 @@ L557	fp-tooling	angular-cli schematics / CLI
 L558	fp-tooling	entry: path. react-scripts scripts/
 L559	fp-tooling	drawio-desktop command-line export branch (electron.js:643), consistent with L391
 L560	fp-tooling	entry: path. next compiled/ bundle (webpack, conf, cross-spawn) used by next build and CLI
-L561	tp	data_migration_helper import_me <- helper.js:1461 import steps, started from data-migration API routes (consistent with L307)
+L561	unsure	data_migration_helper import_me <- helper.js:1461 import steps, started from data-migration API routes (consistent with L307) (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L562	fp-tooling	entry: path. swc scripts
 L563	fp-tooling	entry: path. esbuild scripts/js-api-tests.js
 L564	fp-tooling	entry: path. scripts/ or tools/scripts/
@@ -601,7 +601,7 @@ L599	fp-tooling	entry: path. vscode-test-resolver extension (test tooling)
 L600	fp-tooling	entry: path. next compiled @vercel/nft, build-time file tracing
 L601	fp-tooling	entry: path. wp-calypso bin/
 L602	fp-tooling	Redwood CLI telemetry send (CLI subprocess)
-L603	tp	google-cloud.ts:6 loadCertificates <- google-cloud.ts:73 createGoogleCloudSigner, per document signing
+L603	fp-once	google-cloud.ts:32 loadCertificates <- createGoogleCloudSigner <- signing/index.ts:21 getSigner, memoised singleton (corrected 2026-10-19, second labeller)
 L604	fp-tooling	entry: path. Redwood tasks/
 L605	fp-tooling	entry: path. next compiled/ bundle (webpack, conf, cross-spawn) used by next build and CLI
 L606	fp-tooling	entry: path. berry repo .pnp.loader.mjs (its own dev tooling loader)
@@ -632,7 +632,7 @@ L630	fp-tooling	entry: path. strapi examples/ scripts
 L631	fp-tooling	next dev bundler / TS config setup (next dev, next build)
 L632	fp-tooling	entry: path. babel-preset-env scripts/
 L633	fp-tooling	entry: path. string-templates scripts/
-L634	tp	sourceControlFoldersExistCheck <- source-control-export.service.ee.ts:153,220 export/push, from source-control controller requests
+L634	unsure	sourceControlFoldersExistCheck <- source-control-export.service.ee.ts:153,220 export/push, from source-control controller requests (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L635	fp-startup	favicon middleware factory, runs when middlewares are built at startup
 L636	fp-tooling	entry: path. scripts/ or tools/scripts/
 L637	tp	generateSshKeyPair generateKeyPairSync <- preferences.service.ee.ts:210 generateAndSaveKeyPair <- source-control.controller.ee.ts:266 (REST)
@@ -748,14 +748,14 @@ L746	fp-tooling	entry: path. cypress system-tests
 L747	fp-tooling	entry: path. bundled yarn CLI (bin/)
 L748	fp-tooling	entry: path. bundled yarn CLI (bin/)
 L749	fp-tooling	entry: path. atom script/
-L750	unsure	n8n log-writer worker thread renameAndCreateLogs on rotation; sync I/O in a dedicated worker_thread, which the criteria do not cover
+L750	fp-not-blocking	n8n log-writer worker thread renameAndCreateLogs on rotation (log-writer-worker.ts:65 <- :78 checkFileSize <- :96 parentPort.on(message)); sync I/O in a dedicated worker_threads thread blocks only that thread (2026-10-19 worker thread rule)
 L751	fp-tooling	entry: path. scripts/ or tools/scripts/
 L752	tp	God/ActionMethods.js dumpProcessList fin: dump backup in the pm2 daemon, run per pm2 save RPC while the daemon supervises processes
 L753	tp	data_migration_helper clean_up_data <- helper.js:129,140,1365 export steps, started from data-migration API routes
 L754	fp-tooling	entry: path. bundled yarn CLI (bin/)
 L755	fp-tooling	@yarnpkg/pnpify NodeModulesFS (package bin pnpify), editor and tooling support
 L756	fp-tooling	pkg CLI
-L757	tp	data_migration_helper import_symbolication_files <- helper.js:1474 import steps, started from data-migration API routes
+L757	unsure	data_migration_helper import_symbolication_files <- helper.js:1474 import steps, started from data-migration API routes (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L758	unsure	library runtime API: glob sync walker (walkSync, index.ts:111); own repo reaches it only from tests and benchmarks
 L759	fp-tooling	entry: path. prisma seed
 L760	fp-tooling	entry: path. bundled yarn CLI (bin/)
@@ -767,7 +767,7 @@ L765	fp-tooling	entry: path. scripts/ or tools/scripts/
 L766	fp-once	getOfflineLicense <- licenses.ts getLicense <- licensing/cache/cache.ts:37, cached
 L767	fp-tooling	entry: path. fnm .ci script
 L768	fp-tooling	entry: path. scripts/ or tools/scripts/
-L769	tp	password.ts encrypt randomBytes <- SaveSettingsRepository.ts:31, per mailer settings save (GraphQL, serverless)
+L769	unsure	password.ts encrypt randomBytes <- SaveSettingsRepository.ts:31, per mailer settings save (GraphQL, serverless) (2026-10-19 strict two-level rule: entry point is three or more levels up)
 L770	fp-tooling	entry: path. pug-runtime prepublish
 L771	fp-tooling	entry: path. countly bin/scripts
 L772	fp-tooling	yarnpkg-core scriptUtils (yarn run)

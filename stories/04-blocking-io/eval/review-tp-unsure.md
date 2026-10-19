@@ -1,5 +1,7 @@
 # Step 2 review: tp and unsure labels (entry point rule, 2026-10-13)
 
+> Superseded 2026-10-19: labels.tsv is authoritative. Several labels below changed after the blind second labeller (see blind-relabel-2026-10-19.md and the README).
+
 Each note names the entry point or the caller chain. Change the label column in labels.tsv where you disagree, then rerun scripts/estimate.js.
 
 ## tp (27)

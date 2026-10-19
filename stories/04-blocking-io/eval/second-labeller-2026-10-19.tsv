@@ -1,0 +1,145 @@
+blind	id	label	note
+B001	L083	fp-tooling	entry: path; repo-root generated PnP loader for berry's own dev tooling; NodeFS.appendFileSync wrapper has no caller in the loader
+B002	L401	fp-not-blocking	user-defined HookHandler.runSync (packages/core/src/hooks.ts:89), not a Node call
+B003	L539	fp-not-blocking	opts.fakeFs.statSync is a FakeFS (virtual fs layer) method; also memoised by findApiPathCache; makeManager.ts:158 -> loader/_entryPoint.ts:104
+B004	L388	fp-tooling	entry: path; packages/internal/src/generate/watch.ts is a #! dev file watcher (rw dev type generation)
+B005	L285	tp	src/common/filesystem/index.js:116 isSymbolicLink -> src/main/filesystem/index.js:13 normalizeAndResolvePath -> src/main/app/index.js:521 ipcMain.on('mt::open-file-by-window-id') in Electron main
+B006	L224	fp-tooling	entry: path; scripts/esbuild.js build script
+B007	L127	fp-tooling	entry: path; bench/runner.ts benchmark CLI
+B008	L037	fp-startup	style-manager.js:215 upgradeDeprecatedSelectorsForStyleSheet -> style-manager.js:150 addStyleSheet -> package.js:313 / theme-manager.js:259 stylesheet loading at package/theme activation (renderer)
+B009	L218	fp-tooling	entry: path; react-scripts/scripts/init.js run by create-react-app CLI
+B010	L587	tp	controllers/ai.ts:48 getAiUsage -> ai/routes/ai.ts:7 route handler 'ai.getAiUsage' (runs each request when STRAPI_LICENSE unset)
+B011	L433	fp-not-blocking	ConfigService.getSync is user-defined (ConfigService.js:137, cached); not a Node call
+B012	L629	fp-tooling	entry: path; playwright global-teardown.ts test file
+B013	L022	unsure	PlatformTools.ts:198 -> logger/FileLogger.ts:107 write <- FileLogger.log* ; library logger, no entry point within two levels
+B014	L329	tp	plugins/data_migration/api/api.js:480 inside plugins.register('/o/datamigration/getmyexports') api.js:445
+B015	L314	tp	controllers/ai.js:280 postRagIngest -> app.js:297 app.post('/ai/rag/ingest')
+B016	L426	tp	isolated-vm.ts:257 getFromContext -> isolated-vm.ts:204 execute -> api/controllers/script.ts:9 / jsRunner/index.ts:45 per-request JS runner (isolated-vm sync call blocks event loop)
+B017	L351	fp-startup	require-text.ts:4 -> ai/tools/*/index.ts module top-level description: requireText(...)
+B018	L318	tp	frontend/express/app.js:1073 renderDashboard -> app.js:1148 inside app.get('/dashboard') app.js:1101
+B019	L255	fp-tooling	entry: path; vendored compiled @vercel/nft used for build output file tracing
+B020	L753	tp	data_migration_helper.js:252 clean_up_data -> api/api.js:306 inside plugins.register('/i/datamigration/delete_export') api.js:285
+B021	L471	tp	controllers/static/index.ts:219 processPWAZip -> api/routes/static.ts:24 .post('/api/pwa/process-zip')
+B022	L047	fp-not-blocking	ProxiedFS.unlinkSync delegates to baseFs.unlinkSync, a FakeFS (virtual fs) method; .pnp.loader.mjs dev loader
+B023	L327	tp	server/crypto-utils.ts:65 decryptWithSecret -> api-utils/node/try-get-preview-data.ts:97 -> server/route-modules/route-module.ts:936 / api-resolver.ts:368 per request with preview cookie
+B024	L271	fp-startup	packages/seo/index.js:54 getBundleModuleNames -> index.js:17 module top-level bundle.modules
+B025	L086	unsure	lib/reference.js:55 PDFReference.finalize <- reference end/document end; library, callers only examples/tests beyond two levels
+B026	L525	fp-tooling	shelljs cp command registered via common.register (src/cp.js:5); only callers are test/ ; shell-scripting library
+B027	L423	tp	entry: Next API route src/pages/api/hash.js handler
+B028	L265	fp-not-blocking	compiled image-size TIFF readIFD file-path branch; next calls imageSizeOf(buffer) (server/image-optimizer.ts:1212) and TIFF throws on buffer before reaching openSync: dead code
+B029	L408	tp	isolated-vm.ts:198 execute -> api/controllers/script.ts:9 execute controller / jsRunner/index.ts:45 setJSRunner per JS binding
+B030	L362	tp	data_migration_helper.js:346 log_me -> helper:1423 importExistingData -> api/api.js:239 inside plugins.register('/i/datamigration/import')
+B031	L053	fp-tooling	shelljs touch command registered via common.register (src/touch.js:4); only callers are test/ ; shell-scripting library
+B032	L360	tp	data_migration_helper.js:844 copy_sybolication_file -> helper:883 copy_symbolication_files -> helper:1348 export_data -> api/api.js:832 route '/i/datamigration/export'
+B033	L603	fp-once	transports/google-cloud.ts:32 loadCertificates -> signing/index.ts:32 getSigner memoised singleton -> lib/jobs/.../seal-document.handler.ts signPdf
+B034	L434	tp	frontend/express/app.js:1080 renderDashboard -> app.js:1148 inside app.get('/dashboard') app.js:1101
+B035	L551	tp	dbAuth shared.ts:236 hashPassword -> DbAuthHandler.ts:1376 _verifyUser / :1475 signup -> DbAuthHandler.invoke per auth request
+B036	L758	fp-not-blocking	this.path.lstatSync is a path-scurry PathBase method, not a direct Node call; walker.ts:447 walkSync -> index.ts:111 globSync library API
+B037	L574	fp-startup	hooks/express.ts:111 restartServer -> express.ts:74 createServer at boot (admin restart rebuilds server via adminsettings.ts:307)
+B038	L128	fp-tooling	entry: path; tasks/generateDependencyGraph.mjs
+B039	L454	tp	plugins/data_migration/frontend/app.js:31 inside app.get('/data-migration/download') app.js:7
+B040	L334	tp	dbAuth shared.ts:252 legacyHashPassword -> DbAuthHandler.ts:711 / :1386 login verify -> DbAuthHandler.invoke per auth request
+B041	L203	fp-tooling	entry: path; packages/mime/scripts/codegen.ts
+B042	L204	fp-tooling	entry: path; scripts/gatsby-changelog-generator/generate.js
+B043	L447	fp-tooling	entry: path; vendored .yarn/releases yarn CLI bundle
+B044	L339	tp	data_migration_helper.js:1517 import_data -> api/api.js:223 inside plugins.register('/i/datamigration/import')
+B045	L577	fp-tooling	entry: path; scripts/warn-about-yarn1.js
+B046	L143	fp-not-blocking	baseFs.closeSync on FakeFS (virtual fs layer) in libzip JsZipImpl.discard
+B047	L098	fp-startup	lib/moog-require.js:200 package.json read guarded by !self.validPackages during module definition -> apostrophe index.js:543 boot
+B048	L332	fp-not-blocking	bundled uuid rng inside index-helpers.ivm.bundle.js executed inside isolated-vm sandbox; crypto is a bundled shim, not Node crypto
+B049	L486	fp-tooling	entry: path; server/dev/hot-reloader-webpack.ts dev server
+B050	L402	tp	isolated-vm.ts:115 withSnippets -> jsRunner/index.ts:32 setJSRunner callback per JS binding execution (isolate per request context)
+B051	L744	fp-tooling	nitro-server/src/index.ts:935 spaLoadingTemplate -> index.ts:215 '#spa-template' virtual module at build
+B052	L070	fp-tooling	entry: path; docs/typedoc.config.cjs
+B053	L041	fp-tooling	entry: path; packages/upgrade-tests test utility
+B054	L757	tp	data_migration_helper.js:768 import_symbolication_files -> helper:1474 import_process -> importExistingData/import_data -> api/api.js:239/223 route '/i/datamigration/import'
+B055	L427	tp	isolated-vm.ts:128 withBuffer -> jsRunner/index.ts:31 setJSRunner callback per JS binding execution
+B056	L501	tp	entry: Next API route src/pages/api/config/[path].js handler
+B057	L338	tp	data_migration_helper.js:724 import_app_icons -> helper:1466 import_process -> importExistingData/import_data -> api/api.js:239/223 route '/i/datamigration/import'
+B058	L458	tp	entry: Next API route src/pages/api/config/[path].js handler
+B059	L246	fp-tooling	jest-runtime module resolution, runs in jest test runner
+B060	L489	tp	plugins/populator/frontend/app.js:34 inside app.get('/populator/:id/:page') app.js:26
+B061	L215	fp-tooling	entry: path; scripts/hotfixWorkflow/index.ts
+B062	L104	tp	log-writer.ts:206 readLoggedMessagesFromFile -> :194 getMessages -> :346 getMessagesUnsent -> message-event-bus.ts:262 -> :204 trySendingUnsent setInterval timer (also initialize at boot)
+B063	L182	fp-tooling	entry: path; scripts/test-yarnpnp.js
+B064	L363	tp	data_migration_helper.js:1443 importExistingData -> api/api.js:239 inside plugins.register('/i/datamigration/import')
+B065	L718	fp-tooling	entry: path; script/lib/create-rpm-package.js
+B066	L034	unsure	execa sync stdio input file handling (execaSync library API); no entry point in repo beyond tests
+B067	L111	unsure	execa output-sync writeToFiles for execaSync library API; no entry point in repo beyond tests
+B068	L415	tp	isolated-vm.ts:169 withParsingBson -> threads/query.ts:180 query transformer execution per query
+B069	L081	unsure	lib/image/png.js:167 PNGImage decode/finalize in library; callers are embed via doc.image, no entry point within two levels
+B070	L220	fp-tooling	entry: path; examples/.test/diagnostics-big-router/scripts/codegen.ts
+B071	L354	fp-startup	swagger/generate-swagger.ts:33 -> apps/api/v2/src/main.ts:71 run() before app.listen (dev env only)
+B072	L347	fp-tooling	lib/API/LogManagement.js:49 flush -> lib/binaries/CLI.js:863 'pm2 flush' CLI command
+B073	L739	fp-tooling	entry: path frontend/build-products.mjs (build script)
+B074	L613	fp-tooling	shelljs scripting library; src/rm.js _rm registered via common.register, called from test/rm.js (test entry); README purpose is shell scripts
+B075	L656	tp	controllers/user.js:243 postSignup -> app.js:231 app.post('/signup')
+B076	L150	fp-tooling	common/esbuilder/utils.mjs is esbuild build helper (bundler step)
+B077	L026	fp-tooling	entry: path libs/core/src/lib/temp-write.spec.ts (test)
+B078	L468	fp-tooling	entry: path packages/cli (redwood CLI command lib)
+B079	L125	unsure	lib/image.js:11 PDFImage.open -> lib/mixins/images.js:232 openImage -> images.js image(); library, no entry within two levels
+B080	L392	tp	jobs/src/loaders.ts:44 loadJob -> core/Executor.ts:66 -> core/Worker.ts:191 (job worker)
+B081	L089	unsure	git/src/ipc/ipcServer.ts:118 IPCServer.dispose; created at main.ts:70 but dispose not registered in disposables; no caller found within two levels (teardown only)
+B082	L686	fp-tooling	11ty RenderPlugin compileFile runs during static-site build (eleventy CLI)
+B083	L324	tp	desktop/Main/ExtensionsServer.ts:48 handleRequest -> ExtensionsServer.ts:110 http.createServer (Electron main)
+B084	L752	tp	God/ActionMethods.js:127 dumpProcessList -> Daemon.js:344 signal handler in PM2 daemon (shutdown path)
+B085	L158	fp-tooling	shelljs scripting library; src/grep.js _grep registered command, called from test/grep.js; purpose shell scripts
+B086	L281	tp	common/filesystem/index.js:77 isFile -> main/menu/actions/file.js:539 openFileOrFolder -> file.js:527 openFolder menu action (Electron main)
+B087	L123	fp-tooling	@strapi/upgrade CLI tool (codemod repository)
+B088	L726	tp	Main/Store/Store.ts:48 Store.set -> Main/Menus/Menus.ts:356 menu click handler (Electron main)
+B089	L201	fp-tooling	entry: path webapp/scripts/update-versions.mjs
+B090	L307	tp	data_migration_helper.js:354 run_command -> helper:1311 export_data -> api.js:832 /i/datamigration/export route
+B091	L769	unsure	Encryption/utils/password.ts:42 encrypt -> PasswordEncryption.ts:7 -> SaveSettingsRepository.ts:31; no entry within two levels
+B092	L302	tp	data_migration/api/api.js:445 plugins.register('/o/datamigration/getmyexports') handler
+B093	L155	fp-tooling	typedoc doc generator CLI; entry-point resolution during conversion
+B094	L653	tp	models/User.js:202 generateToken -> controllers/user.js:202 sendPasswordlessSignupLink -> user.js:243 postSignup (route)
+B095	L094	fp-tooling	entry: path packages/cli (budibase CLI hosting)
+B096	L538	fp-tooling	entry: path extra/remove-empty-lang-keys.js (script)
+B097	L232	fp-tooling	entry: path index.spec.js (test)
+B098	L137	tp	objectStore.ts:540 retrieveToTmp -> server/utilities/fileSystem/clientLibrary.ts:60 backupClientLibrary -> api/controllers/workspace.ts:834
+B099	L364	tp	data_migration_helper.js:1202 export_data -> api.js:832 /i/datamigration/export route
+B100	L452	fp-tooling	vite playground/ssr/server.js test playground server (dev/test only)
+B101	L028	tp	ai-helper/providers/gemini.js:252 generateImageVariation -> ai-helper/index.js:309 -> ai-helper-image/index.js:243 apiRoutes post handler
+B102	L331	tp	controllers/api.js:1272 fetchAndCacheTraktImage -> api.js:1363 getTrakt -> app.js:281 app.get('/api/trakt')
+B103	L243	fp-tooling	vendored compiled/tar used by lib/download-swc.ts (build/CLI swc download)
+B104	L555	fp-tooling	shelljs scripting library; src/mkdir.js _mkdir registered command, called from test/mkdir.js; purpose shell scripts
+B105	L060	fp-once	offline/dev.ts:22 getOfflineLicense -> licenses/licenses.ts:23 getLicense fallback -> licensing/cache/cache.ts:37 (cached license)
+B106	L256	fp-tooling	entry: path .github/actions/next-stats-action (CI action)
+B107	L425	fp-not-blocking	apiService.getSync is async API call (awaited), not fs
+B108	L750	tp	log-writer-worker.ts:65 renameAndCreateLogs -> :78 checkFileSize -> :96 parentPort.on('message') in event-bus worker thread
+B109	L435	fp-tooling	lib/API.js constructor (PM2 CLI client); Configuration.getSync wraps readFileSync; entry bin/pm2
+B110	L276	fp-tooling	0x profiler CLI visualizer; module top level of visualizer/html.js
+B111	L079	fp-tooling	tools/which.js checkPath -> which() -> Common.js:155 prepareAppConf called from lib/API.js (CLI client)
+B112	L436	unsure	db2/src/query.js:276 formatError on error path; ibm_db querySync truly blocks; ORM library, no entry within two levels
+B113	L349	unsure	tracker.js:572 hasDockerCGroup -> tracker.js:243 collectServerData -> :282 getAllData (entry api/jobs/ping.js:25 is third level)
+B114	L344	tp	data_migration_helper.js:1202 export_data -> api.js:832 /i/datamigration/export route
+B115	L634	unsure	source-control-helper.ee.ts:234 sourceControlFoldersExistCheck -> export.service.ee.ts:151 exportWorkflowsToWorkFolder -> source-control.service.ee.ts:378 pushWorkfolder; controller is third level
+B116	L599	fp-tooling	vscode-test-resolver extension (test/dev tooling) download.ts
+B117	L381	fp-tooling	nock recorder; nock is a test-only HTTP mocking library
+B118	L093	fp-tooling	@cypress/grep plugin runs in cypress setupNodeEvents (test tooling)
+B119	L378	tp	uploadfs/lib/storage/azure.js:392 copyOut -> uploadfs.js:213 copyOut -> apostrophe/http/lib/big-upload-middleware.js:178 (middleware)
+B120	L530	fp-tooling	entry: path scripts/prepare-release.js
+B121	L406	fp-tooling	lib/API/UX/pm2-ls.js CLI table display; Configuration.getSync wraps readFileSync
+B122	L298	fp-once	compiled/is-docker memoised (u cached); callers server/cache-dir.ts:5, telemetry/storage.ts:42
+B123	L487	fp-tooling	entry: path packages/cli (redwood CLI lib)
+B124	L725	fp-tooling	shelljs exec sync implementation; scripting library, called from test/exec.js
+B125	L432	unsure	jsRunner/vm/isolated-vm.ts:59 withHelpers -> jsRunner/index.ts:30 runner callback registered via setJSRunner; request entry beyond two levels; runSync is isolated-vm CPU-blocking, not fs
+B126	L119	fp-tooling	entry: path packages/babel-cli (CLI)
+B127	L588	fp-startup	controllers/webauthn.js:16 module top level DUMMY_COSE_PUBLIC_KEY = generateDefaultPublicKey()
+B128	L772	fp-tooling	yarn berry CLI (scriptUtils)
+B129	L310	tp	mgmt/app_users.js:166 usersApi.delete -> api/utils/requestProcessor.js:534 request processing
+B130	L733	unsure	glob src/walker.ts matchCheckSync (sync walker, path-scurry realpathSync, cached); library, caller chooses globSync
+B131	L698	tp	plugins/passkeys/server/auth/passkeys.ts:204 router.post('passkeys.generateAuthenticationOptions')
+B132	L341	tp	data_migration_helper.js:212 clean_up_data -> api.js:306 /i/datamigration/delete_export route
+B133	L439	fp-tooling	partytown/src/index.ts:40 astro:server:setup -> sirv middleware (dev server)
+B134	L345	tp	data_migration/api/api.js:503 plugins.register('/o/datamigration/getmyimports') handler
+B135	L502	fp-tooling	vscode-test-resolver extension (test/dev tooling) download.ts
+B136	L548	fp-tooling	webpack examples/build-common.js (build script for examples)
+B137	L561	unsure	data_migration_helper.js:967 import_me -> :1461 import_process -> :1497 import_data (route api.js:223 is third level)
+B138	L637	tp	source-control-helper.ee.ts:262 generateSshKeyPair -> source-control-preferences.service.ee.ts:210 -> source-control.controller.ee.ts:266 (route)
+B139	L003	fp-tooling	redwood packages/structure DefaultHost used by CLI check/language server (dev tooling)
+B140	L217	fp-tooling	entry: path scripts/browser/browser-tests.js
+B141	L167	fp-tooling	entry: path packages/babel-parser/scripts/build-error-info.ts
+B142	L374	fp-tooling	job/create.ts:120 createJob -> create.ts:371 createJobTool -> getMcpHandler.ts:414 registered only when NODE_ENV=development
+B143	L193	fp-tooling	entry: path scripts/js-api-tests.js (test)
+B144	L159	unsure	liquidjs parser.ts _parseFile sync branch via pluggable this.fs; library, caller chooses renderFileSync

@@ -88,3 +88,23 @@ paths" rested on.
   stratified by severity, seeded, in `eval/sample.json`.
 - A finding reported by both detectors at the same file and line is labelled
   once and the label shared.
+
+### Amendment 2026-10-19: depth and worker threads
+
+Added after a blind second labeller relabelled 144 locations
+(`eval/blind-relabel-2026-10-19.md`) and disagreed on how the two-level rule
+was counted.
+
+- **Counting levels.** Level 0 is the function that contains the call. Level 1
+  is a function that calls it, level 2 a function that calls that. The entry
+  point must be reached at level 2 or earlier: the level-0, 1 or 2 function is
+  itself a registered route, middleware, handler, listener, job, timer
+  callback, or a CLI, script or test entry. An entry point three or more
+  levels up is `unsure`, however clear the chain looks. This applies to every
+  label; it was applied to all `tp` labels on 2026-10-19.
+- **Worker threads.** A sync call inside a `worker_threads` Worker blocks only
+  that worker, not the process's event loop: `fp-not-blocking`. (A Worker that
+  itself serves requests would be labelled by what it serves; none was found.)
+- **Electron reloads.** A call that runs at startup and again on a later user
+  action or file change (theme reload, stylesheet reload) is `tp`, as the
+  Electron rule already says for anything after startup.

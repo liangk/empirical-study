@@ -7,14 +7,14 @@
       "counts": {
         "tp": 3,
         "fp-startup": 6,
-        "fp-once": 1,
-        "fp-tooling": 132,
+        "fp-once": 2,
+        "fp-tooling": 133,
         "fp-not-blocking": 2,
-        "unsure": 16
+        "unsure": 14
       },
       "tpRate": 0.01875,
       "tpEstimate": 113.11874999999999,
-      "tpEstimateUpper": 716.4187499999999,
+      "tpEstimateUpper": 641.00625,
       "contextAgrees": null,
       "contextAgreesRate": null
     },
@@ -42,13 +42,13 @@
         "tp": 2,
         "fp-startup": 4,
         "fp-once": 2,
-        "fp-tooling": 59,
-        "fp-not-blocking": 1,
-        "unsure": 2
+        "fp-tooling": 60,
+        "fp-not-blocking": 2,
+        "unsure": 0
       },
       "tpRate": 0.02857142857142857,
       "tpEstimate": 36.6,
-      "tpEstimateUpper": 73.2,
+      "tpEstimateUpper": 36.6,
       "contextAgrees": 6,
       "contextAgreesRate": 0.08571428571428572
     },
@@ -56,18 +56,18 @@
       "population": 633,
       "sampled": 70,
       "counts": {
-        "tp": 20,
+        "tp": 17,
         "fp-startup": 11,
         "fp-once": 1,
         "fp-tooling": 35,
-        "fp-not-blocking": 1,
-        "unsure": 2
+        "fp-not-blocking": 2,
+        "unsure": 4
       },
-      "tpRate": 0.2857142857142857,
-      "tpEstimate": 180.85714285714286,
-      "tpEstimateUpper": 198.94285714285715,
-      "contextAgrees": 20,
-      "contextAgreesRate": 0.2857142857142857
+      "tpRate": 0.24285714285714285,
+      "tpEstimate": 153.72857142857143,
+      "tpEstimateUpper": 189.9,
+      "contextAgrees": 17,
+      "contextAgreesRate": 0.24285714285714285
     },
     "background_path": {
       "population": 139,
@@ -76,23 +76,23 @@
         "tp": 2,
         "fp-startup": 1,
         "fp-once": 0,
-        "fp-tooling": 26,
+        "fp-tooling": 27,
         "fp-not-blocking": 0,
-        "unsure": 1
+        "unsure": 0
       },
       "tpRate": 0.06666666666666667,
       "tpEstimate": 9.266666666666666,
-      "tpEstimateUpper": 13.9,
+      "tpEstimateUpper": 9.266666666666666,
       "contextAgrees": 2,
       "contextAgreesRate": 0.06666666666666667
     }
   },
   "overall": {
     "population": 10058,
-    "tpEstimate": 339.84255952380954,
-    "tpLow": 191.09119687913213,
-    "tpHigh": 488.593922168487,
-    "tpEstimateUpperUnsureAsTp": 1002.4616071428571,
-    "tpShare": 0.03378828390572773
+    "tpEstimate": 312.71398809523805,
+    "tpLow": 165.2968423711116,
+    "tpHigh": 460.1311338193645,
+    "tpEstimateUpperUnsureAsTp": 876.7729166666667,
+    "tpShare": 0.03109107060004355
   }
 }

@@ -1,5 +1,7 @@
 # core-engine sample review: tp and unsure labels (entry point rule, 2026-10-14)
 
+> Superseded 2026-10-19: labels.tsv is authoritative. Several labels below changed after the blind second labeller (see blind-relabel-2026-10-19.md and the README).
+
 Locations from the 400-item core-engine sample (eval/sample.json), stratified by severity. Each note names the entry point or the caller chain. Locations also in the Study 02 sample keep their Study 02 label. Change the label column in labels.tsv where you disagree, then rerun `node scripts/estimate.js --core`.
 
 ## tp (29)

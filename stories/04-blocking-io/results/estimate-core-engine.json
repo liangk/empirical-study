@@ -5,15 +5,15 @@
       "population": 39,
       "sampled": 39,
       "counts": {
-        "tp": 9,
+        "tp": 3,
         "fp-startup": 1,
         "fp-once": 3,
         "fp-tooling": 6,
         "fp-not-blocking": 19,
-        "unsure": 1
+        "unsure": 7
       },
-      "tpRate": 0.23076923076923078,
-      "tpEstimate": 9,
+      "tpRate": 0.07692307692307693,
+      "tpEstimate": 3,
       "tpEstimateUpper": 10,
       "contextAgrees": null,
       "contextAgreesRate": null
@@ -39,16 +39,16 @@
       "population": 3008,
       "sampled": 140,
       "counts": {
-        "tp": 6,
+        "tp": 3,
         "fp-startup": 9,
-        "fp-once": 1,
+        "fp-once": 2,
         "fp-tooling": 117,
         "fp-not-blocking": 2,
-        "unsure": 5
+        "unsure": 7
       },
-      "tpRate": 0.04285714285714286,
-      "tpEstimate": 128.9142857142857,
-      "tpEstimateUpper": 236.34285714285713,
+      "tpRate": 0.02142857142857143,
+      "tpEstimate": 64.45714285714286,
+      "tpEstimateUpper": 214.85714285714283,
       "contextAgrees": null,
       "contextAgreesRate": null
     },
@@ -56,36 +56,36 @@
       "population": 7647,
       "sampled": 141,
       "counts": {
-        "tp": 8,
+        "tp": 6,
         "fp-startup": 5,
         "fp-once": 1,
         "fp-tooling": 121,
-        "fp-not-blocking": 2,
-        "unsure": 4
+        "fp-not-blocking": 3,
+        "unsure": 5
       },
-      "tpRate": 0.05673758865248227,
-      "tpEstimate": 433.8723404255319,
-      "tpEstimateUpper": 650.8085106382979,
+      "tpRate": 0.0425531914893617,
+      "tpEstimate": 325.40425531914894,
+      "tpEstimateUpper": 596.5744680851064,
       "contextAgrees": null,
       "contextAgreesRate": null
     }
   },
   "sampleByRule": {
     "blocking-io/sync-database-operation": {
-      "tp": 6,
+      "tp": 0,
       "fp-startup": 1,
       "fp-once": 3,
       "fp-tooling": 6,
       "fp-not-blocking": 19,
-      "unsure": 1
+      "unsure": 7
     },
     "blocking-io/sync-file-operation": {
-      "tp": 17,
+      "tp": 13,
       "fp-startup": 24,
-      "fp-once": 2,
+      "fp-once": 3,
       "fp-tooling": 247,
-      "fp-not-blocking": 4,
-      "unsure": 9
+      "fp-not-blocking": 5,
+      "unsure": 11
     },
     "blocking-io/sync-child-process": {
       "tp": 0,
@@ -96,20 +96,20 @@
       "unsure": 0
     },
     "blocking-io/sync-crypto-operation": {
-      "tp": 6,
+      "tp": 5,
       "fp-startup": 1,
       "fp-once": 0,
       "fp-tooling": 0,
       "fp-not-blocking": 0,
-      "unsure": 0
+      "unsure": 1
     }
   },
   "overall": {
     "population": 10861,
-    "tpEstimate": 584.3116261398176,
-    "tpLow": 278.61041785707215,
-    "tpHigh": 890.012834422563,
-    "tpEstimateUpperUnsureAsTp": 909.676367781155,
-    "tpShare": 0.05379906326671739
+    "tpEstimate": 405.3863981762918,
+    "tpLow": 143.22800987058446,
+    "tpHigh": 667.5447864819992,
+    "tpEstimateUpperUnsureAsTp": 833.9566109422493,
+    "tpShare": 0.03732496070125143
   }
 }
