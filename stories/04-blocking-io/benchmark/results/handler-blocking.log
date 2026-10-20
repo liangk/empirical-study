@@ -1,0 +1,29 @@
+{
+  node: 'v22.22.0',
+  cpus: 2,
+  cpuModel: 'Intel(R) Xeon(R) Processor @ 2.10GHz',
+  uvThreadpool: 4,
+  durationS: 20,
+  pingRate: 200,
+  costMs: { next: 50.9, redwood: 28.8 }
+}
+{"case":"next","mode":"sync","heavyRate":0,"pingSent":4000,"pingOk":4000,"pingP50":0.4,"pingP99":3.7,"pingMax":34.2,"heavyOk":0,"heavyP50":null,"heavyP99":null}
+{"case":"next","mode":"async","heavyRate":0,"pingSent":4000,"pingOk":4000,"pingP50":0.5,"pingP99":3.1,"pingMax":31.2,"heavyOk":0,"heavyP50":null,"heavyP99":null}
+{"case":"next","mode":"sync","heavyRate":5,"pingSent":4000,"pingOk":4000,"pingP50":0.8,"pingP99":53.5,"pingMax":101.3,"heavyOk":100,"heavyP50":51.8,"heavyP99":101.2}
+{"case":"next","mode":"async","heavyRate":5,"pingSent":4000,"pingOk":4000,"pingP50":0.3,"pingP99":4.1,"pingMax":29.3,"heavyOk":100,"heavyP50":51.9,"heavyP99":71.6}
+{"case":"next","mode":"sync","heavyRate":10,"pingSent":4000,"pingOk":4000,"pingP50":6.1,"pingP99":60.4,"pingMax":107.7,"heavyOk":200,"heavyP50":52.5,"heavyP99":85.4}
+{"case":"next","mode":"async","heavyRate":10,"pingSent":4000,"pingOk":4000,"pingP50":0.1,"pingP99":4.3,"pingMax":59.7,"heavyOk":200,"heavyP50":51.4,"heavyP99":80.1}
+{"case":"next","mode":"sync","heavyRate":20,"pingSent":4000,"pingOk":4000,"pingP50":60.6,"pingP99":273.9,"pingMax":1402.5,"heavyOk":400,"heavyP50":70.5,"heavyP99":424}
+{"case":"next","mode":"async","heavyRate":20,"pingSent":4000,"pingOk":4000,"pingP50":0.1,"pingP99":4.9,"pingMax":16.8,"heavyOk":400,"heavyP50":54.6,"heavyP99":85.4}
+{"case":"next","mode":"sync","heavyRate":30,"pingSent":4000,"pingOk":4000,"pingP50":3746.9,"pingP99":26980.1,"pingMax":27269.5,"heavyOk":600,"heavyP50":3665,"heavyP99":26996.3}
+{"case":"next","mode":"async","heavyRate":30,"pingSent":4000,"pingOk":4000,"pingP50":0.3,"pingP99":7.1,"pingMax":19.3,"heavyOk":600,"heavyP50":57.1,"heavyP99":146.8}
+{"case":"redwood","mode":"sync","heavyRate":0,"pingSent":4000,"pingOk":4000,"pingP50":0.3,"pingP99":2.2,"pingMax":13.6,"heavyOk":0,"heavyP50":null,"heavyP99":null}
+{"case":"redwood","mode":"async","heavyRate":0,"pingSent":4000,"pingOk":4000,"pingP50":0.2,"pingP99":2.2,"pingMax":24.3,"heavyOk":0,"heavyP50":null,"heavyP99":null}
+{"case":"redwood","mode":"sync","heavyRate":5,"pingSent":4000,"pingOk":4000,"pingP50":0.4,"pingP99":43.9,"pingMax":61.5,"heavyOk":100,"heavyP50":42.5,"heavyP99":61.4}
+{"case":"redwood","mode":"async","heavyRate":5,"pingSent":4000,"pingOk":4000,"pingP50":0.3,"pingP99":2.3,"pingMax":11.3,"heavyOk":100,"heavyP50":38,"heavyP99":92.4}
+{"case":"redwood","mode":"sync","heavyRate":10,"pingSent":4000,"pingOk":4000,"pingP50":1,"pingP99":44.5,"pingMax":82,"heavyOk":200,"heavyP50":40.9,"heavyP99":72}
+{"case":"redwood","mode":"async","heavyRate":10,"pingSent":4000,"pingOk":4000,"pingP50":0.2,"pingP99":7.3,"pingMax":49.9,"heavyOk":200,"heavyP50":41.9,"heavyP99":90.8}
+{"case":"redwood","mode":"sync","heavyRate":20,"pingSent":4000,"pingOk":4000,"pingP50":14.2,"pingP99":44.4,"pingMax":89.9,"heavyOk":400,"heavyP50":37.5,"heavyP99":50.7}
+{"case":"redwood","mode":"async","heavyRate":20,"pingSent":4000,"pingOk":4000,"pingP50":0.1,"pingP99":4.5,"pingMax":27.4,"heavyOk":400,"heavyP50":40.9,"heavyP99":66.8}
+{"case":"redwood","mode":"sync","heavyRate":30,"pingSent":4000,"pingOk":4000,"pingP50":117.8,"pingP99":13589.1,"pingMax":14251.5,"heavyOk":600,"heavyP50":140,"heavyP99":13616.8}
+{"case":"redwood","mode":"async","heavyRate":30,"pingSent":4000,"pingOk":4000,"pingP50":0.3,"pingP99":5.8,"pingMax":18.2,"heavyOk":600,"heavyP50":42.8,"heavyP99":62.6}

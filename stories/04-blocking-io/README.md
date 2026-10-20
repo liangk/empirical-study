@@ -12,7 +12,7 @@ check every fix against the labels.
 |---|---|---|
 | 1 | Reproduce Study 02 on its own corpus and commits, reconcile its numbers, and calibrate the four `blocking-io/*` rules core-engine already has | Done 2026-10-19 (Steps 0–5; rounds 1–2) |
 | 2 | Bring core-engine's blocking I/O detection to full coverage (every pattern Study 02's scanner or the backend detector claims) and add a Blocking I/O solution generator | Done 2026-10-19 (items 1–4) |
-| 3 | Publish the research report on stackinsight.dev | Not started |
+| 3 | Publish the research report on stackinsight.dev | Draft 2026-10-20: `content/blocking-io-detection-story.md`; benchmark in `benchmark/`; correction added to the Study 02 article |
 
 ## What is known going in
 
@@ -766,6 +766,15 @@ The 10 `tp` still at low, and why reach cannot see them:
 | L351 | directus `defineTool({ handler })` | Framework-specific registration |
 | L137, L378 | Budibase, apostrophe | The caller imports the module by package name, not by relative path |
 | L392 | Redwood jobs worker | A job handler, not a request handler |
+
+Found by the article's fact-check (2026-10-20), and fixed in core-engine
+1.5.1: a `require` inside a TypeScript cast,
+`require('../../crypto-utils') as typeof import('../../crypto-utils')`, was not
+indexed. Next.js loads `decryptWithSecret` that way, so its `pbkdf2Sync`
+(L327) sat at medium with no caller found; it is now high, one call below
+`tryGetPreviewData`. `results/rounds/s2-final.json` is the 1.5.1 scan. The
+totals do not change (6,001 findings, 261 above low, 30 of 40 `tp` above low),
+because L327 was already medium.
 
 Package-name imports inside a monorepo are the one gap that is general rather
 than framework-specific. Resolving them needs each package's `package.json`,
